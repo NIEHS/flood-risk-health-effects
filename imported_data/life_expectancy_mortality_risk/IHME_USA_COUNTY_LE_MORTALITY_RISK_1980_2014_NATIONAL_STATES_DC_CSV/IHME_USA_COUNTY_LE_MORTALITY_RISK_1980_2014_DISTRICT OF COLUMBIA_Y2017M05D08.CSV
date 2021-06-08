@@ -1,0 +1,1261 @@
+measure_id,measure_name,location_id,location_name,FIPS,sex_id,sex,age_id,age_name,year_id,metric,val,upper,lower
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1980,Years,63.35037186,63.78056437,62.90857313
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1981,Years,63.43513781,63.85417536,62.99903012
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1982,Years,64.25067298,64.67629123,63.82385032
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1983,Years,64.80873572,65.23790007,64.38535985
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1984,Years,64.74815963,65.19899971,64.29817248
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1985,Years,64.55660399,64.96480426,64.11528129
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1986,Years,64.1276111,64.56888819,63.71516188
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1987,Years,63.9228719,64.35562031,63.50242912
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1988,Years,63.40803731,63.81063789,62.97386236
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1989,Years,63.05544677,63.46945622,62.61202656
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1990,Years,63.74936524,64.15795711,63.29109548
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1991,Years,63.94453324,64.40234276,63.5001058
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1992,Years,63.9173513,64.37421622,63.47587323
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1993,Years,63.79934895,64.21204839,63.34501465
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1994,Years,63.79432635,64.23496559,63.37075921
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1995,Years,64.54992154,64.97885827,64.114195
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1996,Years,65.4792968,65.92476527,65.05661148
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1997,Years,67.36581024,67.82401332,66.9232253
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1998,Years,68.00640941,68.4349811,67.58009656
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,1999,Years,68.00875626,68.49116888,67.55855507
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2000,Years,68.39777893,68.83411189,67.94544588
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2001,Years,68.25741973,68.71036078,67.81271908
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2002,Years,68.54218744,68.98465238,68.09535861
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2003,Years,69.17003679,69.61503118,68.73121282
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2004,Years,69.63315198,70.06001604,69.15041416
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2005,Years,69.73162436,70.20960963,69.28017789
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2006,Years,70.13581898,70.59584687,69.68179869
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2007,Years,70.89716711,71.36657062,70.4189787
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2008,Years,71.16204808,71.58608524,70.68767032
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2009,Years,71.95903792,72.42004282,71.50273347
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2010,Years,73.24861066,73.69571762,72.795241
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2011,Years,73.66972918,74.13591431,73.24108739
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2012,Years,73.86435829,74.34780969,73.41872545
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2013,Years,73.85894621,74.29835402,73.42959465
+26,Life expectancy,531,District of Columbia,11,1,Male,161,0,2014,Years,74.03899489,74.50976326,73.62927817
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1980,Years,72.83057363,73.25567945,72.42067354
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1981,Years,73.41304064,73.82086719,73.03133916
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1982,Years,73.89808834,74.30319029,73.49619523
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1983,Years,73.9120789,74.31196057,73.53105698
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1984,Years,74.36439488,74.74983495,73.98169707
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1985,Years,74.29731133,74.70210054,73.91012794
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1986,Years,74.13613904,74.51141289,73.77293234
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1987,Years,74.09857023,74.46730913,73.71501392
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1988,Years,73.95140382,74.33814802,73.59336362
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1989,Years,74.27271361,74.64416028,73.87964973
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1990,Years,74.57655509,74.96055853,74.20539
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1991,Years,74.99308485,75.37294725,74.63561329
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1992,Years,75.07641797,75.48400578,74.7092899
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1993,Years,75.17856469,75.56877198,74.82678415
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1994,Years,75.01067589,75.39184209,74.63657386
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1995,Years,75.22710727,75.61478676,74.86149793
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1996,Years,75.55433942,75.92723925,75.16450038
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1997,Years,75.7731264,76.12974131,75.40765944
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1998,Years,75.7952121,76.14844151,75.44900494
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,1999,Years,76.15733059,76.54861524,75.80140742
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2000,Years,76.1951121,76.58681582,75.81349224
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2001,Years,76.39286954,76.78665151,75.99183272
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2002,Years,76.66068151,77.01279504,76.29022142
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2003,Years,77.01020795,77.40870406,76.63583609
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2004,Years,77.13896779,77.50979296,76.72948631
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2005,Years,77.25766175,77.60989718,76.86845031
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2006,Years,77.38015964,77.75309045,77.00902582
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2007,Years,77.64096275,78.02473283,77.25104985
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2008,Years,78.1421397,78.52148068,77.7633855
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2009,Years,78.66081252,79.03572156,78.27049837
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2010,Years,78.9169909,79.27476705,78.5631837
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2011,Years,79.21958645,79.58291309,78.87521629
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2012,Years,79.28260587,79.67235587,78.93732031
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2013,Years,79.46519151,79.80141256,79.10367891
+26,Life expectancy,531,District of Columbia,11,2,Female,161,0,2014,Years,79.46823748,79.83004276,79.12329367
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1980,Years,68.1559985,68.46816223,67.83867402
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1981,Years,68.46271208,68.75407981,68.16724077
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1982,Years,69.1410019,69.46352436,68.83468697
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1983,Years,69.46038356,69.77120491,69.15615985
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1984,Years,69.62652326,69.90525995,69.33271663
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1985,Years,69.4762509,69.78650243,69.18342463
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1986,Years,69.15566996,69.46088446,68.85897279
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1987,Years,69.01649972,69.30723876,68.73127959
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1988,Years,68.6493745,68.95309455,68.35826487
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1989,Years,68.58619247,68.89260026,68.27180427
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1990,Years,69.125884,69.41541182,68.82319613
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1991,Years,69.40989897,69.71569711,69.08960669
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1992,Years,69.41120826,69.73105541,69.09970163
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1993,Years,69.384205,69.68228118,69.08700398
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1994,Years,69.29624631,69.5846817,68.99410201
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1995,Years,69.81879999,70.10906019,69.51630514
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1996,Years,70.4978762,70.79756594,70.20328417
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1997,Years,71.64060457,71.93861605,71.35468666
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1998,Years,71.9904404,72.27191338,71.71015217
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,1999,Years,72.15809579,72.46694816,71.87249833
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2000,Years,72.38095536,72.66666471,72.07522092
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2001,Years,72.39169273,72.69037073,72.09019493
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2002,Years,72.66801895,72.95461634,72.37751167
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2003,Years,73.17139088,73.47748758,72.87641407
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2004,Years,73.47704703,73.78191258,73.15912367
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2005,Years,73.57563894,73.87465598,73.27514091
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2006,Years,73.83786868,74.1517169,73.52867269
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2007,Years,74.35731007,74.65668961,74.05330741
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2008,Years,74.73486282,75.02657062,74.42196042
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2009,Years,75.39270531,75.68903695,75.08469849
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2010,Years,76.18809486,76.48377017,75.88796208
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2011,Years,76.55351115,76.85273941,76.27526223
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2012,Years,76.68118595,76.98211217,76.38133007
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2013,Years,76.76640242,77.03426884,76.49469306
+26,Life expectancy,531,District of Columbia,11,3,Both,161,0,2014,Years,76.85619461,77.14412807,76.57577434
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1980,Years,63.35037186,63.78056437,62.90857313
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1981,Years,63.43513781,63.85417536,62.99903012
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1982,Years,64.25067298,64.67629123,63.82385032
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1983,Years,64.80873572,65.23790007,64.38535985
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1984,Years,64.74815963,65.19899971,64.29817248
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1985,Years,64.55660399,64.96480426,64.11528129
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1986,Years,64.1276111,64.56888819,63.71516188
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1987,Years,63.9228719,64.35562031,63.50242912
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1988,Years,63.40803731,63.81063789,62.97386236
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1989,Years,63.05544677,63.46945622,62.61202656
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1990,Years,63.74936524,64.15795711,63.29109548
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1991,Years,63.94453324,64.40234276,63.5001058
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1992,Years,63.9173513,64.37421622,63.47587323
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1993,Years,63.79934895,64.21204839,63.34501465
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1994,Years,63.79432635,64.23496559,63.37075921
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1995,Years,64.54992154,64.97885827,64.114195
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1996,Years,65.4792968,65.92476527,65.05661148
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1997,Years,67.36581024,67.82401332,66.9232253
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1998,Years,68.00640941,68.4349811,67.58009656
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,1999,Years,68.00875626,68.49116888,67.55855507
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2000,Years,68.39777893,68.83411189,67.94544588
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2001,Years,68.25741973,68.71036078,67.81271908
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2002,Years,68.54218744,68.98465238,68.09535861
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2003,Years,69.17003679,69.61503118,68.73121282
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2004,Years,69.63315198,70.06001604,69.15041416
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2005,Years,69.73162436,70.20960963,69.28017789
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2006,Years,70.13581898,70.59584687,69.68179869
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2007,Years,70.89716711,71.36657062,70.4189787
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2008,Years,71.16204808,71.58608524,70.68767032
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2009,Years,71.95903792,72.42004282,71.50273347
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2010,Years,73.24861066,73.69571762,72.795241
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2011,Years,73.66972918,74.13591431,73.24108739
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2012,Years,73.86435829,74.34780969,73.41872545
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2013,Years,73.85894621,74.29835402,73.42959465
+26,Life expectancy,891,District of Columbia,11001,1,Male,161,0,2014,Years,74.03899489,74.50976326,73.62927817
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1980,Years,72.83057363,73.25567945,72.42067354
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1981,Years,73.41304064,73.82086719,73.03133916
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1982,Years,73.89808834,74.30319029,73.49619523
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1983,Years,73.9120789,74.31196057,73.53105698
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1984,Years,74.36439488,74.74983495,73.98169707
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1985,Years,74.29731133,74.70210054,73.91012794
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1986,Years,74.13613904,74.51141289,73.77293234
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1987,Years,74.09857023,74.46730913,73.71501392
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1988,Years,73.95140382,74.33814802,73.59336362
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1989,Years,74.27271361,74.64416028,73.87964973
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1990,Years,74.57655509,74.96055853,74.20539
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1991,Years,74.99308485,75.37294725,74.63561329
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1992,Years,75.07641797,75.48400578,74.7092899
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1993,Years,75.17856469,75.56877198,74.82678415
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1994,Years,75.01067589,75.39184209,74.63657386
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1995,Years,75.22710727,75.61478676,74.86149793
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1996,Years,75.55433942,75.92723925,75.16450038
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1997,Years,75.7731264,76.12974131,75.40765944
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1998,Years,75.7952121,76.14844151,75.44900494
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,1999,Years,76.15733059,76.54861524,75.80140742
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2000,Years,76.1951121,76.58681582,75.81349224
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2001,Years,76.39286954,76.78665151,75.99183272
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2002,Years,76.66068151,77.01279504,76.29022142
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2003,Years,77.01020795,77.40870406,76.63583609
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2004,Years,77.13896779,77.50979296,76.72948631
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2005,Years,77.25766175,77.60989718,76.86845031
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2006,Years,77.38015964,77.75309045,77.00902582
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2007,Years,77.64096275,78.02473283,77.25104985
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2008,Years,78.1421397,78.52148068,77.7633855
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2009,Years,78.66081252,79.03572156,78.27049837
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2010,Years,78.9169909,79.27476705,78.5631837
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2011,Years,79.21958645,79.58291309,78.87521629
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2012,Years,79.28260587,79.67235587,78.93732031
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2013,Years,79.46519151,79.80141256,79.10367891
+26,Life expectancy,891,District of Columbia,11001,2,Female,161,0,2014,Years,79.46823748,79.83004276,79.12329367
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1980,Years,68.1559985,68.46816223,67.83867402
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1981,Years,68.46271208,68.75407981,68.16724077
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1982,Years,69.1410019,69.46352436,68.83468697
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1983,Years,69.46038356,69.77120491,69.15615985
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1984,Years,69.62652326,69.90525995,69.33271663
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1985,Years,69.4762509,69.78650243,69.18342463
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1986,Years,69.15566996,69.46088446,68.85897279
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1987,Years,69.01649972,69.30723876,68.73127959
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1988,Years,68.6493745,68.95309455,68.35826487
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1989,Years,68.58619247,68.89260026,68.27180427
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1990,Years,69.125884,69.41541182,68.82319613
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1991,Years,69.40989897,69.71569711,69.08960669
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1992,Years,69.41120826,69.73105541,69.09970163
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1993,Years,69.384205,69.68228118,69.08700398
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1994,Years,69.29624631,69.5846817,68.99410201
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1995,Years,69.81879999,70.10906019,69.51630514
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1996,Years,70.4978762,70.79756594,70.20328417
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1997,Years,71.64060457,71.93861605,71.35468666
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1998,Years,71.9904404,72.27191338,71.71015217
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,1999,Years,72.15809579,72.46694816,71.87249833
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2000,Years,72.38095536,72.66666471,72.07522092
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2001,Years,72.39169273,72.69037073,72.09019493
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2002,Years,72.66801895,72.95461634,72.37751167
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2003,Years,73.17139088,73.47748758,72.87641407
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2004,Years,73.47704703,73.78191258,73.15912367
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2005,Years,73.57563894,73.87465598,73.27514091
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2006,Years,73.83786868,74.1517169,73.52867269
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2007,Years,74.35731007,74.65668961,74.05330741
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2008,Years,74.73486282,75.02657062,74.42196042
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2009,Years,75.39270531,75.68903695,75.08469849
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2010,Years,76.18809486,76.48377017,75.88796208
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2011,Years,76.55351115,76.85273941,76.27526223
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2012,Years,76.68118595,76.98211217,76.38133007
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2013,Years,76.76640242,77.03426884,76.49469306
+26,Life expectancy,891,District of Columbia,11001,3,Both,161,0,2014,Years,76.85619461,77.14412807,76.57577434
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1980,Percentage,3.02099238,3.147535615,2.891924517
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1981,Percentage,2.94496907,3.073111439,2.824823862
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1982,Percentage,2.764631367,2.880718184,2.653664217
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1983,Percentage,2.590100557,2.708561234,2.484004341
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1984,Percentage,2.518468702,2.627944686,2.414671793
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1985,Percentage,2.499796823,2.606700079,2.40008944
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1986,Percentage,2.494814352,2.60279376,2.396749237
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1987,Percentage,2.497225622,2.600612669,2.393224488
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1988,Percentage,2.564293449,2.671859096,2.469700173
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1989,Percentage,2.62405718,2.737949949,2.515165688
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1990,Percentage,2.459251725,2.560483841,2.361026085
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1991,Percentage,2.360667948,2.468628558,2.261082017
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1992,Percentage,2.278302869,2.379252669,2.18223978
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1993,Percentage,2.208009631,2.29983597,2.117016121
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1994,Percentage,2.1193808,2.209649159,2.028899609
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1995,Percentage,1.942168933,2.028883126,1.859657098
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1996,Percentage,1.851914624,1.931666363,1.769748289
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1997,Percentage,1.680163447,1.757832248,1.609696545
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1998,Percentage,1.643933941,1.717302876,1.575732549
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,1999,Percentage,1.645288796,1.720617969,1.567850366
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2000,Percentage,1.603303389,1.683231479,1.532139908
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2001,Percentage,1.602385359,1.672557993,1.535725336
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2002,Percentage,1.584419568,1.658620604,1.517123016
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2003,Percentage,1.531753589,1.601255732,1.463460046
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2004,Percentage,1.510621547,1.582343198,1.447609436
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2005,Percentage,1.504409515,1.57312469,1.439615184
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2006,Percentage,1.476129386,1.545092538,1.40879527
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2007,Percentage,1.435779114,1.504668342,1.3735284
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2008,Percentage,1.39308587,1.458243541,1.334280346
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2009,Percentage,1.269012685,1.323346766,1.213293975
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2010,Percentage,1.124141536,1.174053276,1.073906719
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2011,Percentage,1.064813709,1.114059099,1.015849177
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2012,Percentage,1.044766345,1.095407421,0.994132544
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2013,Percentage,1.029167218,1.077292959,0.984530101
+34,Mortality risk,531,District of Columbia,11,1,Male,1,Under 5,2014,Percentage,0.980380853,1.023501138,0.936085725
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1980,Percentage,2.571086914,2.690254721,2.449562079
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1981,Percentage,2.404004298,2.520098063,2.289293574
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1982,Percentage,2.266836881,2.384016731,2.157095909
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1983,Percentage,2.169763278,2.26859791,2.069233645
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1984,Percentage,2.027106263,2.126567721,1.930860169
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1985,Percentage,2.009884101,2.111471775,1.914404693
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1986,Percentage,1.993157644,2.087627199,1.900940644
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1987,Percentage,1.969174307,2.065255681,1.877224321
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1988,Percentage,1.97978278,2.071953779,1.890949142
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1989,Percentage,1.95222933,2.041904785,1.856963861
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1990,Percentage,1.875978431,1.962020595,1.787728146
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1991,Percentage,1.757606515,1.838953058,1.676063286
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1992,Percentage,1.690788455,1.772909259,1.608888113
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1993,Percentage,1.611615932,1.686487275,1.532186658
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1994,Percentage,1.569900881,1.646685264,1.499683954
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1995,Percentage,1.467464242,1.535894243,1.399043784
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1996,Percentage,1.399894209,1.474997459,1.335799733
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1997,Percentage,1.37740786,1.443779374,1.314663393
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1998,Percentage,1.388794694,1.454081589,1.327697857
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,1999,Percentage,1.334328622,1.398510214,1.268919912
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2000,Percentage,1.323234652,1.385637055,1.254366482
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2001,Percentage,1.28914499,1.349521163,1.227235082
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2002,Percentage,1.265332069,1.325412155,1.206692765
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2003,Percentage,1.241065747,1.305314007,1.178491641
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2004,Percentage,1.246786144,1.31223613,1.187708531
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2005,Percentage,1.247046215,1.311224727,1.185578241
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2006,Percentage,1.243962364,1.308254838,1.187112185
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2007,Percentage,1.24551306,1.309653351,1.181372637
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2008,Percentage,1.174196806,1.234951103,1.117228525
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2009,Percentage,1.080166822,1.134877727,1.027816888
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2010,Percentage,1.027298643,1.07654856,0.977194531
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2011,Percentage,0.974274969,1.022388617,0.931744059
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2012,Percentage,0.96358015,1.011107613,0.916929925
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2013,Percentage,0.942060858,0.990150221,0.898845613
+34,Mortality risk,531,District of Columbia,11,2,Female,1,Under 5,2014,Percentage,0.913390853,0.958480853,0.867075758
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1980,Percentage,2.801303877,2.887236589,2.712258145
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1981,Percentage,2.682165222,2.767687545,2.599614835
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1982,Percentage,2.523372054,2.603691644,2.445731027
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1983,Percentage,2.381576253,2.461825886,2.313231476
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1984,Percentage,2.277777488,2.351186269,2.206234316
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1985,Percentage,2.262516447,2.335690267,2.193139205
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1986,Percentage,2.245775271,2.318644215,2.175764942
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1987,Percentage,2.236006211,2.305603484,2.166304816
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1988,Percentage,2.278260366,2.356996069,2.211915726
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1989,Percentage,2.294959181,2.370954514,2.227097184
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1990,Percentage,2.172818944,2.244658394,2.106599775
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1991,Percentage,2.06486907,2.137035502,2.000278441
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1992,Percentage,1.991281375,2.058919348,1.927892294
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1993,Percentage,1.913323961,1.977396834,1.855186718
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1994,Percentage,1.84461941,1.902938902,1.788104312
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1995,Percentage,1.705645564,1.760489021,1.651459344
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1996,Percentage,1.627925957,1.680359376,1.576918218
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1997,Percentage,1.531762492,1.58381361,1.48605118
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1998,Percentage,1.519776468,1.568985524,1.47069386
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,1999,Percentage,1.492757389,1.543238613,1.445104774
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2000,Percentage,1.466193153,1.517014461,1.420980787
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2001,Percentage,1.449132945,1.495584268,1.404793471
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2002,Percentage,1.427329186,1.477912613,1.382261102
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2003,Percentage,1.389239708,1.435143321,1.342978623
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2004,Percentage,1.380888451,1.427240609,1.336872204
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2005,Percentage,1.376505856,1.425606137,1.332953412
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2006,Percentage,1.361902387,1.409256941,1.315614985
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2007,Percentage,1.34308168,1.391634174,1.298732983
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2008,Percentage,1.285873143,1.33028098,1.244467125
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2009,Percentage,1.176399048,1.216404901,1.138013337
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2010,Percentage,1.076841616,1.113826367,1.040034495
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2011,Percentage,1.020779197,1.055052522,0.988636617
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2012,Percentage,1.005302005,1.041009815,0.971395732
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2013,Percentage,0.986775373,1.019215385,0.955152797
+34,Mortality risk,531,District of Columbia,11,3,Both,1,Under 5,2014,Percentage,0.947751841,0.981298552,0.914166774
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1980,Percentage,3.02099238,3.147535615,2.891924517
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1981,Percentage,2.94496907,3.073111439,2.824823862
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1982,Percentage,2.764631367,2.880718184,2.653664217
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1983,Percentage,2.590100557,2.708561234,2.484004341
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1984,Percentage,2.518468702,2.627944686,2.414671793
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1985,Percentage,2.499796823,2.606700079,2.40008944
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1986,Percentage,2.494814352,2.60279376,2.396749237
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1987,Percentage,2.497225622,2.600612669,2.393224488
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1988,Percentage,2.564293449,2.671859096,2.469700173
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1989,Percentage,2.62405718,2.737949949,2.515165688
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1990,Percentage,2.459251725,2.560483841,2.361026085
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1991,Percentage,2.360667948,2.468628558,2.261082017
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1992,Percentage,2.278302869,2.379252669,2.18223978
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1993,Percentage,2.208009631,2.29983597,2.117016121
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1994,Percentage,2.1193808,2.209649159,2.028899609
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1995,Percentage,1.942168933,2.028883126,1.859657098
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1996,Percentage,1.851914624,1.931666363,1.769748289
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1997,Percentage,1.680163447,1.757832248,1.609696545
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1998,Percentage,1.643933941,1.717302876,1.575732549
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,1999,Percentage,1.645288796,1.720617969,1.567850366
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2000,Percentage,1.603303389,1.683231479,1.532139908
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2001,Percentage,1.602385359,1.672557993,1.535725336
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2002,Percentage,1.584419568,1.658620604,1.517123016
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2003,Percentage,1.531753589,1.601255732,1.463460046
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2004,Percentage,1.510621547,1.582343198,1.447609436
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2005,Percentage,1.504409515,1.57312469,1.439615184
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2006,Percentage,1.476129386,1.545092538,1.40879527
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2007,Percentage,1.435779114,1.504668342,1.3735284
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2008,Percentage,1.39308587,1.458243541,1.334280346
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2009,Percentage,1.269012685,1.323346766,1.213293975
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2010,Percentage,1.124141536,1.174053276,1.073906719
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2011,Percentage,1.064813709,1.114059099,1.015849177
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2012,Percentage,1.044766345,1.095407421,0.994132544
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2013,Percentage,1.029167218,1.077292959,0.984530101
+34,Mortality risk,891,District of Columbia,11001,1,Male,1,Under 5,2014,Percentage,0.980380853,1.023501138,0.936085725
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1980,Percentage,2.571086914,2.690254721,2.449562079
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1981,Percentage,2.404004298,2.520098063,2.289293574
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1982,Percentage,2.266836881,2.384016731,2.157095909
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1983,Percentage,2.169763278,2.26859791,2.069233645
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1984,Percentage,2.027106263,2.126567721,1.930860169
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1985,Percentage,2.009884101,2.111471775,1.914404693
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1986,Percentage,1.993157644,2.087627199,1.900940644
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1987,Percentage,1.969174307,2.065255681,1.877224321
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1988,Percentage,1.97978278,2.071953779,1.890949142
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1989,Percentage,1.95222933,2.041904785,1.856963861
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1990,Percentage,1.875978431,1.962020595,1.787728146
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1991,Percentage,1.757606515,1.838953058,1.676063286
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1992,Percentage,1.690788455,1.772909259,1.608888113
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1993,Percentage,1.611615932,1.686487275,1.532186658
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1994,Percentage,1.569900881,1.646685264,1.499683954
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1995,Percentage,1.467464242,1.535894243,1.399043784
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1996,Percentage,1.399894209,1.474997459,1.335799733
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1997,Percentage,1.37740786,1.443779374,1.314663393
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1998,Percentage,1.388794694,1.454081589,1.327697857
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,1999,Percentage,1.334328622,1.398510214,1.268919912
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2000,Percentage,1.323234652,1.385637055,1.254366482
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2001,Percentage,1.28914499,1.349521163,1.227235082
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2002,Percentage,1.265332069,1.325412155,1.206692765
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2003,Percentage,1.241065747,1.305314007,1.178491641
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2004,Percentage,1.246786144,1.31223613,1.187708531
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2005,Percentage,1.247046215,1.311224727,1.185578241
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2006,Percentage,1.243962364,1.308254838,1.187112185
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2007,Percentage,1.24551306,1.309653351,1.181372637
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2008,Percentage,1.174196806,1.234951103,1.117228525
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2009,Percentage,1.080166822,1.134877727,1.027816888
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2010,Percentage,1.027298643,1.07654856,0.977194531
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2011,Percentage,0.974274969,1.022388617,0.931744059
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2012,Percentage,0.96358015,1.011107613,0.916929925
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2013,Percentage,0.942060858,0.990150221,0.898845613
+34,Mortality risk,891,District of Columbia,11001,2,Female,1,Under 5,2014,Percentage,0.913390853,0.958480853,0.867075758
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1980,Percentage,2.801303877,2.887236589,2.712258145
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1981,Percentage,2.682165222,2.767687545,2.599614835
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1982,Percentage,2.523372054,2.603691644,2.445731027
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1983,Percentage,2.381576253,2.461825886,2.313231476
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1984,Percentage,2.277777488,2.351186269,2.206234316
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1985,Percentage,2.262516447,2.335690267,2.193139205
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1986,Percentage,2.245775271,2.318644215,2.175764942
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1987,Percentage,2.236006211,2.305603484,2.166304816
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1988,Percentage,2.278260366,2.356996069,2.211915726
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1989,Percentage,2.294959181,2.370954514,2.227097184
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1990,Percentage,2.172818944,2.244658394,2.106599775
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1991,Percentage,2.06486907,2.137035502,2.000278441
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1992,Percentage,1.991281375,2.058919348,1.927892294
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1993,Percentage,1.913323961,1.977396834,1.855186718
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1994,Percentage,1.84461941,1.902938902,1.788104312
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1995,Percentage,1.705645564,1.760489021,1.651459344
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1996,Percentage,1.627925957,1.680359376,1.576918218
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1997,Percentage,1.531762492,1.58381361,1.48605118
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1998,Percentage,1.519776468,1.568985524,1.47069386
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,1999,Percentage,1.492757389,1.543238613,1.445104774
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2000,Percentage,1.466193153,1.517014461,1.420980787
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2001,Percentage,1.449132945,1.495584268,1.404793471
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2002,Percentage,1.427329186,1.477912613,1.382261102
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2003,Percentage,1.389239708,1.435143321,1.342978623
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2004,Percentage,1.380888451,1.427240609,1.336872204
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2005,Percentage,1.376505856,1.425606137,1.332953412
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2006,Percentage,1.361902387,1.409256941,1.315614985
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2007,Percentage,1.34308168,1.391634174,1.298732983
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2008,Percentage,1.285873143,1.33028098,1.244467125
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2009,Percentage,1.176399048,1.216404901,1.138013337
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2010,Percentage,1.076841616,1.113826367,1.040034495
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2011,Percentage,1.020779197,1.055052522,0.988636617
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2012,Percentage,1.005302005,1.041009815,0.971395732
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2013,Percentage,0.986775373,1.019215385,0.955152797
+34,Mortality risk,891,District of Columbia,11001,3,Both,1,Under 5,2014,Percentage,0.947751841,0.981298552,0.914166774
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1980,Percentage,3.669263166,3.806399148,3.529930274
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1981,Percentage,3.558333676,3.690041803,3.420855396
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1982,Percentage,3.301720851,3.422644463,3.175021144
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1983,Percentage,3.108952367,3.231958315,2.982712563
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1984,Percentage,3.106057054,3.235311909,2.988745923
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1985,Percentage,3.150972357,3.273583593,3.03589697
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1986,Percentage,3.302675068,3.434278366,3.174535841
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1987,Percentage,3.353758599,3.481629698,3.222552134
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1988,Percentage,3.488660771,3.625035819,3.359691439
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1989,Percentage,3.582791262,3.725885689,3.449899319
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1990,Percentage,3.494781465,3.631004318,3.367533439
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1991,Percentage,3.477154565,3.613888172,3.341143862
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1992,Percentage,3.462919565,3.600633483,3.328221101
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1993,Percentage,3.496533169,3.631722841,3.357768319
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1994,Percentage,3.497565933,3.629255077,3.356413557
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1995,Percentage,3.302907916,3.439364336,3.180940049
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1996,Percentage,3.083079434,3.210516672,2.957935669
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1997,Percentage,2.699330213,2.812768018,2.594535718
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1998,Percentage,2.557380671,2.661363219,2.458920991
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,1999,Percentage,2.534048322,2.6430314,2.429045582
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2000,Percentage,2.47730975,2.578291932,2.376826559
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2001,Percentage,2.566962638,2.760719212,2.438137633
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2002,Percentage,2.489699932,2.592404126,2.385362405
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2003,Percentage,2.410247702,2.515498715,2.315358039
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2004,Percentage,2.36524065,2.464789146,2.273870098
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2005,Percentage,2.396550842,2.52569003,2.283357577
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2006,Percentage,2.335297971,2.427796871,2.242766441
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2007,Percentage,2.199431554,2.29504799,2.105797138
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2008,Percentage,2.097133428,2.188625712,2.008757089
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2009,Percentage,1.926275792,2.006488267,1.848489494
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2010,Percentage,1.73526624,1.809495956,1.658428649
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2011,Percentage,1.673962765,1.744732274,1.601567852
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2012,Percentage,1.622732301,1.695182966,1.551557434
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2013,Percentage,1.59597991,1.667038765,1.526357513
+34,Mortality risk,531,District of Columbia,11,1,Male,165,5 to 25,2014,Percentage,1.582320846,1.649320824,1.512191166
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1980,Percentage,1.059179904,1.119786848,0.999967125
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1981,Percentage,0.994706532,1.053300451,0.940454246
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1982,Percentage,0.938942773,0.997319359,0.885532705
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1983,Percentage,0.920907856,0.969910019,0.868688693
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1984,Percentage,0.884289169,0.935629667,0.833593085
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1985,Percentage,0.886578675,0.939023048,0.838156314
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1986,Percentage,0.90019528,0.953500805,0.849252879
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1987,Percentage,0.903141097,0.954650245,0.851542718
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1988,Percentage,0.920465312,0.975249295,0.868302055
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1989,Percentage,0.905685936,0.959964241,0.857055708
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1990,Percentage,0.880927726,0.93148233,0.82789644
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1991,Percentage,0.846435158,0.893895169,0.799809331
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1992,Percentage,0.828845936,0.877637268,0.781866734
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1993,Percentage,0.821856308,0.869175403,0.776260717
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1994,Percentage,0.824247507,0.87414078,0.778311791
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1995,Percentage,0.802937673,0.848939796,0.756512232
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1996,Percentage,0.772697614,0.818697439,0.728959675
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1997,Percentage,0.75415668,0.797050485,0.711719993
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1998,Percentage,0.738739486,0.782979828,0.697613606
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,1999,Percentage,0.714763657,0.755359286,0.673084393
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2000,Percentage,0.707213456,0.750712945,0.668116899
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2001,Percentage,0.701207574,0.747955649,0.65801171
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2002,Percentage,0.682820452,0.722563734,0.647246048
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2003,Percentage,0.67014098,0.708134758,0.632227908
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2004,Percentage,0.666633903,0.70669809,0.629597651
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2005,Percentage,0.667739761,0.720631964,0.624251141
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2006,Percentage,0.648043189,0.684865007,0.610092133
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2007,Percentage,0.630516059,0.667243465,0.595176587
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2008,Percentage,0.589088821,0.623281268,0.554924562
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2009,Percentage,0.55463269,0.587453509,0.524705767
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2010,Percentage,0.533495243,0.565969659,0.503237748
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2011,Percentage,0.51578948,0.547181978,0.484198299
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2012,Percentage,0.508499184,0.537392932,0.480407592
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2013,Percentage,0.499034404,0.527513652,0.471019547
+34,Mortality risk,531,District of Columbia,11,2,Female,165,5 to 25,2014,Percentage,0.496332418,0.525219493,0.467851027
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1980,Percentage,2.311092727,2.386742145,2.23623672
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1981,Percentage,2.22620917,2.297032444,2.154965426
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1982,Percentage,2.073989134,2.146063406,2.004052482
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1983,Percentage,1.966622999,2.030843562,1.904180709
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1984,Percentage,1.947564875,2.013633707,1.881487346
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1985,Percentage,1.970991801,2.034811453,1.907405875
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1986,Percentage,2.054391974,2.124861733,1.986600452
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1987,Percentage,2.083059964,2.151175981,2.012386767
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1988,Percentage,2.156310242,2.225635772,2.089425547
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1989,Percentage,2.193644073,2.267330064,2.124621677
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1990,Percentage,2.136340598,2.20582295,2.071047492
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1991,Percentage,2.112785207,2.188477077,2.042516148
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1992,Percentage,2.100933808,2.168741353,2.032268936
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1993,Percentage,2.106034727,2.174265471,2.035843103
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1994,Percentage,2.104269302,2.174255654,2.033372709
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1995,Percentage,1.998967341,2.068005729,1.936686826
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1996,Percentage,1.871244632,1.934722334,1.807496762
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1997,Percentage,1.680912352,1.739773575,1.626486748
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1998,Percentage,1.599351199,1.653273826,1.546397378
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,1999,Percentage,1.571314972,1.625401378,1.518247824
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2000,Percentage,1.538103899,1.590579424,1.484568791
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2001,Percentage,1.583002847,1.67560571,1.518711668
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2002,Percentage,1.535797617,1.591019233,1.482637499
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2003,Percentage,1.487203277,1.538941387,1.438714388
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2004,Percentage,1.460828994,1.513533954,1.412612641
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2005,Percentage,1.480372326,1.546786526,1.423033628
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2006,Percentage,1.437099085,1.484248559,1.391487706
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2007,Percentage,1.365901129,1.413462847,1.318701366
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2008,Percentage,1.289104173,1.336070892,1.245824139
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2009,Percentage,1.192114856,1.236296008,1.151536973
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2010,Percentage,1.090089399,1.12967234,1.05207358
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2011,Percentage,1.05196672,1.089441686,1.016048903
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2012,Percentage,1.025287272,1.062257169,0.988032696
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2013,Percentage,1.010776986,1.047736643,0.973903617
+34,Mortality risk,531,District of Columbia,11,3,Both,165,5 to 25,2014,Percentage,1.004188974,1.040342753,0.967538655
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1980,Percentage,3.669263166,3.806399148,3.529930274
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1981,Percentage,3.558333676,3.690041803,3.420855396
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1982,Percentage,3.301720851,3.422644463,3.175021144
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1983,Percentage,3.108952367,3.231958315,2.982712563
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1984,Percentage,3.106057054,3.235311909,2.988745923
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1985,Percentage,3.150972357,3.273583593,3.03589697
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1986,Percentage,3.302675068,3.434278366,3.174535841
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1987,Percentage,3.353758599,3.481629698,3.222552134
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1988,Percentage,3.488660771,3.625035819,3.359691439
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1989,Percentage,3.582791262,3.725885689,3.449899319
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1990,Percentage,3.494781465,3.631004318,3.367533439
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1991,Percentage,3.477154565,3.613888172,3.341143862
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1992,Percentage,3.462919565,3.600633483,3.328221101
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1993,Percentage,3.496533169,3.631722841,3.357768319
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1994,Percentage,3.497565933,3.629255077,3.356413557
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1995,Percentage,3.302907916,3.439364336,3.180940049
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1996,Percentage,3.083079434,3.210516672,2.957935669
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1997,Percentage,2.699330213,2.812768018,2.594535718
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1998,Percentage,2.557380671,2.661363219,2.458920991
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,1999,Percentage,2.534048322,2.6430314,2.429045582
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2000,Percentage,2.47730975,2.578291932,2.376826559
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2001,Percentage,2.566962638,2.760719212,2.438137633
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2002,Percentage,2.489699932,2.592404126,2.385362405
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2003,Percentage,2.410247702,2.515498715,2.315358039
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2004,Percentage,2.36524065,2.464789146,2.273870098
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2005,Percentage,2.396550842,2.52569003,2.283357577
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2006,Percentage,2.335297971,2.427796871,2.242766441
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2007,Percentage,2.199431554,2.29504799,2.105797138
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2008,Percentage,2.097133428,2.188625712,2.008757089
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2009,Percentage,1.926275792,2.006488267,1.848489494
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2010,Percentage,1.73526624,1.809495956,1.658428649
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2011,Percentage,1.673962765,1.744732274,1.601567852
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2012,Percentage,1.622732301,1.695182966,1.551557434
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2013,Percentage,1.59597991,1.667038765,1.526357513
+34,Mortality risk,891,District of Columbia,11001,1,Male,165,5 to 25,2014,Percentage,1.582320846,1.649320824,1.512191166
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1980,Percentage,1.059179904,1.119786848,0.999967125
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1981,Percentage,0.994706532,1.053300451,0.940454246
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1982,Percentage,0.938942773,0.997319359,0.885532705
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1983,Percentage,0.920907856,0.969910019,0.868688693
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1984,Percentage,0.884289169,0.935629667,0.833593085
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1985,Percentage,0.886578675,0.939023048,0.838156314
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1986,Percentage,0.90019528,0.953500805,0.849252879
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1987,Percentage,0.903141097,0.954650245,0.851542718
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1988,Percentage,0.920465312,0.975249295,0.868302055
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1989,Percentage,0.905685936,0.959964241,0.857055708
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1990,Percentage,0.880927726,0.93148233,0.82789644
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1991,Percentage,0.846435158,0.893895169,0.799809331
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1992,Percentage,0.828845936,0.877637268,0.781866734
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1993,Percentage,0.821856308,0.869175403,0.776260717
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1994,Percentage,0.824247507,0.87414078,0.778311791
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1995,Percentage,0.802937673,0.848939796,0.756512232
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1996,Percentage,0.772697614,0.818697439,0.728959675
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1997,Percentage,0.75415668,0.797050485,0.711719993
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1998,Percentage,0.738739486,0.782979828,0.697613606
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,1999,Percentage,0.714763657,0.755359286,0.673084393
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2000,Percentage,0.707213456,0.750712945,0.668116899
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2001,Percentage,0.701207574,0.747955649,0.65801171
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2002,Percentage,0.682820452,0.722563734,0.647246048
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2003,Percentage,0.67014098,0.708134758,0.632227908
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2004,Percentage,0.666633903,0.70669809,0.629597651
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2005,Percentage,0.667739761,0.720631964,0.624251141
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2006,Percentage,0.648043189,0.684865007,0.610092133
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2007,Percentage,0.630516059,0.667243465,0.595176587
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2008,Percentage,0.589088821,0.623281268,0.554924562
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2009,Percentage,0.55463269,0.587453509,0.524705767
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2010,Percentage,0.533495243,0.565969659,0.503237748
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2011,Percentage,0.51578948,0.547181978,0.484198299
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2012,Percentage,0.508499184,0.537392932,0.480407592
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2013,Percentage,0.499034404,0.527513652,0.471019547
+34,Mortality risk,891,District of Columbia,11001,2,Female,165,5 to 25,2014,Percentage,0.496332418,0.525219493,0.467851027
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1980,Percentage,2.311092727,2.386742145,2.23623672
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1981,Percentage,2.22620917,2.297032444,2.154965426
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1982,Percentage,2.073989134,2.146063406,2.004052482
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1983,Percentage,1.966622999,2.030843562,1.904180709
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1984,Percentage,1.947564875,2.013633707,1.881487346
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1985,Percentage,1.970991801,2.034811453,1.907405875
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1986,Percentage,2.054391974,2.124861733,1.986600452
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1987,Percentage,2.083059964,2.151175981,2.012386767
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1988,Percentage,2.156310242,2.225635772,2.089425547
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1989,Percentage,2.193644073,2.267330064,2.124621677
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1990,Percentage,2.136340598,2.20582295,2.071047492
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1991,Percentage,2.112785207,2.188477077,2.042516148
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1992,Percentage,2.100933808,2.168741353,2.032268936
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1993,Percentage,2.106034727,2.174265471,2.035843103
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1994,Percentage,2.104269302,2.174255654,2.033372709
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1995,Percentage,1.998967341,2.068005729,1.936686826
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1996,Percentage,1.871244632,1.934722334,1.807496762
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1997,Percentage,1.680912352,1.739773575,1.626486748
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1998,Percentage,1.599351199,1.653273826,1.546397378
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,1999,Percentage,1.571314972,1.625401378,1.518247824
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2000,Percentage,1.538103899,1.590579424,1.484568791
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2001,Percentage,1.583002847,1.67560571,1.518711668
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2002,Percentage,1.535797617,1.591019233,1.482637499
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2003,Percentage,1.487203277,1.538941387,1.438714388
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2004,Percentage,1.460828994,1.513533954,1.412612641
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2005,Percentage,1.480372326,1.546786526,1.423033628
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2006,Percentage,1.437099085,1.484248559,1.391487706
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2007,Percentage,1.365901129,1.413462847,1.318701366
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2008,Percentage,1.289104173,1.336070892,1.245824139
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2009,Percentage,1.192114856,1.236296008,1.151536973
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2010,Percentage,1.090089399,1.12967234,1.05207358
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2011,Percentage,1.05196672,1.089441686,1.016048903
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2012,Percentage,1.025287272,1.062257169,0.988032696
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2013,Percentage,1.010776986,1.047736643,0.973903617
+34,Mortality risk,891,District of Columbia,11001,3,Both,165,5 to 25,2014,Percentage,1.004188974,1.040342753,0.967538655
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1980,Percentage,10.19662429,10.49097423,9.89455529
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1981,Percentage,10.18336833,10.47535658,9.910164214
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1982,Percentage,9.657798777,9.960813849,9.381643355
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1983,Percentage,9.381060834,9.665747743,9.106602033
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1984,Percentage,9.569902241,9.867453084,9.277162563
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1985,Percentage,9.905932318,10.19121777,9.624034805
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1986,Percentage,10.48378076,10.78179755,10.17192114
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1987,Percentage,10.86652213,11.19440283,10.55031335
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1988,Percentage,11.46849756,11.80697767,11.14242342
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1989,Percentage,11.98417631,12.32985177,11.64279765
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1990,Percentage,11.72102724,12.07654144,11.39855695
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1991,Percentage,11.81554336,12.17170723,11.46738033
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1992,Percentage,12.07219291,12.43407226,11.73495422
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1993,Percentage,12.36177086,12.73534686,12.03520062
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1994,Percentage,12.5116065,12.85418362,12.16661008
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1995,Percentage,11.95125472,12.30282099,11.62353647
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1996,Percentage,10.91655796,11.22470067,10.57715114
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1997,Percentage,9.32720955,9.617127228,9.033982359
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1998,Percentage,8.758102101,9.034951042,8.468698098
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,1999,Percentage,8.709502033,8.987931151,8.411670088
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2000,Percentage,8.528546527,8.791228897,8.267732682
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2001,Percentage,8.764655321,9.087773301,8.475422452
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2002,Percentage,8.616846604,8.899239861,8.343330854
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2003,Percentage,8.313228152,8.582787837,8.053793455
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2004,Percentage,8.090345866,8.381237438,7.828248398
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2005,Percentage,8.130877809,8.427634869,7.84575349
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2006,Percentage,7.969650177,8.232567928,7.701982452
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2007,Percentage,7.580246246,7.821432084,7.320318504
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2008,Percentage,7.433033858,7.687761918,7.199002399
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2009,Percentage,7.075964282,7.321581072,6.849017061
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2010,Percentage,6.46024642,6.692516428,6.244969119
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2011,Percentage,6.308182608,6.509923882,6.107265771
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2012,Percentage,6.253717432,6.470016583,6.024615654
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2013,Percentage,6.282931772,6.504799368,6.070064487
+34,Mortality risk,531,District of Columbia,11,1,Male,166,25 to 45,2014,Percentage,6.200230885,6.40355847,5.985295492
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1980,Percentage,4.575314688,4.738705051,4.412349295
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1981,Percentage,4.341313965,4.496173444,4.196954796
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1982,Percentage,4.127303389,4.277515971,3.971982079
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1983,Percentage,4.108655236,4.259601514,3.965892789
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1984,Percentage,3.977916298,4.123582496,3.831976757
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1985,Percentage,4.003027416,4.156116325,3.856010962
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1986,Percentage,4.095657208,4.238648849,3.958609789
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1987,Percentage,4.150312414,4.30458445,4.012542525
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1988,Percentage,4.23363593,4.387412749,4.085324468
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1989,Percentage,4.165302521,4.314536609,4.024176569
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1990,Percentage,4.107561214,4.248014583,3.952572499
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1991,Percentage,4.04786579,4.194050872,3.910061981
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1992,Percentage,4.07399294,4.213212903,3.923005461
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1993,Percentage,4.114745733,4.25883393,3.963612287
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1994,Percentage,4.235659457,4.381991386,4.089368461
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1995,Percentage,4.222537496,4.371290249,4.082520896
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1996,Percentage,4.086711094,4.241738168,3.933749587
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1997,Percentage,3.975316831,4.118861231,3.837822021
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1998,Percentage,3.949781112,4.07594545,3.809106766
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,1999,Percentage,3.850732509,3.993682186,3.711484581
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2000,Percentage,3.875756017,4.012788397,3.734490871
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2001,Percentage,3.899716408,4.047995918,3.740671792
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2002,Percentage,3.846362197,3.986234819,3.698984851
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2003,Percentage,3.76961414,3.907202409,3.630812009
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2004,Percentage,3.737755785,3.884674541,3.598646028
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2005,Percentage,3.747470405,3.900351631,3.617302482
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2006,Percentage,3.734163328,3.870855584,3.596457555
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2007,Percentage,3.654605822,3.795626113,3.512147631
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2008,Percentage,3.518539255,3.654115079,3.382227405
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2009,Percentage,3.404476562,3.542519637,3.27660507
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2010,Percentage,3.33294026,3.462163571,3.208905356
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2011,Percentage,3.278658683,3.404548938,3.160478522
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2012,Percentage,3.267185068,3.393488731,3.144381573
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2013,Percentage,3.22688093,3.355739496,3.104286644
+34,Mortality risk,531,District of Columbia,11,2,Female,166,25 to 45,2014,Percentage,3.209817291,3.336029783,3.090321557
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1980,Percentage,7.304311579,7.474378161,7.133531533
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1981,Percentage,7.181676717,7.341542333,7.022001656
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1982,Percentage,6.815734401,6.980867145,6.655956647
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1983,Percentage,6.665085455,6.822601893,6.499899089
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1984,Percentage,6.694244637,6.852398279,6.545913648
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1985,Percentage,6.874658155,7.039719249,6.712228491
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1986,Percentage,7.213190977,7.383864232,7.050591008
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1987,Percentage,7.436326749,7.608458764,7.266317172
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1988,Percentage,7.780997468,7.956374713,7.600368666
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1989,Percentage,8.008685416,8.204452071,7.82216659
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1990,Percentage,7.855839123,8.035171956,7.677471162
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1991,Percentage,7.892396412,8.08485434,7.712237406
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1992,Percentage,8.053004424,8.249043783,7.862225684
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1993,Percentage,8.220955174,8.408748233,8.033271784
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1994,Percentage,8.369075749,8.561858215,8.181118827
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1995,Percentage,8.089500131,8.272842344,7.910013814
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1996,Percentage,7.492716806,7.663744837,7.318865268
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1997,Percentage,6.645830142,6.80754961,6.477999371
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1998,Percentage,6.352592027,6.507760293,6.199563437
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,1999,Percentage,6.287902884,6.438400345,6.133868853
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2000,Percentage,6.216311606,6.375395793,6.076335894
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2001,Percentage,6.344117642,6.538811044,6.171405186
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2002,Percentage,6.240087827,6.392020457,6.09269802
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2003,Percentage,6.046696224,6.208144328,5.89292286
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2004,Percentage,5.917298915,6.074363781,5.767263059
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2005,Percentage,5.944967387,6.111197277,5.791793056
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2006,Percentage,5.854653524,6.000421906,5.704050808
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2007,Percentage,5.615737509,5.761959318,5.476896454
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2008,Percentage,5.470060925,5.619346945,5.335902089
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2009,Percentage,5.237382657,5.382718239,5.105423778
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2010,Percentage,4.88009523,5.011265295,4.754445329
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2011,Percentage,4.774272565,4.89168786,4.651436416
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2012,Percentage,4.734094632,4.86197115,4.598021654
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2013,Percentage,4.724023539,4.846295818,4.605928155
+34,Mortality risk,531,District of Columbia,11,3,Both,166,25 to 45,2014,Percentage,4.669597672,4.786689646,4.551081332
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1980,Percentage,10.19662429,10.49097423,9.89455529
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1981,Percentage,10.18336833,10.47535658,9.910164214
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1982,Percentage,9.657798777,9.960813849,9.381643355
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1983,Percentage,9.381060834,9.665747743,9.106602033
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1984,Percentage,9.569902241,9.867453084,9.277162563
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1985,Percentage,9.905932318,10.19121777,9.624034805
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1986,Percentage,10.48378076,10.78179755,10.17192114
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1987,Percentage,10.86652213,11.19440283,10.55031335
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1988,Percentage,11.46849756,11.80697767,11.14242342
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1989,Percentage,11.98417631,12.32985177,11.64279765
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1990,Percentage,11.72102724,12.07654144,11.39855695
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1991,Percentage,11.81554336,12.17170723,11.46738033
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1992,Percentage,12.07219291,12.43407226,11.73495422
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1993,Percentage,12.36177086,12.73534686,12.03520062
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1994,Percentage,12.5116065,12.85418362,12.16661008
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1995,Percentage,11.95125472,12.30282099,11.62353647
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1996,Percentage,10.91655796,11.22470067,10.57715114
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1997,Percentage,9.32720955,9.617127228,9.033982359
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1998,Percentage,8.758102101,9.034951042,8.468698098
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,1999,Percentage,8.709502033,8.987931151,8.411670088
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2000,Percentage,8.528546527,8.791228897,8.267732682
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2001,Percentage,8.764655321,9.087773301,8.475422452
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2002,Percentage,8.616846604,8.899239861,8.343330854
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2003,Percentage,8.313228152,8.582787837,8.053793455
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2004,Percentage,8.090345866,8.381237438,7.828248398
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2005,Percentage,8.130877809,8.427634869,7.84575349
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2006,Percentage,7.969650177,8.232567928,7.701982452
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2007,Percentage,7.580246246,7.821432084,7.320318504
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2008,Percentage,7.433033858,7.687761918,7.199002399
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2009,Percentage,7.075964282,7.321581072,6.849017061
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2010,Percentage,6.46024642,6.692516428,6.244969119
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2011,Percentage,6.308182608,6.509923882,6.107265771
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2012,Percentage,6.253717432,6.470016583,6.024615654
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2013,Percentage,6.282931772,6.504799368,6.070064487
+34,Mortality risk,891,District of Columbia,11001,1,Male,166,25 to 45,2014,Percentage,6.200230885,6.40355847,5.985295492
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1980,Percentage,4.575314688,4.738705051,4.412349295
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1981,Percentage,4.341313965,4.496173444,4.196954796
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1982,Percentage,4.127303389,4.277515971,3.971982079
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1983,Percentage,4.108655236,4.259601514,3.965892789
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1984,Percentage,3.977916298,4.123582496,3.831976757
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1985,Percentage,4.003027416,4.156116325,3.856010962
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1986,Percentage,4.095657208,4.238648849,3.958609789
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1987,Percentage,4.150312414,4.30458445,4.012542525
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1988,Percentage,4.23363593,4.387412749,4.085324468
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1989,Percentage,4.165302521,4.314536609,4.024176569
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1990,Percentage,4.107561214,4.248014583,3.952572499
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1991,Percentage,4.04786579,4.194050872,3.910061981
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1992,Percentage,4.07399294,4.213212903,3.923005461
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1993,Percentage,4.114745733,4.25883393,3.963612287
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1994,Percentage,4.235659457,4.381991386,4.089368461
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1995,Percentage,4.222537496,4.371290249,4.082520896
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1996,Percentage,4.086711094,4.241738168,3.933749587
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1997,Percentage,3.975316831,4.118861231,3.837822021
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1998,Percentage,3.949781112,4.07594545,3.809106766
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,1999,Percentage,3.850732509,3.993682186,3.711484581
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2000,Percentage,3.875756017,4.012788397,3.734490871
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2001,Percentage,3.899716408,4.047995918,3.740671792
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2002,Percentage,3.846362197,3.986234819,3.698984851
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2003,Percentage,3.76961414,3.907202409,3.630812009
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2004,Percentage,3.737755785,3.884674541,3.598646028
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2005,Percentage,3.747470405,3.900351631,3.617302482
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2006,Percentage,3.734163328,3.870855584,3.596457555
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2007,Percentage,3.654605822,3.795626113,3.512147631
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2008,Percentage,3.518539255,3.654115079,3.382227405
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2009,Percentage,3.404476562,3.542519637,3.27660507
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2010,Percentage,3.33294026,3.462163571,3.208905356
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2011,Percentage,3.278658683,3.404548938,3.160478522
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2012,Percentage,3.267185068,3.393488731,3.144381573
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2013,Percentage,3.22688093,3.355739496,3.104286644
+34,Mortality risk,891,District of Columbia,11001,2,Female,166,25 to 45,2014,Percentage,3.209817291,3.336029783,3.090321557
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1980,Percentage,7.304311579,7.474378161,7.133531533
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1981,Percentage,7.181676717,7.341542333,7.022001656
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1982,Percentage,6.815734401,6.980867145,6.655956647
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1983,Percentage,6.665085455,6.822601893,6.499899089
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1984,Percentage,6.694244637,6.852398279,6.545913648
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1985,Percentage,6.874658155,7.039719249,6.712228491
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1986,Percentage,7.213190977,7.383864232,7.050591008
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1987,Percentage,7.436326749,7.608458764,7.266317172
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1988,Percentage,7.780997468,7.956374713,7.600368666
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1989,Percentage,8.008685416,8.204452071,7.82216659
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1990,Percentage,7.855839123,8.035171956,7.677471162
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1991,Percentage,7.892396412,8.08485434,7.712237406
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1992,Percentage,8.053004424,8.249043783,7.862225684
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1993,Percentage,8.220955174,8.408748233,8.033271784
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1994,Percentage,8.369075749,8.561858215,8.181118827
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1995,Percentage,8.089500131,8.272842344,7.910013814
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1996,Percentage,7.492716806,7.663744837,7.318865268
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1997,Percentage,6.645830142,6.80754961,6.477999371
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1998,Percentage,6.352592027,6.507760293,6.199563437
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,1999,Percentage,6.287902884,6.438400345,6.133868853
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2000,Percentage,6.216311606,6.375395793,6.076335894
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2001,Percentage,6.344117642,6.538811044,6.171405186
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2002,Percentage,6.240087827,6.392020457,6.09269802
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2003,Percentage,6.046696224,6.208144328,5.89292286
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2004,Percentage,5.917298915,6.074363781,5.767263059
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2005,Percentage,5.944967387,6.111197277,5.791793056
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2006,Percentage,5.854653524,6.000421906,5.704050808
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2007,Percentage,5.615737509,5.761959318,5.476896454
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2008,Percentage,5.470060925,5.619346945,5.335902089
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2009,Percentage,5.237382657,5.382718239,5.105423778
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2010,Percentage,4.88009523,5.011265295,4.754445329
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2011,Percentage,4.774272565,4.89168786,4.651436416
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2012,Percentage,4.734094632,4.86197115,4.598021654
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2013,Percentage,4.724023539,4.846295818,4.605928155
+34,Mortality risk,891,District of Columbia,11001,3,Both,166,25 to 45,2014,Percentage,4.669597672,4.786689646,4.551081332
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1980,Percentage,35.02197725,35.80724137,34.22119262
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1981,Percentage,34.97568884,35.7530893,34.22068814
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1982,Percentage,33.64005407,34.45148368,32.84805599
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1983,Percentage,32.79062582,33.61671253,31.96849764
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1984,Percentage,32.88279254,33.65836866,32.07627879
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1985,Percentage,33.03262456,33.8174094,32.28884278
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1986,Percentage,33.46408055,34.25475676,32.65325905
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1987,Percentage,33.59657117,34.37079051,32.84818353
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1988,Percentage,34.23215821,35.01511203,33.43225628
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1989,Percentage,34.56619479,35.3779535,33.81502681
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1990,Percentage,33.14685715,33.91374786,32.3862378
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1991,Percentage,32.67968868,33.4738453,31.87303607
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1992,Percentage,32.68028723,33.45656777,31.93023376
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1993,Percentage,32.83393382,33.64227522,32.08415232
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1994,Percentage,32.90260593,33.64669225,32.16930464
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1995,Percentage,31.83995024,32.59887145,31.11748558
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1996,Percentage,30.54740587,31.26785266,29.77629188
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1997,Percentage,27.6610512,28.40312689,26.88729122
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1998,Percentage,26.70966518,27.41482785,26.02712135
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,1999,Percentage,26.80714254,27.51315366,26.04632556
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2000,Percentage,26.25340584,26.95323643,25.56075773
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2001,Percentage,26.41138446,27.07188724,25.72115638
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2002,Percentage,26.1543795,26.81840754,25.45862784
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2003,Percentage,25.28673044,25.93273269,24.59618496
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2004,Percentage,24.63853739,25.31263883,24.01793048
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2005,Percentage,24.55516509,25.25354601,23.82439906
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2006,Percentage,24.04679165,24.72832755,23.37051094
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2007,Percentage,23.05985781,23.75439866,22.3694554
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2008,Percentage,22.89138019,23.58652245,22.28242782
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2009,Percentage,22.03062356,22.68062796,21.36748877
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2010,Percentage,20.43021561,21.04651755,19.80671285
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2011,Percentage,19.99351211,20.54994911,19.36732955
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2012,Percentage,19.83668795,20.43040014,19.20122522
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2013,Percentage,19.91921924,20.5510108,19.31866812
+34,Mortality risk,531,District of Columbia,11,1,Male,167,45 to 65,2014,Percentage,19.66683536,20.25646726,19.06483411
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1980,Percentage,19.65848164,20.17653531,19.12107369
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1981,Percentage,19.07019646,19.58394236,18.524699
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1982,Percentage,18.53886868,19.10683212,18.02424839
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1983,Percentage,18.68355769,19.20128604,18.14199867
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1984,Percentage,18.16262502,18.6777055,17.64014394
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1985,Percentage,18.27299756,18.82114838,17.77393135
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1986,Percentage,18.47484596,18.98017756,17.95945616
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1987,Percentage,18.52505944,19.03378411,18.01452084
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1988,Percentage,18.68947586,19.19764743,18.17575643
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1989,Percentage,18.20701906,18.737219,17.70569969
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1990,Percentage,17.85437706,18.34625155,17.34920887
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1991,Percentage,17.3662799,17.83872962,16.89217399
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1992,Percentage,17.24081719,17.77977367,16.73451795
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1993,Percentage,17.12235859,17.57784856,16.61306035
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1994,Percentage,17.30571435,17.79523777,16.82491674
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1995,Percentage,17.08886538,17.60795342,16.60991932
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1996,Percentage,16.67002718,17.16417809,16.16405089
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1997,Percentage,16.36249577,16.82534001,15.89795949
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1998,Percentage,16.19518159,16.6256368,15.73332244
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,1999,Percentage,15.74441492,16.20619864,15.26260868
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2000,Percentage,15.68408235,16.16238212,15.19588883
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2001,Percentage,15.46397998,15.94807542,14.97200326
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2002,Percentage,15.1578056,15.63159515,14.71722156
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2003,Percentage,14.806148,15.26139328,14.33904455
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2004,Percentage,14.6483934,15.13546491,14.19957085
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2005,Percentage,14.55013278,14.98279206,14.13144847
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2006,Percentage,14.46301355,14.91755504,14.00440617
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2007,Percentage,14.1795301,14.62207849,13.71323352
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2008,Percentage,13.71276599,14.15207109,13.27882776
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2009,Percentage,13.25191953,13.67082843,12.83077745
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2010,Percentage,13.04517079,13.43217119,12.64211289
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2011,Percentage,12.80455172,13.2104532,12.4143734
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2012,Percentage,12.78155808,13.16779156,12.36623645
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2013,Percentage,12.62565394,13.03296453,12.24504264
+34,Mortality risk,531,District of Columbia,11,2,Female,167,45 to 65,2014,Percentage,12.60613743,12.99347087,12.20018326
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1980,Percentage,26.89559705,27.3848076,26.43200282
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1981,Percentage,26.59376758,27.06847122,26.14407531
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1982,Percentage,25.66905297,26.16419551,25.18157805
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1983,Percentage,25.33100388,25.79701759,24.86561769
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1984,Percentage,25.1259245,25.59656918,24.664956
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1985,Percentage,25.26942313,25.72501996,24.8153585
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1986,Percentage,25.60007496,26.06747919,25.14297783
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1987,Percentage,25.7064018,26.16115773,25.23336999
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1988,Percentage,26.12906223,26.59641214,25.64485477
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1989,Percentage,26.08241653,26.60255411,25.61931849
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1990,Percentage,25.20413373,25.65775124,24.75555767
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1991,Percentage,24.74179599,25.23355392,24.28997219
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1992,Percentage,24.6980841,25.19016055,24.23922102
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1993,Percentage,24.72981874,25.18232895,24.27054317
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1994,Percentage,24.86572915,25.33158364,24.42112687
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1995,Percentage,24.22515878,24.68534718,23.77997574
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1996,Percentage,23.36599484,23.79538283,22.93607048
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1997,Percentage,21.7683522,22.18179284,21.35990192
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1998,Percentage,21.21755634,21.60478734,20.79718058
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,1999,Percentage,21.03900943,21.4402774,20.60311912
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2000,Percentage,20.73836107,21.16987433,20.34094031
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2001,Percentage,20.71090979,21.13188521,20.31580962
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2002,Percentage,20.43941648,20.83926632,20.04050212
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2003,Percentage,19.82185713,20.21939675,19.4070011
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2004,Percentage,19.42098161,19.8459117,18.99904451
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2005,Percentage,19.34544108,19.75311136,18.92076355
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2006,Percentage,19.06736494,19.50602975,18.65028481
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2007,Percentage,18.44464448,18.84205712,18.05546364
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2008,Percentage,18.15411578,18.58823883,17.77260619
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2009,Percentage,17.50820712,17.89347305,17.12009352
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2010,Percentage,16.62124973,16.98900542,16.25166878
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2011,Percentage,16.29671235,16.63221728,15.93479492
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2012,Percentage,16.20597818,16.57599577,15.8360475
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2013,Percentage,16.18805177,16.52063724,15.85243211
+34,Mortality risk,531,District of Columbia,11,3,Both,167,45 to 65,2014,Percentage,16.06554749,16.43657163,15.69846035
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1980,Percentage,35.02197725,35.80724137,34.22119262
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1981,Percentage,34.97568884,35.7530893,34.22068814
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1982,Percentage,33.64005407,34.45148368,32.84805599
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1983,Percentage,32.79062582,33.61671253,31.96849764
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1984,Percentage,32.88279254,33.65836866,32.07627879
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1985,Percentage,33.03262456,33.8174094,32.28884278
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1986,Percentage,33.46408055,34.25475676,32.65325905
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1987,Percentage,33.59657117,34.37079051,32.84818353
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1988,Percentage,34.23215821,35.01511203,33.43225628
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1989,Percentage,34.56619479,35.3779535,33.81502681
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1990,Percentage,33.14685715,33.91374786,32.3862378
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1991,Percentage,32.67968868,33.4738453,31.87303607
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1992,Percentage,32.68028723,33.45656777,31.93023376
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1993,Percentage,32.83393382,33.64227522,32.08415232
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1994,Percentage,32.90260593,33.64669225,32.16930464
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1995,Percentage,31.83995024,32.59887145,31.11748558
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1996,Percentage,30.54740587,31.26785266,29.77629188
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1997,Percentage,27.6610512,28.40312689,26.88729122
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1998,Percentage,26.70966518,27.41482785,26.02712135
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,1999,Percentage,26.80714254,27.51315366,26.04632556
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2000,Percentage,26.25340584,26.95323643,25.56075773
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2001,Percentage,26.41138446,27.07188724,25.72115638
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2002,Percentage,26.1543795,26.81840754,25.45862784
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2003,Percentage,25.28673044,25.93273269,24.59618496
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2004,Percentage,24.63853739,25.31263883,24.01793048
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2005,Percentage,24.55516509,25.25354601,23.82439906
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2006,Percentage,24.04679165,24.72832755,23.37051094
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2007,Percentage,23.05985781,23.75439866,22.3694554
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2008,Percentage,22.89138019,23.58652245,22.28242782
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2009,Percentage,22.03062356,22.68062796,21.36748877
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2010,Percentage,20.43021561,21.04651755,19.80671285
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2011,Percentage,19.99351211,20.54994911,19.36732955
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2012,Percentage,19.83668795,20.43040014,19.20122522
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2013,Percentage,19.91921924,20.5510108,19.31866812
+34,Mortality risk,891,District of Columbia,11001,1,Male,167,45 to 65,2014,Percentage,19.66683536,20.25646726,19.06483411
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1980,Percentage,19.65848164,20.17653531,19.12107369
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1981,Percentage,19.07019646,19.58394236,18.524699
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1982,Percentage,18.53886868,19.10683212,18.02424839
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1983,Percentage,18.68355769,19.20128604,18.14199867
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1984,Percentage,18.16262502,18.6777055,17.64014394
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1985,Percentage,18.27299756,18.82114838,17.77393135
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1986,Percentage,18.47484596,18.98017756,17.95945616
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1987,Percentage,18.52505944,19.03378411,18.01452084
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1988,Percentage,18.68947586,19.19764743,18.17575643
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1989,Percentage,18.20701906,18.737219,17.70569969
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1990,Percentage,17.85437706,18.34625155,17.34920887
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1991,Percentage,17.3662799,17.83872962,16.89217399
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1992,Percentage,17.24081719,17.77977367,16.73451795
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1993,Percentage,17.12235859,17.57784856,16.61306035
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1994,Percentage,17.30571435,17.79523777,16.82491674
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1995,Percentage,17.08886538,17.60795342,16.60991932
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1996,Percentage,16.67002718,17.16417809,16.16405089
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1997,Percentage,16.36249577,16.82534001,15.89795949
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1998,Percentage,16.19518159,16.6256368,15.73332244
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,1999,Percentage,15.74441492,16.20619864,15.26260868
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2000,Percentage,15.68408235,16.16238212,15.19588883
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2001,Percentage,15.46397998,15.94807542,14.97200326
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2002,Percentage,15.1578056,15.63159515,14.71722156
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2003,Percentage,14.806148,15.26139328,14.33904455
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2004,Percentage,14.6483934,15.13546491,14.19957085
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2005,Percentage,14.55013278,14.98279206,14.13144847
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2006,Percentage,14.46301355,14.91755504,14.00440617
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2007,Percentage,14.1795301,14.62207849,13.71323352
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2008,Percentage,13.71276599,14.15207109,13.27882776
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2009,Percentage,13.25191953,13.67082843,12.83077745
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2010,Percentage,13.04517079,13.43217119,12.64211289
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2011,Percentage,12.80455172,13.2104532,12.4143734
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2012,Percentage,12.78155808,13.16779156,12.36623645
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2013,Percentage,12.62565394,13.03296453,12.24504264
+34,Mortality risk,891,District of Columbia,11001,2,Female,167,45 to 65,2014,Percentage,12.60613743,12.99347087,12.20018326
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1980,Percentage,26.89559705,27.3848076,26.43200282
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1981,Percentage,26.59376758,27.06847122,26.14407531
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1982,Percentage,25.66905297,26.16419551,25.18157805
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1983,Percentage,25.33100388,25.79701759,24.86561769
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1984,Percentage,25.1259245,25.59656918,24.664956
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1985,Percentage,25.26942313,25.72501996,24.8153585
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1986,Percentage,25.60007496,26.06747919,25.14297783
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1987,Percentage,25.7064018,26.16115773,25.23336999
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1988,Percentage,26.12906223,26.59641214,25.64485477
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1989,Percentage,26.08241653,26.60255411,25.61931849
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1990,Percentage,25.20413373,25.65775124,24.75555767
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1991,Percentage,24.74179599,25.23355392,24.28997219
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1992,Percentage,24.6980841,25.19016055,24.23922102
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1993,Percentage,24.72981874,25.18232895,24.27054317
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1994,Percentage,24.86572915,25.33158364,24.42112687
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1995,Percentage,24.22515878,24.68534718,23.77997574
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1996,Percentage,23.36599484,23.79538283,22.93607048
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1997,Percentage,21.7683522,22.18179284,21.35990192
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1998,Percentage,21.21755634,21.60478734,20.79718058
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,1999,Percentage,21.03900943,21.4402774,20.60311912
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2000,Percentage,20.73836107,21.16987433,20.34094031
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2001,Percentage,20.71090979,21.13188521,20.31580962
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2002,Percentage,20.43941648,20.83926632,20.04050212
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2003,Percentage,19.82185713,20.21939675,19.4070011
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2004,Percentage,19.42098161,19.8459117,18.99904451
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2005,Percentage,19.34544108,19.75311136,18.92076355
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2006,Percentage,19.06736494,19.50602975,18.65028481
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2007,Percentage,18.44464448,18.84205712,18.05546364
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2008,Percentage,18.15411578,18.58823883,17.77260619
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2009,Percentage,17.50820712,17.89347305,17.12009352
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2010,Percentage,16.62124973,16.98900542,16.25166878
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2011,Percentage,16.29671235,16.63221728,15.93479492
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2012,Percentage,16.20597818,16.57599577,15.8360475
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2013,Percentage,16.18805177,16.52063724,15.85243211
+34,Mortality risk,891,District of Columbia,11001,3,Both,167,45 to 65,2014,Percentage,16.06554749,16.43657163,15.69846035
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1980,Percentage,77.69130109,78.69990722,76.76480681
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1981,Percentage,78.04506619,78.97719622,77.06428975
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1982,Percentage,76.90215892,77.92110856,75.9207572
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1983,Percentage,76.30739272,77.36083966,75.29132053
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1984,Percentage,76.7022452,77.72719202,75.67231363
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1985,Percentage,77.14487203,78.15575183,76.12398588
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1986,Percentage,77.89387545,78.84301147,76.81263734
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1987,Percentage,78.1549864,79.04729149,77.17365869
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1988,Percentage,78.94046553,79.87817044,78.01540188
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1989,Percentage,79.2770797,80.25446451,78.33711465
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1990,Percentage,77.59467609,78.54615038,76.58503484
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1991,Percentage,77.076919,78.14912372,76.09032176
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1992,Percentage,77.12267423,78.10777333,76.06601259
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1993,Percentage,77.4093107,78.41931253,76.46723469
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1994,Percentage,77.47140908,78.45161398,76.45557977
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1995,Percentage,76.15873412,77.19584979,75.18797123
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1996,Percentage,74.96860293,75.98065052,73.86166533
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1997,Percentage,71.35323069,72.50390281,70.20758516
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1998,Percentage,70.30474369,71.35525419,69.17258469
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,1999,Percentage,70.30867099,71.47519254,69.04866031
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2000,Percentage,69.05315878,70.16118478,67.90284884
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2001,Percentage,68.73421471,69.84559029,67.55540215
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2002,Percentage,67.68269863,68.87152396,66.53779177
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2003,Percentage,65.64403732,66.77748704,64.48104666
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2004,Percentage,64.02171234,65.2459886,62.90038385
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2005,Percentage,63.0656674,64.18239108,61.82424353
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2006,Percentage,61.62166496,62.7895363,60.39553301
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2007,Percentage,59.38651588,60.63540499,58.11351976
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2008,Percentage,58.69815836,59.93003591,57.51723871
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2009,Percentage,56.64319195,57.83882044,55.43471422
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2010,Percentage,53.42607115,54.65267116,52.2614931
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2011,Percentage,52.22640815,53.40642947,51.05104531
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2012,Percentage,51.59571287,52.80997452,50.29123274
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2013,Percentage,51.6147238,52.76669094,50.46813129
+34,Mortality risk,531,District of Columbia,11,1,Male,168,65 to 85,2014,Percentage,51.35695805,52.50692525,50.0934674
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1980,Percentage,59.04421333,60.11237907,57.88430495
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1981,Percentage,57.7054316,58.76095429,56.61034512
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1982,Percentage,56.82606521,57.923136,55.69401852
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1983,Percentage,57.10176159,58.20386654,56.00631144
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1984,Percentage,56.140568,57.18234052,55.0617908
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1985,Percentage,56.4002641,57.51505111,55.2550882
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1986,Percentage,56.91283719,57.94593268,55.83995796
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1987,Percentage,57.02345182,58.07286188,56.00253841
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1988,Percentage,57.40427957,58.52585725,56.24303386
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1989,Percentage,56.39822472,57.476092,55.36897755
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1990,Percentage,55.55682456,56.61880189,54.47032882
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1991,Percentage,54.48089949,55.56379233,53.43988024
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1992,Percentage,54.49992195,55.54918869,53.34575257
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1993,Percentage,54.33854018,55.30764596,53.22986014
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1994,Percentage,55.06456224,56.19050157,54.02923626
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1995,Percentage,54.66323363,55.74291176,53.5276116
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1996,Percentage,54.09133533,55.18404952,52.99000949
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1997,Percentage,53.70221219,54.81084012,52.56586596
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1998,Percentage,53.96121207,55.03849574,52.87689735
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,1999,Percentage,52.98390269,54.0258017,51.80704929
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2000,Percentage,52.86494734,53.98109216,51.78558412
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2001,Percentage,52.04933466,53.18272026,50.94670351
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2002,Percentage,51.1683079,52.26358895,50.05761224
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2003,Percentage,49.87884771,51.02642063,48.76409767
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2004,Percentage,49.37581764,50.58432025,48.23488689
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2005,Percentage,48.70827194,49.81171077,47.68119409
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2006,Percentage,48.18287478,49.28578659,47.10294882
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2007,Percentage,47.27167188,48.38183402,46.14528392
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2008,Percentage,45.79716857,46.91229942,44.64943107
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2009,Percentage,44.28685548,45.37772096,43.22706615
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2010,Percentage,43.61284617,44.61559197,42.57689333
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2011,Percentage,42.68826937,43.70085436,41.61049692
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2012,Percentage,42.45953194,43.45414309,41.34175843
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2013,Percentage,41.89488503,42.91599993,40.89465768
+34,Mortality risk,531,District of Columbia,11,2,Female,168,65 to 85,2014,Percentage,42.10397446,43.13254948,41.08756676
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1980,Percentage,66.84018992,67.60026337,66.07087391
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1981,Percentage,66.29302664,67.06500212,65.54983455
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1982,Percentage,65.23374575,66.01200425,64.42864195
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1983,Percentage,65.07536999,65.85494148,64.27135767
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1984,Percentage,64.79097447,65.52606845,64.02605079
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1985,Percentage,65.19640537,65.949913,64.40571944
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1986,Percentage,65.86222379,66.58321451,65.11513174
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1987,Percentage,66.0870773,66.85621616,65.35041178
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1988,Percentage,66.77435075,67.47901514,65.94943241
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1989,Percentage,66.36597362,67.16536125,65.63819094
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1990,Percentage,64.97070327,65.76569002,64.24730065
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1991,Percentage,64.19367159,64.98583884,63.42353347
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1992,Percentage,64.30923537,65.08055222,63.49461451
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1993,Percentage,64.39982202,65.12876823,63.66497666
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1994,Percentage,64.88678586,65.67631405,64.14920065
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1995,Percentage,64.00734446,64.81985735,63.25625461
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1996,Percentage,63.10207009,63.89424123,62.29651554
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1997,Percentage,61.08174233,61.83598627,60.25703798
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1998,Percentage,60.74407298,61.49204134,59.95134366
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,1999,Percentage,60.29039697,61.05728134,59.49566742
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2000,Percentage,59.68201312,60.47587274,58.95228233
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2001,Percentage,59.14013844,59.96105837,58.33991475
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2002,Percentage,58.18536705,58.933561,57.42148645
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2003,Percentage,56.54711095,57.35800739,55.70159402
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2004,Percentage,55.5381499,56.38918203,54.70898451
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2005,Percentage,54.76120046,55.58897296,53.949915
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2006,Percentage,53.88281553,54.72713647,53.08201353
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2007,Percentage,52.39498103,53.20176568,51.57356168
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2008,Percentage,51.33266659,52.16163845,50.54525327
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2009,Percentage,49.59630555,50.4487266,48.73411146
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2010,Percentage,47.77796765,48.57632523,47.00844158
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2011,Percentage,46.72609501,47.50798018,45.89008935
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2012,Percentage,46.34219536,47.16580702,45.52288708
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2013,Percentage,46.03346192,46.79493172,45.26369912
+34,Mortality risk,531,District of Columbia,11,3,Both,168,65 to 85,2014,Percentage,46.03541843,46.79089507,45.27012658
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1980,Percentage,77.69130109,78.69990722,76.76480681
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1981,Percentage,78.04506619,78.97719622,77.06428975
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1982,Percentage,76.90215892,77.92110856,75.9207572
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1983,Percentage,76.30739272,77.36083966,75.29132053
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1984,Percentage,76.7022452,77.72719202,75.67231363
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1985,Percentage,77.14487203,78.15575183,76.12398588
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1986,Percentage,77.89387545,78.84301147,76.81263734
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1987,Percentage,78.1549864,79.04729149,77.17365869
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1988,Percentage,78.94046553,79.87817044,78.01540188
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1989,Percentage,79.2770797,80.25446451,78.33711465
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1990,Percentage,77.59467609,78.54615038,76.58503484
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1991,Percentage,77.076919,78.14912372,76.09032176
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1992,Percentage,77.12267423,78.10777333,76.06601259
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1993,Percentage,77.4093107,78.41931253,76.46723469
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1994,Percentage,77.47140908,78.45161398,76.45557977
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1995,Percentage,76.15873412,77.19584979,75.18797123
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1996,Percentage,74.96860293,75.98065052,73.86166533
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1997,Percentage,71.35323069,72.50390281,70.20758516
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1998,Percentage,70.30474369,71.35525419,69.17258469
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,1999,Percentage,70.30867099,71.47519254,69.04866031
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2000,Percentage,69.05315878,70.16118478,67.90284884
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2001,Percentage,68.73421471,69.84559029,67.55540215
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2002,Percentage,67.68269863,68.87152396,66.53779177
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2003,Percentage,65.64403732,66.77748704,64.48104666
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2004,Percentage,64.02171234,65.2459886,62.90038385
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2005,Percentage,63.0656674,64.18239108,61.82424353
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2006,Percentage,61.62166496,62.7895363,60.39553301
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2007,Percentage,59.38651588,60.63540499,58.11351976
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2008,Percentage,58.69815836,59.93003591,57.51723871
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2009,Percentage,56.64319195,57.83882044,55.43471422
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2010,Percentage,53.42607115,54.65267116,52.2614931
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2011,Percentage,52.22640815,53.40642947,51.05104531
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2012,Percentage,51.59571287,52.80997452,50.29123274
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2013,Percentage,51.6147238,52.76669094,50.46813129
+34,Mortality risk,891,District of Columbia,11001,1,Male,168,65 to 85,2014,Percentage,51.35695805,52.50692525,50.0934674
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1980,Percentage,59.04421333,60.11237907,57.88430495
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1981,Percentage,57.7054316,58.76095429,56.61034512
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1982,Percentage,56.82606521,57.923136,55.69401852
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1983,Percentage,57.10176159,58.20386654,56.00631144
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1984,Percentage,56.140568,57.18234052,55.0617908
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1985,Percentage,56.4002641,57.51505111,55.2550882
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1986,Percentage,56.91283719,57.94593268,55.83995796
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1987,Percentage,57.02345182,58.07286188,56.00253841
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1988,Percentage,57.40427957,58.52585725,56.24303386
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1989,Percentage,56.39822472,57.476092,55.36897755
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1990,Percentage,55.55682456,56.61880189,54.47032882
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1991,Percentage,54.48089949,55.56379233,53.43988024
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1992,Percentage,54.49992195,55.54918869,53.34575257
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1993,Percentage,54.33854018,55.30764596,53.22986014
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1994,Percentage,55.06456224,56.19050157,54.02923626
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1995,Percentage,54.66323363,55.74291176,53.5276116
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1996,Percentage,54.09133533,55.18404952,52.99000949
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1997,Percentage,53.70221219,54.81084012,52.56586596
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1998,Percentage,53.96121207,55.03849574,52.87689735
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,1999,Percentage,52.98390269,54.0258017,51.80704929
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2000,Percentage,52.86494734,53.98109216,51.78558412
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2001,Percentage,52.04933466,53.18272026,50.94670351
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2002,Percentage,51.1683079,52.26358895,50.05761224
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2003,Percentage,49.87884771,51.02642063,48.76409767
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2004,Percentage,49.37581764,50.58432025,48.23488689
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2005,Percentage,48.70827194,49.81171077,47.68119409
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2006,Percentage,48.18287478,49.28578659,47.10294882
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2007,Percentage,47.27167188,48.38183402,46.14528392
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2008,Percentage,45.79716857,46.91229942,44.64943107
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2009,Percentage,44.28685548,45.37772096,43.22706615
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2010,Percentage,43.61284617,44.61559197,42.57689333
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2011,Percentage,42.68826937,43.70085436,41.61049692
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2012,Percentage,42.45953194,43.45414309,41.34175843
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2013,Percentage,41.89488503,42.91599993,40.89465768
+34,Mortality risk,891,District of Columbia,11001,2,Female,168,65 to 85,2014,Percentage,42.10397446,43.13254948,41.08756676
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1980,Percentage,66.84018992,67.60026337,66.07087391
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1981,Percentage,66.29302664,67.06500212,65.54983455
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1982,Percentage,65.23374575,66.01200425,64.42864195
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1983,Percentage,65.07536999,65.85494148,64.27135767
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1984,Percentage,64.79097447,65.52606845,64.02605079
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1985,Percentage,65.19640537,65.949913,64.40571944
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1986,Percentage,65.86222379,66.58321451,65.11513174
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1987,Percentage,66.0870773,66.85621616,65.35041178
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1988,Percentage,66.77435075,67.47901514,65.94943241
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1989,Percentage,66.36597362,67.16536125,65.63819094
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1990,Percentage,64.97070327,65.76569002,64.24730065
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1991,Percentage,64.19367159,64.98583884,63.42353347
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1992,Percentage,64.30923537,65.08055222,63.49461451
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1993,Percentage,64.39982202,65.12876823,63.66497666
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1994,Percentage,64.88678586,65.67631405,64.14920065
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1995,Percentage,64.00734446,64.81985735,63.25625461
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1996,Percentage,63.10207009,63.89424123,62.29651554
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1997,Percentage,61.08174233,61.83598627,60.25703798
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1998,Percentage,60.74407298,61.49204134,59.95134366
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,1999,Percentage,60.29039697,61.05728134,59.49566742
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2000,Percentage,59.68201312,60.47587274,58.95228233
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2001,Percentage,59.14013844,59.96105837,58.33991475
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2002,Percentage,58.18536705,58.933561,57.42148645
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2003,Percentage,56.54711095,57.35800739,55.70159402
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2004,Percentage,55.5381499,56.38918203,54.70898451
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2005,Percentage,54.76120046,55.58897296,53.949915
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2006,Percentage,53.88281553,54.72713647,53.08201353
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2007,Percentage,52.39498103,53.20176568,51.57356168
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2008,Percentage,51.33266659,52.16163845,50.54525327
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2009,Percentage,49.59630555,50.4487266,48.73411146
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2010,Percentage,47.77796765,48.57632523,47.00844158
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2011,Percentage,46.72609501,47.50798018,45.89008935
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2012,Percentage,46.34219536,47.16580702,45.52288708
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2013,Percentage,46.03346192,46.79493172,45.26369912
+34,Mortality risk,891,District of Columbia,11001,3,Both,168,65 to 85,2014,Percentage,46.03541843,46.79089507,45.27012658

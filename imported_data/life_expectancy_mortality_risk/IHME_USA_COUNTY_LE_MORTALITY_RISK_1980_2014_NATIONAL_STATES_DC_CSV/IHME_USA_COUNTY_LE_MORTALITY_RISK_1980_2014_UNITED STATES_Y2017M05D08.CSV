@@ -1,0 +1,631 @@
+measure_id,measure_name,location_id,location_name,FIPS,sex_id,sex,age_id,age_name,year_id,metric,val,upper,lower
+26,Life expectancy,102,United States,,1,Male,161,0,1980,Years,69.99130016,70.02874067,69.95447705
+26,Life expectancy,102,United States,,1,Male,161,0,1981,Years,70.35133476,70.38253729,70.31877498
+26,Life expectancy,102,United States,,1,Male,161,0,1982,Years,70.77247082,70.80335366,70.74019258
+26,Life expectancy,102,United States,,1,Male,161,0,1983,Years,71.01694383,71.04584189,70.98585592
+26,Life expectancy,102,United States,,1,Male,161,0,1984,Years,71.16067735,71.19067758,71.13162399
+26,Life expectancy,102,United States,,1,Male,161,0,1985,Years,71.17188369,71.2025511,71.14125317
+26,Life expectancy,102,United States,,1,Male,161,0,1986,Years,71.24013877,71.26741847,71.21200694
+26,Life expectancy,102,United States,,1,Male,161,0,1987,Years,71.37309525,71.40002171,71.34417248
+26,Life expectancy,102,United States,,1,Male,161,0,1988,Years,71.44210155,71.47200769,71.41211197
+26,Life expectancy,102,United States,,1,Male,161,0,1989,Years,71.61447223,71.64459061,71.5847223
+26,Life expectancy,102,United States,,1,Male,161,0,1990,Years,71.8886286,71.91713611,71.8582441
+26,Life expectancy,102,United States,,1,Male,161,0,1991,Years,72.08295146,72.11080097,72.05397815
+26,Life expectancy,102,United States,,1,Male,161,0,1992,Years,72.32989982,72.35599386,72.30268171
+26,Life expectancy,102,United States,,1,Male,161,0,1993,Years,72.29447103,72.32255752,72.26811468
+26,Life expectancy,102,United States,,1,Male,161,0,1994,Years,72.42809788,72.45566177,72.40155499
+26,Life expectancy,102,United States,,1,Male,161,0,1995,Years,72.59936921,72.62519566,72.57441094
+26,Life expectancy,102,United States,,1,Male,161,0,1996,Years,73.16597902,73.19218641,73.1401304
+26,Life expectancy,102,United States,,1,Male,161,0,1997,Years,73.74821776,73.77274378,73.72388621
+26,Life expectancy,102,United States,,1,Male,161,0,1998,Years,74.01555035,74.04004228,73.99070276
+26,Life expectancy,102,United States,,1,Male,161,0,1999,Years,74.10831467,74.13111788,74.08519122
+26,Life expectancy,102,United States,,1,Male,161,0,2000,Years,74.23839392,74.2609596,74.21416569
+26,Life expectancy,102,United States,,1,Male,161,0,2001,Years,74.28205872,74.33628034,74.19092611
+26,Life expectancy,102,United States,,1,Male,161,0,2002,Years,74.44902692,74.47249701,74.42464298
+26,Life expectancy,102,United States,,1,Male,161,0,2003,Years,74.65250949,74.67792308,74.62880825
+26,Life expectancy,102,United States,,1,Male,161,0,2004,Years,75.01933428,75.04398851,74.99244516
+26,Life expectancy,102,United States,,1,Male,161,0,2005,Years,75.06310672,75.10741498,75.00029213
+26,Life expectancy,102,United States,,1,Male,161,0,2006,Years,75.27198346,75.29688586,75.24557918
+26,Life expectancy,102,United States,,1,Male,161,0,2007,Years,75.57272557,75.60090465,75.54439887
+26,Life expectancy,102,United States,,1,Male,161,0,2008,Years,75.80771269,75.83297314,75.78175318
+26,Life expectancy,102,United States,,1,Male,161,0,2009,Years,76.10007586,76.12143349,76.07832366
+26,Life expectancy,102,United States,,1,Male,161,0,2010,Years,76.40042918,76.42272687,76.3785729
+26,Life expectancy,102,United States,,1,Male,161,0,2011,Years,76.48261063,76.5040911,76.45958678
+26,Life expectancy,102,United States,,1,Male,161,0,2012,Years,76.62363542,76.64529167,76.60108069
+26,Life expectancy,102,United States,,1,Male,161,0,2013,Years,76.70054699,76.72710201,76.67344191
+26,Life expectancy,102,United States,,1,Male,161,0,2014,Years,76.70703354,76.75842321,76.65810485
+26,Life expectancy,102,United States,,2,Female,161,0,1980,Years,77.54205488,77.58051876,77.50126076
+26,Life expectancy,102,United States,,2,Female,161,0,1981,Years,77.79352508,77.82827459,77.75710439
+26,Life expectancy,102,United States,,2,Female,161,0,1982,Years,78.07068277,78.10492071,78.03696535
+26,Life expectancy,102,United States,,2,Female,161,0,1983,Years,78.12135365,78.15563031,78.090374
+26,Life expectancy,102,United States,,2,Female,161,0,1984,Years,78.21091166,78.24287532,78.17764674
+26,Life expectancy,102,United States,,2,Female,161,0,1985,Years,78.24703559,78.27767507,78.21340503
+26,Life expectancy,102,United States,,2,Female,161,0,1986,Years,78.34835659,78.37969962,78.31679274
+26,Life expectancy,102,United States,,2,Female,161,0,1987,Years,78.40281294,78.43511732,78.37331295
+26,Life expectancy,102,United States,,2,Female,161,0,1988,Years,78.42119681,78.45131612,78.39155811
+26,Life expectancy,102,United States,,2,Female,161,0,1989,Years,78.63676581,78.66737354,78.60613327
+26,Life expectancy,102,United States,,2,Female,161,0,1990,Years,78.87363895,78.90165057,78.8446741
+26,Life expectancy,102,United States,,2,Female,161,0,1991,Years,78.97476916,79.00257694,78.94747909
+26,Life expectancy,102,United States,,2,Female,161,0,1992,Years,79.1770439,79.20566084,79.14930982
+26,Life expectancy,102,United States,,2,Female,161,0,1993,Years,79.07626951,79.10311606,79.04870291
+26,Life expectancy,102,United States,,2,Female,161,0,1994,Years,79.11883382,79.14405292,79.09289028
+26,Life expectancy,102,United States,,2,Female,161,0,1995,Years,79.12284294,79.14948791,79.09553657
+26,Life expectancy,102,United States,,2,Female,161,0,1996,Years,79.3081764,79.33271523,79.28278058
+26,Life expectancy,102,United States,,2,Female,161,0,1997,Years,79.47637334,79.50297714,79.45126496
+26,Life expectancy,102,United States,,2,Female,161,0,1998,Years,79.6054164,79.63116138,79.5802782
+26,Life expectancy,102,United States,,2,Female,161,0,1999,Years,79.54295996,79.56882573,79.51847916
+26,Life expectancy,102,United States,,2,Female,161,0,2000,Years,79.58293106,79.60827963,79.55849899
+26,Life expectancy,102,United States,,2,Female,161,0,2001,Years,79.55847245,79.59146601,79.52264787
+26,Life expectancy,102,United States,,2,Female,161,0,2002,Years,79.67909754,79.70532805,79.6556452
+26,Life expectancy,102,United States,,2,Female,161,0,2003,Years,79.82154532,79.84586223,79.79772325
+26,Life expectancy,102,United States,,2,Female,161,0,2004,Years,80.12648646,80.15246887,80.10192284
+26,Life expectancy,102,United States,,2,Female,161,0,2005,Years,80.21255679,80.24935763,80.16950383
+26,Life expectancy,102,United States,,2,Female,161,0,2006,Years,80.38920902,80.41523495,80.3629891
+26,Life expectancy,102,United States,,2,Female,161,0,2007,Years,80.64904262,80.67798967,80.62201602
+26,Life expectancy,102,United States,,2,Female,161,0,2008,Years,80.8136925,80.84074494,80.78712576
+26,Life expectancy,102,United States,,2,Female,161,0,2009,Years,80.95804685,80.98281315,80.93428404
+26,Life expectancy,102,United States,,2,Female,161,0,2010,Years,81.22846085,81.25070009,81.20638447
+26,Life expectancy,102,United States,,2,Female,161,0,2011,Years,81.24912101,81.27236194,81.22644167
+26,Life expectancy,102,United States,,2,Female,161,0,2012,Years,81.36643035,81.38926086,81.34347352
+26,Life expectancy,102,United States,,2,Female,161,0,2013,Years,81.41308445,81.44054833,81.38461255
+26,Life expectancy,102,United States,,2,Female,161,0,2014,Years,81.45441662,81.5028203,81.40350547
+26,Life expectancy,102,United States,,3,Both,161,0,1980,Years,73.75191403,73.77401152,73.72964811
+26,Life expectancy,102,United States,,3,Both,161,0,1981,Years,74.06845991,74.08703414,74.04951331
+26,Life expectancy,102,United States,,3,Both,161,0,1982,Years,74.42889199,74.44591767,74.41148785
+26,Life expectancy,102,United States,,3,Both,161,0,1983,Years,74.58478597,74.6005077,74.5694126
+26,Life expectancy,102,United States,,3,Both,161,0,1984,Years,74.70292182,74.71903584,74.68590491
+26,Life expectancy,102,United States,,3,Both,161,0,1985,Years,74.72294079,74.73967223,74.70511325
+26,Life expectancy,102,United States,,3,Both,161,0,1986,Years,74.80562594,74.82134402,74.79002119
+26,Life expectancy,102,United States,,3,Both,161,0,1987,Years,74.90225014,74.91826599,74.88703542
+26,Life expectancy,102,United States,,3,Both,161,0,1988,Years,74.9455676,74.96199425,74.92883049
+26,Life expectancy,102,United States,,3,Both,161,0,1989,Years,75.13771432,75.15455285,75.12133753
+26,Life expectancy,102,United States,,3,Both,161,0,1990,Years,75.39483501,75.41052514,75.37809118
+26,Life expectancy,102,United States,,3,Both,161,0,1991,Years,75.5424301,75.55777348,75.52660518
+26,Life expectancy,102,United States,,3,Both,161,0,1992,Years,75.76381121,75.77887944,75.74809897
+26,Life expectancy,102,United States,,3,Both,161,0,1993,Years,75.68944853,75.70534202,75.67278928
+26,Life expectancy,102,United States,,3,Both,161,0,1994,Years,75.77516055,75.79144953,75.75800583
+26,Life expectancy,102,United States,,3,Both,161,0,1995,Years,75.86281138,75.87890456,75.84625422
+26,Life expectancy,102,United States,,3,Both,161,0,1996,Years,76.25203595,76.26793786,76.23564267
+26,Life expectancy,102,United States,,3,Both,161,0,1997,Years,76.64038666,76.65594814,76.6251053
+26,Life expectancy,102,United States,,3,Both,161,0,1998,Years,76.83867356,76.85389072,76.823399
+26,Life expectancy,102,United States,,3,Both,161,0,1999,Years,76.85264408,76.8674759,76.83715454
+26,Life expectancy,102,United States,,3,Both,161,0,2000,Years,76.93528124,76.94973164,76.92039842
+26,Life expectancy,102,United States,,3,Both,161,0,2001,Years,76.94126347,76.97593264,76.8865474
+26,Life expectancy,102,United States,,3,Both,161,0,2002,Years,77.08216829,77.09658347,77.06772621
+26,Life expectancy,102,United States,,3,Both,161,0,2003,Years,77.25418998,77.26924332,77.23902263
+26,Life expectancy,102,United States,,3,Both,161,0,2004,Years,77.59017105,77.6069808,77.57311104
+26,Life expectancy,102,United States,,3,Both,161,0,2005,Years,77.64928796,77.68030741,77.60746264
+26,Life expectancy,102,United States,,3,Both,161,0,2006,Years,77.84010636,77.85670912,77.82284777
+26,Life expectancy,102,United States,,3,Both,161,0,2007,Years,78.11921436,78.13551599,78.10188821
+26,Life expectancy,102,United States,,3,Both,161,0,2008,Years,78.31801337,78.33431045,78.30216771
+26,Life expectancy,102,United States,,3,Both,161,0,2009,Years,78.53785302,78.55267802,78.52455036
+26,Life expectancy,102,United States,,3,Both,161,0,2010,Years,78.82142404,78.83576999,78.80744953
+26,Life expectancy,102,United States,,3,Both,161,0,2011,Years,78.87144744,78.8862833,78.85615473
+26,Life expectancy,102,United States,,3,Both,161,0,2012,Years,78.99857397,79.01332784,78.98306179
+26,Life expectancy,102,United States,,3,Both,161,0,2013,Years,79.05801835,79.07692344,79.0389891
+26,Life expectancy,102,United States,,3,Both,161,0,2014,Years,79.07666572,79.11282594,79.0399351
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1980,Percentage,1.730265044,1.764896641,1.696468544
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1981,Percentage,1.646105178,1.680409884,1.614022095
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1982,Percentage,1.567744552,1.601612078,1.536348715
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1983,Percentage,1.487439687,1.518823465,1.456553791
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1984,Percentage,1.423783608,1.453041243,1.397271347
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1985,Percentage,1.396478054,1.426244876,1.368220796
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1986,Percentage,1.353291126,1.381489694,1.325507836
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1987,Percentage,1.326349984,1.356087449,1.300483989
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1988,Percentage,1.31635364,1.343999494,1.289212569
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1989,Percentage,1.308436566,1.33521138,1.282147142
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1990,Percentage,1.259238292,1.286535003,1.232769121
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1991,Percentage,1.207152677,1.232873915,1.182522707
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1992,Percentage,1.141631953,1.166492702,1.117850206
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1993,Percentage,1.101680686,1.125073524,1.07865602
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1994,Percentage,1.045928477,1.070039773,1.023506284
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1995,Percentage,0.987106513,1.008045588,0.966747936
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1996,Percentage,0.946004862,0.965591194,0.923559531
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1997,Percentage,0.919184772,0.939665222,0.899413413
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1998,Percentage,0.915736826,0.93541335,0.896114389
+34,Mortality risk,102,United States,,1,Male,1,Under 5,1999,Percentage,0.907494033,0.927259199,0.889291704
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2000,Percentage,0.897882529,0.917753789,0.878722973
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2001,Percentage,0.89121779,0.912384165,0.871503215
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2002,Percentage,0.883903258,0.90470514,0.865049078
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2003,Percentage,0.878552719,0.897526812,0.859918559
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2004,Percentage,0.870281491,0.888964992,0.851531237
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2005,Percentage,0.873221787,0.894697947,0.853434731
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2006,Percentage,0.869624104,0.888059917,0.851147528
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2007,Percentage,0.871596241,0.890861038,0.853086931
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2008,Percentage,0.844931497,0.863198222,0.827257713
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2009,Percentage,0.794995879,0.813413131,0.777884928
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2010,Percentage,0.752128622,0.768646632,0.736042541
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2011,Percentage,0.730951883,0.747081605,0.714428902
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2012,Percentage,0.719164454,0.735216019,0.703331907
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2013,Percentage,0.702966022,0.721201331,0.686875861
+34,Mortality risk,102,United States,,1,Male,1,Under 5,2014,Percentage,0.676984999,0.697191228,0.657783738
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1980,Percentage,1.369941063,1.405041901,1.333244055
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1981,Percentage,1.304339819,1.337665575,1.270111436
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1982,Percentage,1.242722003,1.273967962,1.208620569
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1983,Percentage,1.179096901,1.208718932,1.14651116
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1984,Percentage,1.128661042,1.158132701,1.097346178
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1985,Percentage,1.107138359,1.136271443,1.077625121
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1986,Percentage,1.073462986,1.100739097,1.043427054
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1987,Percentage,1.052110363,1.078884892,1.02290876
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1988,Percentage,1.044146116,1.070765498,1.015345098
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1989,Percentage,1.038016794,1.063493743,1.009757737
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1990,Percentage,1.001271425,1.027170223,0.974109246
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1991,Percentage,0.959829862,0.984850769,0.933773865
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1992,Percentage,0.912345248,0.934787186,0.88696024
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1993,Percentage,0.880423564,0.904087501,0.856376602
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1994,Percentage,0.84231025,0.863751523,0.820735178
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1995,Percentage,0.795971586,0.816896874,0.774567019
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1996,Percentage,0.763341441,0.782901029,0.742367447
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1997,Percentage,0.750375436,0.768969314,0.729423717
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1998,Percentage,0.747582374,0.76640367,0.727395175
+34,Mortality risk,102,United States,,2,Female,1,Under 5,1999,Percentage,0.740850405,0.759232748,0.721249853
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2000,Percentage,0.732967094,0.752194821,0.7137827
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2001,Percentage,0.728504643,0.750233751,0.708406521
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2002,Percentage,0.721016531,0.740453771,0.700722695
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2003,Percentage,0.717232853,0.735805312,0.697561126
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2004,Percentage,0.710573097,0.72848534,0.691125373
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2005,Percentage,0.71335378,0.735041783,0.693269459
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2006,Percentage,0.709991718,0.728529542,0.691198249
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2007,Percentage,0.71163162,0.730330751,0.691933975
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2008,Percentage,0.689708557,0.70743913,0.670951982
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2009,Percentage,0.657321494,0.674239866,0.63921553
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2010,Percentage,0.621900052,0.637382138,0.605397693
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2011,Percentage,0.604448392,0.619553219,0.587757506
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2012,Percentage,0.594628945,0.609822848,0.578313765
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2013,Percentage,0.588102473,0.602893792,0.572548385
+34,Mortality risk,102,United States,,2,Female,1,Under 5,2014,Percentage,0.567751873,0.587598717,0.547776187
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1980,Percentage,1.554583709,1.565454841,1.543374191
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1981,Percentage,1.479471496,1.490945988,1.469042223
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1982,Percentage,1.4092743,1.419486094,1.399004777
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1983,Percentage,1.337101736,1.3464932,1.327389043
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1984,Percentage,1.279891392,1.289345036,1.270601074
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1985,Percentage,1.255336735,1.265140614,1.246296526
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1986,Percentage,1.216789385,1.226113717,1.207622261
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1987,Percentage,1.192574432,1.201578059,1.183164803
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1988,Percentage,1.183569468,1.193023069,1.174453077
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1989,Percentage,1.176524426,1.185535149,1.168015407
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1990,Percentage,1.133339299,1.141867901,1.12489803
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1991,Percentage,1.086448479,1.094470175,1.078592804
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1992,Percentage,1.029730084,1.038018631,1.021879003
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1993,Percentage,0.993697709,1.001538178,0.986511986
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1994,Percentage,0.946553925,0.95396863,0.938708435
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1995,Percentage,0.893778843,0.90078278,0.886582346
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1996,Percentage,0.856813503,0.863552612,0.849464593
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1997,Percentage,0.836758309,0.843400041,0.829840647
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1998,Percentage,0.833630092,0.840583494,0.826728501
+34,Mortality risk,102,United States,,3,Both,1,Under 5,1999,Percentage,0.826125051,0.833284947,0.819379665
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2000,Percentage,0.817357384,0.824430821,0.810580419
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2001,Percentage,0.811766252,0.821523154,0.803636842
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2002,Percentage,0.804368678,0.811717858,0.797276937
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2003,Percentage,0.79978327,0.806875748,0.793290458
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2004,Percentage,0.792298966,0.798776592,0.785842213
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2005,Percentage,0.795162255,0.80516049,0.787539872
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2006,Percentage,0.791678524,0.798216288,0.78512645
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2007,Percentage,0.793488413,0.800393935,0.786699959
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2008,Percentage,0.769138848,0.775418124,0.762592172
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2009,Percentage,0.727772077,0.734029229,0.721669677
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2010,Percentage,0.688540514,0.69469407,0.682449759
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2011,Percentage,0.66918265,0.675064979,0.663303097
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2012,Percentage,0.658356169,0.664558187,0.652461018
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2013,Percentage,0.646880238,0.653979896,0.639856018
+34,Mortality risk,102,United States,,3,Both,1,Under 5,2014,Percentage,0.623648431,0.637869939,0.609315049
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1980,Percentage,2.032098593,2.040161918,2.025349239
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1981,Percentage,1.927734231,1.935214153,1.921901554
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1982,Percentage,1.817133598,1.824362796,1.811740041
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1983,Percentage,1.732398337,1.739258997,1.726999205
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1984,Percentage,1.703653538,1.710987554,1.69795174
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1985,Percentage,1.706036464,1.712917263,1.700784691
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1986,Percentage,1.734015115,1.740295676,1.729130425
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1987,Percentage,1.724364934,1.730654985,1.719383479
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1988,Percentage,1.730792007,1.736416082,1.726033353
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1989,Percentage,1.72407517,1.732199055,1.718341266
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1990,Percentage,1.719704475,1.726608986,1.714443205
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1991,Percentage,1.70850268,1.714299055,1.704095714
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1992,Percentage,1.666887996,1.672921335,1.662174757
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1993,Percentage,1.675694963,1.681746559,1.670889865
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1994,Percentage,1.659356629,1.667042226,1.653717718
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1995,Percentage,1.617409893,1.622963265,1.612727969
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1996,Percentage,1.521823225,1.527990431,1.516737538
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1997,Percentage,1.429011799,1.435429904,1.424336583
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1998,Percentage,1.380245788,1.387150164,1.375412839
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,1999,Percentage,1.354604378,1.361682527,1.349490331
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2000,Percentage,1.346579849,1.35337473,1.341931636
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2001,Percentage,1.382669883,1.471889898,1.35379635
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2002,Percentage,1.349207974,1.352343149,1.34640781
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2003,Percentage,1.346578602,1.354411447,1.341504912
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2004,Percentage,1.327171296,1.338285339,1.320317969
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2005,Percentage,1.353798568,1.407175364,1.334390104
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2006,Percentage,1.335053132,1.345890624,1.328230371
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2007,Percentage,1.295183805,1.30666519,1.287834597
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2008,Percentage,1.232366036,1.238847628,1.22798551
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2009,Percentage,1.169286415,1.175465681,1.165280103
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2010,Percentage,1.124216331,1.131652909,1.119570717
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2011,Percentage,1.112674095,1.121438727,1.107614749
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2012,Percentage,1.082960783,1.087518089,1.079556432
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2013,Percentage,1.059875987,1.06334524,1.056700288
+34,Mortality risk,102,United States,,1,Male,165,5 to 25,2014,Percentage,1.062409947,1.067607595,1.057039526
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1980,Percentage,0.80779803,0.811539249,0.804407207
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1981,Percentage,0.774670122,0.777574508,0.771850203
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1982,Percentage,0.740026353,0.743361923,0.737376599
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1983,Percentage,0.720851677,0.723997649,0.718411856
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1984,Percentage,0.71052888,0.713993268,0.707985106
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1985,Percentage,0.705563667,0.708704138,0.702986694
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1986,Percentage,0.701945256,0.704556934,0.699627288
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1987,Percentage,0.698905633,0.701665089,0.696505407
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1988,Percentage,0.702540455,0.705139975,0.700183098
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1989,Percentage,0.696180237,0.699283967,0.693477201
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1990,Percentage,0.679413175,0.682226616,0.67694987
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1991,Percentage,0.669356259,0.671803248,0.667088268
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1992,Percentage,0.648125184,0.650585235,0.645836557
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1993,Percentage,0.651520727,0.653891697,0.649392684
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1994,Percentage,0.643272988,0.646157794,0.640838461
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1995,Percentage,0.635738143,0.638100438,0.633571497
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1996,Percentage,0.616082824,0.618633237,0.614086871
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1997,Percentage,0.601094375,0.60375204,0.599103133
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1998,Percentage,0.582329974,0.585113388,0.58016828
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,1999,Percentage,0.581922721,0.584765178,0.579640795
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2000,Percentage,0.575522333,0.577745505,0.573543094
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2001,Percentage,0.581769293,0.598958824,0.574517586
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2002,Percentage,0.57375187,0.575435036,0.572141252
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2003,Percentage,0.573215127,0.575811708,0.571151175
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2004,Percentage,0.562260269,0.565536308,0.55995262
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2005,Percentage,0.564247161,0.589976485,0.55492156
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2006,Percentage,0.546661693,0.549735079,0.544185744
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2007,Percentage,0.531229518,0.53457528,0.528920257
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2008,Percentage,0.509359117,0.511902339,0.507496904
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2009,Percentage,0.496632484,0.49867845,0.494920528
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2010,Percentage,0.475207188,0.477437369,0.473425309
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2011,Percentage,0.470600626,0.474250945,0.468259635
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2012,Percentage,0.462111502,0.464054474,0.460582045
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2013,Percentage,0.459078354,0.460764918,0.457488975
+34,Mortality risk,102,United States,,2,Female,165,5 to 25,2014,Percentage,0.455585918,0.458192289,0.453074555
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1980,Percentage,1.427210681,1.432513115,1.423216811
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1981,Percentage,1.358379098,1.362804199,1.355049467
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1982,Percentage,1.285682104,1.290172272,1.282540714
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1983,Percentage,1.233819977,1.237878865,1.230706758
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1984,Percentage,1.214754324,1.219305567,1.2115993
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1985,Percentage,1.214209602,1.218603716,1.211161544
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1986,Percentage,1.227457155,1.231237775,1.224600424
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1987,Percentage,1.221738704,1.225516238,1.218773716
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1988,Percentage,1.227494827,1.230988607,1.224794039
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1989,Percentage,1.221829775,1.226870195,1.218530299
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1990,Percentage,1.211489499,1.215877551,1.208448825
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1991,Percentage,1.201043195,1.204558702,1.198433106
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1992,Percentage,1.170005949,1.173848091,1.167235062
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1993,Percentage,1.176134166,1.179857569,1.173346102
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1994,Percentage,1.163726391,1.1682223,1.160454525
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1995,Percentage,1.138692686,1.142075229,1.13603522
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1996,Percentage,1.08030562,1.084193251,1.077431186
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1997,Percentage,1.02547201,1.029297277,1.022797139
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1998,Percentage,0.991378828,0.995828515,0.988508359
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,1999,Percentage,0.978169345,0.982755788,0.975191064
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2000,Percentage,0.971108016,0.975200138,0.968430151
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2001,Percentage,0.992760444,1.039089146,0.975810319
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2002,Percentage,0.971552695,0.973366743,0.969894287
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2003,Percentage,0.969882034,0.974588986,0.966906018
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2004,Percentage,0.954855076,0.961660327,0.95093293
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2005,Percentage,0.969981418,1.000203838,0.956559127
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2006,Percentage,0.952028228,0.958385315,0.948294214
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2007,Percentage,0.923812775,0.930910771,0.919465012
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2008,Percentage,0.880415216,0.88446756,0.877829655
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2009,Percentage,0.841363859,0.845025164,0.838955343
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2010,Percentage,0.807552929,0.811799049,0.804868825
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2011,Percentage,0.799103427,0.804689506,0.795945352
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2012,Percentage,0.779465997,0.782462047,0.777467864
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2013,Percentage,0.765904042,0.767989521,0.76405594
+34,Mortality risk,102,United States,,3,Both,165,5 to 25,2014,Percentage,0.765240035,0.76830749,0.762203957
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1980,Percentage,4.857174351,4.872516754,4.842829696
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1981,Percentage,4.735834607,4.749404213,4.724421427
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1982,Percentage,4.552710924,4.565326693,4.541439975
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1983,Percentage,4.467767824,4.479960128,4.457165102
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1984,Percentage,4.488759421,4.500671121,4.477918731
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1985,Percentage,4.59511172,4.6075894,4.583706147
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1986,Percentage,4.733385679,4.745864899,4.722492278
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1987,Percentage,4.809044737,4.821434276,4.797760268
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1988,Percentage,4.912747666,4.92505991,4.90053294
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1989,Percentage,4.993393844,5.00929893,4.98017352
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1990,Percentage,4.995536399,5.010026701,4.98294286
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1991,Percentage,5.023169081,5.035724168,5.012281595
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1992,Percentage,5.023724338,5.036616987,5.011893667
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1993,Percentage,5.116876483,5.129851373,5.105006792
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1994,Percentage,5.118087655,5.132464101,5.105188285
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1995,Percentage,5.018879822,5.03105599,5.008172449
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1996,Percentage,4.590816756,4.602747635,4.579569541
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1997,Percentage,4.168730323,4.180197476,4.15792849
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1998,Percentage,3.974227987,3.986444802,3.964102028
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,1999,Percentage,3.91374551,3.9258927,3.903580285
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2000,Percentage,3.891497822,3.90268544,3.882264383
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2001,Percentage,3.972237414,4.083613478,3.926478428
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2002,Percentage,3.921488172,3.929161792,3.913517446
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2003,Percentage,3.896118004,3.908113618,3.885536354
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2004,Percentage,3.813551366,3.830338336,3.80132237
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2005,Percentage,3.8626174,3.920343633,3.836306568
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2006,Percentage,3.840459762,3.857372765,3.827830092
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2007,Percentage,3.755001156,3.771789622,3.741948186
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2008,Percentage,3.671038234,3.681843087,3.661702669
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2009,Percentage,3.601083667,3.611112828,3.592007028
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2010,Percentage,3.501103075,3.512279868,3.492226211
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2011,Percentage,3.50068321,3.513480821,3.490593372
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2012,Percentage,3.481275971,3.489549288,3.472946682
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2013,Percentage,3.474773174,3.484112599,3.46535594
+34,Mortality risk,102,United States,,1,Male,166,25 to 45,2014,Percentage,3.465500396,3.483362053,3.446819282
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1980,Percentage,2.355752279,2.364491597,2.346959031
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1981,Percentage,2.277358509,2.285016519,2.269639249
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1982,Percentage,2.187355969,2.194631949,2.180725304
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1983,Percentage,2.156879155,2.163622506,2.150485271
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1984,Percentage,2.137697823,2.144361776,2.131454799
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1985,Percentage,2.128134084,2.135251442,2.121697793
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1986,Percentage,2.129823256,2.136548129,2.123494175
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1987,Percentage,2.141069131,2.14772272,2.134476822
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1988,Percentage,2.156103297,2.162594365,2.149320396
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1989,Percentage,2.136105566,2.143003179,2.129834778
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1990,Percentage,2.110197806,2.11664373,2.104179602
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1991,Percentage,2.123611506,2.130032432,2.116803316
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1992,Percentage,2.109288992,2.116062214,2.103328006
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1993,Percentage,2.155816415,2.162374143,2.149904263
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1994,Percentage,2.177188333,2.183662095,2.170293863
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1995,Percentage,2.194330291,2.201436961,2.187579396
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1996,Percentage,2.133592461,2.14003385,2.127595827
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1997,Percentage,2.068395046,2.074724134,2.062311315
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1998,Percentage,2.028229843,2.034555623,2.02224267
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,1999,Percentage,2.037291517,2.043415903,2.031316838
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2000,Percentage,2.045203937,2.050662883,2.03938243
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2001,Percentage,2.095819467,2.117127928,2.084232869
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2002,Percentage,2.086867923,2.092545962,2.08119824
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2003,Percentage,2.078492299,2.084470434,2.072510458
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2004,Percentage,2.033834586,2.040623039,2.027758647
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2005,Percentage,2.044853074,2.072336116,2.032243408
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2006,Percentage,2.031047661,2.037838064,2.024977561
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2007,Percentage,1.987659886,1.994264064,1.981605228
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2008,Percentage,1.963027231,1.968802092,1.957143654
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2009,Percentage,1.966016212,1.972045506,1.960451456
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2010,Percentage,1.913588499,1.91923059,1.90815902
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2011,Percentage,1.927266487,1.933932174,1.921137912
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2012,Percentage,1.912626239,1.918229466,1.907035915
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2013,Percentage,1.912377647,1.919382519,1.905484687
+34,Mortality risk,102,United States,,2,Female,166,25 to 45,2014,Percentage,1.895154988,1.907941534,1.882916658
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1980,Percentage,3.596702115,3.606473892,3.587520395
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1981,Percentage,3.497787983,3.505645123,3.490948744
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1982,Percentage,3.362233712,3.369580866,3.355265042
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1983,Percentage,3.305475042,3.312557618,3.299246369
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1984,Percentage,3.307306262,3.314750972,3.301106111
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1985,Percentage,3.356760612,3.364637493,3.349765193
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1986,Percentage,3.428265564,3.435616804,3.421842461
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1987,Percentage,3.472859868,3.480167763,3.466508552
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1988,Percentage,3.533318556,3.540561361,3.525859057
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1989,Percentage,3.564930178,3.573702207,3.55751256
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1990,Percentage,3.553820843,3.562382935,3.546674081
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1991,Percentage,3.575866821,3.583438824,3.569206709
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1992,Percentage,3.570683128,3.578497428,3.563718859
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1993,Percentage,3.641495173,3.648905472,3.634360243
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1994,Percentage,3.653365843,3.66187836,3.646073878
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1995,Percentage,3.612285583,3.619854169,3.605773074
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1996,Percentage,3.366308557,3.373623339,3.359516375
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1997,Percentage,3.121570998,3.128332941,3.115040922
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1998,Percentage,3.004241995,3.012070819,2.998262041
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,1999,Percentage,2.978978956,2.986846671,2.972714371
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2000,Percentage,2.972446095,2.979433485,2.966556013
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2001,Percentage,3.038789385,3.097907766,3.012855202
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2002,Percentage,3.008406525,3.013367243,3.003762992
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2003,Percentage,2.991017102,2.998766323,2.9847601
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2004,Percentage,2.927045127,2.936860243,2.919892522
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2005,Percentage,2.95702331,2.991344168,2.939680106
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2006,Percentage,2.938886012,2.9487647,2.931503491
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2007,Percentage,2.874404471,2.884874267,2.867036112
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2008,Percentage,2.820171862,2.827010209,2.81435435
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2009,Percentage,2.786731265,2.792390949,2.78133973
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2010,Percentage,2.710830789,2.7171326,2.705475483
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2011,Percentage,2.717314441,2.725454703,2.711104602
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2012,Percentage,2.700130176,2.705769563,2.695177942
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2013,Percentage,2.69655755,2.7028157,2.690540168
+34,Mortality risk,102,United States,,3,Both,166,25 to 45,2014,Percentage,2.683114891,2.69479031,2.671904264
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1980,Percentage,23.08562101,23.13873357,23.03542524
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1981,Percentage,22.55459856,22.59482474,22.51533175
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1982,Percentage,21.92928362,21.96571206,21.89234181
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1983,Percentage,21.58628756,21.6250999,21.55075427
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1984,Percentage,21.34725495,21.38041339,21.31333641
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1985,Percentage,21.21737872,21.25270052,21.1810302
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1986,Percentage,20.94890532,20.98326049,20.91413822
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1987,Percentage,20.63726376,20.67155706,20.6027299
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1988,Percentage,20.39952094,20.43669544,20.36456027
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1989,Percentage,20.03971731,20.07649906,20.0052226
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1990,Percentage,19.55608022,19.59302522,19.51963713
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1991,Percentage,19.22365754,19.2564614,19.1919764
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1992,Percentage,18.84585071,18.87952472,18.81348632
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1993,Percentage,18.85004462,18.88491093,18.81674308
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1994,Percentage,18.69292969,18.72654074,18.66055551
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1995,Percentage,18.530391,18.56287415,18.4993319
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1996,Percentage,17.82909696,17.86397443,17.7965434
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1997,Percentage,17.05049903,17.08301658,17.01770812
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1998,Percentage,16.68528159,16.71409562,16.65561639
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,1999,Percentage,16.58366446,16.61141334,16.55718995
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2000,Percentage,16.44430692,16.47124108,16.41640651
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2001,Percentage,16.38514099,16.44750664,16.34201952
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2002,Percentage,16.28629308,16.31372916,16.25742628
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2003,Percentage,16.12008486,16.14851469,16.09112247
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2004,Percentage,15.73401808,15.75930182,15.7057378
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2005,Percentage,15.75700276,15.83112002,15.71600209
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2006,Percentage,15.59180487,15.61971745,15.56466663
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2007,Percentage,15.31290293,15.33929797,15.28407792
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2008,Percentage,15.16680791,15.19361599,15.13745688
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2009,Percentage,14.99688573,15.02259991,14.96962663
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2010,Percentage,14.72834614,14.75383463,14.7016881
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2011,Percentage,14.74096551,14.76692914,14.71332783
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2012,Percentage,14.66233518,14.68954379,14.63281154
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2013,Percentage,14.64257091,14.67857243,14.6050844
+34,Mortality risk,102,United States,,1,Male,167,45 to 65,2014,Percentage,14.60246412,14.67260059,14.52874165
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1980,Percentage,12.69556185,12.73297335,12.6571696
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1981,Percentage,12.52501886,12.55772719,12.49096526
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1982,Percentage,12.29939697,12.32990436,12.26964796
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1983,Percentage,12.30470215,12.3331321,12.27570382
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1984,Percentage,12.22403195,12.25364799,12.19591032
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1985,Percentage,12.1747453,12.20423682,12.1464621
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1986,Percentage,12.0538486,12.08253088,12.02522649
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1987,Percentage,11.9841802,12.013425,11.95537943
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1988,Percentage,11.93819539,11.96642656,11.90912106
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1989,Percentage,11.69146672,11.71978003,11.66504018
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1990,Percentage,11.48053356,11.50674123,11.45353877
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1991,Percentage,11.39519267,11.42152951,11.36757961
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1992,Percentage,11.17732028,11.20405887,11.15310756
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1993,Percentage,11.22714647,11.25319405,11.20373811
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1994,Percentage,11.15427968,11.18036519,11.12936895
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1995,Percentage,11.14103575,11.16858165,11.11499646
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1996,Percentage,10.92395262,10.94959499,10.90049045
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1997,Percentage,10.69890796,10.72418696,10.67386001
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1998,Percentage,10.46515937,10.48981284,10.44178581
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,1999,Percentage,10.46170761,10.48517195,10.43846051
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2000,Percentage,10.39629101,10.41919816,10.37243074
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2001,Percentage,10.41215285,10.44626393,10.38274937
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2002,Percentage,10.29557867,10.3187949,10.2733286
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2003,Percentage,10.1940395,10.21643184,10.17104112
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2004,Percentage,9.936937782,9.959242561,9.913826114
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2005,Percentage,9.875455947,9.916190089,9.844472612
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2006,Percentage,9.764225643,9.78703807,9.742709825
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2007,Percentage,9.550368709,9.573524879,9.528455044
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2008,Percentage,9.450264721,9.471833552,9.427161388
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2009,Percentage,9.420311367,9.442119848,9.398997538
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2010,Percentage,9.215587609,9.23625645,9.194704861
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2011,Percentage,9.248317008,9.271461202,9.225032563
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2012,Percentage,9.184824455,9.206679066,9.162833313
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2013,Percentage,9.177372697,9.204296132,9.149388146
+34,Mortality risk,102,United States,,2,Female,167,45 to 65,2014,Percentage,9.133405803,9.185065524,9.082939448
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1980,Percentage,17.75010051,17.78377573,17.71624808
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1981,Percentage,17.40172591,17.42664139,17.37627013
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1982,Percentage,16.97865148,17.00208612,16.95260385
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1983,Percentage,16.81213507,16.83593446,16.78880261
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1984,Percentage,16.6552078,16.67670066,16.63349138
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1985,Percentage,16.56794308,16.59193101,16.54453983
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1986,Percentage,16.37482344,16.39808048,16.35217845
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1987,Percentage,16.18745677,16.20946778,16.1653737
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1988,Percentage,16.05104067,16.07330118,16.02721719
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1989,Percentage,15.75425763,15.77760076,15.73134414
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1990,Percentage,15.4143932,15.4358808,15.39272511
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1991,Percentage,15.213985,15.235059,15.19191214
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1992,Percentage,14.9237344,14.94602178,14.90384015
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1993,Percentage,14.95720941,14.97802519,14.93581145
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1994,Percentage,14.84677512,14.86902359,14.82486321
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1995,Percentage,14.76306793,14.78456509,14.74346691
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1996,Percentage,14.30742484,14.32873521,14.28684799
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1997,Percentage,13.81006098,13.83072587,13.78833821
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1998,Percentage,13.51493186,13.53509086,13.49620719
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,1999,Percentage,13.46594132,13.4850261,13.447676
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2000,Percentage,13.36675618,13.38533674,13.34725576
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2001,Percentage,13.34813781,13.38474483,13.3191288
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2002,Percentage,13.24265491,13.26154602,13.2245547
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2003,Percentage,13.11070493,13.13016434,13.09162778
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2004,Percentage,12.79039397,12.8077373,12.77146804
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2005,Percentage,12.77276055,12.81572146,12.74525811
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2006,Percentage,12.63599029,12.65354255,12.61813612
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2007,Percentage,12.39048814,12.40865559,12.37327704
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2008,Percentage,12.26792089,12.2852061,12.24919599
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2009,Percentage,12.16820844,12.1847078,12.15066395
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2010,Percentage,11.93177503,11.94849423,11.91537068
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2011,Percentage,11.95477983,11.97229133,11.93785319
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2012,Percentage,11.88385491,11.90208938,11.86629895
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2013,Percentage,11.87053746,11.89427439,11.84754717
+34,Mortality risk,102,United States,,3,Both,167,45 to 65,2014,Percentage,11.82926712,11.87424932,11.78418713
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1980,Percentage,74.76598022,74.81912275,74.71124181
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1981,Percentage,74.24056757,74.284371,74.19611552
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1982,Percentage,73.64283423,73.68939456,73.59813601
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1983,Percentage,73.49832763,73.54119728,73.45892212
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1984,Percentage,73.28664938,73.32757764,73.24556846
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1985,Percentage,73.28472672,73.32489809,73.24435535
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1986,Percentage,72.97358271,73.01553673,72.93352528
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1987,Percentage,72.51025315,72.55114549,72.46890065
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1988,Percentage,72.1642255,72.20909289,72.12055853
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1989,Percentage,71.40238361,71.45130347,71.35720083
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1990,Percentage,70.54889569,70.59916927,70.50105608
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1991,Percentage,69.96606328,70.01036771,69.92429347
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1992,Percentage,69.30773861,69.35097147,69.26250534
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1993,Percentage,69.44942347,69.49403154,69.40206324
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1994,Percentage,69.11064463,69.15689716,69.06315991
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1995,Percentage,68.91043188,68.95084637,68.86745451
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1996,Percentage,67.90242605,67.95049459,67.85805614
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1997,Percentage,66.78432506,66.8279687,66.73680699
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1998,Percentage,66.26154884,66.30456727,66.21698063
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,1999,Percentage,66.01943818,66.06142119,65.97574922
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2000,Percentage,65.41648456,65.46525885,65.36984258
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2001,Percentage,64.79136451,64.8517324,64.73029318
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2002,Percentage,64.0540581,64.11894653,63.98840964
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2003,Percentage,63.0107465,63.07422784,62.93959182
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2004,Percentage,61.47926643,61.54966902,61.41014378
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2005,Percentage,60.81129792,60.88842639,60.73916339
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2006,Percentage,59.84565963,59.90930986,59.78181835
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2007,Percentage,58.73121617,58.79574731,58.67087798
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2008,Percentage,58.06824084,58.12726982,58.00098155
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2009,Percentage,57.22928432,57.27355992,57.18534752
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2010,Percentage,56.50246151,56.55012224,56.45797374
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2011,Percentage,56.22658933,56.27043588,56.18667424
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2012,Percentage,55.74347853,55.79196237,55.6930229
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2013,Percentage,55.53056647,55.58995726,55.46610429
+34,Mortality risk,102,United States,,1,Male,168,65 to 85,2014,Percentage,55.65073552,55.79270759,55.50849869
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1980,Percentage,54.83485438,54.9130087,54.76040958
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1981,Percentage,54.23403717,54.30405433,54.16264231
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1982,Percentage,53.63925487,53.70791581,53.56916974
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1983,Percentage,53.71912974,53.78679888,53.65279718
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1984,Percentage,53.58123867,53.64886079,53.51337623
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1985,Percentage,53.51368546,53.58105169,53.44930781
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1986,Percentage,53.22326248,53.28687096,53.15816257
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1987,Percentage,53.0456089,53.11218894,52.97621773
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1988,Percentage,52.99593007,53.05833921,52.93329329
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1989,Percentage,52.27303196,52.33888302,52.21117566
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1990,Percentage,51.55471583,51.61547593,51.49072188
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1991,Percentage,51.30163997,51.36407877,51.23428311
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1992,Percentage,50.80744667,50.87225744,50.74305119
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1993,Percentage,51.24851326,51.31444399,51.18483381
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1994,Percentage,51.24826174,51.31025947,51.18562141
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1995,Percentage,51.40316236,51.4741119,51.33891163
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1996,Percentage,51.02170045,51.08296504,50.95712647
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1997,Percentage,50.62473469,50.68924156,50.55908037
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1998,Percentage,50.35228101,50.41439228,50.29422711
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,1999,Percentage,50.61122804,50.67220978,50.55080646
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2000,Percentage,50.44848159,50.51145534,50.38646046
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2001,Percentage,50.35739206,50.42562206,50.28604492
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2002,Percentage,49.86766526,49.93057541,49.79909528
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2003,Percentage,49.18478083,49.24859117,49.12074331
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2004,Percentage,48.01690139,48.09195257,47.9448262
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2005,Percentage,47.50285814,47.58462913,47.42652134
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2006,Percentage,46.81758137,46.88686075,46.74979409
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2007,Percentage,45.9012785,45.9728266,45.83098637
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2008,Percentage,45.42665922,45.49389136,45.35338314
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2009,Percentage,44.99412786,45.0513266,44.93531245
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2010,Percentage,44.27158057,44.32793605,44.20932767
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2011,Percentage,44.22649398,44.28476628,44.16977763
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2012,Percentage,43.85893354,43.92492295,43.79948463
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2013,Percentage,43.70079803,43.78125677,43.62278488
+34,Mortality risk,102,United States,,2,Female,168,65 to 85,2014,Percentage,43.65129092,43.82253998,43.4834952
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1980,Percentage,63.89382763,63.94405308,63.84262666
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1981,Percentage,63.28505594,63.3273483,63.24433106
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1982,Percentage,62.6513348,62.69297004,62.60856417
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1983,Percentage,62.60498086,62.64493482,62.5649644
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1984,Percentage,62.41653571,62.45648834,62.37541588
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1985,Percentage,62.38008847,62.42107443,62.34074039
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1986,Percentage,62.07144884,62.11224464,62.03559066
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1987,Percentage,61.74364783,61.78099751,61.70223989
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1988,Percentage,61.54674351,61.58577698,61.50612716
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1989,Percentage,60.79409722,60.83421187,60.75252265
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1990,Percentage,60.00126705,60.04029599,59.9566679
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1991,Percentage,59.59374496,59.63559721,59.55230483
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1992,Percentage,59.03184291,59.07281032,58.99259405
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1993,Percentage,59.36225117,59.40472997,59.32103184
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1994,Percentage,59.22307525,59.26618757,59.18014388
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1995,Percentage,59.23690859,59.27993055,59.19448208
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1996,Percentage,58.55953007,58.60004173,58.51719034
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1997,Percentage,57.82375785,57.8638865,57.78264323
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1998,Percentage,57.45504819,57.49342422,57.4184441
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,1999,Percentage,57.49992974,57.53713944,57.46186776
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2000,Percentage,57.14881737,57.18883733,57.10760547
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2001,Percentage,56.82890177,56.87042075,56.78082074
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2002,Percentage,56.2452805,56.29296846,56.20077828
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2003,Percentage,55.408784,55.45746644,55.36290079
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2004,Percentage,54.08212176,54.13272399,54.02458097
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2005,Percentage,53.52140882,53.58028541,53.46671961
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2006,Percentage,52.72442225,52.77307742,52.6750288
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2007,Percentage,51.73673666,51.78396539,51.69107066
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2008,Percentage,51.19823854,51.24525493,51.14993256
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2009,Percentage,50.59250557,50.62795575,50.55571745
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2010,Percentage,49.89130328,49.92826205,49.85418209
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2011,Percentage,49.75742019,49.79349852,49.7196489
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2012,Percentage,49.35644267,49.39483893,49.3180697
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2013,Percentage,49.19459588,49.24853863,49.14502807
+34,Mortality risk,102,United States,,3,Both,168,65 to 85,2014,Percentage,49.25144363,49.36254154,49.13509975

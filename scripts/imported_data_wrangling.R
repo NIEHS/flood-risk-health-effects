@@ -2,11 +2,15 @@
 library(here)
 library(readxl)
 library(stringr)
+library(tidyverse)
 
 i_am("scripts/imported_data_wrangling.R")
 
 # reading in the county flood risk data
 flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
+
+# Uppercase the fips
+flood_risk <- rename(flood_risk, FIPS = fips)
 
 # reading in the Life Expectancy/Mortality Risk data
 # omitting the last two rows, which don't have data
@@ -30,12 +34,17 @@ saveRDS(life_expect_mort_no_ui, file = here("imported_data", "life_expectancy_mo
 # reading in the CDC SVI data
 cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2014_US_CNTY.csv"))
 
-
-
-# merge all three datasets together by their fips
+cdc_svi <- subset(cdc_svi, select = -FID)
 
 
 
+# merge all three datasets together by their FIPS
+
+flood_le <- merge(flood_risk, life_expect_mort_no_ui, all.x = T, by = "FIPS")
+
+flood_le_svi <- merge(flood_le, cdc_svi, all.x = T, by = "FIPS")
+
+saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds"))
 
 
 

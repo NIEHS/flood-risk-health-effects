@@ -1,0 +1,78 @@
+---
+title: "Imported Data Exploration"
+author: "Alvin Sheng"
+date: "6/8/2021"
+output: pdf_document
+---
+
+```{r}
+library(here)
+```
+
+```{r}
+i_am("reports/imported_data_exploration.Rmd")
+```
+
+
+
+# Exploration of Flood Risk Dataset
+
+```{r}
+flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
+
+# Uppercase the fips
+flood_risk <- rename(flood_risk, FIPS = fips)
+```
+
+```{r}
+summary(flood_risk)
+```
+
+There are some missing values in the flood risk.
+
+```{r}
+which(is.na(flood_risk), arr.ind = TRUE)
+```
+
+
+
+# Exploration of Life Expectancy/Mortality Risk data
+
+```{r}
+life_expect_mort_no_ui <- readRDS(file = here("imported_data", "life_expectancy_mortality_risk", 
+                            "life_expect_mort_no_ui.rds"))
+```
+
+```{r}
+summary(life_expect_mort_no_ui)
+```
+
+
+
+# Exploration of CDC SVI data
+
+```{r}
+# reading in the CDC SVI data
+cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2014_US_CNTY.csv"))
+
+# remove empty variable FID
+cdc_svi <- subset(cdc_svi, select = -FID)
+```
+
+```{r}
+summary(cdc_svi)
+```
+
+
+
+# Joint exploration of data
+
+The flood risk data doesn't have all the counties.
+
+Exploring the merged dataset
+
+```{r}
+flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
+```
+
+

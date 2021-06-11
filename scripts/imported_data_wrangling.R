@@ -67,12 +67,57 @@ saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds"))
 
 
 
-# working with the countyadj.csv, downloaded from 
-# https://github.com/abhirupdatta/UScounties
-
-countyadj <- read.csv(here("imported_data", "countyadj.csv"), header = T, row.names = 1)
 
 
+# making the county adjacency matrix from the County Adjacency File provided by the 
+# Census Bureau 
+# (https://www.census.gov/programs-surveys/geography/library/reference/county-adjacency-file.html)
+
+county_adjacency <- read.delim(here("imported_data", "county_adjacency.txt"), 
+                               header = F)
+
+county_fips <- county_adjacency$V2[!is.na(county_adjacency$V2)]
+
+countyadj <- matrix(0, nrow = length(county_fips), ncol = length(county_fips))
+
+row.names(countyadj) <- county_fips
+colnames(countyadj) <- county_fips
+
+start_idx <- 1
+
+for (k in 1:length(county_fips)) {
+  
+  end_idx <- start_idx
+  
+  while (county_adjacency$V1[end_idx + 1] == "") {
+    
+    end_idx <- end_idx + 1
+    
+    if (end_idx == nrow(county_adjacency)) {
+      break
+    }
+    
+  }
+  
+  nbr_counties <- county_adjacency[start_idx:end_idx, ]
+  
+  nbr_idx <- which(county_fips %in% nbr_counties$V4)
+  
+  nbr_idx <- nbr_idx[nbr_idx != k]
+  
+  countyadj[k, nbr_idx] <- 1
+  
+  start_idx <- end_idx + 1
+  
+  if (start_idx == nrow(county_adjacency) + 1) {
+    break
+  }
+  
+}
+
+
+
+saveRDS(countyadj, file = here("imported_data", "countyadj.rds"))
 
 
 

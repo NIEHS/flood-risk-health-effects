@@ -53,10 +53,8 @@ summary(life_expect_mort_no_ui)
 
 ```{r}
 # reading in the CDC SVI data
-cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2014_US_CNTY.csv"))
+cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US_COUNTY.csv"))
 
-# remove empty variable FID
-cdc_svi <- subset(cdc_svi, select = -FID)
 ```
 
 ```{r}

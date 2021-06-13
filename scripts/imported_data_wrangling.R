@@ -38,16 +38,20 @@ saveRDS(life_expect_mort_no_ui, file = here("imported_data", "life_expectancy_mo
 
 
 # reading in the CDC SVI data
-cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2014_US_CNTY.csv"))
+cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US_COUNTY.csv"))
 
-# remove empty variable FID
-cdc_svi <- subset(cdc_svi, select = -FID)
 
-# Because the CDC SVI data was created in 2014, the data for Shannon County, South Dakota
-# is now data for Oglala Lakota County, South Dakota.
-# Thus, the FIPS for the county needs to be changed from 46113 to 46102.
 
-cdc_svi$FIPS[cdc_svi$FIPS == 46113] <- 46102
+# FOR THE 2014 VERSION
+
+# # remove empty variable FID
+# cdc_svi <- subset(cdc_svi, select = -FID)
+# 
+# # Because the CDC SVI data was created in 2014, the data for Shannon County, South Dakota
+# # is now data for Oglala Lakota County, South Dakota.
+# # Thus, the FIPS for the county needs to be changed from 46113 to 46102.
+# 
+# cdc_svi$FIPS[cdc_svi$FIPS == 46113] <- 46102
 
 
 
@@ -61,13 +65,15 @@ flood_le_svi <- merge(flood_le, cdc_svi, all.x = T, by = "FIPS")
 
 saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds"))
 
+
+
 # remove redundant columns, move id columns to the left
 
 flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
 
 
 
-
+####################
 
 # making the county adjacency matrix from the County Adjacency File provided by the 
 # Census Bureau 
@@ -124,23 +130,6 @@ colnames(countyadj)[colnames(countyadj) == 46113] <- 46102
 # saving the full, unprocessed adjacency matrix for all counties
 
 saveRDS(countyadj, file = here("imported_data", "countyadj.rds"))
-
-
-
-# diagnosis:
-
-aberrant_rows <- c()
-
-for (i in 1:nrow(countyadj)) {
-  
-  if (!identical(countyadj[i, ], countyadj[, i])) {
-    
-    aberrant_rows <- c(aberrant_rows, i)
-    
-  }
-  
-}
-
 
 
 

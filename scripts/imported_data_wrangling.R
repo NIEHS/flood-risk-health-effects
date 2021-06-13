@@ -19,8 +19,8 @@ flood_risk <- rename(flood_risk, FIPS = fips)
 # reading in the Life Expectancy/Mortality Risk data
 # omitting the last two rows, which don't have data
 life_expect_mort <- read_excel(here("imported_data", "life_expectancy_mortality_risk", 
-                            "IHME_USA_COUNTY_LE_MORTALITY_RISK_1980_2014_NATIONAL_Y2017M05D08.XLSX"), 
-                            sheet = "Life expectancy", skip = 1, n_max = 3194)
+                                    "IHME_USA_COUNTY_LE_MORTALITY_RISK_1980_2014_NATIONAL_Y2017M05D08.XLSX"), 
+                               sheet = "Life expectancy", skip = 1, n_max = 3194)
 
 # remove the confidence interval in the data columns
 
@@ -33,7 +33,7 @@ for (j in 3:11) {
 }
 
 saveRDS(life_expect_mort_no_ui, file = here("imported_data", "life_expectancy_mortality_risk", 
-                                         "life_expect_mort_no_ui.rds"))
+                                            "life_expect_mort_no_ui.rds"))
 
 
 
@@ -59,11 +59,11 @@ flood_le_svi <- merge(flood_le, cdc_svi, all.x = T, by = "FIPS")
 
 
 
+saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds"))
+
 # remove redundant columns, move id columns to the left
 
-
-
-saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds"))
+flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
 
 
 
@@ -87,9 +87,11 @@ start_idx <- 1
 
 for (k in 1:length(county_fips)) {
   
+  start_idx <- which(county_adjacency$V2 == county_fips[k])
+  
   end_idx <- start_idx
   
-  while (county_adjacency$V1[end_idx + 1] == "") {
+  while (is.na(county_adjacency$V2[end_idx + 1])) {
     
     end_idx <- end_idx + 1
     
@@ -107,18 +109,47 @@ for (k in 1:length(county_fips)) {
   
   countyadj[k, nbr_idx] <- 1
   
-  start_idx <- end_idx + 1
+  # start_idx <- end_idx + 1
+  # 
+  # if (start_idx == nrow(county_adjacency) + 1) {
+  #   break
+  # }
   
-  if (start_idx == nrow(county_adjacency) + 1) {
-    break
+}
+
+# changing the Oglala county FIPS in the row name/column name from 46113 to 46102
+row.names(countyadj)[row.names(countyadj) == 46113] <- 46102
+colnames(countyadj)[colnames(countyadj) == 46113] <- 46102
+
+# saving the full, unprocessed adjacency matrix for all counties
+
+saveRDS(countyadj, file = here("imported_data", "countyadj.rds"))
+
+
+
+# diagnosis:
+
+aberrant_rows <- c()
+
+for (i in 1:nrow(countyadj)) {
+  
+  if (!identical(countyadj[i, ], countyadj[, i])) {
+    
+    aberrant_rows <- c(aberrant_rows, i)
+    
   }
   
 }
 
 
 
-saveRDS(countyadj, file = here("imported_data", "countyadj.rds"))
 
+
+
+
+# to-do: omit and reorder the fips to match the flood risk fips
+
+countyadj <- readRDS(here("imported_data", "countyadj.rds"))
 
 
 

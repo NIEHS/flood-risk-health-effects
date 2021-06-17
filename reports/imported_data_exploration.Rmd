@@ -7,6 +7,9 @@ output: pdf_document
 
 ```{r}
 library(here)
+library(usmap)
+library(ggplot2)
+library(tidyverse)
 ```
 
 ```{r}
@@ -19,9 +22,6 @@ i_am("reports/imported_data_exploration.Rmd")
 
 ```{r}
 flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
-
-# Uppercase the fips
-flood_risk <- rename(flood_risk, FIPS = fips)
 ```
 
 ```{r}
@@ -40,7 +40,7 @@ which(is.na(flood_risk), arr.ind = TRUE)
 
 ```{r}
 life_expect_mort_no_ui <- readRDS(file = here("imported_data", "life_expectancy_mortality_risk", 
-                            "life_expect_mort_no_ui.rds"))
+                                              "life_expect_mort_no_ui.rds"))
 ```
 
 ```{r}
@@ -71,6 +71,280 @@ Exploring the merged dataset
 
 ```{r}
 flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
+```
+
+
+
+# Maps
+
+```{r}
+plot_usmap(regions = "counties") + 
+  labs(title = "US Counties",
+       subtitle = "This is a blank map of the counties of the United States.") + 
+  theme(panel.background = element_rect(color = "black", fill = "lightblue"))
+```
+
+## Outcome Variables
+
+```{r}
+flood_le_svi <- flood_le_svi[!is.na(flood_le_svi$COUNTY), ]
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "Life expectancy, 2014*", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(name = "Life expectancy (2014)", label = scales::comma) + 
+  theme(legend.position = "right")
+# labs(title = "US Counties",
+#      subtitle = "This is a blank map of the counties of the United States.") + 
+# theme(panel.background = element_rect(color = "black", fill = "lightblue"))
+```
+
+## Flood Risk Variables
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "avg_risk_score_all", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(name = "Average Risk Score", label = scales::comma,
+                        limits = c(0, 10), 
+                        breaks = seq(0, 10, 1)) + 
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "avg_risk_fsf_2020_100", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(name = "Average Risk Score, 2020 100-yr", label = scales::comma, 
+                        limits = c(0, 10), 
+                        breaks = seq(0, 10, 1)) +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "avg_risk_fsf_2020_500", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(name = "Average Risk Score, 2020 500-yr", label = scales::comma, 
+                        limits = c(0, 10), 
+                        breaks = seq(0, 10, 1)) + 
+  theme(legend.position = "right")
+```
+
+
+
+### Percent of First Street Properties at 3 levels of severity and 2 time points
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "pct_fs_risk_2020_5", color = NA, 
+           exclude = c("AK", "HI")) + 
+  theme(legend.position = "right") + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100), 
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percent 2020, 5-yr")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "pct_fs_risk_2050_5", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100), 
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percent 2050, 5-yr") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "pct_fs_risk_2020_100", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100), 
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percent 2020, 100-yr") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "pct_fs_risk_2050_100", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100), 
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percent 2050, 100-yr") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "pct_fs_risk_2020_500", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100), 
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percent 2020, 500-yr") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "pct_fs_risk_2050_500", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100), 
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percent 2050, 500-yr") +
+  theme(legend.position = "right")
+```
+
+### Count of Properties with a given Flood Factor
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "count_floodfactor1", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        # limits = c(0, 100), 
+                        # breaks = seq(0, 100, 10),
+                        # guide_colourbar(nbin = 100),
+                        name = "Flood Factor 1 Count") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "count_floodfactor5", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        # limits = c(0, 100), 
+                        # breaks = seq(0, 100, 10),
+                        # guide_colourbar(nbin = 100),
+                        name = "Flood Factor 5 Count") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "count_floodfactor10", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        # limits = c(0, 100), 
+                        # breaks = seq(0, 100, 10),
+                        # guide_colourbar(nbin = 100),
+                        name = "Flood Factor 10 Count") +
+  theme(legend.position = "right")
+```
+
+
+
+## CDC SVI
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "EP_POV", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100),
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "% Poverty") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "EPL_POV", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 1),
+                        breaks = seq(0, 1, .10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percentile Poverty") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "EP_DISABL", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100),
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "% Disability") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "EPL_DISABL", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 1),
+                        breaks = seq(0, 1, .10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percentile Disability") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "EP_MINRTY", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100),
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "% Minority") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "EPL_MINRTY", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 1),
+                        breaks = seq(0, 1, .10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percentile Minority") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "EP_NOVEH", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 100),
+                        breaks = seq(0, 100, 10),
+                        guide_colourbar(nbin = 100),
+                        name = "% No Vehicles") +
+  theme(legend.position = "right")
+```
+
+```{r}
+plot_usmap(regions = "counties", data = flood_le_svi,
+           values = "EPL_NOVEH", color = NA, 
+           exclude = c("AK", "HI")) + 
+  scale_fill_continuous(type = "viridis",
+                        limits = c(0, 1),
+                        breaks = seq(0, 1, .10),
+                        guide_colourbar(nbin = 100),
+                        name = "Percentile No Vehicles") +
+  theme(legend.position = "right")
 ```
 
 

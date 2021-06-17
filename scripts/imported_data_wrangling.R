@@ -11,9 +11,6 @@ i_am("scripts/imported_data_wrangling.R")
 # reading in the county flood risk data
 flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
 
-# Uppercase the fips
-flood_risk <- rename(flood_risk, FIPS = fips)
-
 
 
 # reading in the Life Expectancy/Mortality Risk data
@@ -21,6 +18,9 @@ flood_risk <- rename(flood_risk, FIPS = fips)
 life_expect_mort <- read_excel(here("imported_data", "life_expectancy_mortality_risk", 
                                     "IHME_USA_COUNTY_LE_MORTALITY_RISK_1980_2014_NATIONAL_Y2017M05D08.XLSX"), 
                                sheet = "Life expectancy", skip = 1, n_max = 3194)
+
+# Lowercase the FIPS
+life_expect_mort <- rename(life_expect_mort, fips = FIPS)
 
 # remove the confidence interval in the data columns
 
@@ -40,6 +40,9 @@ saveRDS(life_expect_mort_no_ui, file = here("imported_data", "life_expectancy_mo
 # reading in the CDC SVI data
 cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US_COUNTY.csv"))
 
+# Lowercase the FIPS
+cdc_svi <- rename(cdc_svi, fips = FIPS)
+
 
 
 # FOR THE 2014 VERSION
@@ -55,11 +58,31 @@ cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US_COUNTY.csv"))
 
 
 
-# merge all three datasets together by their FIPS
+# reading in the smoking prevalence data
 
-flood_le <- merge(flood_risk, life_expect_mort_no_ui, all.x = T, by = "FIPS")
+smoke_prev <- read.csv(here("imported_data", 
+                            "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_PREVALENCE_1996_2012", 
+                            "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_PREVALENCE_1996_2012.csv"), 
+                       col.names = c("state", "county", "sex", "year", "total_mean", 
+                                     "total_lb", "total_ub", "daily_mean", "daily_lb", 
+                                     "daily_ub"))
 
-flood_le_svi <- merge(flood_le, cdc_svi, all.x = T, by = "FIPS")
+# extract data for the year 2012
+
+smoke_prev <- smoke_prev[smoke_prev$year == 2012, ]
+
+smoke_prev_both <- smoke_prev[smoke_prev$sex == "Both",]
+
+# TBC
+# figure out how to connect county name and the fips
+
+
+
+# merge all three datasets together by their fips
+
+flood_le <- merge(life_expect_mort_no_ui, flood_risk, all.x = T, by = "fips")
+
+flood_le_svi <- merge(flood_le, cdc_svi, all.x = T, by = "fips")
 
 
 

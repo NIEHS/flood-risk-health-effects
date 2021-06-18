@@ -86,7 +86,21 @@ flood_le_svi <- merge(flood_le, cdc_svi, all.x = T, by = "fips")
 
 
 
+# remove geographical units that are not counties
+
+flood_le_svi <- flood_le_svi[!is.na(flood_le_svi$COUNTY), ] 
+
+# remove counties in Alaska and Hawaii
+
+flood_le_svi <- flood_le_svi[!(flood_le_svi$STATE %in% c("ALASKA", "HAWAII")), ]
+
+
+
+# save the dataset
+
 saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds"))
+
+
 
 
 

@@ -87,10 +87,6 @@ plot_usmap(regions = "counties") +
 ## Outcome Variables
 
 ```{r}
-flood_le_svi <- flood_le_svi[!is.na(flood_le_svi$COUNTY), ]
-```
-
-```{r}
 plot_usmap(regions = "counties", data = flood_le_svi,
            values = "Life expectancy, 2014*", color = NA, 
            exclude = c("AK", "HI")) + 

@@ -112,6 +112,17 @@ flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
 
 ####################
 
+# Extracting the list of county fips in the dataset, for CACES data extraction
+
+fips <- flood_le_svi$fips
+
+write.csv(fips, file = here("intermediary_data/county_fips.csv"), 
+          row.names = FALSE)
+
+
+
+####################
+
 # making the county adjacency matrix from the County Adjacency File provided by the 
 # Census Bureau 
 # (https://www.census.gov/programs-surveys/geography/library/reference/county-adjacency-file.html)

@@ -60,7 +60,7 @@ cdc_svi <- rename(cdc_svi, fips = FIPS)
 
 # reading in the smoking prevalence data
 
-smoke_prev <- read.csv(here("imported_data", 
+smoke_prevalence <- read.csv(here("imported_data", 
                             "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_PREVALENCE_1996_2012", 
                             "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_PREVALENCE_1996_2012.csv"), 
                        col.names = c("state", "county", "sex", "year", "total_mean", 
@@ -68,13 +68,81 @@ smoke_prev <- read.csv(here("imported_data",
                                      "daily_ub"))
 
 # extract data for the year 2012
+smoke_prevalence_2012 <- smoke_prevalence[smoke_prevalence$year == 2012, ]
 
-smoke_prev <- smoke_prev[smoke_prev$year == 2012, ]
+# extract for both sexes
+smoke_prevalence_both <- smoke_prevalence_2012[smoke_prevalence_2012$sex == "Both",]
 
-smoke_prev_both <- smoke_prev[smoke_prev$sex == "Both",]
+# extract for county-level (rather than state-level data)
+smoke_prevalence_county <- smoke_prevalence_both[smoke_prevalence_both$county != "",]
 
 # TBC
 # figure out how to connect county name and the fips
+# a good approach is to connect with the CDC SVI "Location"
+# pay attention to capitalization
+
+svi_location <- cdc_svi$LOCATION
+
+svi_loc_list <- strsplit(svi_location, split = ", ")
+
+svi_county <- str_to_title(lapply(svi_loc_list, `[[`, 1))
+
+state <- unlist(lapply(svi_loc_list, `[[`, 2))
+
+fips_county_name <- data.frame(fips = cdc_svi$FIPS, county = svi_county, state = state)
+
+# the above will lead to 87 counties missing, after merging. Need to account for the edge cases.
+# These are denoted by "/" in the smoking data, e.g. "Southampton County/Franklin City"
+
+smoke_county_list <- strsplit(smoke_prevalence_county$county, split = "/")
+
+smoke_county <- sapply(smoke_county_list, function(item) {
+  if (length(item) == 1) {
+    item
+  } else {
+    item[str_detect(item, "County")][1] # there may be multiple "_ County" in here
+  }
+})
+
+smoke_fips <- merge(smoke_prevalence_county, fips_county_name, 
+                    by = c("county", "state"), 
+                    all.x = F, all.y = T)
+
+
+
+# # for reading in the other version, 
+# # "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_ANNUALIZED_RATE_OF_CHANGE_1996_2012"
+# smoke_change <- read.csv(here("imported_data",
+#                               "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_PREVALENCE_1996_2012",
+#                               "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_ANNUALIZED_RATE_OF_CHANGE_1996_2012.csv"))
+
+
+
+
+
+# CACES LUR air pollution data
+
+# Extracting the list of county fips in the dataset, for CACES data extraction
+
+fips <- as.character(flood_le_svi$fips)
+
+# switch fip for Oglala County, since CACES uses outdated fips
+
+fips[fips == 46102] <- 46113
+
+fips_leading_zero <- sapply(fips, FUN = function(fip) {
+  if (str_length(fip) == 4) {paste0("0", fip)} 
+  else {fip}
+})
+
+write.csv(fips_leading_zero, file = here("intermediary_data/county_fips.txt"), 
+          row.names = FALSE)
+
+# data wrangling of the CACES data
+
+caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution.csv"))
+
+
 
 
 
@@ -104,20 +172,9 @@ saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds"))
 
 
 
-# remove redundant columns, move id columns to the left
+# TBC: remove redundant columns, move id columns to the left
 
 flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
-
-
-
-####################
-
-# Extracting the list of county fips in the dataset, for CACES data extraction
-
-fips <- flood_le_svi$fips
-
-write.csv(fips, file = here("intermediary_data/county_fips.csv"), 
-          row.names = FALSE)
 
 
 

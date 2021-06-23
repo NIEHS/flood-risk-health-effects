@@ -61,6 +61,34 @@ cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US_COUNTY.csv"))
 summary(cdc_svi)
 ```
 
+# Exploration of Smoking Prevalence Data
+
+```{r}
+n_distinct(data.frame(smoke_prevalence_both$state, smoke_prevalence_both$county))
+```
+
+
+
+# Exploration of CACES LUR air pollution data
+
+```{r}
+caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution.csv"))
+```
+
+```{r}
+summary(caces_lur)
+```
+
+There is information for all counties in the modeling dataset.
+
+```{r}
+n_distinct(caces_lur$fips)
+```
+
+```{r}
+table(caces_lur$pollutant)
+```
+
 
 
 # Joint exploration of data

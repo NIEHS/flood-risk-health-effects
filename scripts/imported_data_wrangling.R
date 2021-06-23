@@ -89,9 +89,11 @@ svi_county <- str_to_title(lapply(svi_loc_list, `[[`, 1))
 
 state <- unlist(lapply(svi_loc_list, `[[`, 2))
 
-fips_county_name <- data.frame(fips = cdc_svi$FIPS, county = svi_county, state = state)
+fips_county_name <- data.frame(fips = cdc_svi$fips, county = svi_county, state = state)
 
-# the above will lead to 87 counties missing, after merging. Need to account for the edge cases.
+# the above will lead to 87 counties missing, after merging.
+# sum(smoke_fips$fips[is.na(smoke_fips$sex)] %in% cdc_svi$fips)
+# Need to account for the edge cases.
 # These are denoted by "/" in the smoking data, e.g. "Southampton County/Franklin City"
 
 smoke_county_list <- strsplit(smoke_prevalence_county$county, split = "/")
@@ -122,25 +124,28 @@ smoke_fips <- merge(smoke_prevalence_county, fips_county_name,
 
 # CACES LUR air pollution data
 
-# Extracting the list of county fips in the dataset, for CACES data extraction
+# # Extracting the list of county fips in the dataset, for CACES data extraction
+# 
+# fips <- as.character(flood_le_svi$fips)
+# 
+# # switch fip for Oglala County, since CACES uses outdated fips
+# 
+# fips[fips == 46102] <- 46113
+# 
+# fips_leading_zero <- sapply(fips, FUN = function(fip) {
+#   if (str_length(fip) == 4) {paste0("0", fip)} 
+#   else {fip}
+# })
+# 
+# write.csv(fips_leading_zero, file = here("intermediary_data/county_fips.txt"), 
+#           row.names = FALSE)
 
-fips <- as.character(flood_le_svi$fips)
-
-# switch fip for Oglala County, since CACES uses outdated fips
-
-fips[fips == 46102] <- 46113
-
-fips_leading_zero <- sapply(fips, FUN = function(fip) {
-  if (str_length(fip) == 4) {paste0("0", fip)} 
-  else {fip}
-})
-
-write.csv(fips_leading_zero, file = here("intermediary_data/county_fips.txt"), 
-          row.names = FALSE)
-
-# data wrangling of the CACES data
+# reading in the downloaded data from
+# https://s3.amazonaws.com/files.airclimateenergy.org/caces/uwc162421434261410dee280fa0513698216d570056ed300.zip
 
 caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution.csv"))
+
+# TBC: unwrap the 6 pollution types
 
 
 
@@ -148,9 +153,17 @@ caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_
 
 # merge all three datasets together by their fips
 
+# merging life expectancy with flood risk
 flood_le <- merge(life_expect_mort_no_ui, flood_risk, all.x = T, by = "fips")
 
+# then merging with SVI 
 flood_le_svi <- merge(flood_le, cdc_svi, all.x = T, by = "fips")
+
+# # then merging with air pollution
+# flood_le_svi <- merge(flood_le_svi, caces_lur, all.x = T, by = "fips")
+
+# then merging with smoke prevalence
+flood_le_svi <- merge(flood_le_svi, smoke_fips, all.x = T, by = "fips")
 
 
 

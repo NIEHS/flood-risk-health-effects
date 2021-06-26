@@ -101,6 +101,10 @@ Exploring the merged dataset
 flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
 ```
 
+```{r}
+dim(flood_le_svi)
+```
+
 
 
 # Maps

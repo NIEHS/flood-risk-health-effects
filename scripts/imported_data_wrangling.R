@@ -3,6 +3,9 @@ library(here)
 library(readxl)
 library(stringr)
 library(tidyverse)
+library(tidyr)
+
+select <- dplyr::select
 
 i_am("scripts/imported_data_wrangling.R")
 
@@ -61,11 +64,11 @@ cdc_svi <- rename(cdc_svi, fips = FIPS)
 # reading in the smoking prevalence data
 
 smoke_prevalence <- read.csv(here("imported_data", 
-                            "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_PREVALENCE_1996_2012", 
-                            "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_PREVALENCE_1996_2012.csv"), 
-                       col.names = c("state", "county", "sex", "year", "total_mean", 
-                                     "total_lb", "total_ub", "daily_mean", "daily_lb", 
-                                     "daily_ub"))
+                                  "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_PREVALENCE_1996_2012", 
+                                  "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_PREVALENCE_1996_2012.csv"), 
+                             col.names = c("state", "county", "sex", "year", "total_mean", 
+                                           "total_lb", "total_ub", "daily_mean", "daily_lb", 
+                                           "daily_ub"))
 
 # extract data for the year 2012
 smoke_prevalence_2012 <- smoke_prevalence[smoke_prevalence$year == 2012, ]
@@ -110,7 +113,7 @@ smoke_fips <- merge(smoke_prevalence_county, fips_county_name,
                     by = c("county", "state"), 
                     all.x = F, all.y = T)
 
-
+# TBC: deal with Oglala County mixup 
 
 # # for reading in the other version, 
 # # "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_ANNUALIZED_RATE_OF_CHANGE_1996_2012"
@@ -145,9 +148,13 @@ smoke_fips <- merge(smoke_prevalence_county, fips_county_name,
 
 caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution.csv"))
 
-# TBC: unwrap the 6 pollution types
+# don't need the year, state_abbr, lat or lon
 
+caces_lur_subset <- select(caces_lur, -c(year, state_abbr, lat, lon))
 
+# convert from long to wide format
+
+caces_lur_wide <- spread(caces_lur_subset, pollutant, pred_wght)
 
 
 
@@ -159,8 +166,8 @@ flood_le <- merge(life_expect_mort_no_ui, flood_risk, all.x = T, by = "fips")
 # then merging with SVI 
 flood_le_svi <- merge(flood_le, cdc_svi, all.x = T, by = "fips")
 
-# # then merging with air pollution
-# flood_le_svi <- merge(flood_le_svi, caces_lur, all.x = T, by = "fips")
+# then merging with air pollution
+flood_le_svi <- merge(flood_le_svi, caces_lur_wide, all.x = T, by = "fips")
 
 # then merging with smoke prevalence
 flood_le_svi <- merge(flood_le_svi, smoke_fips, all.x = T, by = "fips")
@@ -189,6 +196,28 @@ saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds"))
 
 flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
 
+# remove life expectancy variables other than "Life expectancy, 2014*"
+# this also puts the outcome variable as the last variable
+fls_outcome_subset <- flood_le_svi %>% dplyr::select(!starts_with("Life expectancy") | ends_with(", 2014*")) %>%
+  dplyr::select(!`% Change in Life Expectancy, 1980-2014`)
+
+# Deleting and reorganizing some flood risk variables
+fls_flood_risk_subset <- fls_outcome_subset %>% dplyr::select(!starts_with("count_fs")) %>% 
+  relocate(pct_fs_fema_difference_2020, .before = pct_fs_risk_2020_5)
+
+# Reorganizing the CDC SVI variables
+# removing the margins of errors for now
+# focusing on the EP_ variables for now
+fls_svi_subset <- fls_flood_risk_subset %>% 
+  relocate(ST, STATE, ST_ABBR, COUNTY, 
+           LOCATION, AREA_SQMI, E_TOTPOP, 
+           E_HU, E_HH, .after = pct_fs_fema_difference_2020) %>%
+  select(!(starts_with("E_") & !ends_with(c("TOTPOP", "HU", "HH")))) %>%
+  select(!starts_with(c("MP_", "M_", "EPL_", "SPL_", "RPL_", "F_")))
+
+# cleaning up the smoking prevalence variables that are not needed
+fls_smoke_subset <- fls_svi_subset %>% select(!c(county, state, sex, year, 
+                                                 total_lb, total_ub, daily_lb, daily_ub))
 
 
 ####################

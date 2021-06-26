@@ -88,9 +88,13 @@ svi_location <- cdc_svi$LOCATION
 
 svi_loc_list <- strsplit(svi_location, split = ", ")
 
-svi_county <- str_to_title(lapply(svi_loc_list, `[[`, 1))
+svi_county <- tolower(lapply(svi_loc_list, `[[`, 1))
 
-state <- unlist(lapply(svi_loc_list, `[[`, 2))
+state <- str_to_title(unlist(lapply(svi_loc_list, `[[`, 2)))
+
+# Dealing with the rest of the missing counties on a case by case basis
+svi_county[svi_county == "doña ana county" & 
+               state == "New Mexico"] <- "dona ana county"
 
 fips_county_name <- data.frame(fips = cdc_svi$fips, county = svi_county, state = state)
 
@@ -109,11 +113,92 @@ smoke_county <- sapply(smoke_county_list, function(item) {
   }
 })
 
-smoke_fips <- merge(smoke_prevalence_county, fips_county_name, 
+smoke_county <- tolower(smoke_county)
+
+# Dealing with the rest of the missing counties on a case by case basis
+# smoke_fips[!(smoke_fips$state %in% c("Alaska", "Hawaii")) & is.na(smoke_fips$sex),]$county
+# View(cbind(smoke_prevalence_county$county, smoke_prevalence_county$state, smoke_county))
+
+# Oglala County mixup 
+smoke_county[smoke_county == "shannon county" & 
+               smoke_prevalence_county$state == "South Dakota"] <- "oglala lakota county" 
+
+smoke_prevalence_county_fixed <- smoke_prevalence_county
+smoke_prevalence_county_fixed$county <- smoke_county
+
+# accounting for counties grouped with other counties in smoking prevalence dataset
+
+# Boulder, Broomfield, Jefferson, Weld grouped with Adams County, Colorado
+addend <- smoke_prevalence_county_fixed[smoke_prevalence_county_fixed$state == "Colorado" & 
+    smoke_prevalence_county_fixed$county == "adams county",]
+addend$county <- "boulder county"
+smoke_prevalence_county_fixed <- rbind(smoke_prevalence_county_fixed, 
+                                       addend)
+
+addend <- smoke_prevalence_county_fixed[smoke_prevalence_county_fixed$state == "Colorado" & 
+                                          smoke_prevalence_county_fixed$county == "adams county",]
+addend$county <- "broomfield county"
+smoke_prevalence_county_fixed <- rbind(smoke_prevalence_county_fixed, 
+                                       addend)
+
+addend <- smoke_prevalence_county_fixed[smoke_prevalence_county_fixed$state == "Colorado" & 
+                                          smoke_prevalence_county_fixed$county == "adams county",]
+addend$county <- "jefferson county"
+smoke_prevalence_county_fixed <- rbind(smoke_prevalence_county_fixed, 
+                                       addend)
+
+addend <- smoke_prevalence_county_fixed[smoke_prevalence_county_fixed$state == "Colorado" & 
+                                          smoke_prevalence_county_fixed$county == "adams county",]
+addend$county <- "weld county"
+smoke_prevalence_county_fixed <- rbind(smoke_prevalence_county_fixed, 
+                                       addend)
+
+# Fairfax City grouped with Fairfax County, Virginia
+addend <- smoke_prevalence_county_fixed[smoke_prevalence_county_fixed$state == "Virginia" & 
+                                          smoke_prevalence_county_fixed$county == "fairfax county",]
+addend$county <- "fairfax city"
+smoke_prevalence_county_fixed <- rbind(smoke_prevalence_county_fixed, 
+                                       addend)
+
+# Franklin City grouped with Southampton County, Virginia
+addend <- smoke_prevalence_county_fixed[smoke_prevalence_county_fixed$state == "Virginia" & 
+                                          smoke_prevalence_county_fixed$county == "southampton county",]
+addend$county <- "franklin city"
+smoke_prevalence_county_fixed <- rbind(smoke_prevalence_county_fixed, 
+                                       addend)
+
+# I think LaSalle Parish, Louisiana was grouped together with Catahoula Parish, Louisiana
+addend <- smoke_prevalence_county_fixed[smoke_prevalence_county_fixed$state == "Louisiana" & 
+                                          smoke_prevalence_county_fixed$county == "catahoula parish",]
+addend$county <- "lasalle parish"
+smoke_prevalence_county_fixed <- rbind(smoke_prevalence_county_fixed, 
+                                       addend)
+
+# Manassas Park City grouped with Prince William County, Virginia
+addend <- smoke_prevalence_county_fixed[smoke_prevalence_county_fixed$state == "Virginia" & 
+                                          smoke_prevalence_county_fixed$county == "prince william county",]
+addend$county <- "manassas park city"
+smoke_prevalence_county_fixed <- rbind(smoke_prevalence_county_fixed, 
+                                       addend)
+
+# Waynesboro City grouped with Augusta County, Virginia
+addend <- smoke_prevalence_county_fixed[smoke_prevalence_county_fixed$state == "Virginia" & 
+                                          smoke_prevalence_county_fixed$county == "augusta county",]
+addend$county <- "waynesboro city"
+smoke_prevalence_county_fixed <- rbind(smoke_prevalence_county_fixed, 
+                                       addend)
+
+
+
+smoke_fips <- merge(smoke_prevalence_county_fixed, fips_county_name, 
                     by = c("county", "state"), 
                     all.x = F, all.y = T)
 
-# TBC: deal with Oglala County mixup 
+
+
+saveRDS(smoke_fips, file = here("intermediary_data/smoke_fips.rds")) 
+
+
 
 # # for reading in the other version, 
 # # "IHME_US_COUNTY_TOTAL_AND_DAILY_SMOKING_ANNUALIZED_RATE_OF_CHANGE_1996_2012"
@@ -218,6 +303,11 @@ fls_svi_subset <- fls_flood_risk_subset %>%
 # cleaning up the smoking prevalence variables that are not needed
 fls_smoke_subset <- fls_svi_subset %>% select(!c(county, state, sex, year, 
                                                  total_lb, total_ub, daily_lb, daily_ub))
+
+fls_model_df <- fls_smoke_subset
+
+saveRDS(fls_model_df, file = here("intermediary_data/fls_model_df.rds"))
+
 
 
 ####################

@@ -34,6 +34,22 @@ There are some missing values in the flood risk.
 which(is.na(flood_risk), arr.ind = TRUE)
 ```
 
+# Exploration of the Smoking Prevalence Data
+
+```{r}
+smoke_fips <- readRDS(here("intermediary_data/smoke_fips.rds"))
+```
+
+```{r}
+summary(smoke_fips)
+```
+
+The two used variables in the dataset, total_mean and daily_mean, are very correlated (as expected).
+
+```{r}
+plot(smoke_fips$total_mean, smoke_fips$daily_mean)
+```
+
 
 
 # Exploration of Life Expectancy/Mortality Risk data
@@ -103,6 +119,32 @@ flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
 
 ```{r}
 dim(flood_le_svi)
+```
+
+Exploring the modeling dataset
+
+```{r}
+fls_model_df <- readRDS(here("intermediary_data/fls_model_df.rds"))
+```
+
+```{r}
+# extract the response variable
+
+Y <- fls_model_df$`Life expectancy, 2014*`
+
+# extract the covariates matrix
+
+X <- fls_model_df[, 17:(ncol(fls_model_df) - 1)]
+
+X <- as.matrix(X)
+```
+
+```{r}
+summary(Y)
+```
+
+```{r}
+summary(X)
 ```
 
 

@@ -46,6 +46,10 @@ cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US_COUNTY.csv"))
 # Lowercase the FIPS
 cdc_svi <- rename(cdc_svi, fips = FIPS)
 
+# take care of the -999 missing value indicators
+
+cdc_svi[cdc_svi == -999] <- NA
+
 
 
 # FOR THE 2014 VERSION

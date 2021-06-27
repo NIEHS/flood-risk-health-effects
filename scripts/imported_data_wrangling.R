@@ -79,8 +79,7 @@ smoke_prevalence_both <- smoke_prevalence_2012[smoke_prevalence_2012$sex == "Bot
 # extract for county-level (rather than state-level data)
 smoke_prevalence_county <- smoke_prevalence_both[smoke_prevalence_both$county != "",]
 
-# TBC
-# figure out how to connect county name and the fips
+# connecting county name and the fips
 # a good approach is to connect with the CDC SVI "Location"
 # pay attention to capitalization
 
@@ -102,6 +101,7 @@ fips_county_name <- data.frame(fips = cdc_svi$fips, county = svi_county, state =
 # sum(smoke_fips$fips[is.na(smoke_fips$sex)] %in% cdc_svi$fips)
 # Need to account for the edge cases.
 # These are denoted by "/" in the smoking data, e.g. "Southampton County/Franklin City"
+# These actually indicate merged counties. Need a duplicate row for each member in group.
 
 smoke_county_list <- strsplit(smoke_prevalence_county$county, split = "/")
 
@@ -277,7 +277,7 @@ saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds"))
 
 
 
-# TBC: remove redundant columns, move id columns to the left
+# Removing redundant columns, moving id columns to the left
 
 flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
 
@@ -366,16 +366,26 @@ colnames(countyadj)[colnames(countyadj) == 46113] <- 46102
 
 # saving the full, unprocessed adjacency matrix for all counties
 
-saveRDS(countyadj, file = here("imported_data", "countyadj.rds"))
+saveRDS(countyadj, file = here("intermediary_data", "countyadj.rds"))
 
 
 
+# omit (and reorder) the fips to match the flood risk fips
+
+countyadj <- readRDS(here("intermediary_data", "countyadj.rds"))
+
+fls_model_df <- readRDS(here("intermediary_data/fls_model_df.rds"))
 
 
 
-# to-do: omit and reorder the fips to match the flood risk fips
+reorganize_idx <- match(fls_model_df$fips, colnames(countyadj)) 
 
-countyadj <- readRDS(here("imported_data", "countyadj.rds"))
+countyadj_reorganize <- countyadj[, reorganize_idx]
 
+countyadj_reorganize <- countyadj_reorganize[reorganize_idx, ]
+
+
+
+saveRDS(countyadj_reorganize, file = here("intermediary_data", "countyadj_reorganize.rds"))
 
 

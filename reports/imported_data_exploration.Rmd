@@ -34,22 +34,6 @@ There are some missing values in the flood risk.
 which(is.na(flood_risk), arr.ind = TRUE)
 ```
 
-# Exploration of the Smoking Prevalence Data
-
-```{r}
-smoke_fips <- readRDS(here("intermediary_data/smoke_fips.rds"))
-```
-
-```{r}
-summary(smoke_fips)
-```
-
-The two used variables in the dataset, total_mean and daily_mean, are very correlated (as expected).
-
-```{r}
-plot(smoke_fips$total_mean, smoke_fips$daily_mean)
-```
-
 
 
 # Exploration of Life Expectancy/Mortality Risk data
@@ -79,9 +63,25 @@ summary(cdc_svi)
 
 # Exploration of Smoking Prevalence Data
 
+<!-- ```{r} -->
+<!-- n_distinct(data.frame(smoke_prevalence_both$state, smoke_prevalence_both$county)) -->
+<!-- ``` -->
+
 ```{r}
-n_distinct(data.frame(smoke_prevalence_both$state, smoke_prevalence_both$county))
+smoke_fips <- readRDS(here("intermediary_data/smoke_fips.rds"))
 ```
+
+```{r}
+summary(smoke_fips)
+```
+
+The reason there are 11 NAs in the dataset is because I ignored some counties in Alaska and Hawaii, which were merged with other counties in those states. I only "unmerged" the counties within the contiguous U.S. 
+
+```{r}
+plot(smoke_fips$total_mean, smoke_fips$daily_mean)
+```
+
+The two used variables in the dataset, total_mean and daily_mean, are very correlated (as expected).
 
 
 
@@ -92,7 +92,11 @@ caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_
 ```
 
 ```{r}
-summary(caces_lur)
+# convert from long to wide format
+
+caces_lur_wide <- spread(caces_lur, pollutant, pred_wght)
+
+summary(caces_lur_wide)
 ```
 
 There is information for all counties in the modeling dataset.
@@ -146,6 +150,19 @@ summary(Y)
 ```{r}
 summary(X)
 ```
+
+<!-- ```{r} -->
+<!-- # omit rows with missing covariate values -->
+<!-- Y <- Y[complete.cases(X)] -->
+<!-- X <- X[complete.cases(X), ] -->
+<!-- # otherwise, S.CARleroux returns "Error: the covariate matrix contains missing 'NA' values." -->
+
+<!-- X <- scale(X) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- summary(X) -->
+<!-- ``` -->
 
 
 

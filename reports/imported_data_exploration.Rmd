@@ -34,6 +34,14 @@ There are some missing values in the flood risk.
 which(is.na(flood_risk), arr.ind = TRUE)
 ```
 
+The 24th and 25th columns have missing values. These are average risk score of SFHA properties, and average risk score of non-SFHA properties. 
+
+```{r}
+names(flood_risk)[c(24, 25)]
+```
+
+
+
 
 
 # Exploration of Life Expectancy/Mortality Risk data
@@ -46,6 +54,13 @@ life_expect_mort_no_ui <- readRDS(file = here("imported_data", "life_expectancy_
 ```{r}
 summary(life_expect_mort_no_ui)
 ```
+
+The first dependent variable we're focusing on is Life expectancy, 2014*. 
+
+```{r}
+hist(life_expect_mort_no_ui$`Life expectancy, 2014*`)
+```
+
 
 
 

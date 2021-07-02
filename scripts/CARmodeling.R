@@ -40,9 +40,15 @@ X[is.na(X)] <- 0        # Fill in missing values with the mean
 
 
 
+set.seed(821, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+
 tick <- proc.time()[3]
 
-model1  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
+chain1  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
+                       n.sample = 100000, thin = 5, verbose = TRUE)
+chain2  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
+                       n.sample = 100000, thin = 5, verbose = TRUE)
+chain3  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
                        n.sample = 100000, thin = 5, verbose = TRUE)
 
 tock <- proc.time()[3]
@@ -51,7 +57,7 @@ tock <- proc.time()[3]
 
 
 
-save(model1, file = here("modeling_files/fls_model_df.rds"))
+save(chain1, chain2, chain3, file = here("modeling_files/model_3chains.RData"))
 
 
 
@@ -89,7 +95,7 @@ save(model1, file = here("modeling_files/fls_model_df.rds"))
 # #### set up distance and neighbourhood (W, based on sharing a common border) matrices
 # distance <- as.matrix(dist(Grid))
 # W <-array(0, c(K,K))
-# W[distance==1] <-1 	
+# W[distance==1] <-1
 # 
 # #### Generate the covariates and response data
 # x1 <- rnorm(K)
@@ -108,8 +114,10 @@ save(model1, file = here("modeling_files/fls_model_df.rds"))
 # # trials=trials, W=W, burnin=20000, n.sample=100000)
 # # ## End(Not run)
 # 
-# #### Toy example for checking
-# model <- S.CARleroux(formula=formula, family="binomial", 
-#                      trials=trials, W=W, burnin=10, n.sample=50)
+# set.seed(821, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
 # 
+# #### Toy example for checking
+# model <- S.CARleroux(formula=formula, family="binomial",
+#                      trials=trials, W=W, burnin=10, n.sample=50)
+
 

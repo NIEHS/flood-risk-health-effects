@@ -1,0 +1,137 @@
+---
+title: "Basic CAR Model"
+author: "Alvin Sheng"
+date: "6/30/2021"
+output: pdf_document
+---
+
+```{r}
+library(here)
+library(coda)
+```
+
+
+# CAR model results
+
+Inference is based on 3 markov chains, each of which has been run for 100000 samples, the first 10000 of which has been removed for burn-in. The remaining 90000 samples are thinned by 5, resulting in 18000 * 3 = 54000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/model_3chains.RData"))
+```
+
+Output for the first chain is shown below.
+
+```{r}
+chain1
+```
+
+The smallest effective sample size is 935.8, for ozone (o3). 
+
+```{r}
+chain1$accept
+```
+
+It appears that beta, phi, nu2, and tau2 probably have Gibbs steps, whereas rho has a Metropolis-Hastings step. In any case, the acceptance probabilities are acceptable. 
+
+
+
+## Model Diagnostics
+
+### Beta samples
+
+```{r}
+beta_samples <- mcmc.list(chain1$samples$beta, chain2$samples$beta, 
+                          chain3$samples$beta)
+```
+
+```{r}
+plot(beta_samples)
+```
+
+```{r}
+gelman.diag(beta_samples)
+```
+
+
+
+
+### Examining tau2, nu2, rho
+
+```{r}
+tau2_samples <- mcmc.list(chain1$samples$tau2, chain2$samples$tau2, 
+                          chain3$samples$tau2)
+
+nu2_samples <- mcmc.list(chain1$samples$nu2, chain2$samples$nu2, 
+                          chain3$samples$nu2)
+
+rho_samples <- mcmc.list(chain1$samples$rho, chain2$samples$rho, 
+                          chain3$samples$rho) 
+
+```
+
+```{r}
+plot(tau2_samples)
+
+plot(nu2_samples)
+
+plot(rho_samples)
+```
+
+```{r}
+gelman.diag(tau2_samples)
+```
+
+```{r}
+gelman.diag(nu2_samples)
+```
+
+```{r}
+gelman.diag(rho_samples)
+```
+
+
+
+### Examining a sample of the 3108 phi parameters
+
+```{r}
+phi_samples <- mcmc.list(chain1$samples$phi, chain2$samples$phi, chain3$samples$phi)
+```
+
+```{r}
+set.seed(1157, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+
+phi_subset_idx <- sample(1:3108, size = 10)
+
+phi_samples_subset <- phi_samples[, phi_subset_idx]
+```
+
+```{r}
+plot(phi_samples_subset)
+```
+
+```{r}
+gelman.diag(phi_samples_subset)
+```
+
+
+
+## Inference
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- colnames(chain1$X)
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients:
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+None of the flood variables turned out to be significant, unfortunately. 
+

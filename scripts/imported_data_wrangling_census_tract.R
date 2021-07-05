@@ -17,7 +17,9 @@ i_am("scripts/imported_data_wrangling.R")
 # reading in the county flood risk data
 flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"))
 
-
+# TBC: focusing on county-level flood risk for now. I can map zip code to census tracts later, or just wait till we can process the 3m raster data. 
+# reading in the county flood risk data
+flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
 
 
 
@@ -62,24 +64,32 @@ cdc_svi[cdc_svi == -999] <- NA
 
 # CACES LUR air pollution data
 
-# # Extracting the list of county fips in the dataset, for CACES data extraction
-# 
-# fips <- as.character(flood_le_svi$fips)
-# 
+# Extracting the list of county fips in the dataset, for CACES data extraction
+
+fips <- as.character(places_dat_wide$LocationID)
+
+# TBC: fips just for North Carolina
+fips <- as.character(places_dat_wide$LocationID[places_dat_wide$LocationID %/% 1e9 == 37])
+
+# TBC: figure out what happens to census tracts in Oglala County
 # # switch fip for Oglala County, since CACES uses outdated fips
-# 
 # fips[fips == 46102] <- 46113
-# 
-# fips_leading_zero <- sapply(fips, FUN = function(fip) {
-#   if (str_length(fip) == 4) {paste0("0", fip)} 
-#   else {fip}
-# })
-# 
-# write.csv(fips_leading_zero, file = here("intermediary_data/county_fips.txt"), 
-#           row.names = FALSE)
+
+fips_leading_zero <- sapply(fips, FUN = function(fip) {
+  if (str_length(fip) == 10) {paste0("0", fip)}
+  else {fip}
+})
+
+# TBC: list of fips just for North Carolina
+write.csv(fips_leading_zero, file = here("intermediary_data/census_tract_fips_NC.txt"),
+          row.names = FALSE)
+
+# CACES doesn't like files with more than 5k fips
+write.csv(fips_leading_zero, file = here("intermediary_data/census_tract_fips.txt"),
+          row.names = FALSE)
 
 # reading in the downloaded data from
-# https://s3.amazonaws.com/files.airclimateenergy.org/caces/uwc162421434261410dee280fa0513698216d570056ed300.zip
+# https:
 
 caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution.csv"))
 
@@ -212,7 +222,7 @@ for (k in 1:length(census_tract_fips)) {
 }
 
 # TBC: adjacency matrix just for North Carolina census tracts
-saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds"))
+saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_NC.rds"))
 
 
 

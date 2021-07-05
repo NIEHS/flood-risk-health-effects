@@ -1,0 +1,248 @@
+
+library(here)
+library(readxl)
+library(stringr)
+library(tidyverse)
+library(tidyr)
+library(Matrix)
+
+select <- dplyr::select
+
+i_am("scripts/imported_data_wrangling.R")
+
+
+
+
+
+# reading in the county flood risk data
+flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"))
+
+
+
+
+
+# work with the PLACES dataset
+
+places_dat <- read.csv(here("imported_data", 
+                            "PLACES__Local_Data_for_Better_Health__Census_Tract_Data_2020_release.csv"))
+
+# don't need the year, state_abbr, lat or lon
+
+places_subset <- select(places_dat, -c(Year, StateAbbr, StateDesc, LocationName, 
+                                       DataSource, Category, Data_Value_Unit, Data_Value_Type, 
+                                       Data_Value_Footnote_Symbol, Data_Value_Footnote, 
+                                       Geolocation, DataValueTypeID))
+
+# convert from long to wide format
+
+places_dat_wide <- pivot_wider(places_subset, id_cols = c(LocationID, CountyFIPS, TotalPopulation),
+                               names_from = MeasureId, 
+                               values_from = c(Data_Value, Low_Confidence_Limit, High_Confidence_Limit))
+  
+  
+
+# reading in the CDC SVI data
+cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US.csv"))
+
+# Lowercase the FIPS
+cdc_svi <- rename(cdc_svi, fips = FIPS)
+
+# take care of the -999 missing value indicators
+cdc_svi[cdc_svi == -999] <- NA
+
+
+
+
+
+# can grab smoking prevalence data from PLACES dataset
+
+
+
+
+
+# CACES LUR air pollution data
+
+# # Extracting the list of county fips in the dataset, for CACES data extraction
+# 
+# fips <- as.character(flood_le_svi$fips)
+# 
+# # switch fip for Oglala County, since CACES uses outdated fips
+# 
+# fips[fips == 46102] <- 46113
+# 
+# fips_leading_zero <- sapply(fips, FUN = function(fip) {
+#   if (str_length(fip) == 4) {paste0("0", fip)} 
+#   else {fip}
+# })
+# 
+# write.csv(fips_leading_zero, file = here("intermediary_data/county_fips.txt"), 
+#           row.names = FALSE)
+
+# reading in the downloaded data from
+# https://s3.amazonaws.com/files.airclimateenergy.org/caces/uwc162421434261410dee280fa0513698216d570056ed300.zip
+
+caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution.csv"))
+
+# don't need the year, state_abbr, lat or lon
+
+caces_lur_subset <- select(caces_lur, -c(year, state_abbr, lat, lon))
+
+# convert from long to wide format
+
+caces_lur_wide <- spread(caces_lur_subset, pollutant, pred_wght)
+
+
+
+
+
+# merge all three datasets together by their fips
+
+# merging life expectancy with flood risk
+flood_le <- merge(life_expect_mort_no_ui, flood_risk, all.x = T, by = "fips")
+
+# then merging with SVI 
+flood_le_svi <- merge(flood_le, cdc_svi, all.x = T, by = "fips")
+
+# then merging with air pollution
+flood_le_svi <- merge(flood_le_svi, caces_lur_wide, all.x = T, by = "fips")
+
+# then merging with smoke prevalence
+flood_le_svi <- merge(flood_le_svi, smoke_fips, all.x = T, by = "fips")
+
+
+
+# remove geographical units that are not counties
+
+flood_le_svi <- flood_le_svi[!is.na(flood_le_svi$COUNTY), ] 
+
+# remove counties in Alaska and Hawaii
+
+flood_le_svi <- flood_le_svi[!(flood_le_svi$STATE %in% c("ALASKA", "HAWAII")), ]
+
+
+
+# save the dataset
+
+saveRDS(flood_le_svi, file = here("intermediary_data/flood_le_svi.rds")) # TBC take the chance to rename into smth better
+
+
+
+
+
+# Removing redundant columns, moving id columns to the left
+
+flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
+
+# remove life expectancy variables other than "Life expectancy, 2014*"
+# this also puts the outcome variable as the last variable
+fls_outcome_subset <- flood_le_svi %>% dplyr::select(!starts_with("Life expectancy") | ends_with(", 2014*")) %>%
+  dplyr::select(!`% Change in Life Expectancy, 1980-2014`)
+
+# Deleting and reorganizing some flood risk variables
+fls_flood_risk_subset <- fls_outcome_subset %>% dplyr::select(!starts_with("count_fs")) %>% 
+  relocate(pct_fs_fema_difference_2020, .before = pct_fs_risk_2020_5)
+
+# Reorganizing the CDC SVI variables
+# removing the margins of errors for now
+# focusing on the EP_ variables for now
+fls_svi_subset <- fls_flood_risk_subset %>% 
+  relocate(ST, STATE, ST_ABBR, COUNTY, 
+           LOCATION, AREA_SQMI, E_TOTPOP, 
+           E_HU, E_HH, .after = pct_fs_fema_difference_2020) %>%
+  select(!(starts_with("E_") & !ends_with(c("TOTPOP", "HU", "HH")))) %>%
+  select(!starts_with(c("MP_", "M_", "EPL_", "SPL_", "RPL_", "F_")))
+
+# cleaning up the smoking prevalence variables that are not needed
+fls_smoke_subset <- fls_svi_subset %>% select(!c(county, state, sex, year, 
+                                                 total_lb, total_ub, daily_lb, daily_ub))
+
+fls_model_df <- fls_smoke_subset
+
+saveRDS(fls_model_df, file = here("intermediary_data/fls_model_df.rds"))
+
+
+
+####################
+
+# making the census tract adjacency matrix from the census tract adjacency file provided by 
+# the Diversity and Disparities website
+# (https://s4.ad.brown.edu/Projects/Diversity/Researcher/Pooling.htm)
+
+census_tract_adjacency <- read.csv(here("imported_data/tract10co/nlist_2010.csv"))
+
+census_tract_fips <- unique(census_tract_adjacency$SOURCE_TRACTID)
+
+# TBC: focusing on North Carolina for now
+census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$SOURCE_TRACTID %/% 1e9) == 37,]
+census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e9) == 37,]
+census_tract_fips <- census_tract_fips[(census_tract_fips %/% 1e9) == 37]
+
+census_tract_adj <- matrix(0, nrow = length(census_tract_fips), ncol = length(census_tract_fips))
+
+row.names(census_tract_adj) <- census_tract_fips
+colnames(census_tract_adj) <- census_tract_fips
+
+start_idx <- 1
+
+for (k in 1:length(census_tract_fips)) {
+  
+  start_idx <- which(census_tract_adjacency$SOURCE_TRACTID == census_tract_fips[k])[1]
+  
+  end_idx <- start_idx
+  
+  while (census_tract_adjacency$SOURCE_TRACTID[end_idx + 1] == census_tract_fips[k]) {
+    
+    end_idx <- end_idx + 1
+    
+    if (end_idx == nrow(census_tract_adjacency)) {
+      break
+    }
+    
+  }
+  
+  nbr_census_tracts <- census_tract_adjacency$NEIGHBOR_TRACTID[start_idx:end_idx]
+  
+  nbr_idx <- which(census_tract_fips %in% nbr_census_tracts)
+  
+  # not necessary, census tract isn't listed as adjacent to itself
+  # nbr_idx <- nbr_idx[nbr_idx != k]
+  
+  census_tract_adj[k, nbr_idx] <- 1
+  
+}
+
+# TBC: adjacency matrix just for North Carolina census tracts
+saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds"))
+
+
+
+# TBC
+# changing the Oglala county FIPS in the row name/column name from 46113 to 46102
+row.names(census_tract_adj)[row.names(census_tract_adj) == 46113] <- 46102
+colnames(census_tract_adj)[colnames(census_tract_adj) == 46113] <- 46102
+
+# saving the full, unprocessed adjacency matrix for all counties
+
+saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds"))
+
+
+
+# omit (and reorder) the fips to match the flood risk fips
+
+census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj.rds"))
+
+fls_model_df <- readRDS(here("intermediary_data/fls_model_df.rds"))
+
+
+
+reorganize_idx <- match(fls_model_df$fips, colnames(census_tract_adj)) 
+
+census_tract_adj_reorganize <- census_tract_adj[, reorganize_idx]
+
+census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
+
+
+
+saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize.rds"))
+
+

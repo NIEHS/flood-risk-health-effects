@@ -245,11 +245,15 @@ saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds
 
 
 
+
+
 # omit (and reorder) the fips to match the flood risk fips
 
-census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj.rds"))
+# TBC: NC census tract version
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df.rds"))
+census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_NC.rds"))
+
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_NC_census_tract.rds"))
 
 
 
@@ -261,6 +265,6 @@ census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
 
 
 
-saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize.rds"))
+saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize_NC_census_tract.rds"))
 
 

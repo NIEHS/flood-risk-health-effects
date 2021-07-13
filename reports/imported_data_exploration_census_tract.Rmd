@@ -10,10 +10,15 @@ library(here)
 library(usmap)
 library(ggplot2)
 library(tidyverse)
+library(dplyr)
+library(choroplethr)
+library(choroplethrMaps)
 ```
 
 ```{r}
 i_am("reports/imported_data_exploration.Rmd")
+
+select <- dplyr::select
 ```
 
 
@@ -21,46 +26,99 @@ i_am("reports/imported_data_exploration.Rmd")
 # Exploration of Flood Risk Dataset
 
 ```{r}
-flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
+flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"))
 ```
 
 ```{r}
 summary(flood_risk)
 ```
 
-There are some missing values in the flood risk.
+There are some missing values in the flood risk. These columns have missing values: 20, 21, 22, 23, and 24. Below shows how many missing values are in each column.
 
 ```{r}
-which(is.na(flood_risk), arr.ind = TRUE)
+missing_idx <- which(is.na(flood_risk), arr.ind = TRUE)
+
+table(missing_idx[, 2])
 ```
 
-The 24th and 25th columns have missing values. These are average risk score of SFHA properties, and average risk score of non-SFHA properties. 
+Missing variables are all the "avg_risk_" variables except for "avg_risk_score_all".
 
 ```{r}
-names(flood_risk)[c(24, 25)]
+names(flood_risk)[20:24]
 ```
 
 
 
+# Exploration of the PLACES data set
 
-
-# Exploration of Life Expectancy/Mortality Risk data
+This data set contains multiple outcomes of interest, as well as multiple covariates of interest. It's currently in long format; it will be turned into wide format. 
 
 ```{r}
-life_expect_mort_no_ui <- readRDS(file = here("imported_data", "life_expectancy_mortality_risk", 
-                                              "life_expect_mort_no_ui.rds"))
+places_dat <- read.csv(here("imported_data", 
+                          "PLACES__Local_Data_for_Better_Health__Census_Tract_Data_2020_release.csv"))
 ```
 
 ```{r}
-summary(life_expect_mort_no_ui)
+head(places_dat)
 ```
 
-The first dependent variable we're focusing on is Life expectancy, 2014*. 
+Data_Value contains the outcome/covariate values. 
+
+There is only one missing value. 
 
 ```{r}
-hist(life_expect_mort_no_ui$`Life expectancy, 2014*`)
+summary(places_dat)
 ```
 
+There are 28 measures in the data set.
+
+```{r}
+unique(places_dat$Measure)
+```
+
+
+
+The data source for all measures is the Behavioral Risk Factor Surveillance System.
+
+```{r}
+table(places_dat$DataSource)
+```
+
+3 kinds of outcomes.
+
+```{r}
+table(places_dat$Category)
+```
+
+All measures are in the form of crude prevalence (%).
+
+```{r}
+table(places_dat$Data_Value_Type)
+```
+
+MeasureId is a shorter indicator for each of the 28 measures
+
+```{r}
+table(places_dat$MeasureId)
+```
+
+The data has 72337 out of 73057 census tracts in the U.S. But census tracts can split and merge over time, so the data may actually have all census tracts at that moment in time. 
+
+```{r}
+n_distinct(places_dat$LocationName)
+```
+
+All but 2 of the census tracts in the PLACES data set are in the CDC SVI data set. Census tracts 6037930401, 15009000320 are not in the CDC SVI data set. 
+
+```{r}
+length(intersect(unique(places_dat$LocationID), cdc_svi$fips))
+```
+
+LocationName refers to the census tract FIPS. Below is the frequency table of the number of measures associated with a census tract. 99.66 % of census tracts have all 28 measures. 
+
+```{r}
+table(as.numeric(table(places_dat$LocationName)))
+```
 
 
 
@@ -68,7 +126,7 @@ hist(life_expect_mort_no_ui$`Life expectancy, 2014*`)
 
 ```{r}
 # reading in the CDC SVI data
-cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US_COUNTY.csv"))
+cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US.csv"))
 
 ```
 
@@ -76,103 +134,60 @@ cdc_svi <- read.csv(here("imported_data", "CDC_SVI", "SVI2018_US_COUNTY.csv"))
 summary(cdc_svi)
 ```
 
-# Exploration of Smoking Prevalence Data
-
-<!-- ```{r} -->
-<!-- n_distinct(data.frame(smoke_prevalence_both$state, smoke_prevalence_both$county)) -->
-<!-- ``` -->
-
-```{r}
-smoke_fips <- readRDS(here("intermediary_data/smoke_fips.rds"))
-```
-
-```{r}
-summary(smoke_fips)
-```
-
-The reason there are 11 NAs in the dataset is because I ignored some counties in Alaska and Hawaii, which were merged with other counties in those states. I only "unmerged" the counties within the contiguous U.S. 
-
-```{r}
-plot(smoke_fips$total_mean, smoke_fips$daily_mean)
-```
-
-The two used variables in the dataset, total_mean and daily_mean, are very correlated (as expected).
-
 
 
 # Exploration of CACES LUR air pollution data
 
 ```{r}
-caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution.csv"))
+caces_lur_wide <- readRDS(here("intermediary_data/caces_lur_wide_census_tract.rds"))
+```
+
+There is information for 72043 census tracts in the modeling dataset.
+
+```{r}
+n_distinct(caces_lur_wide$fips)
 ```
 
 ```{r}
-# convert from long to wide format
-
-caces_lur_wide <- spread(caces_lur, pollutant, pred_wght)
-
 summary(caces_lur_wide)
 ```
 
-There is information for all counties in the modeling dataset.
-
-```{r}
-n_distinct(caces_lur$fips)
-```
-
-```{r}
-table(caces_lur$pollutant)
-```
 
 
+<!-- # Joint exploration of data -->
 
-# Joint exploration of data
+<!-- The flood risk data doesn't have all the counties. -->
 
-The flood risk data doesn't have all the counties.
-
-Exploring the merged dataset
-
-```{r}
-flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
-```
-
-```{r}
-dim(flood_le_svi)
-```
-
-Exploring the modeling dataset
-
-```{r}
-fls_model_df <- readRDS(here("intermediary_data/fls_model_df.rds"))
-```
-
-```{r}
-# extract the response variable
-
-Y <- fls_model_df$`Life expectancy, 2014*`
-
-# extract the covariates matrix
-
-X <- fls_model_df[, 17:(ncol(fls_model_df) - 1)]
-
-X <- as.matrix(X)
-```
-
-```{r}
-summary(Y)
-```
-
-```{r}
-summary(X)
-```
+<!-- Exploring the merged dataset -->
 
 <!-- ```{r} -->
-<!-- # omit rows with missing covariate values -->
-<!-- Y <- Y[complete.cases(X)] -->
-<!-- X <- X[complete.cases(X), ] -->
-<!-- # otherwise, S.CARleroux returns "Error: the covariate matrix contains missing 'NA' values." -->
+<!-- flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds")) -->
+<!-- ``` -->
 
-<!-- X <- scale(X) -->
+<!-- ```{r} -->
+<!-- dim(flood_le_svi) -->
+<!-- ``` -->
+
+<!-- Exploring the modeling dataset -->
+
+<!-- ```{r} -->
+<!-- fls_model_df <- readRDS(here("intermediary_data/fls_model_df.rds")) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- # extract the response variable -->
+
+<!-- Y <- fls_model_df$`Life expectancy, 2014*` -->
+
+<!-- # extract the covariates matrix -->
+
+<!-- X <- fls_model_df[, 17:(ncol(fls_model_df) - 1)] -->
+
+<!-- X <- as.matrix(X) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- summary(Y) -->
 <!-- ``` -->
 
 <!-- ```{r} -->
@@ -184,269 +199,76 @@ summary(X)
 # Maps
 
 ```{r}
-plot_usmap(regions = "counties") + 
-  labs(title = "US Counties",
-       subtitle = "This is a blank map of the counties of the United States.") + 
-  theme(panel.background = element_rect(color = "black", fill = "lightblue"))
+library(choroplethr)
 ```
 
-## Outcome Variables
+Census Tracts
 
 ```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "Life expectancy, 2014*", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(name = "Life expectancy (2014)", label = scales::comma) + 
-  theme(legend.position = "right")
-# labs(title = "US Counties",
-#      subtitle = "This is a blank map of the counties of the United States.") + 
-# theme(panel.background = element_rect(color = "black", fill = "lightblue"))
+# plot_usmap(regions = "counties") + 
+#   labs(title = "US Counties",
+#        subtitle = "This is a blank map of the counties of the United States.") + 
+#   theme(panel.background = element_rect(color = "black", fill = "lightblue"))
 ```
 
-## Flood Risk Variables
+
+
+## North Carolina, specifically
 
 ```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "avg_risk_score_all", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(name = "Average Risk Score", label = scales::comma,
-                        limits = c(0, 10), 
-                        breaks = seq(0, 10, 1)) + 
-  theme(legend.position = "right")
+get_tract_map("north carolina")
+```
+
+### Outcome
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_NC_census_tract.rds"))
 ```
 
 ```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "avg_risk_fsf_2020_100", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(name = "Average Risk Score, 2020 100-yr", label = scales::comma, 
-                        limits = c(0, 10), 
-                        breaks = seq(0, 10, 1)) +
-  theme(legend.position = "right")
+outcome_df <- data.frame(region = fhs_model_df$fips, value = fhs_model_df$Data_Value_CHD)
 ```
 
 ```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "avg_risk_fsf_2020_500", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(name = "Average Risk Score, 2020 500-yr", label = scales::comma, 
-                        limits = c(0, 10), 
-                        breaks = seq(0, 10, 1)) + 
-  theme(legend.position = "right")
+tract_choropleth(outcome_df, state_name = "north carolina")
 ```
 
+This function helpfully points out the missing census tract fips in the data set: 
+
+The following regions were missing and are being set to NA: 37031980100, 37141990100, 37119980300, 37133990100, 37095990100, 37129990100, 37019990100, 37173980200, 37053990100, 37031990100, 37093980100, 37087980100, 37183980100, 37055990200, 37183980200, 37063980100, 37119980200, 37129980100, 37051980100, 37055990100, 37119980100, 37089980100, 37081980100.
 
 
-### Percent of First Street Properties at 3 levels of severity and 2 time points
+
+### Flood Risk Variables
 
 ```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "pct_fs_risk_2020_5", color = NA, 
-           exclude = c("AK", "HI")) + 
-  theme(legend.position = "right") + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100), 
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percent 2020, 5-yr")
+fl_df <- data.frame(region = fhs_model_df$fips, value = fhs_model_df$avg_risk_score_all)
 ```
 
 ```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "pct_fs_risk_2050_5", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100), 
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percent 2050, 5-yr") +
-  theme(legend.position = "right")
+tract_choropleth(fl_df, state_name = "north carolina")
+```
+
+
+
+### CDC SVI
+
+```{r}
+svi_df <- data.frame(region = fhs_model_df$fips, value = fhs_model_df$EP_POV)
 ```
 
 ```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "pct_fs_risk_2020_100", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100), 
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percent 2020, 100-yr") +
-  theme(legend.position = "right")
+tract_choropleth(svi_df, state_name = "north carolina")
+```
+
+
+
+### Air Pollution
+
+```{r}
+air_df <- data.frame(region = fhs_model_df$fips, value = fhs_model_df$pm25)
 ```
 
 ```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "pct_fs_risk_2050_100", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100), 
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percent 2050, 100-yr") +
-  theme(legend.position = "right")
+tract_choropleth(air_df, state_name = "north carolina")
 ```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "pct_fs_risk_2020_500", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100), 
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percent 2020, 500-yr") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "pct_fs_risk_2050_500", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100), 
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percent 2050, 500-yr") +
-  theme(legend.position = "right")
-```
-
-### Count of Properties with a given Flood Factor
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "count_floodfactor1", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        # limits = c(0, 100), 
-                        # breaks = seq(0, 100, 10),
-                        # guide_colourbar(nbin = 100),
-                        name = "Flood Factor 1 Count") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "count_floodfactor5", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        # limits = c(0, 100), 
-                        # breaks = seq(0, 100, 10),
-                        # guide_colourbar(nbin = 100),
-                        name = "Flood Factor 5 Count") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "count_floodfactor10", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        # limits = c(0, 100), 
-                        # breaks = seq(0, 100, 10),
-                        # guide_colourbar(nbin = 100),
-                        name = "Flood Factor 10 Count") +
-  theme(legend.position = "right")
-```
-
-
-
-## CDC SVI
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "EP_POV", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100),
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "% Poverty") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "EPL_POV", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 1),
-                        breaks = seq(0, 1, .10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percentile Poverty") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "EP_DISABL", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100),
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "% Disability") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "EPL_DISABL", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 1),
-                        breaks = seq(0, 1, .10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percentile Disability") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "EP_MINRTY", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100),
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "% Minority") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "EPL_MINRTY", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 1),
-                        breaks = seq(0, 1, .10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percentile Minority") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "EP_NOVEH", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 100),
-                        breaks = seq(0, 100, 10),
-                        guide_colourbar(nbin = 100),
-                        name = "% No Vehicles") +
-  theme(legend.position = "right")
-```
-
-```{r}
-plot_usmap(regions = "counties", data = flood_le_svi,
-           values = "EPL_NOVEH", color = NA, 
-           exclude = c("AK", "HI")) + 
-  scale_fill_continuous(type = "viridis",
-                        limits = c(0, 1),
-                        breaks = seq(0, 1, .10),
-                        guide_colourbar(nbin = 100),
-                        name = "Percentile No Vehicles") +
-  theme(legend.position = "right")
-```
-
-

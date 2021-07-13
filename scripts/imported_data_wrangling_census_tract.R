@@ -32,7 +32,7 @@ places_dat <- read.csv(here("imported_data",
 
 # don't need the year, state_abbr, lat or lon
 
-places_subset <- select(places_dat, -c(Year, StateAbbr, StateDesc, LocationName, 
+places_subset <- dplyr::select(places_dat, -c(Year, StateAbbr, StateDesc, LocationName, 
                                        DataSource, Category, Data_Value_Unit, Data_Value_Type, 
                                        Data_Value_Footnote_Symbol, Data_Value_Footnote, 
                                        Geolocation, DataValueTypeID))
@@ -103,17 +103,26 @@ cdc_svi <- cdc_svi[cdc_svi$fips %/% 1e9 == 37, ]
 # reading in the downloaded data from
 # https://s3.amazonaws.com/files.airclimateenergy.org/caces/uwc162557682462152e2a39746642243d77e984d07dd562d.zip
 
-caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution_NC_census_tract.csv"))
+
+
+# Since CACES doesn't like files with more than 5k fips, 
+# I'm using data provided by Melissa Lowe
+
+caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution_census_tract.csv"))
+
+# extract 2015 data
+
+caces_lur_2015 <- caces_lur[caces_lur$year == 2015,]
 
 # don't need the year, state_abbr, lat or lon
 
-caces_lur_subset <- dplyr::select(caces_lur, -c(year, state_abbr, lat, lon))
+caces_lur_subset <- dplyr::select(caces_lur_2015, -c(year, state_abbr, lat, lon))
 
 # convert from long to wide format
 
 caces_lur_wide <- spread(caces_lur_subset, pollutant, pred_wght)
 
-
+saveRDS(caces_lur_wide, file = here("intermediary_data/caces_lur_wide_census_tract.rds")) 
 
 
 

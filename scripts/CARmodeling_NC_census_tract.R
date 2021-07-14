@@ -187,23 +187,29 @@ X[is.na(X)] <- 0        # Fill in missing values with the mean
 nc_d <- list(n = nrow(X),         # number of observations
              p = ncol(X),         # number of coefficients
              X = X,               # design matrix
-             y = round(Y * fhs_model_df$TotalPopulation),               # observed number of cases
+             y = round(Y * fhs_model_df$TotalPopulation / 100),               # observed number of cases
              log_offset = log(fhs_model_df$TotalPopulation), # log(expected) num. cases
              W_n = sum(W) / 2,    # number of neighbor pairs
              W = W)               # adjacency matrix
 
-n_kept <- 18000
-n_warmup <- 2000
+n_kept <- 2000
+n_warmup <- 1000
 n_iter <- n_warmup + n_kept
 
 nc_fit <- stan(here("scripts", "simpleCAR.stan"), 
                data = nc_d, 
                iter = n_iter, warmup = n_warmup, chains = 3, verbose = FALSE)
 
-# print(nc_fit, pars = c('beta', 'tau', 'alpha', 'lp__'))
-# 
-# to_plot <- c('beta', 'tau', 'alpha', 'phi[1]', 'phi[2]', 'phi[3]', 'lp__')
-# 
-# traceplot(nc_fit, pars = to_plot)
+saveRDS(nc_fit, file = here("modeling_files/nc_fit.rds"))
+
+
+
+nc_fit <- readRDS(file = here("modeling_files/nc_fit.rds"))
+
+print(nc_fit, pars = c('beta', 'tau', 'alpha', 'lp__'))
+
+to_plot <- c('tau', 'alpha', 'phi[1]', 'phi[2]', 'phi[3]', 'lp__')
+
+traceplot(nc_fit, pars = to_plot)
 
 

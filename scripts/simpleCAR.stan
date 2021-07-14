@@ -116,7 +116,7 @@ transformed data {
     for (i in 1:n) {
       invsqrtD[i] = 1 / sqrt(D_sparse[i]);
     }
-    lambda = eigenvalues_sym(quad_form(W, diag_matrix(invsqrtD)));
+    lambda = eigenvalues_sym(quad_form(W, diag_matrix(invsqrtD))); // can find eigenvalues outside of stan
   }
 }
 parameters {

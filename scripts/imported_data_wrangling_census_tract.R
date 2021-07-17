@@ -12,12 +12,13 @@ i_am("scripts/imported_data_wrangling.R")
 
 
 
-
-
 # reading in the county flood risk data
-flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"))
+flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"), 
+                       colClasses = c("character", rep(NA, 33)))
 
-# TBC: focusing on county-level flood risk for now. I can map zip code to census tracts later, or just wait till we can process the 3m raster data. 
+flood_risk$zipcode <- sprintf("%05s", flood_risk$zipcode)
+
+# TBC2: focusing on county-level flood risk for now. I can map zip code to census tracts later, or just wait till we can process the 3m raster data. 
 # reading in the county flood risk data
 flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
 # rename fips into CountyFIPS
@@ -45,9 +46,9 @@ places_dat_wide <- pivot_wider(places_subset, id_cols = c(LocationID, CountyFIPS
   
 places_dat_wide <- rename(places_dat_wide, fips = LocationID)
 
-# TBC: focusing on NC census tracts for now
-
-places_dat_wide <- places_dat_wide[places_dat_wide$fips %/% 1e9 == 37, ]
+# # TBC: focusing on NC census tracts for now
+# 
+# places_dat_wide <- places_dat_wide[places_dat_wide$fips %/% 1e9 == 37, ]
 
 
 
@@ -62,9 +63,9 @@ cdc_svi <- rename(cdc_svi, fips = FIPS)
 # take care of the -999 missing value indicators
 cdc_svi[cdc_svi == -999] <- NA
 
-# TBC: focusing on NC census tracts for now
-
-cdc_svi <- cdc_svi[cdc_svi$fips %/% 1e9 == 37, ]
+# # TBC: focusing on NC census tracts for now
+# 
+# cdc_svi <- cdc_svi[cdc_svi$fips %/% 1e9 == 37, ]
 
 
 
@@ -126,7 +127,31 @@ saveRDS(caces_lur_wide, file = here("intermediary_data/caces_lur_wide_census_tra
 
 
 
-# merge all three datasets together by their fips
+#####
+
+# merge all four datasets together by their fips
+
+# reading in the ZCTA crosswalk
+
+# use colClasses to read identifiers with leading zeros
+
+zcta_crosswalk <- read.csv(here("imported_data", "zcta_crosswalk", "zcta_tract_rel_10.txt"), 
+                           colClasses = c(rep("character", 5), rep("numeric", 20)))
+
+# I focus on TRHUPCT, "The Percentage of Total Housing Unit Count of the 2010 Census Tract represented by the record" 
+# to merge the flood risk zip code data with the rest of the data in terms of census tracts
+
+# mini EDA
+trhupct_summary<- zcta_crosswalk %>% group_by(GEOID) %>% summarise(trhupct_sum = sum(TRHUPCT), trpoppct_sum = sum(TRPOPPCT), 
+                                                                   trareapct_sum = sum(TRAREAPCT))
+
+# most census tracts are wholly accounted for by the zip codes.
+mean(trhupct_summary$trhupct_sum >= 99)
+
+# all the flood risk zip codes are accounted for within the crosswalk.
+all(flood_risk$zipcode %in% zcta_crosswalk$ZCTA5)
+
+# approach: take a weighted mean of the non-missing flood risk values of the ZCTAs within each tract.
 
 # merging health outcomes with flood risk
 flood_health <- merge(places_dat_wide, flood_risk, all.x = T, by = "CountyFIPS")
@@ -147,11 +172,11 @@ flood_health_svi <- flood_health_svi[!(flood_health_svi$STATE %in% c("ALASKA", "
 
 # save the dataset
 
-# TBC: NC census tracts for now
+# # TBC: NC census tracts for now
+# 
+# saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_NC_census_tract.rds")) 
 
-saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_NC_census_tract.rds")) 
-
-
+saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_census_tract.rds")) 
 
 
 
@@ -161,7 +186,7 @@ flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_NC_c
 
 # remove places_dat variables other than Data_Value_CHD
 # this also puts the outcome variable as the last variable
-# TBC: selecting only cardiovascular outcomes
+# TBC2: selecting only cardiovascular outcomes
 fhs_outcome_subset <- flood_health_svi %>% dplyr::select(!(starts_with("Data_Value") | starts_with("Low_Confidence_Limit") | starts_with("High_Confidence_Limit")) | Data_Value_CSMOKING | Data_Value_CHD)
 
 # Deleting and reorganizing some flood risk variables
@@ -182,14 +207,20 @@ fhs_svi_subset <- fhs_flood_risk_subset %>%
 
 fhs_model_df <- fhs_svi_subset
 
-# TBC: NC census tract version
-saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_NC_census_tract.rds"))
+# # TBC: NC census tract version
+# saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_NC_census_tract.rds"))
 
 saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df.rds"))
 
 
 
+
+
+
+
 ####################
+
+# TBC: make an edge list instead of adjacency matrix
 
 # making the census tract adjacency matrix from the census tract adjacency file provided by 
 # the Diversity and Disparities website

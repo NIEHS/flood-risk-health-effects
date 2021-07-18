@@ -41,16 +41,16 @@ places_dat <- read.csv(here("imported_data",
 # don't need the year, state_abbr, lat or lon
 
 places_subset <- dplyr::select(places_dat, -c(Year, StateAbbr, StateDesc, LocationName, 
-                                       DataSource, Category, Data_Value_Unit, Data_Value_Type, 
-                                       Data_Value_Footnote_Symbol, Data_Value_Footnote, 
-                                       Geolocation, DataValueTypeID))
+                                              DataSource, Category, Data_Value_Unit, Data_Value_Type, 
+                                              Data_Value_Footnote_Symbol, Data_Value_Footnote, 
+                                              Geolocation, DataValueTypeID))
 
 # convert from long to wide format
 
 places_dat_wide <- pivot_wider(places_subset, id_cols = c(LocationID, CountyFIPS, TotalPopulation),
                                names_from = MeasureId, 
                                values_from = c(Data_Value, Low_Confidence_Limit, High_Confidence_Limit))
-  
+
 places_dat_wide <- rename(places_dat_wide, fips = LocationID)
 
 # TBC: focusing on NC census tracts for now
@@ -160,7 +160,63 @@ all(flood_risk$zipcode %in% zcta_crosswalk$ZCTA5)
 
 # approach: take a weighted mean of the non-missing flood risk values of the ZCTAs within each tract.
 
+flood_risk_colnames_subset <- colnames(flood_risk)[(startsWith(colnames(flood_risk), "pct_") | 
+                                                      startsWith(colnames(flood_risk), "avg_risk_")) & 
+                                                     !endsWith(colnames(flood_risk), "fs_fema_difference_2020") & 
+                                                     !endsWith(colnames(flood_risk), "fema_sfha")]
 
+merged_flood_risk_mat <- matrix(NA, nrow = nrow(places_dat_wide), ncol = length(flood_risk_colnames_subset))
+
+no_f_dat <- 0
+
+merged_mat_idx <- 1
+
+for (fip in places_dat_wide$fips) {
+  
+  one_tract_mult_zip <- zcta_crosswalk[zcta_crosswalk$GEOID == fip, names(zcta_crosswalk) %in% c("ZCTA5", "TRHUPCT")]
+  
+  one_tract_mult_zip <- rename(one_tract_mult_zip, zipcode = ZCTA5)
+  
+  one_tract_mult_zip_flood_risk <- merge(one_tract_mult_zip, flood_risk, by = "zipcode")
+  
+  # # zip codes making up the tract
+  # zips <- one_tract_mult_zip$ZCTA5
+  
+  # # corresponding TRHUPCT, i.e. percentage of housing units covered by zip code within the tract,
+  # # turned back into decimal
+  # trhupcts <- one_tract_mult_zip$TRHUPCT[one_tract_mult_zip$ZCTA5 %in% zip_flood_risk_mat$zipcode] / 100
+  
+  
+  
+  col_idx <- 1
+  
+  for (coln in flood_risk_colnames_subset) {
+    
+    if (nrow(one_tract_mult_zip_flood_risk) == 0) {
+      
+      merged_flood_risk_mat[merged_mat_idx, col_idx] <- NaN
+      
+      no_f_dat <- no_f_dat + 1
+      
+    } else {
+      
+      merged_flood_risk_mat[merged_mat_idx, col_idx] <- sum(one_tract_mult_zip_flood_risk[coln] * 
+                                                              one_tract_mult_zip_flood_risk$TRHUPCT, na.rm = T) / 
+        sum(one_tract_mult_zip_flood_risk$TRHUPCT[!is.na(one_tract_mult_zip_flood_risk[coln])])
+      
+    }
+    
+    col_idx <- col_idx + 1
+    
+  }
+  
+  merged_mat_idx <- merged_mat_idx + 1
+  
+}
+
+colnames(merged_flood_risk_mat) <- flood_risk_colnames_subset
+
+saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_mat_NC_census_tract.rds")) 
 
 
 

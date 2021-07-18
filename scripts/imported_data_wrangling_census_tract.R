@@ -15,7 +15,10 @@ i_am("scripts/imported_data_wrangling.R")
 
 
 # reading in the county flood risk data
-flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"))
+flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"), 
+                       colClasses = c("character", rep(NA, 33)))
+
+flood_risk$zipcode <- sprintf("%05s", flood_risk$zipcode)
 
 # TBC: focusing on county-level flood risk for now. I can map zip code to census tracts later, or just wait till we can process the 3m raster data. 
 # reading in the county flood risk data
@@ -126,7 +129,31 @@ saveRDS(caces_lur_wide, file = here("intermediary_data/caces_lur_wide_census_tra
 
 
 
+#####
+
 # merge all three datasets together by their fips
+
+# reading in the ZCTA crosswalk
+
+# use colClasses to read identifiers with leading zeros
+
+zcta_crosswalk <- read.csv(here("imported_data", "zcta_crosswalk", "zcta_tract_rel_10.txt"), 
+                           colClasses = c(rep("character", 5), rep("numeric", 20)))
+
+# I focus on TRHUPCT, "The Percentage of Total Housing Unit Count of the 2010 Census Tract represented by the record" 
+# to merge the flood risk zip code data with the rest of the data in terms of census tracts
+
+# mini EDA
+trhupct_summary<- zcta_crosswalk %>% group_by(GEOID) %>% summarise(trhupct_sum = sum(TRHUPCT), trpoppct_sum = sum(TRPOPPCT), 
+                                                                   trareapct_sum = sum(TRAREAPCT))
+
+# most census tracts are wholly accounted for by the zip codes.
+mean(trhupct_summary$trhupct_sum >= 99)
+
+# all the flood risk zip codes are accounted for within the crosswalk.
+all(flood_risk$zipcode %in% zcta_crosswalk$ZCTA5)
+
+# approach: take a weighted mean of the non-missing flood risk values of the ZCTAs within each tract.
 
 # merging health outcomes with flood risk
 flood_health <- merge(places_dat_wide, flood_risk, all.x = T, by = "CountyFIPS")
@@ -190,6 +217,8 @@ saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df.rds"))
 
 
 ####################
+
+# TBC: make an edge list instead of adjacency matrix
 
 # making the census tract adjacency matrix from the census tract adjacency file provided by 
 # the Diversity and Disparities website

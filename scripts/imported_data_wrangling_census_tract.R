@@ -5,6 +5,7 @@ library(stringr)
 library(tidyverse)
 library(tidyr)
 library(Matrix)
+library(stringr)
 
 select <- dplyr::select
 
@@ -20,11 +21,15 @@ flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_
 
 flood_risk$zipcode <- sprintf("%05s", flood_risk$zipcode)
 
-# TBC: focusing on county-level flood risk for now. I can map zip code to census tracts later, or just wait till we can process the 3m raster data. 
-# reading in the county flood risk data
-flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
-# rename fips into CountyFIPS
-flood_risk <- rename(flood_risk, CountyFIPS = fips)
+flood_risk_prev <- flood_risk
+
+count_ff_mat <- diag(1 / flood_risk$count_property) %*% as.matrix(select(flood_risk, starts_with("count_floodfactor"))) * 100
+
+colnames(count_ff_mat) <- str_replace(colnames(count_ff_mat), "count", "pct")
+
+flood_risk <- data.frame(flood_risk_prev, count_ff_mat)
+
+saveRDS(flood_risk, file = here("intermediary_data/flood_risk_pct_ff.rds")) 
 
 
 
@@ -155,6 +160,10 @@ all(flood_risk$zipcode %in% zcta_crosswalk$ZCTA5)
 
 # approach: take a weighted mean of the non-missing flood risk values of the ZCTAs within each tract.
 
+
+
+
+
 # merging health outcomes with flood risk
 flood_health <- merge(places_dat_wide, flood_risk, all.x = T, by = "CountyFIPS")
 
@@ -191,6 +200,7 @@ flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_NC_c
 # TBC: selecting only cardiovascular outcomes
 fhs_outcome_subset <- flood_health_svi %>% dplyr::select(!(starts_with("Data_Value") | starts_with("Low_Confidence_Limit") | starts_with("High_Confidence_Limit")) | Data_Value_CSMOKING | Data_Value_CHD)
 
+# TBC: also delete the count_floodfactor* variables, dplyr::select(!(starts_with("count_fs") | starts_with("count_floodfactor")))
 # Deleting and reorganizing some flood risk variables
 fhs_flood_risk_subset <- fhs_outcome_subset %>% dplyr::select(!starts_with("count_fs")) %>% 
   relocate(pct_fs_fema_difference_2020, .before = pct_fs_risk_2020_5)

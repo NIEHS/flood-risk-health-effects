@@ -15,7 +15,7 @@ i_am("scripts/imported_data_wrangling.R")
 
 
 
-# reading in the county flood risk data
+# reading in the zip code flood risk data
 flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"), 
                        colClasses = c("character", rep(NA, 33)))
 
@@ -30,6 +30,10 @@ colnames(count_ff_mat) <- str_replace(colnames(count_ff_mat), "count", "pct")
 flood_risk <- data.frame(flood_risk_prev, count_ff_mat)
 
 saveRDS(flood_risk, file = here("intermediary_data/flood_risk_pct_ff.rds")) 
+
+
+
+flood_risk <- readRDS(file = here("intermediary_data/flood_risk_pct_ff.rds"))
 
 
 
@@ -134,6 +138,10 @@ saveRDS(caces_lur_wide, file = here("intermediary_data/caces_lur_wide_census_tra
 
 
 
+caces_lur_wide <- readRDS(file = here("intermediary_data/caces_lur_wide_census_tract.rds"))
+
+
+
 #####
 
 # merge all three datasets together by their fips
@@ -220,8 +228,9 @@ saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_
 
 
 
-# merging health outcomes with flood risk
-flood_health <- merge(places_dat_wide, flood_risk, all.x = T, by = "CountyFIPS")
+flood_health <- data.frame(places_dat_wide, merged_flood_risk_mat)
+
+
 
 # then merging with SVI 
 flood_health_svi <- merge(flood_health, cdc_svi, all.x = T, by = "fips")

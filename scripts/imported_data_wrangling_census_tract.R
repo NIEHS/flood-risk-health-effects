@@ -265,18 +265,18 @@ flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_NC_c
 # TBC: selecting only cardiovascular outcomes
 fhs_outcome_subset <- flood_health_svi %>% dplyr::select(!(starts_with("Data_Value") | starts_with("Low_Confidence_Limit") | starts_with("High_Confidence_Limit")) | Data_Value_CSMOKING | Data_Value_CHD)
 
-# TBC: also delete the count_floodfactor* variables, dplyr::select(!(starts_with("count_fs") | starts_with("count_floodfactor")))
-# Deleting and reorganizing some flood risk variables
-fhs_flood_risk_subset <- fhs_outcome_subset %>% dplyr::select(!starts_with("count_fs")) %>% 
-  relocate(pct_fs_fema_difference_2020, .before = pct_fs_risk_2020_5)
+# # TBC: also delete the count_floodfactor* variables, dplyr::select(!(starts_with("count_fs") | starts_with("count_floodfactor")))
+# # Deleting and reorganizing some flood risk variables
+# fhs_flood_risk_subset <- fhs_outcome_subset %>% dplyr::select(!starts_with("count_fs")) %>% 
+#   relocate(pct_fs_fema_difference_2020, .before = pct_fs_risk_2020_5)
 
 # Reorganizing the CDC SVI variables
 # removing the margins of errors for now
 # focusing on the EP_ variables for now
-fhs_svi_subset <- fhs_flood_risk_subset %>% 
+fhs_svi_subset <- fhs_outcome_subset %>% 
   relocate(ST, STATE, ST_ABBR, STCNTY, COUNTY,
            LOCATION, AREA_SQMI, E_TOTPOP, 
-           E_HU, E_HH, .after = pct_fs_fema_difference_2020) %>%
+           E_HU, E_HH, .after = TotalPopulation) %>%
   select(!(starts_with("E_") & !ends_with(c("TOTPOP", "HU", "HH")))) %>%
   select(!starts_with(c("MP_", "M_", "EPL_", "SPL_", "RPL_", "F_")))
 

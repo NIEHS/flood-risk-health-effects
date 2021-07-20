@@ -8,13 +8,15 @@ library(CARBayesdata)
 library(shapefiles)
 library(sp)
 library(spdep)
-library(CARBayes)
 
 ##### Reading in the component data files
 
 W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_NC_census_tract.rds"))
 
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_NC_census_tract.rds"))
+
+# checking that the fips in W and fhs_model_df align
+all.equal(as.numeric(colnames(W)), fhs_model_df$fips)
 
 
 
@@ -24,7 +26,9 @@ Y <- fhs_model_df$Data_Value_CHD
 
 # extract the covariates matrix
 
-X <- fhs_model_df[, 19:(ncol(fhs_model_df) - 1)]
+X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
+
+X <- X[, names(X) != "pct_floodfactor1"]
 
 X <- as.matrix(X)
 
@@ -40,49 +44,49 @@ X[is.na(X)] <- 0        # Fill in missing values with the mean
 
 # ##### CARBayes part
 # 
-# # # TBC: quick version
-# # set.seed(1044, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
-# # 
-# # tick <- proc.time()[3]
-# # 
-# # chain1  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 1000,
-# #                        n.sample = 10000, thin = 5, verbose = TRUE)
-# # 
-# # tock <- proc.time()[3]
-# # 
-# # (tock-tick)/60 # time in minutes
-# # 
-# # save(chain1, file = here("modeling_files/model_NC_census_tract_quick_version.RData"))
-# 
-# 
-# 
-# 
-# 
-# set.seed(821, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+# # TBC: quick version
+# set.seed(1044, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
 # 
 # tick <- proc.time()[3]
 # 
-# chain1  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
-#                        n.sample = 100000, thin = 5, verbose = TRUE)
-# chain2  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
-#                        n.sample = 100000, thin = 5, verbose = TRUE)
-# chain3  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
-#                        n.sample = 100000, thin = 5, verbose = TRUE)
+# chain1  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 1000,
+#                        n.sample = 10000, thin = 5, verbose = TRUE)
 # 
 # tock <- proc.time()[3]
 # 
 # (tock-tick)/60 # time in minutes
 # 
-# 
-# 
-# save(chain1, chain2, chain3, file = here("modeling_files/model_3chains_model_NC_census_tract.RData"))
-# 
-# 
-# 
-# 
-# 
-# 
-# 
+# save(chain1, file = here("modeling_files/model_NC_census_tract_quick_version.RData"))
+
+
+
+
+
+set.seed(821, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+
+tick <- proc.time()[3]
+
+chain1  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
+                       n.sample = 100000, thin = 5, verbose = TRUE)
+chain2  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
+                       n.sample = 100000, thin = 5, verbose = TRUE)
+chain3  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 10000,
+                       n.sample = 100000, thin = 5, verbose = TRUE)
+
+tock <- proc.time()[3]
+
+(tock-tick)/60 # time in minutes
+
+
+
+save(chain1, chain2, chain3, file = here("modeling_files/model_3chains_model_NC_census_tract_fr_zip.RData"))
+
+
+
+
+
+
+
 # ##### Stan part
 # 
 # # Example from Max Joseph's "Exact sparse CAR models in Stan"
@@ -215,35 +219,35 @@ X[is.na(X)] <- 0        # Fill in missing values with the mean
 
 
 
-### Same as above, but with Gaussian link instead
-
-# below is the main input necessary for Stan, sparse CAR
-
-nc_d <- list(n = nrow(X),         # number of observations
-             p = ncol(X),         # number of coefficients
-             X = X,               # design matrix
-             y = Y,               # observed number of cases
-             W_n = sum(W) / 2,    # number of neighbor pairs
-             W = W)               # adjacency matrix
-
-n_kept <- 1500
-n_warmup <- 500
-n_iter <- n_warmup + n_kept
-
-nc_fit <- stan(here("scripts", "simpleCAR_gaussian.stan"), 
-               data = nc_d, 
-               iter = n_iter, warmup = n_warmup, chains = 2, verbose = FALSE)
-
-saveRDS(nc_fit, file = here("modeling_files/nc_fit3.rds"))
-
-
-
-nc_fit <- readRDS(file = here("modeling_files/nc_fit3.rds"))
-
-print(nc_fit, pars = c('beta', 'tau', 'alpha', 'lp__'))
-
-to_plot <- c('tau', 'alpha', 'phi[1]', 'phi[2]', 'phi[3]', 'lp__')
-
-traceplot(nc_fit, pars = to_plot)
+# ### Same as above, but with Gaussian link instead
+# 
+# # below is the main input necessary for Stan, sparse CAR
+# 
+# nc_d <- list(n = nrow(X),         # number of observations
+#              p = ncol(X),         # number of coefficients
+#              X = X,               # design matrix
+#              y = Y,               # observed number of cases
+#              W_n = sum(W) / 2,    # number of neighbor pairs
+#              W = W)               # adjacency matrix
+# 
+# n_kept <- 1500
+# n_warmup <- 500
+# n_iter <- n_warmup + n_kept
+# 
+# nc_fit <- stan(here("scripts", "simpleCAR_gaussian.stan"), 
+#                data = nc_d, 
+#                iter = n_iter, warmup = n_warmup, chains = 2, verbose = FALSE)
+# 
+# saveRDS(nc_fit, file = here("modeling_files/nc_fit3.rds"))
+# 
+# 
+# 
+# nc_fit <- readRDS(file = here("modeling_files/nc_fit3.rds"))
+# 
+# print(nc_fit, pars = c('beta', 'tau', 'alpha', 'lp__'))
+# 
+# to_plot <- c('tau', 'alpha', 'phi[1]', 'phi[2]', 'phi[3]', 'lp__')
+# 
+# traceplot(nc_fit, pars = to_plot)
 
 

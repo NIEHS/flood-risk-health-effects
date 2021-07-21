@@ -258,7 +258,7 @@ saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_NC_cen
 
 # Removing redundant columns, moving id columns to the left
 
-flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_NC_census_tracts.rds"))
+flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_NC_census_tract.rds"))
 
 # remove places_dat variables other than Data_Value_CHD
 # this also puts the outcome variable as the last variable

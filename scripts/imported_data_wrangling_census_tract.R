@@ -14,6 +14,14 @@ i_am("scripts/imported_data_wrangling.R")
 
 
 
+# FIPS for states in the Southwestern US: 
+
+sw_states <- c(37, 45, 47, 13, 1, 28, 12)
+
+names(sw_states) <- c("NorthCarolina", "SouthCarolina", "Tennessee",
+                      "Georgia", "Alabama", "Mississippi", "Florida")
+
+
 
 # reading in the zip code flood risk data
 flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"), 
@@ -59,7 +67,7 @@ places_dat_wide <- rename(places_dat_wide, fips = LocationID)
 
 # TBC: focusing on NC census tracts for now
 
-places_dat_wide <- places_dat_wide[places_dat_wide$fips %/% 1e9 == 37, ]
+places_dat_wide <- places_dat_wide[places_dat_wide$fips %/% 1e9 %in% sw_states, ]
 
 
 

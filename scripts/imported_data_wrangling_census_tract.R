@@ -228,10 +228,6 @@ saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_
 
 
 
-merged_flood_risk_mat <- readRDS(here("intermediary_data/merged_flood_risk_mat_NC_census_tract.rds"))
-
-
-
 flood_health <- data.frame(places_dat_wide, merged_flood_risk_mat)
 
 
@@ -260,19 +256,14 @@ saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_NC_cen
 
 
 
-# Removing redundant columns, moving id columns to the left 
+# Removing redundant columns, moving id columns to the left
 
-flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_NC_census_tract.rds"))
+flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_NC_census_tracts.rds"))
 
 # remove places_dat variables other than Data_Value_CHD
 # this also puts the outcome variable as the last variable
 # TBC: selecting only cardiovascular outcomes
-fhs_outcome_subset <- flood_health_svi %>% dplyr::select(!(starts_with("Data_Value") | starts_with("Low_Confidence_Limit") | starts_with("High_Confidence_Limit")) |
-                                                           Data_Value_CSMOKING |
-                                                           Data_Value_CHD |
-                                                           Data_Value_CASTHMA |
-                                                           Data_Value_BPHIGH | 
-                                                           Data_Value_MHLTH)
+fhs_outcome_subset <- flood_health_svi %>% dplyr::select(!(starts_with("Data_Value") | starts_with("Low_Confidence_Limit") | starts_with("High_Confidence_Limit")) | Data_Value_CSMOKING | Data_Value_CHD)
 
 # # TBC: also delete the count_floodfactor* variables, dplyr::select(!(starts_with("count_fs") | starts_with("count_floodfactor")))
 # # Deleting and reorganizing some flood risk variables

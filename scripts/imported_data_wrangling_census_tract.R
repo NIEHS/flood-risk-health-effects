@@ -65,7 +65,7 @@ places_dat_wide <- pivot_wider(places_subset, id_cols = c(LocationID, CountyFIPS
 
 places_dat_wide <- rename(places_dat_wide, fips = LocationID)
 
-# TBC: focusing on NC census tracts for now
+# TBC: focusing on SW states census tracts for now
 
 places_dat_wide <- places_dat_wide[places_dat_wide$fips %/% 1e9 %in% sw_states, ]
 
@@ -82,9 +82,9 @@ cdc_svi <- rename(cdc_svi, fips = FIPS)
 # take care of the -999 missing value indicators
 cdc_svi[cdc_svi == -999] <- NA
 
-# TBC: focusing on NC census tracts for now
+# TBC: focusing on SW states census tracts for now
 
-cdc_svi <- cdc_svi[cdc_svi$fips %/% 1e9 == 37, ]
+cdc_svi <- cdc_svi[cdc_svi$fips %/% 1e9 %in% sw_states, ]
 
 
 
@@ -187,6 +187,8 @@ no_f_dat <- 0
 
 merged_mat_idx <- 1
 
+zcta_crosswalk$GEOID <- as.numeric(zcta_crosswalk$GEOID)
+
 for (fip in places_dat_wide$fips) {
   
   one_tract_mult_zip <- zcta_crosswalk[zcta_crosswalk$GEOID == fip, names(zcta_crosswalk) %in% c("ZCTA5", "TRHUPCT")]
@@ -232,11 +234,11 @@ for (fip in places_dat_wide$fips) {
 
 colnames(merged_flood_risk_mat) <- flood_risk_colnames_subset
 
-saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_mat_NC_census_tract.rds")) 
+saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_mat_sw_states_census_tract.rds")) 
 
 
 
-merged_flood_risk_mat <- readRDS(here("intermediary_data/merged_flood_risk_mat_NC_census_tract.rds"))
+merged_flood_risk_mat <- readRDS(here("intermediary_data/merged_flood_risk_mat_sw_states_census_tract.rds"))
 
 
 
@@ -260,9 +262,9 @@ flood_health_svi <- flood_health_svi[!(flood_health_svi$STATE %in% c("ALASKA", "
 
 # save the dataset
 
-# TBC: NC census tracts for now
+# TBC: SW states census tracts for now
 
-saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_NC_census_tract.rds")) 
+saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_sw_states_census_tract.rds")) 
 
 
 
@@ -270,17 +272,14 @@ saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_NC_cen
 
 # Removing redundant columns, moving id columns to the left 
 
-flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_NC_census_tract.rds"))
+flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_sw_states_census_tract.rds"))
 
 # remove places_dat variables other than Data_Value_CHD
 # this also puts the outcome variable as the last variable
 # TBC: selecting only cardiovascular outcomes
 fhs_outcome_subset <- flood_health_svi %>% dplyr::select(!(starts_with("Data_Value") | starts_with("Low_Confidence_Limit") | starts_with("High_Confidence_Limit")) |
                                                            Data_Value_CSMOKING |
-                                                           Data_Value_CHD |
-                                                           Data_Value_CASTHMA |
-                                                           Data_Value_BPHIGH | 
-                                                           Data_Value_MHLTH)
+                                                           Data_Value_CHD)
 
 # # TBC: also delete the count_floodfactor* variables, dplyr::select(!(starts_with("count_fs") | starts_with("count_floodfactor")))
 # # Deleting and reorganizing some flood risk variables
@@ -301,10 +300,10 @@ fhs_svi_subset <- fhs_outcome_subset %>%
 
 fhs_model_df <- fhs_svi_subset
 
-# TBC: NC census tract version
-saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_NC_census_tract.rds"))
+# TBC: SW states census tract version
+saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
 
-saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df.rds"))
+# saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df.rds"))
 
 
 
@@ -320,10 +319,10 @@ census_tract_adjacency <- read.csv(here("imported_data/tract10co/nlist_2010.csv"
 
 census_tract_fips <- unique(census_tract_adjacency$SOURCE_TRACTID)
 
-# TBC: focusing on North Carolina for now
-census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$SOURCE_TRACTID %/% 1e9) == 37,]
-census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e9) == 37,]
-census_tract_fips <- census_tract_fips[(census_tract_fips %/% 1e9) == 37]
+# TBC: focusing on SW states for now
+census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$SOURCE_TRACTID %/% 1e9) %in% sw_states,]
+census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e9) %in% sw_states,]
+census_tract_fips <- census_tract_fips[(census_tract_fips %/% 1e9) %in% sw_states]
 
 census_tract_adj <- matrix(0, nrow = length(census_tract_fips), ncol = length(census_tract_fips))
 
@@ -360,18 +359,18 @@ for (k in 1:length(census_tract_fips)) {
 }
 
 # TBC: adjacency matrix just for North Carolina census tracts
-saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_NC.rds"))
+saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_sw_states.rds"))
 
 
 
-# TBC
-# changing the Oglala county FIPS in the row name/column name from 46113 to 46102
-row.names(census_tract_adj)[row.names(census_tract_adj) == 46113] <- 46102
-colnames(census_tract_adj)[colnames(census_tract_adj) == 46113] <- 46102
-
-# saving the full, unprocessed adjacency matrix for all counties
-
-saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds"))
+# # TBC
+# # changing the Oglala county FIPS in the row name/column name from 46113 to 46102
+# row.names(census_tract_adj)[row.names(census_tract_adj) == 46113] <- 46102
+# colnames(census_tract_adj)[colnames(census_tract_adj) == 46113] <- 46102
+# 
+# # saving the full, unprocessed adjacency matrix for all census tracts
+# 
+# saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds"))
 
 
 
@@ -379,11 +378,11 @@ saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds
 
 # omit (and reorder) the fips to match the flood risk fips
 
-# TBC: NC census tract version
+# TBC: SW states census tract version
 
-census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_NC.rds"))
+census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_sw_states.rds"))
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_NC_census_tract.rds"))
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
 
 
 
@@ -395,6 +394,6 @@ census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
 
 
 
-saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize_NC_census_tract.rds"))
+saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize_sw_states_census_tract.rds"))
 
 

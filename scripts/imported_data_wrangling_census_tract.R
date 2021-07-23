@@ -238,7 +238,9 @@ saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_
 
 
 
+
 merged_flood_risk_mat <- readRDS(here("intermediary_data/merged_flood_risk_mat_sw_states_census_tract.rds"))
+
 
 
 
@@ -270,7 +272,7 @@ saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_sw_sta
 
 
 
-# Removing redundant columns, moving id columns to the left 
+# Removing redundant columns, moving id columns to the left
 
 flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_sw_states_census_tract.rds"))
 

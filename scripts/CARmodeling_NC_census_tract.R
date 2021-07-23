@@ -8,12 +8,13 @@ library(CARBayesdata)
 library(shapefiles)
 library(sp)
 library(spdep)
+library(parallel)
 
 ##### Reading in the component data files
 
-W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_NC_census_tract.rds"))
+W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_sw_states_census_tract.rds"))
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_NC_census_tract.rds"))
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
 
 # checking that the fips in W and fhs_model_df align
 all.equal(as.numeric(colnames(W)), fhs_model_df$fips)
@@ -56,9 +57,14 @@ X[is.na(X)] <- 0        # Fill in missing values with the mean
 # 
 # (tock-tick)/60 # time in minutes
 # 
-# save(chain1, file = here("modeling_files/model_NC_census_tract_quick_version.RData"))
+# save(chain1, file = here("modeling_files/model_sw_states_census_tract_quick_version.RData"))
 
 
+
+
+# NOTE: using more cores
+
+options(mc.cores = 6)
 
 
 
@@ -79,7 +85,7 @@ tock <- proc.time()[3]
 
 
 
-save(chain1, chain2, chain3, file = here("modeling_files/model_3chains_model_NC_census_tract_fr_zip.RData"))
+save(chain1, chain2, chain3, file = here("modeling_files/model_3chains_model_sw_states_census_tract_fr_zip.RData"))
 
 
 

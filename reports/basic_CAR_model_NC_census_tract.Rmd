@@ -8,6 +8,7 @@ output: pdf_document
 ```{r}
 library(here)
 library(coda)
+library(CARBayes)
 ```
 
 
@@ -16,7 +17,7 @@ library(coda)
 Inference is based on 3 markov chains, each of which has been run for 100000 samples, the first 10000 of which has been removed for burn-in. The remaining 90000 samples are thinned by 5, resulting in 18000 * 3 = 54000 samples for inference across the 3 Markov chains. 
 
 ```{r}
-load(here("modeling_files/model_3chains_model_NC_census_tract_fr_zip.RData"))
+load(here("modeling_files/model_3chains_model_sw_states_census_tract_fr_zip.RData"))
 ```
 
 Output for the first chain is shown below.
@@ -127,12 +128,66 @@ colnames(beta_samples_matrix) <- colnames(chain1$X)
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
-List of significant beta coefficients:
+List of significant beta coefficients: 
 
 ```{r}
 colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
+## Presenting the Results
+
+Retrieving the standard deviation used to scale the covariates
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
+```
+
+```{r}
+X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
+
+X <- X[, names(X) != "pct_floodfactor1"]
+
+X <- as.matrix(X)
 
 
+
+X           <- scale(X) # Scale covariates
+# X[is.na(X)] <- 0        # Fill in missing values with the mean
+```
+
+```{r}
+(covariate_sds <- attr(X, "scaled:scale"))
+```
+
+Rescaling beta_inference (except the intercept)
+
+```{r}
+beta_inference_scaled <- beta_inference
+
+for (i in 2:nrow(beta_inference)) {
+  
+  beta_inference_scaled[i, ] <- beta_inference_scaled[i, ] / covariate_sds[i - 1]
+  
+}
+```
+
+```{r}
+beta_inference_scaled
+```
+
+Showing just the results for the significant coefficients
+
+```{r}
+beta_inference_scaled[sign(beta_inference_scaled[, 2]) == sign(beta_inference_scaled[, 3]), ]
+```
+
+```{r}
+round(beta_inference_scaled[sign(beta_inference_scaled[, 2]) == sign(beta_inference_scaled[, 3]), ], digits = 3)
+```
+
+Multiplying by factor of 10, for more interpretability
+
+```{r}
+round((beta_inference_scaled * 10)[sign(beta_inference_scaled[, 2]) == sign(beta_inference_scaled[, 3]), ], digits = 2)
+```
 

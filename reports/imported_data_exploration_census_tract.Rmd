@@ -110,9 +110,9 @@ n_distinct(places_dat$LocationName)
 
 All but 2 of the census tracts in the PLACES data set are in the CDC SVI data set. Census tracts 6037930401, 15009000320 are not in the CDC SVI data set. 
 
-```{r}
-length(intersect(unique(places_dat$LocationID), cdc_svi$fips))
-```
+<!-- ```{r} -->
+<!-- length(intersect(unique(places_dat$LocationID), cdc_svi$fips)) -->
+<!-- ``` -->
 
 LocationName refers to the census tract FIPS. Below is the frequency table of the number of measures associated with a census tract. 99.66 % of census tracts have all 28 measures. 
 

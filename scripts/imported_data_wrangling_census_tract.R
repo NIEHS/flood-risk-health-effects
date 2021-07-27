@@ -37,6 +37,12 @@ colnames(count_ff_mat) <- str_replace(colnames(count_ff_mat), "count", "pct")
 
 flood_risk <- data.frame(flood_risk_prev, count_ff_mat)
 
+# # make percent change variables
+# flood_risk <- flood_risk %>% 
+#   mutate(pct_change_5 = (pct_fs_risk_2050_5 - pct_fs_risk_2020_5) / pct_fs_risk_2020_5, 
+#          pct_change_100 = (pct_fs_risk_2050_100 - pct_fs_risk_2020_100) / pct_fs_risk_2020_100,
+#          pct_change_500 = (pct_fs_risk_2050_500 - pct_fs_risk_2020_500) / pct_fs_risk_2020_500)
+
 saveRDS(flood_risk, file = here("intermediary_data/flood_risk_pct_ff.rds")) 
 
 

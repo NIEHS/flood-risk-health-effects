@@ -31,6 +31,15 @@ X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
 
 X <- X[, names(X) != "pct_floodfactor1"]
 
+# exclude some more variables selected by vifstep, to account for multicollinearity
+# excluding all of the pct_fs_risk variables, as well as 3 of the avg_risk_score variables
+
+collin_var_names <- c("pct_fs_risk_2050_500", "avg_risk_score_all", "pct_fs_risk_2050_100",
+                      "pct_fs_risk_2020_500", "pct_fs_risk_2020_100", "avg_risk_fsf_2020_500",
+                      "pct_fs_risk_2050_5", "avg_risk_score_2_10", "pct_fs_risk_2020_5")
+
+X <- X[, !(names(X) %in% collin_var_names)]
+
 X <- as.matrix(X)
 
 
@@ -50,14 +59,18 @@ X[is.na(X)] <- 0        # Fill in missing values with the mean
 # 
 # tick <- proc.time()[3]
 # 
-# chain1  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 1000,
-#                        n.sample = 10000, thin = 5, verbose = TRUE)
+# chain1  <- S.CARleroux(Y ~ X, family="gaussian", W=W, burnin = 100,
+#                        n.sample = 1000, thin = 5, verbose = TRUE)
 # 
 # tock <- proc.time()[3]
 # 
 # (tock-tick)/60 # time in minutes
 # 
-# save(chain1, file = here("modeling_files/model_sw_states_census_tract_quick_version.RData"))
+# save(chain1, file = here("modeling_files/model_sw_states_var_exclude_quick_version.RData"))
+
+
+
+
 
 
 
@@ -85,7 +98,12 @@ tock <- proc.time()[3]
 
 
 
-save(chain1, chain2, chain3, file = here("modeling_files/model_3chains_model_sw_states_census_tract_fr_zip.RData"))
+save(chain1, chain2, chain3, file = here("modeling_files/model_3chains_sw_states_var_exclude.RData"))
+
+
+
+
+
 
 
 

@@ -13,6 +13,11 @@ i_am("scripts/imported_data_wrangling.R")
 
 
 
+# TBC: instead of merging flood risk variables for just census tracts with non-missing
+# CHD prevalence, merge for all of them. Can get census tract fips from the TIGER/LINE 
+# shapefiles of the entire U.S. 
+
+
 
 # FIPS for states in the Southwestern US: 
 

@@ -14,6 +14,14 @@ i_am("scripts/imported_data_wrangling.R")
 # reading in the county flood risk data
 flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
 
+flood_risk_prev <- flood_risk
+
+count_ff_mat <- diag(1 / flood_risk$count_property) %*% as.matrix(select(flood_risk, starts_with("count_floodfactor"))) * 100
+
+colnames(count_ff_mat) <- str_replace(colnames(count_ff_mat), "count", "pct")
+
+flood_risk <- data.frame(flood_risk_prev, count_ff_mat)
+
 
 
 # reading in the Life Expectancy/Mortality Risk data
@@ -247,6 +255,13 @@ caces_lur_wide <- spread(caces_lur_subset, pollutant, pred_wght)
 
 
 
+flood_risk <- select(flood_risk, fips | (starts_with("pct_") | 
+                                    starts_with("avg_risk_")) & 
+                       !ends_with("fs_fema_difference_2020") & 
+                       !ends_with("fema_sfha"))
+
+
+
 # merge all three datasets together by their fips
 
 # merging life expectancy with flood risk
@@ -290,17 +305,17 @@ flood_le_svi <- readRDS(file = here("intermediary_data/flood_le_svi.rds"))
 fls_outcome_subset <- flood_le_svi %>% dplyr::select(!starts_with("Life expectancy") | ends_with(", 2014*")) %>%
   dplyr::select(!`% Change in Life Expectancy, 1980-2014`)
 
-# Deleting and reorganizing some flood risk variables
-fls_flood_risk_subset <- fls_outcome_subset %>% dplyr::select(!starts_with("count_fs")) %>% 
-  relocate(pct_fs_fema_difference_2020, .before = pct_fs_risk_2020_5)
+# # Deleting and reorganizing some flood risk variables
+# fls_flood_risk_subset <- fls_outcome_subset %>% dplyr::select(!starts_with("count_fs")) %>% 
+#   relocate(pct_fs_fema_difference_2020, .before = pct_fs_risk_2020_5)
 
 # Reorganizing the CDC SVI variables
 # removing the margins of errors for now
 # focusing on the EP_ variables for now
-fls_svi_subset <- fls_flood_risk_subset %>% 
+fls_svi_subset <- fls_outcome_subset %>% 
   relocate(ST, STATE, ST_ABBR, COUNTY, 
            LOCATION, AREA_SQMI, E_TOTPOP, 
-           E_HU, E_HH, .after = pct_fs_fema_difference_2020) %>%
+           E_HU, E_HH, .after = Location) %>%
   select(!(starts_with("E_") & !ends_with(c("TOTPOP", "HU", "HH")))) %>%
   select(!starts_with(c("MP_", "M_", "EPL_", "SPL_", "RPL_", "F_")))
 

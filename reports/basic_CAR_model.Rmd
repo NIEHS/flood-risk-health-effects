@@ -47,6 +47,10 @@ beta_samples <- mcmc.list(chain1$samples$beta, chain2$samples$beta,
 ```
 
 ```{r, eval = F}
+saveRDS(beta_samples, file = here("modeling_files/model_3chains_var_exclude_beta_samples.rds"))
+```
+
+```{r, eval = F}
 plot(beta_samples)
 ```
 

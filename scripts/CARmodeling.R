@@ -29,6 +29,9 @@ X <- fls_model_df[, 12:(ncol(fls_model_df) - 1)]
 
 X <- X[, names(X) != "pct_floodfactor1"]
 
+# the age-related CDC SVI variables should probably not be in here
+X <- X[, !(names(X) %in% c("EP_AGE65", "EP_AGE17"))]
+
 # exclude some more variables selected by vifstep, to account for multicollinearity
 # excluding all of the pct_fs_risk variables, as well as 3 of the avg_risk_score variables
 # omit daily_mean too, it's collinear with total_mean

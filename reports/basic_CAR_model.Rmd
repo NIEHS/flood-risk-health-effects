@@ -12,12 +12,13 @@ library(CARBayes)
 ```
 
 
+
 # CAR model results
 
 Inference is based on 3 markov chains, each of which has been run for 100000 samples, the first 10000 of which has been removed for burn-in. The remaining 90000 samples are thinned by 5, resulting in 18000 * 3 = 54000 samples for inference across the 3 Markov chains. 
 
 ```{r}
-load(here("modeling_files/model_3chains.RData"))
+load(here("modeling_files/model_3chains_var_exclude.RData"))
 ```
 
 Output for the first chain is shown below.
@@ -45,7 +46,7 @@ beta_samples <- mcmc.list(chain1$samples$beta, chain2$samples$beta,
                           chain3$samples$beta)
 ```
 
-```{r}
+```{r, eval = F}
 plot(beta_samples)
 ```
 
@@ -70,7 +71,7 @@ rho_samples <- mcmc.list(chain1$samples$rho, chain2$samples$rho,
 
 ```
 
-```{r}
+```{r, eval = F}
 plot(tau2_samples)
 
 plot(nu2_samples)
@@ -106,7 +107,7 @@ phi_subset_idx <- sample(1:3108, size = 10)
 phi_samples_subset <- phi_samples[, phi_subset_idx]
 ```
 
-```{r}
+```{r, eval = F}
 plot(phi_samples_subset)
 ```
 
@@ -134,5 +135,5 @@ List of significant beta coefficients:
 colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
-None of the flood variables turned out to be significant, unfortunately. 
+
 

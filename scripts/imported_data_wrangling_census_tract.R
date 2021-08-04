@@ -57,6 +57,7 @@ flood_risk <- readRDS(file = here("intermediary_data/flood_risk_pct_ff.rds"))
 
 
 # work with the PLACES dataset
+# https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Local-Data-for-Better-Health-Census-Tract-D/cwsq-ngmh 
 
 places_dat <- read.csv(here("imported_data", 
                             "PLACES__Local_Data_for_Better_Health__Census_Tract_Data_2020_release.csv"))

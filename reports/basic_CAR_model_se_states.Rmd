@@ -10,6 +10,7 @@ library(here)
 library(coda)
 library(CARBayes)
 library(ggplot2)
+library(tidyverse)
 ```
 
 ```{r}
@@ -49,7 +50,11 @@ beta_samples <- mcmc.list(chain1$samples$beta, chain2$samples$beta,
                           chain3$samples$beta)
 ```
 
-```{r}
+```{r, eval = F}
+saveRDS(beta_samples, file = here("modeling_files/model_3chains_sw_states_var_exclude_beta_samples.rds"))
+```
+
+```{r, eval = F}
 plot(beta_samples)
 ```
 
@@ -74,7 +79,7 @@ rho_samples <- mcmc.list(chain1$samples$rho, chain2$samples$rho,
 
 ```
 
-```{r}
+```{r, eval = F}
 plot(tau2_samples)
 
 plot(nu2_samples)
@@ -110,7 +115,7 @@ phi_subset_idx <- sample(1:3108, size = 10)
 phi_samples_subset <- phi_samples[, phi_subset_idx]
 ```
 
-```{r}
+```{r, eval = F}
 plot(phi_samples_subset)
 ```
 

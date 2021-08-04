@@ -150,7 +150,9 @@ vifstep(X)
 This procedure detects that the following variables have collinearity problems. Let's exclude these variables and then rerun the analysis. 
 
 ```{r}
-collin_var_names <- c("pct_fs_risk_2050_500", "avg_risk_score_all", "pct_fs_risk_2050_100", "pct_fs_risk_2020_500", "pct_fs_risk_2020_100", "avg_risk_fsf_2020_500", "pct_fs_risk_2050_5", "avg_risk_score_2_10", "pct_fs_risk_2020_5")
+collin_var_names <- c("pct_fs_risk_2050_500", "avg_risk_score_all", "pct_fs_risk_2050_100",
+                      "pct_fs_risk_2020_500", "pct_fs_risk_2020_100", "avg_risk_fsf_2020_500",
+                      "pct_fs_risk_2050_5", "avg_risk_score_2_10", "pct_fs_risk_2020_5")
 ```
 
 

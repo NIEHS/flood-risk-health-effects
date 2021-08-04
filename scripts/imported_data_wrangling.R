@@ -14,29 +14,39 @@ i_am("scripts/imported_data_wrangling.R")
 # reading in the county flood risk data
 flood_risk <- read.csv(here("imported_data", "flood_risk", "County_level_risk_FEMA_FSF_v1.3.csv"))
 
+flood_risk_prev <- flood_risk
+
+count_ff_mat <- diag(1 / flood_risk$count_property) %*% as.matrix(select(flood_risk, starts_with("count_floodfactor"))) * 100
+
+colnames(count_ff_mat) <- str_replace(colnames(count_ff_mat), "count", "pct")
+
+flood_risk <- data.frame(flood_risk_prev, count_ff_mat)
 
 
-# reading in the Life Expectancy/Mortality Risk data
-# omitting the last two rows, which don't have data
-life_expect_mort <- read_excel(here("imported_data", "life_expectancy_mortality_risk", 
-                                    "IHME_USA_COUNTY_LE_MORTALITY_RISK_1980_2014_NATIONAL_Y2017M05D08.XLSX"), 
-                               sheet = "Life expectancy", skip = 1, n_max = 3194)
 
-# Lowercase the FIPS
-life_expect_mort <- rename(life_expect_mort, fips = FIPS)
 
-# remove the confidence interval in the data columns
 
-life_expect_mort_no_ui <- life_expect_mort
+# work with the PLACES dataset
 
-for (j in 3:11) {
-  
-  life_expect_mort_no_ui[[j]] <- as.numeric(str_replace(life_expect_mort[[j]], " .+", ""))
-  
-}
+places_dat <- read.csv(here("imported_data", 
+                            "PLACES__Local_Data_for_Better_Health__County_Data_2020_release.csv"))
 
-saveRDS(life_expect_mort_no_ui, file = here("imported_data", "life_expectancy_mortality_risk", 
-                                            "life_expect_mort_no_ui.rds"))
+# don't need the year, state_abbr, lat or lon
+
+places_subset <- dplyr::select(places_dat, -c(Year, StateAbbr, StateDesc, LocationName, 
+                                              DataSource, Category, Data_Value_Unit, Data_Value_Type, 
+                                              Data_Value_Footnote_Symbol, Data_Value_Footnote, 
+                                              geolocation, DataValueTypeID))
+
+# convert from long to wide format
+
+places_dat_wide <- pivot_wider(places_subset, id_cols = c(LocationID, TotalPopulation),
+                               names_from = MeasureId, 
+                               values_from = c(Data_Value, Low_Confidence_Limit, High_Confidence_Limit))
+
+places_dat_wide <- rename(places_dat_wide, fips = LocationID)
+
+
 
 
 

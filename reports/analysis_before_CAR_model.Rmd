@@ -9,6 +9,7 @@ output: pdf_document
 library(here)
 library(ape)
 library(GGally)
+library(usdm)
 ```
 
 ```{r}
@@ -22,11 +23,11 @@ fls_model_df <- readRDS(here("intermediary_data/fls_model_df.rds"))
 ## Flood risk variables
 
 ```{r}
-ggcorr(data = fls_model_df[, c(17:38, 63)], progress = F)
+ggcorr(data = fls_model_df[, c(12:33, ncol(fls_model_df))], progress = F)
 ```
 
 ```{r}
-flood_cor <- cor(fls_model_df[complete.cases(fls_model_df[, c(17:38, 63)]), c(17:38, 63)])
+flood_cor <- cor(fls_model_df[complete.cases(fls_model_df[, c(12:33, ncol(fls_model_df))]), c(12:33, ncol(fls_model_df))])
 
 flood_cor[nrow(flood_cor), ]
 ```
@@ -44,11 +45,11 @@ Many of the flood risk variables are very correlated.
 ## SVI Variables
 
 ```{r}
-ggcorr(data = fls_model_df[, 39:54], progress = F)
+ggcorr(data = fls_model_df[, 34:49], progress = F)
 ```
 
 ```{r}
-(svi_cor <- cor(fls_model_df[complete.cases(fls_model_df[, 39:54]), 39:54]))
+(svi_cor <- cor(fls_model_df[complete.cases(fls_model_df[, 34:49]), 34:49]))
 ```
 
 ```{r}
@@ -62,7 +63,7 @@ summary(svi_cor)
 ## Air pollution variables
 
 ```{r}
-ggpairs(data = fls_model_df, columns = 55:60, progress = F)
+ggpairs(data = fls_model_df, columns = 50:55, progress = F)
 ```
 
 
@@ -70,7 +71,7 @@ ggpairs(data = fls_model_df, columns = 55:60, progress = F)
 ## Smoking prevalence variables
 
 ```{r}
-ggpairs(data = fls_model_df, columns = 61:62, progress = F)
+ggpairs(data = fls_model_df, columns = 56:57, progress = F)
 ```
 
 The correlation between total_mean and daily_mean is almost one. 
@@ -84,7 +85,7 @@ Y <- fls_model_df$`Life expectancy, 2014*`
 
 # extract the covariates matrix
 
-X <- fls_model_df[, 17:(ncol(fls_model_df) - 1)]
+X <- fls_model_df[, 12:(ncol(fls_model_df) - 1)]
 
 X           <- scale(X) # Scale covariates
 X[is.na(X)] <- 0        # Fill in missing values with the mean
@@ -116,5 +117,33 @@ The *p*-value is negligible, so we can reject the null hypothesis of zero spatia
 
 
 
+
+# Using VIF to exlude variables
+
+```{r}
+X <- fls_model_df[, 12:(ncol(fls_model_df) - 1)]
+
+X <- X[, names(X) != "pct_floodfactor1"]
+
+X           <- scale(X) # Scale covariates
+
+X <- as.data.frame(X)
+```
+
+```{r}
+vif(X)
+```
+
+```{r}
+vifstep(X)
+```
+
+This procedure detects that the following variables have collinearity problems. Let's exclude these variables and then rerun the analysis. 
+
+```{r}
+collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk_2020_500",
+                      "avg_risk_fsf_2020_500", "pct_fs_risk_2050_5", "pct_fs_risk_2020_100",
+                      "daily_mean", "pct_fs_risk_2050_100", "avg_risk_score_2_10", "pct_floodfactor10") 
+```
 
 

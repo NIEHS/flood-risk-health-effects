@@ -12,6 +12,9 @@ W <- readRDS(here("intermediary_data", "countyadj_reorganize.rds"))
 
 fls_model_df <- readRDS(here("intermediary_data/fls_model_df.rds"))
 
+# checking that the fips in W and fhs_model_df align
+all.equal(as.numeric(colnames(W)), fls_model_df$fips)
+
 
 
 # extract the response variable
@@ -20,7 +23,23 @@ Y <- fls_model_df$`Life expectancy, 2014*`
 
 # extract the covariates matrix
 
-X <- fls_model_df[, 17:(ncol(fls_model_df) - 1)]
+X <- fls_model_df[, 12:(ncol(fls_model_df) - 1)]
+
+
+
+X <- X[, names(X) != "pct_floodfactor1"]
+
+# exclude some more variables selected by vifstep, to account for multicollinearity
+# excluding all of the pct_fs_risk variables, as well as 3 of the avg_risk_score variables
+# omit daily_mean too, it's collinear with total_mean
+
+collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk_2020_500",
+                      "avg_risk_fsf_2020_500", "pct_fs_risk_2050_5", "pct_fs_risk_2020_100",
+                      "daily_mean", "pct_fs_risk_2050_100", "avg_risk_score_2_10", "pct_floodfactor10") 
+
+X <- X[, !(names(X) %in% collin_var_names)]
+
+
 
 X <- as.matrix(X)
 
@@ -57,7 +76,7 @@ tock <- proc.time()[3]
 
 
 
-save(chain1, chain2, chain3, file = here("modeling_files/model_3chains.RData"))
+save(chain1, chain2, chain3, file = here("modeling_files/model_3chains_var_exclude.RData"))
 
 
 

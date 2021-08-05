@@ -44,42 +44,6 @@ summary(flood_cor)
 
 Many of the flood risk variables are very correlated.
 
-## SVI Variables
-
-```{r}
-ggcorr(data = fhs_model_df[, 39:54], progress = F)
-```
-
-```{r}
-(svi_cor <- cor(fhs_model_df[complete.cases(fhs_model_df[, 39:54]), 39:54]))
-```
-
-```{r}
-diag(svi_cor) <- NA
-
-summary(svi_cor)
-```
-
-
-
-## Air pollution variables
-
-```{r}
-ggpairs(data = fhs_model_df, columns = 55:60, progress = F)
-```
-
-
-
-## Smoking prevalence variables
-
-```{r}
-ggpairs(data = fhs_model_df, columns = 61:62, progress = F)
-```
-
-The correlation between total_mean and daily_mean is almost one. 
-
-
-
 
 
 # Non-spatial modeling

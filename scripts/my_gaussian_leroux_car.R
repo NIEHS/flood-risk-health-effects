@@ -1,27 +1,33 @@
 
+#### Global variables
+
+# Spatial quantities
+
+prior.var.beta <- 100000
+
 
 
 #' Function to compute the log posterior for the spatial markov model M-H steps
 #' Just used for parameter rho
 #'
 #' @param y response variable
-#' @param parameters: Z, W, num_nbr_mat, sigma2, rho, mu, tau2, X
+#' @param parameters: Z, W, num_nbr_mat, sigma2, rho, beta, tau2, X
 #' later on this will involve M, phi
 #' @return log of the posterior density 
 #' @export
 log_post_agdsq <- function(y, Z, W, num_nbr_mat, sigma2, rho,
-                           mu, tau2, X) {
+                           beta, tau2, X) {
   
   n <- length(y)
   
-  like <- sum(dnorm(y, X %*% mu + Z, tau2, log = TRUE))
+  like <- sum(dnorm(y, X %*% beta + Z, tau2, log = TRUE))
   
   # spatial terms
   Sigma <- sigma2 * solve((1 - rho) * diag(n) + rho * (num_nbr_mat - W))
   spatial_like <- sum(dmvnorm(Z, mean = rep(0, n), sigma = Sigma, log = T))
   
   # cluster means
-  cluster_mean_like <- sum(dnorm(mu, 0, tau2 * b, log = TRUE))
+  cluster_mean_like <- sum(dnorm(beta, 0, tau2 * b, log = TRUE))
   
   
   
@@ -44,13 +50,13 @@ log_post_agdsq <- function(y, Z, W, num_nbr_mat, sigma2, rho,
 #'
 #' @param y response variable
 #' @param log_post the log posterior of the last iteration
-#' @param parameters: Z, W, num_nbr_mat, sigma2, rho, mu, tau2, X
+#' @param parameters: Z, W, num_nbr_mat, sigma2, rho, beta, tau2, X
 #' @param can_sd list containing the candidate standard deviations for 
 #' @return the updated parameters for the MCMC iteration
 #' @export
 met_glm_iter <- function(y,
                          log_post,
-                         Z, W, num_nbr_mat, sigma2, rho, mu, tau2, X,
+                         Z, W, num_nbr_mat, sigma2, rho, beta, tau2, X,
                          can_sd) {
   
   # Candidate sd's for rho, ...
@@ -59,19 +65,23 @@ met_glm_iter <- function(y,
   
   
   
-  # Metropolis/Gibbs for Z, sigma2, rho, mu, tau2
-  
-  # mu
+  p <- length(beta)
   
   
   
-  # fc.precision <- prior.precision.beta + data.precision.beta / nu2
-  # fc.var <- solve(fc.precision)
-  # beta.offset <- as.numeric(Y.DA - offset - phi)
-  # beta.offset2 <- t(X.standardised) %*% beta.offset / nu2 + prior.precision.beta %*% prior.mean.beta
-  # fc.mean <- fc.var %*% beta.offset2
-  # chol.var <- t(chol(fc.var))
-  # beta <- fc.mean + chol.var %*% rnorm(p)   
+  # Metropolis/Gibbs for Z, sigma2, rho, beta, tau2
+  
+  prior.precision.beta <- solve(diag(rep(prior.var.beta, p)))
+  
+  # beta
+  
+  fc.precision <- prior.precision.beta + data.precision.beta / nu2
+  fc.var <- solve(fc.precision)
+  beta.offset <- as.numeric(Y.DA - offset - phi)
+  beta.offset2 <- t(X.standardised) %*% beta.offset / nu2 + prior.precision.beta %*% prior.mean.beta
+  fc.mean <- fc.var %*% beta.offset2
+  chol.var <- t(chol(fc.var))
+  beta <- fc.mean + chol.var %*% rnorm(p)
   
   
   
@@ -134,7 +144,7 @@ met_glm <- function(Y, X, inits, can_sd, n_burn_in, n_iter) {
   
   n <- length(Y)
   
-  p <- ncol(X)
+  p <- ncol(X) + 1
   
   # Create empty matrix for MCMC samples
   
@@ -142,7 +152,7 @@ met_glm <- function(Y, X, inits, can_sd, n_burn_in, n_iter) {
   
   mcmc_ssvs <- matrix(NA, S, length(unlist(inits))) # tracking alpha, gamma, delta, and sigma
   
-  colnames(mcmc_ssvs) <- c("alpha", rep("gamma", length(inits$gamma)), rep("delta", p), "sigma", "q")
+  colnames(mcmc_ssvs) <- c("alpha", rep("gamma", length(inits$gamma)), rep("delta", p - 1), "sigma", "q")
   
   
   
@@ -160,20 +170,16 @@ met_glm <- function(Y, X, inits, can_sd, n_burn_in, n_iter) {
   
   
   
-  if (length(gamma) < length(delta)) { # grouped selection. Uses global variables
-    
-    beta <- c(rep(gamma[1:num_gamma_pc], each = 3), 
-              gamma[(num_gamma_pc + 1):(num_gamma_pc + p2)]) * delta
-    
-  } else { # individual selection
-    
-    beta <- gamma * delta
-    
-  }
+  
   
   Xb <- X %*% beta
   
   log_post <- log_post_agdsq(Y, Xb, alpha, gamma, delta, sigma, q)
+  
+  
+  
+  
+  
   
   
   

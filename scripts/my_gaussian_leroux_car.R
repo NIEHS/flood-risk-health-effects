@@ -1,9 +1,99 @@
 
-#### Global variables
+library(Rcpp)
 
-# Spatial quantities
+# Put in cpp helper functions from duncanplee's code below
 
-prior.var.beta <- 100000
+cppFunction('double quadform(NumericMatrix Wtriplet, NumericVector Wtripletsum, const int n_triplet, const int nsites, 
+                    NumericVector phi, NumericVector theta, double rho)
+{
+// Compute a quadratic form for the random effects
+// Create new objects 
+double tau2_posteriorscale;
+double tau2_quadform = 0, tau2_phisq = 0;
+int row, col;
+   
+   
+// Compute the off diagonal elements of the quadratic form
+     for(int l = 0; l < n_triplet; l++)
+     {
+     row = Wtriplet(l,0) - 1;
+     col = Wtriplet(l,1) - 1;
+     tau2_quadform = tau2_quadform + phi[(Wtriplet(l,0) - 1)] * theta[(Wtriplet(l,1) - 1)] * Wtriplet(l,2); 
+     }
+ 
+ 
+ // Compute the diagonal elements of the quadratic form          
+     for(int l = 0; l < nsites; l++)
+     {
+     tau2_phisq = tau2_phisq + phi[l] * theta[l] * (rho * Wtripletsum[l] + 1 - rho);    
+     }
+           
+     
+// Compute the quadratic form
+tau2_posteriorscale = 0.5 * (tau2_phisq - rho * tau2_quadform);
+
+ 
+// Return the simulated value
+return tau2_posteriorscale;
+}')
+
+
+
+# Taken from duncanplee's code
+
+common.Wcheckformat <- function(W)
+{
+  #### Check W is a matrix of the correct dimension
+  if(!is.matrix(W)) stop("W is not a matrix.", call.=FALSE)
+  n <- nrow(W)
+  if(ncol(W)!= n) stop("W is not a square matrix.", call.=FALSE)    
+  
+  
+  #### Check validity of inputed W matrix
+  if(sum(is.na(W))>0) stop("W has missing 'NA' values.", call.=FALSE)
+  if(!is.numeric(W)) stop("W has non-numeric values.", call.=FALSE)
+  if(min(W)<0) stop("W has negative elements.", call.=FALSE)
+  if(sum(W!=t(W))>0) stop("W is not symmetric.", call.=FALSE)
+  if(min(apply(W, 1, sum))==0) stop("W has some areas with no neighbours (one of the row sums equals zero).", call.=FALSE)    
+  
+  
+  #### Create the triplet form
+  ids <- which(W > 0, arr.ind = T)
+  W.triplet <- cbind(ids, W[ids])
+  W.triplet <- W.triplet[ ,c(2,1,3)]
+  
+  #W.triplet <- c(NA, NA, NA)
+  #for(i in 1:n)
+  #{
+  #    for(j in 1:n)
+  #    {
+  #        if(W[i,j]>0)
+  #        {
+  #            W.triplet <- rbind(W.triplet, c(i,j, W[i,j]))     
+  #        }else{}
+  #    }
+  #}
+  #W.triplet <- W.triplet[-1, ]     
+  n.triplet <- nrow(W.triplet) 
+  W.triplet.sum <- tapply(W.triplet[ ,3], W.triplet[ ,1], sum)
+  n.neighbours <- tapply(W.triplet[ ,3], W.triplet[ ,1], length)
+  
+  
+  #### Create the start and finish points for W updating
+  W.begfin <- cbind(c(1, cumsum(n.neighbours[-n])+1), cumsum(n.neighbours))
+  #W.begfin <- array(NA, c(n, 2))     
+  #temp <- 1
+  #for(i in 1:n)
+  #{
+  #    W.begfin[i, ] <- c(temp, (temp + n.neighbours[i]-1))
+  #    temp <- temp + n.neighbours[i]
+  #}
+  
+  
+  #### Return the critical quantities
+  results <- list(W=W, W.triplet=W.triplet, n.triplet=n.triplet, W.triplet.sum=W.triplet.sum, n.neighbours=n.neighbours, W.begfin=W.begfin, n=n)
+  return(results)   
+}
 
 
 
@@ -11,23 +101,23 @@ prior.var.beta <- 100000
 #' Just used for parameter rho
 #'
 #' @param y response variable
-#' @param parameters: Z, W, num_nbr_mat, sigma2, rho, beta, tau2, X
-#' later on this will involve M, phi
+#' @param parameters: phi, W, num_nbr_mat, sigma2, rho, beta, nu2, X
+#' later on this will involve M, phi~
 #' @return log of the posterior density 
 #' @export
-log_post_agdsq <- function(y, Z, W, num_nbr_mat, sigma2, rho,
-                           beta, tau2, X) {
+log_post_agdsq <- function(Y, phi, W, num_nbr_mat, sigma2, rho,
+                           beta, nu2, X) {
   
-  n <- length(y)
+  K <- length(Y)
   
-  like <- sum(dnorm(y, X %*% beta + Z, tau2, log = TRUE))
+  like <- sum(dnorm(Y, X %*% beta + phi, sqrt(nu2), log = TRUE))
   
   # spatial terms
-  Sigma <- sigma2 * solve((1 - rho) * diag(n) + rho * (num_nbr_mat - W))
-  spatial_like <- sum(dmvnorm(Z, mean = rep(0, n), sigma = Sigma, log = T))
+  Sigma <- sigma2 * solve((1 - rho) * diag(K) + rho * (num_nbr_mat - W))
+  spatial_like <- sum(dmvnorm(phi, mean = rep(0, K), sigma = Sigma, log = T))
   
   # cluster means
-  cluster_mean_like <- sum(dnorm(beta, 0, tau2 * b, log = TRUE))
+  cluster_mean_like <- sum(dnorm(beta, 0, sqrt(b), log = TRUE))
   
   
   
@@ -46,105 +136,24 @@ log_post_agdsq <- function(y, Z, W, num_nbr_mat, sigma2, rho,
 
 
 
-#' One MCMC iteration of the Metropolis algorithm for the spatial markov model
-#'
-#' @param y response variable
-#' @param log_post the log posterior of the last iteration
-#' @param parameters: Z, W, num_nbr_mat, sigma2, rho, beta, tau2, X
-#' @param can_sd list containing the candidate standard deviations for 
-#' @return the updated parameters for the MCMC iteration
-#' @export
-met_glm_iter <- function(y,
-                         log_post,
-                         Z, W, num_nbr_mat, sigma2, rho, beta, tau2, X,
-                         can_sd) {
-  
-  # Candidate sd's for rho, ...
-  
-  can_rho_sd <- can_sd$can_rho_sd 
-  
-  
-  
-  p <- length(beta)
-  
-  
-  
-  # Metropolis/Gibbs for Z, sigma2, rho, beta, tau2
-  
-  prior.precision.beta <- solve(diag(rep(prior.var.beta, p)))
-  
-  # beta
-  
-  fc.precision <- prior.precision.beta + data.precision.beta / nu2
-  fc.var <- solve(fc.precision)
-  beta.offset <- as.numeric(Y.DA - offset - phi)
-  beta.offset2 <- t(X.standardised) %*% beta.offset / nu2 + prior.precision.beta %*% prior.mean.beta
-  fc.mean <- fc.var %*% beta.offset2
-  chol.var <- t(chol(fc.var))
-  beta <- fc.mean + chol.var %*% rnorm(p)
-  
-  
-  
-  
-  
-  
-  
-  # delta
-  for (j in 1:p) {
-    can_delta <- delta
-    can_delta[j] <- rnorm(1, delta[j], can_delta_sd[j])
-    cans <- Xb_beta_update(X, Xb, gamma, can_delta, beta, j, can = "delta")
-    can_Xb <- cans$can_Xb
-    can_log_post <- log_post_agdsq(Y, can_Xb, alpha, gamma, can_delta, sigma, q)
-    logR <- can_log_post - log_post
-    if (log(runif(1)) < logR) {
-      delta <- can_delta
-      beta <- cans$can_beta
-      Xb <- can_Xb
-      log_post <- can_log_post
-    }
-  }
-  
-  # sigma
-  can_sigma <- exp(rnorm(1, log(sigma), can_sigma_sd))
-  can_log_post <- log_post_agdsq(Y, Xb, alpha, gamma, delta, can_sigma, q)
-  logR <- can_log_post - log_post
-  if (log(runif(1)) < logR) {
-    sigma <- can_sigma
-    log_post <- can_log_post
-  }
-  
-  # Gibbs for q
-  
-  q <- rbeta(1, shape1 = sum(gamma) + 1, shape2 = p - sum(gamma) + 1)
-  log_post <- log_post_agdsq(Y, Xb, alpha, gamma, delta, sigma, q)
-  
-  
-  
-  return(list(Xb = Xb, beta = beta, log_post = log_post, alpha = alpha, gamma = gamma,
-              delta = delta, sigma = sigma, q = q))
-  
-}
-
-
-
-
-
-#' Metropolis algorithm for logistic regression 
+#' Metropolis-Gibbs algorithm for CAR model
 #'
 #' @param Y response variable
-#' @param X covariates matrix (without intercept)
+#' @param data covariates data frame (without intercept). Assumed to consist of factor variables or standardized continuous variables.
+#' @param W adjacency matrix (assuming no additional islands)
 #' @param inits initialize the parameters
 #' @param can_sd list containing the candidate standard deviations for alpha, delta, sigma, q
 #' @param n_burn_in number of burn-in iterations
 #' @param n_iter number of kept iterations
 #' @return MCMC chain
 #' @export
-met_glm <- function(Y, X, inits, can_sd, n_burn_in, n_iter) {
+met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
   
-  n <- length(Y)
+  X <- model.matrix(~., data = data)
   
-  p <- ncol(X) + 1
+  K <- length(Y)
+  
+  p <- ncol(X)
   
   # Create empty matrix for MCMC samples
   
@@ -152,21 +161,21 @@ met_glm <- function(Y, X, inits, can_sd, n_burn_in, n_iter) {
   
   mcmc_ssvs <- matrix(NA, S, length(unlist(inits))) # tracking alpha, gamma, delta, and sigma
   
-  colnames(mcmc_ssvs) <- c("alpha", rep("gamma", length(inits$gamma)), rep("delta", p - 1), "sigma", "q")
+  # colnames(mcmc_ssvs) <- c("alpha", rep("gamma", length(inits$gamma)), rep("delta", p - 1), "sigma", "q")
   
   
   
   # Initial values
   
-  alpha <- inits$alpha
-  
-  gamma <- inits$gamma
-  
-  delta <- inits$delta
-  
-  sigma <- inits$sigma
-  
-  q <- inits$q
+  # alpha <- inits$alpha
+  # 
+  # gamma <- inits$gamma
+  # 
+  # delta <- inits$delta
+  # 
+  # sigma <- inits$sigma
+  # 
+  # q <- inits$q
   
   
   
@@ -178,52 +187,106 @@ met_glm <- function(Y, X, inits, can_sd, n_burn_in, n_iter) {
   
   
   
+  #### CAR quantities
+  W.quants <- common.Wcheckformat(W)
+  W <- W.quants$W
+  W.triplet <- W.quants$W.triplet
+  n.triplet <- W.quants$n.triplet
+  W.triplet.sum <- W.quants$W.triplet.sum
+  n.neighbours <- W.quants$n.neighbours 
+  W.begfin <- W.quants$W.begfin
   
   
   
+  # Prior quantities
+  
+  ## beta update quantities
+  prior.var.beta <- rep(100000, p)
+  prior.precision.beta <- solve(diag(prior.var.beta))
+  data.precision.beta <- data.precision.beta <- t(X) %*% X
+  prior.mean.beta <- rep(0, p)
+  
+  ## nu2 update quantities
+  prior.nu2 <- c(1, 0.01) # prior shape and scale
+  nu2.posterior.shape <- prior.nu2[1] + 0.5*K
+  
+  ## sigma2 update quantities
+  prior.sigma2 <- c(1, 0.01) # prior shape and scale
+  sigma2.posterior.shape <- prior.sigma2[1] + 0.5*K
   
   
-  for (s in 1:n_burn_in) {
-    
-    mcmc_iter <- met_glm_iter(Y, X, Xb, beta, log_post, alpha, gamma, delta, sigma, q, can_sd)
-    
-    Xb <- mcmc_iter$Xb
-    
-    beta <- mcmc_iter$beta
-    
-    log_post <- mcmc_iter$log_post
-    
-    alpha <- mcmc_iter$alpha
-    
-    gamma <- mcmc_iter$gamma
-    
-    delta <- mcmc_iter$delta
-    
-    sigma <- mcmc_iter$sigma
-    
-    q <- mcmc_iter$q
-    
-  }
   
-  for (s in 1:S) {
+  for (s in 1:(S + n_burn_in)) {
     
-    mcmc_iter <- met_glm_iter(Y, X, Xb, beta, log_post, alpha, gamma, delta, sigma, q, can_sd)
     
-    Xb <- mcmc_iter$Xb
     
-    beta <- mcmc_iter$beta
+    # Metropolis/Gibbs for beta, nu2, sigma2, phi, rho
     
-    log_post <- mcmc_iter$log_post
+    ## beta
+    fc.precision <- prior.precision.beta + data.precision.beta / nu2
+    fc.var <- solve(fc.precision)
+    beta.offset <- Y - phi
+    beta.offset2 <- t(X) %*% beta.offset / nu2 + prior.precision.beta %*% prior.mean.beta
+    fc.mean <- fc.var %*% beta.offset2
+    chol.var <- t(chol(fc.var))
+    beta <- fc.mean + chol.var %*% rnorm(p)
     
-    alpha <- mcmc_iter$alpha
+    ## nu2
+    fitted.current <-  as.numeric(X %*% beta) + phi
+    nu2.posterior.scale <- prior.nu2[2] + 0.5 * sum((Y - fitted.current)^2)
+    nu2 <- 1 / rgamma(1, nu2.posterior.shape, scale=(1/nu2.posterior.scale))  
     
-    gamma <- mcmc_iter$gamma
+    ## phi (TBC)
+    offset.phi <- (Y - as.numeric(X %*% beta)) / nu2    
+    phi <- gaussiancarupdate(Wtriplet=W.triplet, Wbegfin=W.begfin, W.triplet.sum, nsites=K, phi=phi, tau2=sigma2, rho=rho, nu2=nu2, offset=offset.phi)
+    if(rho<1)
+    {
+      phi <- phi - mean(phi)
+    }
     
-    delta <- mcmc_iter$delta
+    ## sigma2
+    temp2 <- quadform(W.triplet, W.triplet.sum, n.triplet, K, phi, phi, rho)
+    sigma2.posterior.scale <- prior.sigma2[2] + temp2 
+    sigma2 <- 1 / rgamma(1, sigma2.posterior.shape, scale=(1/sigma2.posterior.scale))
     
-    sigma <- mcmc_iter$sigma
+    ## rho (TBC)
+    if(!fix.rho)
+    {
+      proposal.rho <- rtruncnorm(n=1, a=0, b=1, mean=rho, sd=proposal.sd.rho)  
+      temp3 <- quadform(W.triplet, W.triplet.sum, n.triplet, K, phi, phi, proposal.rho)
+      det.Q.proposal <- 0.5 * sum(log((proposal.rho * Wstar.val + (1-proposal.rho))))              
+      logprob.current <- det.Q - temp2 / tau2
+      logprob.proposal <- det.Q.proposal - temp3 / tau2
+      hastings <- log(dtruncnorm(x=rho, a=0, b=1, mean=proposal.rho, sd=proposal.sd.rho)) - log(dtruncnorm(x=proposal.rho, a=0, b=1, mean=rho, sd=proposal.sd.rho)) 
+      prob <- exp(logprob.proposal - logprob.current + hastings)
+      
+      ## Accept or reject the proposal
+      if(prob > runif(1))
+      {
+        rho <- proposal.rho
+        det.Q <- det.Q.proposal
+        accept[1] <- accept[1] + 1           
+      }else
+      {
+      }              
+      accept[2] <- accept[2] + 1           
+    }else
+    {}
     
-    q <- mcmc_iter$q
+    
+    
+    # # sigma
+    # can_sigma <- exp(rnorm(1, log(sigma), can_sigma_sd))
+    # can_log_post <- log_post_agdsq(Y, Xb, alpha, gamma, delta, can_sigma, q)
+    # logR <- can_log_post - log_post
+    # if (log(runif(1)) < logR) {
+    #   sigma <- can_sigma
+    #   log_post <- can_log_post
+    # }
+    
+    
+    
+    
     
     mcmc_ssvs[s, ] <- c(alpha, gamma, delta, sigma, q)
     

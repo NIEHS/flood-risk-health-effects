@@ -39,6 +39,51 @@ return tau2_posteriorscale;
 
 
 
+cppFunction('// [[Rcpp::export]]
+NumericVector gaussiancarupdate(NumericMatrix Wtriplet, NumericMatrix Wbegfin, 
+     NumericVector Wtripletsum, const int nsites, NumericVector phi, double tau2, 
+     double rho, double nu2, NumericVector offset)
+{
+// Update the spatially correlated random effects 
+//Create new objects
+int rowstart=0, rowend=0;
+double sumphi;
+double fcprecision, fcsd, fcmean;
+double priorvardenom, priormean, priorvar;
+NumericVector phinew(nsites);
+
+
+//  Update each random effect in turn
+phinew = phi;
+     for(int j = 0; j < nsites; j++)
+     {
+     // Calculate prior variance
+     priorvardenom = rho * Wtripletsum[j] + 1 - rho;
+     priorvar = tau2 / priorvardenom;
+     
+     // Calculate the prior mean
+     rowstart = Wbegfin(j,0) - 1;
+     rowend = Wbegfin(j,1);
+     sumphi = 0;
+          for(int l = rowstart; l < rowend; l++) sumphi += Wtriplet(l, 2) * phinew[(Wtriplet(l,1) - 1)];
+     priormean = rho * sumphi / priorvardenom; 
+      
+      // propose a value  
+      fcprecision = (1/nu2) + (1/priorvar);
+      fcsd = pow((1/fcprecision),0.5);
+      fcmean = (priormean / priorvar + offset[j]) / fcprecision;
+      phinew[j] = rnorm(1, fcmean, fcsd)[0];      
+      }
+
+return phinew;
+}')
+
+
+
+
+
+
+
 # Taken from duncanplee's code
 
 common.Wcheckformat <- function(W)
@@ -93,6 +138,29 @@ common.Wcheckformat <- function(W)
   #### Return the critical quantities
   results <- list(W=W, W.triplet=W.triplet, n.triplet=n.triplet, W.triplet.sum=W.triplet.sum, n.neighbours=n.neighbours, W.begfin=W.begfin, n=n)
   return(results)   
+}
+
+
+
+# Taken from duncanplee's code
+# Acceptance rates - maximum limit on the proposal sd
+common.accceptrates2 <- function(accept, sd, min, max, sd.max)
+{
+  #### Update the proposal standard deviations
+  rate <- 100 * accept[1] / accept[2]
+  
+  if(rate > max)
+  {
+    sd <- sd + 0.1 * sd
+    sd[which(sd>sd.max)] <- sd.max
+  }else if(rate < min)              
+  {
+    sd <- sd - 0.1 * sd
+  }else
+  {
+  }
+  
+  return(sd)
 }
 
 
@@ -187,7 +255,9 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
   
   
   
-  #### CAR quantities
+  fix.rho <- FALSE
+  
+  #### CAR quantities (make sparse)
   W.quants <- common.Wcheckformat(W)
   W <- W.quants$W
   W.triplet <- W.quants$W.triplet
@@ -200,19 +270,32 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
   
   # Prior quantities
   
-  ## beta update quantities
+  ## beta update quantities (Gibbs)
   prior.var.beta <- rep(100000, p)
   prior.precision.beta <- solve(diag(prior.var.beta))
   data.precision.beta <- data.precision.beta <- t(X) %*% X
   prior.mean.beta <- rep(0, p)
   
-  ## nu2 update quantities
+  ## nu2 update quantities (Gibbs)
   prior.nu2 <- c(1, 0.01) # prior shape and scale
   nu2.posterior.shape <- prior.nu2[1] + 0.5*K
   
-  ## sigma2 update quantities
+  ## sigma2 update quantities (Gibbs)
   prior.sigma2 <- c(1, 0.01) # prior shape and scale
   sigma2.posterior.shape <- prior.sigma2[1] + 0.5*K
+  
+  ## rho update quantities (Metropolis-Hastings)
+  accept <- rep(0,2)
+  proposal.sd.rho <- 0.02
+  
+  ### current determinant (make sparse)
+  if(!fix.rho)
+  {
+    Wstar <- diag(W.quants$n.neighbours) - W
+    Wstar.eigen <- eigen(Wstar)
+    Wstar.val <- Wstar.eigen$values
+    det.Q <- 0.5 * sum(log((rho * Wstar.val + (1-rho))))    
+  }
   
   
   
@@ -236,7 +319,7 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
     nu2.posterior.scale <- prior.nu2[2] + 0.5 * sum((Y - fitted.current)^2)
     nu2 <- 1 / rgamma(1, nu2.posterior.shape, scale=(1/nu2.posterior.scale))  
     
-    ## phi (TBC)
+    ## phi 
     offset.phi <- (Y - as.numeric(X %*% beta)) / nu2    
     phi <- gaussiancarupdate(Wtriplet=W.triplet, Wbegfin=W.begfin, W.triplet.sum, nsites=K, phi=phi, tau2=sigma2, rho=rho, nu2=nu2, offset=offset.phi)
     if(rho<1)
@@ -249,14 +332,14 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
     sigma2.posterior.scale <- prior.sigma2[2] + temp2 
     sigma2 <- 1 / rgamma(1, sigma2.posterior.shape, scale=(1/sigma2.posterior.scale))
     
-    ## rho (TBC)
+    ## rho 
     if(!fix.rho)
     {
       proposal.rho <- rtruncnorm(n=1, a=0, b=1, mean=rho, sd=proposal.sd.rho)  
       temp3 <- quadform(W.triplet, W.triplet.sum, n.triplet, K, phi, phi, proposal.rho)
       det.Q.proposal <- 0.5 * sum(log((proposal.rho * Wstar.val + (1-proposal.rho))))              
-      logprob.current <- det.Q - temp2 / tau2
-      logprob.proposal <- det.Q.proposal - temp3 / tau2
+      logprob.current <- det.Q - temp2 / sigma2
+      logprob.proposal <- det.Q.proposal - temp3 / sigma2
       hastings <- log(dtruncnorm(x=rho, a=0, b=1, mean=proposal.rho, sd=proposal.sd.rho)) - log(dtruncnorm(x=proposal.rho, a=0, b=1, mean=rho, sd=proposal.sd.rho)) 
       prob <- exp(logprob.proposal - logprob.current + hastings)
       
@@ -266,12 +349,21 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
         rho <- proposal.rho
         det.Q <- det.Q.proposal
         accept[1] <- accept[1] + 1           
-      }else
-      {
-      }              
+      }
       accept[2] <- accept[2] + 1           
-    }else
-    {}
+    }
+    
+    
+    
+    if(ceiling(s/100) == floor(s/100) & s < n_burn_in)
+    {
+      #### Update the proposal sds
+      if(!fix.rho)
+      {
+        proposal.sd.rho <- common.accceptrates2(accept[1:2], proposal.sd.rho, 40, 50, 0.5)
+      }
+      accept <- c(0,0)
+    }
     
     
     
@@ -288,7 +380,7 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
     
     
     
-    mcmc_ssvs[s, ] <- c(alpha, gamma, delta, sigma, q)
+    # mcmc_ssvs[s, ] <- c(alpha, gamma, delta, sigma, q)
     
   }
   

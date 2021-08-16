@@ -165,57 +165,57 @@ common.accceptrates2 <- function(accept, sd, min, max, sd.max)
 
 
 
-#' Function to compute the log posterior for the spatial markov model M-H steps
-#' Just used for parameter rho
-#'
-#' @param y response variable
-#' @param parameters: phi, W, num_nbr_mat, sigma2, rho, beta, nu2, X
-#' later on this will involve M, phi~
-#' @return log of the posterior density 
-#' @export
-log_post_agdsq <- function(Y, phi, W, num_nbr_mat, sigma2, rho,
-                           beta, nu2, X) {
-  
-  K <- length(Y)
-  
-  like <- sum(dnorm(Y, X %*% beta + phi, sqrt(nu2), log = TRUE))
-  
-  # spatial terms
-  Sigma <- sigma2 * solve((1 - rho) * diag(K) + rho * (num_nbr_mat - W))
-  spatial_like <- sum(dmvnorm(phi, mean = rep(0, K), sigma = Sigma, log = T))
-  
-  # cluster means
-  cluster_mean_like <- sum(dnorm(beta, 0, sqrt(b), log = TRUE))
+# Taken from duncanplee's code
+# Compute the DIC. WAIC,LMPL and loglikelihood
+common.modelfit <- function(samples.loglike, deviance.fitted)
+{
+  #### WAIC
+  p.w <- sum(apply(samples.loglike,2, var), na.rm=TRUE)
+  mean.like <- apply(exp(samples.loglike),2,mean)
+  mean.min <- min(mean.like[mean.like>0])
+  mean.like[mean.like==0] <- mean.min
+  lppd <- sum(log(mean.like), na.rm=TRUE)
+  WAIC <- -2 * (lppd - p.w)
   
   
+  #### Compute the Conditional Predictive Ordinate
+  CPO <- 1/apply(exp(-samples.loglike), 2, mean)
+  mean.min <- min(CPO[CPO>0])
+  CPO[CPO==0] <- mean.min
+  LMPL <- sum(log(CPO), na.rm=TRUE)    
   
-  # prior <- dnorm(alpha, 0, 100, log = TRUE) + # intercept
-  #   dbinom(sum(gamma), length(gamma), q, log = TRUE) + # nonzero slope indicators
-  #   sum(dnorm(delta, 0, sigma, log = TRUE)) + # slopes
-  #   dhcauchy(x = sigma, 0.5, log = TRUE) # sigma
+  
+  #### DIC
+  mean.deviance <- -2 * sum(samples.loglike, na.rm=TRUE) /   nrow(samples.loglike)
+  p.d <- mean.deviance - deviance.fitted
+  DIC <- deviance.fitted + 2 * p.d
   
   
+  #### loglikelihood
+  loglike <- -0.5 * deviance.fitted
   
-  return(like + spatial_like + cluster_mean_like)
   
+  #### Model fit criteria
+  modelfit <- c(DIC, p.d, WAIC, p.w, LMPL, loglike)
+  names(modelfit) <- c("DIC", "p.d", "WAIC", "p.w", "LMPL", "loglikelihood")
+  return(modelfit)  
 }
-
-
 
 
 
 #' Metropolis-Gibbs algorithm for CAR model
 #'
-#' @param Y response variable
+#' @param Y response variable (assuming no missing Y values for now)
 #' @param data covariates data frame (without intercept). Assumed to consist of factor variables or standardized continuous variables.
 #' @param W adjacency matrix (assuming no additional islands)
 #' @param inits initialize the parameters
 #' @param can_sd list containing the candidate standard deviations for alpha, delta, sigma, q
 #' @param n_burn_in number of burn-in iterations
 #' @param n_iter number of kept iterations
+#' @param thin level of thinning to apply to the MCMC samples
 #' @return MCMC chain
 #' @export
-met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
+met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter, thin = 1) {
   
   X <- model.matrix(~., data = data)
   
@@ -235,27 +235,36 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
   
   # Initial values
   
-  # alpha <- inits$alpha
-  # 
-  # gamma <- inits$gamma
-  # 
-  # delta <- inits$delta
-  # 
-  # sigma <- inits$sigma
-  # 
-  # q <- inits$q
+  mod.glm <- lm(Y~X-1)
+  beta.mean <- mod.glm$coefficients
+  beta.sd <- sqrt(diag(summary(mod.glm)$cov.unscaled)) * summary(mod.glm)$sigma
+  beta <- rnorm(n=length(beta.mean), mean=beta.mean, sd=beta.sd)
   
+  res.temp <- Y - X %*% beta.mean
+  res.sd <- sd(res.temp, na.rm=TRUE)/5
+  phi <- rnorm(n=K, mean=rep(0,K), sd=res.sd)
+  sigma2 <- var(phi) / 10
+  nu2 <- sigma2
+  fitted <- as.numeric(X %*% beta) + phi
   
-  
-  
-  
-  Xb <- X %*% beta
-  
-  log_post <- log_post_agdsq(Y, Xb, alpha, gamma, delta, sigma, q)
-  
-  
+  # Xb <- X %*% beta
   
   fix.rho <- FALSE
+  
+  
+  
+  #### Matrices to store samples
+  n.keep <- floor(n_iter / thin)
+  samples.beta <- array(NA, c(n.keep, p))
+  samples.phi <- array(NA, c(n.keep, K))
+  samples.nu2 <- array(NA, c(n.keep, 1))
+  samples.sigma2 <- array(NA, c(n.keep, 1))
+  if(!fix.rho) samples.rho <- array(NA, c(n.keep, 1))
+  samples.loglike <- array(NA, c(n.keep, K))
+  samples.fitted <- array(NA, c(n.keep, K))
+  # if(n.miss>0) samples.Y <- array(NA, c(n.keep, n.miss))
+  
+  
   
   #### CAR quantities (make sparse)
   W.quants <- common.Wcheckformat(W)
@@ -353,8 +362,28 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
       accept[2] <- accept[2] + 1           
     }
     
+    ## calculate the deviance 
+    fitted <- as.numeric(X %*% beta) + phi
+    loglike <- dnorm(Y, mean = fitted, sd = rep(sqrt(nu2),K), log=TRUE)
     
     
+    
+    if(s > n_burn_in & (s-n_burn_in)%%thin==0)
+    {
+      ele <- (s - n_burn_in) / thin
+      samples.beta[ele, ] <- beta
+      samples.phi[ele, ] <- phi
+      samples.nu2[ele, ] <- nu2
+      samples.sigma2[ele, ] <- sigma2
+      if(!fix.rho) samples.rho[ele, ] <- rho
+      samples.loglike[ele, ] <- loglike
+      samples.fitted[ele, ] <- fitted
+      # if(n.miss>0) samples.Y[ele, ] <- Y.DA[which.miss==0]
+    }
+    
+    
+    
+    # Self-tune the acceptance probabilities
     if(ceiling(s/100) == floor(s/100) & s < n_burn_in)
     {
       #### Update the proposal sds
@@ -367,26 +396,50 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter) {
     
     
     
-    # # sigma
-    # can_sigma <- exp(rnorm(1, log(sigma), can_sigma_sd))
-    # can_log_post <- log_post_agdsq(Y, Xb, alpha, gamma, delta, can_sigma, q)
-    # logR <- can_log_post - log_post
-    # if (log(runif(1)) < logR) {
-    #   sigma <- can_sigma
-    #   log_post <- can_log_post
-    # }
-    
-    
-    
-    
-    
-    # mcmc_ssvs[s, ] <- c(alpha, gamma, delta, sigma, q)
-    
   }
   
   
   
-  return(mcmc_ssvs)
+  #### Compute the acceptance rates
+  if(!fix.rho)
+  {
+    accept.rho <- 100 * accept[1] / accept[2]
+  }else
+  {
+    accept.rho <- NA    
+  }
+  accept.final <- accept.rho
+  
+  
+  
+  #### Compute the fitted deviance
+  mean.beta <- apply(samples.beta, 2, mean)
+  mean.phi <- apply(samples.phi, 2, mean)
+  fitted.mean <- X %*% mean.beta + mean.phi
+  nu2.mean <- mean(samples.nu2)
+  deviance.fitted <- -2 * sum(dnorm(Y, mean = fitted.mean, sd = rep(sqrt(nu2.mean),K), log = TRUE), na.rm=TRUE)
+  
+  
+  
+  #### Model fit criteria
+  modelfit <- common.modelfit(samples.loglike, deviance.fitted)
+  
+  
+  
+  #### Create the Fitted values and residuals
+  fitted.values <- apply(samples.fitted, 2, mean)
+  response.residuals <- Y - fitted.values
+  pearson.residuals <- response.residuals /sqrt(nu2.mean)
+  residuals <- data.frame(response=response.residuals, pearson=pearson.residuals)
+  
+  
+  
+  samples <- list(beta = mcmc(samples.beta), phi=mcmc(samples.phi), sigma2=mcmc(samples.sigma2), nu2=mcmc(samples.nu2), rho=mcmc(samples.rho), fitted=mcmc(samples.fitted))
+  results <- list(samples=samples, fitted.values=fitted.values, residuals=residuals, modelfit=modelfit, accept=accept.final)
+  
+  
+  
+  return(results)
   
 }
 

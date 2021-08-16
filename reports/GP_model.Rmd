@@ -1,0 +1,214 @@
+---
+title: "GP model"
+author: "Alvin Sheng"
+date: "8/11/2021"
+output: pdf_document
+---
+
+```{r}
+library(maptools)
+library(rgeos)
+library(rgdal)
+library(geoR)
+library(knitr)
+```
+
+```{r}
+i_am("reports/analysis_before_GP_model.Rmd")
+```
+
+
+
+# Extracting centroids from TIGER/LINE file
+
+tl_2019_us_county/ in figures folder
+
+```{r}
+counties_shp <- readOGR(here("figures/tl_2019_us_county/tl_2019_us_county.shp"))
+
+
+
+counties_centroids <- gCentroid(counties_shp, byid = TRUE, id = counties_shp@data$GEOID)
+
+centroids_df <- as.data.frame(counties_centroids)
+```
+
+```{r}
+fls_model_df <- readRDS(here("intermediary_data/fls_model_df.rds"))
+```
+
+Aligning the fips of the counties
+
+```{r}
+reorganize_idx <- match(fls_model_df$fips, as.numeric(row.names(centroids_df)))
+```
+
+```{r}
+centroids_df <- centroids_df[reorganize_idx, ]
+```
+
+
+
+# Map of Life Expectancy at the centroids
+
+```{r}
+library(ggplot2)
+library(maps)
+library(viridis)
+```
+
+```{r}
+le_df <- data.frame(long=centroids_df$x, lat=centroids_df$y, Y=fls_model_df$`Life expectancy, 2014*`)
+ggplot(le_df, aes(long, lat)) +
+  borders("state") +
+  geom_point(aes(colour = Y)) +
+  scale_colour_gradientn(colours = viridis(10)) +
+  xlab("")+ylab("")+labs(title="Life expectancy, 2014")
+```
+
+# Variogram
+
+First, remove the mean trend to get the residuals:
+
+```{r}
+Y <- fls_model_df$`Life expectancy, 2014*`
+
+# extract the covariates matrix
+
+X <- fls_model_df[, 12:(ncol(fls_model_df) - 1)]
+
+X           <- scale(X) # Scale covariates
+X[is.na(X)] <- 0        # Fill in missing values with the mean
+```
+
+```{r}
+fls_lm <- lm(Y ~ X)
+```
+
+```{r}
+summary(fls_lm)
+```
+
+```{r}
+res <- residuals(fls_lm)
+```
+
+
+
+## Semi-variogram
+
+```{r}
+L     <- 30
+d_max <- 25
+d     <- seq(0,d_max,length=L)
+d
+```
+
+```{r}
+vg <- variog(coords = centroids_df, data = res, uvec = d) 
+```
+
+```{r}
+vg$n
+```
+
+```{r}
+plot(vg)
+```
+
+Fitting values by eye
+
+```{r}
+d <- seq(0,d_max,length=L)
+sig2 <- 0.35
+tau2 <- 0.75
+rho  <- 5
+vg_fitted1 <- sig2 + tau2 - sig2*exp(-d/rho)
+
+plot(vg) 
+lines(d,vg_fitted1)
+```
+
+
+
+# Fitting GP model
+
+```{r}
+# extract the response variable
+
+Y <- fls_model_df$`Life expectancy, 2014*`
+
+# extract the covariates matrix
+
+X <- fls_model_df[, 12:(ncol(fls_model_df) - 1)]
+
+
+
+X <- X[, names(X) != "pct_floodfactor1"]
+
+# the age-related CDC SVI variables should probably not be in here
+X <- X[, !(names(X) %in% c("EP_AGE65", "EP_AGE17"))]
+
+# exclude some more variables selected by vifstep, to account for multicollinearity
+# excluding all of the pct_fs_risk variables, as well as 3 of the avg_risk_score variables
+# omit daily_mean too, it's collinear with total_mean
+
+collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk_2020_500",
+                      "avg_risk_fsf_2020_500", "pct_fs_risk_2050_5", "pct_fs_risk_2020_100",
+                      "daily_mean", "pct_fs_risk_2050_100", "avg_risk_score_2_10", "pct_floodfactor10") 
+
+X <- X[, !(names(X) %in% collin_var_names)]
+
+
+
+X <- as.matrix(X)
+
+X           <- scale(X) # Scale covariates
+X[is.na(X)] <- 0        # Fill in missing values with the mean
+```
+
+```{r}
+init_rho  <- 5
+init_sig2 <- 0.35
+init_tau2 <- 0.75
+```
+
+```{r}
+tick <- proc.time()
+fit_mle  <- likfit(data=Y,trend= ~X,coords=centroids_df,
+                   fix.nugget=FALSE,nugget=init_tau2,
+                   cov.model="exponential",
+                   ini = c(init_sig2, init_rho))
+tock <- proc.time()
+tock-tick # time in seconds
+```
+
+```{r}
+fit_mle
+```
+
+```{r}
+summary(fit_mle)
+```
+
+```{r}
+sig2 = 0.7963
+tau2 = 0.5564
+rho  = 3.1774
+
+plot(d,sig2*exp(-d/rho)/(sig2+tau2),ylim=c(0,1),ylab="Correlation",type="l")
+
+```
+
+```{r}
+Estimate  <- fit_mle$beta
+ Std_error <- sqrt(diag(fit_mle$beta.var))
+ Z         <- Estimate/Std_error
+ P_value   <- 2*(1-pnorm(abs(Z)))
+ out       <- cbind(Estimate,Std_error,Z,P_value)
+ rownames(out) <- c("Intercept",colnames(X))
+ out<- round(out,4)
+ kable(out) 
+```
+
+

@@ -1,138 +1,225 @@
 
+library(Rcpp)
+
+# Put in cpp helper functions from duncanplee's code below
+
+cppFunction('double quadform(NumericMatrix Wtriplet, NumericVector Wtripletsum, const int n_triplet, const int nsites, 
+                    NumericVector phi, NumericVector theta, double rho)
+{
+// Compute a quadratic form for the random effects
+// Create new objects 
+double tau2_posteriorscale;
+double tau2_quadform = 0, tau2_phisq = 0;
+int row, col;
+   
+   
+// Compute the off diagonal elements of the quadratic form
+     for(int l = 0; l < n_triplet; l++)
+     {
+     row = Wtriplet(l,0) - 1;
+     col = Wtriplet(l,1) - 1;
+     tau2_quadform = tau2_quadform + phi[(Wtriplet(l,0) - 1)] * theta[(Wtriplet(l,1) - 1)] * Wtriplet(l,2); 
+     }
+ 
+ 
+ // Compute the diagonal elements of the quadratic form          
+     for(int l = 0; l < nsites; l++)
+     {
+     tau2_phisq = tau2_phisq + phi[l] * theta[l] * (rho * Wtripletsum[l] + 1 - rho);    
+     }
+           
+     
+// Compute the quadratic form
+tau2_posteriorscale = 0.5 * (tau2_phisq - rho * tau2_quadform);
+
+ 
+// Return the simulated value
+return tau2_posteriorscale;
+}')
 
 
-#' Function to compute the log posterior for the spatial markov model M-H steps
-#' Just used for parameter rho
-#'
-#' @param y response variable
-#' @param parameters: Z, W, num_nbr_mat, sigma2, rho, mu, tau2, X
-#' later on this will involve M, phi
-#' @return log of the posterior density 
-#' @export
-log_post_agdsq <- function(y, Z, W, num_nbr_mat, sigma2, rho,
-                           mu, tau2, X) {
+
+cppFunction('// [[Rcpp::export]]
+NumericVector gaussiancarupdate(NumericMatrix Wtriplet, NumericMatrix Wbegfin, 
+     NumericVector Wtripletsum, const int nsites, NumericVector phi, double tau2, 
+     double rho, double nu2, NumericVector offset)
+{
+// Update the spatially correlated random effects 
+//Create new objects
+int rowstart=0, rowend=0;
+double sumphi;
+double fcprecision, fcsd, fcmean;
+double priorvardenom, priormean, priorvar;
+NumericVector phinew(nsites);
+
+
+//  Update each random effect in turn
+phinew = phi;
+     for(int j = 0; j < nsites; j++)
+     {
+     // Calculate prior variance
+     priorvardenom = rho * Wtripletsum[j] + 1 - rho;
+     priorvar = tau2 / priorvardenom;
+     
+     // Calculate the prior mean
+     rowstart = Wbegfin(j,0) - 1;
+     rowend = Wbegfin(j,1);
+     sumphi = 0;
+          for(int l = rowstart; l < rowend; l++) sumphi += Wtriplet(l, 2) * phinew[(Wtriplet(l,1) - 1)];
+     priormean = rho * sumphi / priorvardenom; 
+      
+      // propose a value  
+      fcprecision = (1/nu2) + (1/priorvar);
+      fcsd = pow((1/fcprecision),0.5);
+      fcmean = (priormean / priorvar + offset[j]) / fcprecision;
+      phinew[j] = rnorm(1, fcmean, fcsd)[0];      
+      }
+
+return phinew;
+}')
+
+
+
+
+
+
+
+# Taken from duncanplee's code
+
+common.Wcheckformat <- function(W)
+{
+  #### Check W is a matrix of the correct dimension
+  if(!is.matrix(W)) stop("W is not a matrix.", call.=FALSE)
+  n <- nrow(W)
+  if(ncol(W)!= n) stop("W is not a square matrix.", call.=FALSE)    
   
-  n <- length(y)
   
-  like <- sum(dnorm(y, X %*% mu + Z, tau2, log = TRUE))
-  
-  # spatial terms
-  Sigma <- sigma2 * solve((1 - rho) * diag(n) + rho * (num_nbr_mat - W))
-  spatial_like <- sum(dmvnorm(Z, mean = rep(0, n), sigma = Sigma, log = T))
-  
-  # cluster means
-  cluster_mean_like <- sum(dnorm(mu, 0, tau2 * b, log = TRUE))
+  #### Check validity of inputed W matrix
+  if(sum(is.na(W))>0) stop("W has missing 'NA' values.", call.=FALSE)
+  if(!is.numeric(W)) stop("W has non-numeric values.", call.=FALSE)
+  if(min(W)<0) stop("W has negative elements.", call.=FALSE)
+  if(sum(W!=t(W))>0) stop("W is not symmetric.", call.=FALSE)
+  if(min(apply(W, 1, sum))==0) stop("W has some areas with no neighbours (one of the row sums equals zero).", call.=FALSE)    
   
   
+  #### Create the triplet form
+  ids <- which(W > 0, arr.ind = T)
+  W.triplet <- cbind(ids, W[ids])
+  W.triplet <- W.triplet[ ,c(2,1,3)]
   
-  # prior <- dnorm(alpha, 0, 100, log = TRUE) + # intercept
-  #   dbinom(sum(gamma), length(gamma), q, log = TRUE) + # nonzero slope indicators
-  #   sum(dnorm(delta, 0, sigma, log = TRUE)) + # slopes
-  #   dhcauchy(x = sigma, 0.5, log = TRUE) # sigma
+  #W.triplet <- c(NA, NA, NA)
+  #for(i in 1:n)
+  #{
+  #    for(j in 1:n)
+  #    {
+  #        if(W[i,j]>0)
+  #        {
+  #            W.triplet <- rbind(W.triplet, c(i,j, W[i,j]))     
+  #        }else{}
+  #    }
+  #}
+  #W.triplet <- W.triplet[-1, ]     
+  n.triplet <- nrow(W.triplet) 
+  W.triplet.sum <- tapply(W.triplet[ ,3], W.triplet[ ,1], sum)
+  n.neighbours <- tapply(W.triplet[ ,3], W.triplet[ ,1], length)
   
   
+  #### Create the start and finish points for W updating
+  W.begfin <- cbind(c(1, cumsum(n.neighbours[-n])+1), cumsum(n.neighbours))
+  #W.begfin <- array(NA, c(n, 2))     
+  #temp <- 1
+  #for(i in 1:n)
+  #{
+  #    W.begfin[i, ] <- c(temp, (temp + n.neighbours[i]-1))
+  #    temp <- temp + n.neighbours[i]
+  #}
   
-  return(like + spatial_like + cluster_mean_like)
   
+  #### Return the critical quantities
+  results <- list(W=W, W.triplet=W.triplet, n.triplet=n.triplet, W.triplet.sum=W.triplet.sum, n.neighbours=n.neighbours, W.begfin=W.begfin, n=n)
+  return(results)   
 }
 
 
 
-
-
-#' One MCMC iteration of the Metropolis algorithm for the spatial markov model
-#'
-#' @param y response variable
-#' @param log_post the log posterior of the last iteration
-#' @param parameters: Z, W, num_nbr_mat, sigma2, rho, mu, tau2, X
-#' @param can_sd list containing the candidate standard deviations for 
-#' @return the updated parameters for the MCMC iteration
-#' @export
-met_glm_iter <- function(y,
-                         log_post,
-                         Z, W, num_nbr_mat, sigma2, rho, mu, tau2, X,
-                         can_sd) {
+# Taken from duncanplee's code
+# Acceptance rates - maximum limit on the proposal sd
+common.accceptrates2 <- function(accept, sd, min, max, sd.max)
+{
+  #### Update the proposal standard deviations
+  rate <- 100 * accept[1] / accept[2]
   
-  # Candidate sd's for rho, ...
-  
-  can_rho_sd <- can_sd$can_rho_sd 
-  
-  
-  
-  # Metropolis/Gibbs for Z, sigma2, rho, mu, tau2
-  
-  # mu
-  
-  
-  
-  # fc.precision <- prior.precision.beta + data.precision.beta / nu2
-  # fc.var <- solve(fc.precision)
-  # beta.offset <- as.numeric(Y.DA - offset - phi)
-  # beta.offset2 <- t(X.standardised) %*% beta.offset / nu2 + prior.precision.beta %*% prior.mean.beta
-  # fc.mean <- fc.var %*% beta.offset2
-  # chol.var <- t(chol(fc.var))
-  # beta <- fc.mean + chol.var %*% rnorm(p)   
-  
-  
-  
-  
-  
-  
-  
-  # delta
-  for (j in 1:p) {
-    can_delta <- delta
-    can_delta[j] <- rnorm(1, delta[j], can_delta_sd[j])
-    cans <- Xb_beta_update(X, Xb, gamma, can_delta, beta, j, can = "delta")
-    can_Xb <- cans$can_Xb
-    can_log_post <- log_post_agdsq(Y, can_Xb, alpha, gamma, can_delta, sigma, q)
-    logR <- can_log_post - log_post
-    if (log(runif(1)) < logR) {
-      delta <- can_delta
-      beta <- cans$can_beta
-      Xb <- can_Xb
-      log_post <- can_log_post
-    }
+  if(rate > max)
+  {
+    sd <- sd + 0.1 * sd
+    sd[which(sd>sd.max)] <- sd.max
+  }else if(rate < min)              
+  {
+    sd <- sd - 0.1 * sd
+  }else
+  {
   }
   
-  # sigma
-  can_sigma <- exp(rnorm(1, log(sigma), can_sigma_sd))
-  can_log_post <- log_post_agdsq(Y, Xb, alpha, gamma, delta, can_sigma, q)
-  logR <- can_log_post - log_post
-  if (log(runif(1)) < logR) {
-    sigma <- can_sigma
-    log_post <- can_log_post
-  }
-  
-  # Gibbs for q
-  
-  q <- rbeta(1, shape1 = sum(gamma) + 1, shape2 = p - sum(gamma) + 1)
-  log_post <- log_post_agdsq(Y, Xb, alpha, gamma, delta, sigma, q)
-  
-  
-  
-  return(list(Xb = Xb, beta = beta, log_post = log_post, alpha = alpha, gamma = gamma,
-              delta = delta, sigma = sigma, q = q))
-  
+  return(sd)
 }
 
 
 
+# Taken from duncanplee's code
+# Compute the DIC. WAIC,LMPL and loglikelihood
+common.modelfit <- function(samples.loglike, deviance.fitted)
+{
+  #### WAIC
+  p.w <- sum(apply(samples.loglike,2, var), na.rm=TRUE)
+  mean.like <- apply(exp(samples.loglike),2,mean)
+  mean.min <- min(mean.like[mean.like>0])
+  mean.like[mean.like==0] <- mean.min
+  lppd <- sum(log(mean.like), na.rm=TRUE)
+  WAIC <- -2 * (lppd - p.w)
+  
+  
+  #### Compute the Conditional Predictive Ordinate
+  CPO <- 1/apply(exp(-samples.loglike), 2, mean)
+  mean.min <- min(CPO[CPO>0])
+  CPO[CPO==0] <- mean.min
+  LMPL <- sum(log(CPO), na.rm=TRUE)    
+  
+  
+  #### DIC
+  mean.deviance <- -2 * sum(samples.loglike, na.rm=TRUE) /   nrow(samples.loglike)
+  p.d <- mean.deviance - deviance.fitted
+  DIC <- deviance.fitted + 2 * p.d
+  
+  
+  #### loglikelihood
+  loglike <- -0.5 * deviance.fitted
+  
+  
+  #### Model fit criteria
+  modelfit <- c(DIC, p.d, WAIC, p.w, LMPL, loglike)
+  names(modelfit) <- c("DIC", "p.d", "WAIC", "p.w", "LMPL", "loglikelihood")
+  return(modelfit)  
+}
 
 
-#' Metropolis algorithm for logistic regression 
+
+#' Metropolis-Gibbs algorithm for CAR model
 #'
-#' @param Y response variable
-#' @param X covariates matrix (without intercept)
+#' @param Y response variable (assuming no missing Y values for now)
+#' @param data covariates data frame (without intercept). Assumed to consist of factor variables or standardized continuous variables.
+#' @param W adjacency matrix (assuming no additional islands)
 #' @param inits initialize the parameters
 #' @param can_sd list containing the candidate standard deviations for alpha, delta, sigma, q
 #' @param n_burn_in number of burn-in iterations
 #' @param n_iter number of kept iterations
+#' @param thin level of thinning to apply to the MCMC samples
 #' @return MCMC chain
 #' @export
-met_glm <- function(Y, X, inits, can_sd, n_burn_in, n_iter) {
+met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter, thin = 1) {
   
-  n <- length(Y)
+  X <- model.matrix(~., data = data)
+  
+  K <- length(Y)
   
   p <- ncol(X)
   
@@ -142,90 +229,217 @@ met_glm <- function(Y, X, inits, can_sd, n_burn_in, n_iter) {
   
   mcmc_ssvs <- matrix(NA, S, length(unlist(inits))) # tracking alpha, gamma, delta, and sigma
   
-  colnames(mcmc_ssvs) <- c("alpha", rep("gamma", length(inits$gamma)), rep("delta", p), "sigma", "q")
+  # colnames(mcmc_ssvs) <- c("alpha", rep("gamma", length(inits$gamma)), rep("delta", p - 1), "sigma", "q")
   
   
   
   # Initial values
   
-  alpha <- inits$alpha
+  mod.glm <- lm(Y~X-1)
+  beta.mean <- mod.glm$coefficients
+  beta.sd <- sqrt(diag(summary(mod.glm)$cov.unscaled)) * summary(mod.glm)$sigma
+  beta <- rnorm(n=length(beta.mean), mean=beta.mean, sd=beta.sd)
   
-  gamma <- inits$gamma
+  res.temp <- Y - X %*% beta.mean
+  res.sd <- sd(res.temp, na.rm=TRUE)/5
+  phi <- rnorm(n=K, mean=rep(0,K), sd=res.sd)
+  sigma2 <- var(phi) / 10
+  nu2 <- sigma2
+  fitted <- as.numeric(X %*% beta) + phi
   
-  delta <- inits$delta
+  # Xb <- X %*% beta
   
-  sigma <- inits$sigma
-  
-  q <- inits$q
-  
-  
-  
-  if (length(gamma) < length(delta)) { # grouped selection. Uses global variables
-    
-    beta <- c(rep(gamma[1:num_gamma_pc], each = 3), 
-              gamma[(num_gamma_pc + 1):(num_gamma_pc + p2)]) * delta
-    
-  } else { # individual selection
-    
-    beta <- gamma * delta
-    
-  }
-  
-  Xb <- X %*% beta
-  
-  log_post <- log_post_agdsq(Y, Xb, alpha, gamma, delta, sigma, q)
+  fix.rho <- FALSE
   
   
   
-  for (s in 1:n_burn_in) {
-    
-    mcmc_iter <- met_glm_iter(Y, X, Xb, beta, log_post, alpha, gamma, delta, sigma, q, can_sd)
-    
-    Xb <- mcmc_iter$Xb
-    
-    beta <- mcmc_iter$beta
-    
-    log_post <- mcmc_iter$log_post
-    
-    alpha <- mcmc_iter$alpha
-    
-    gamma <- mcmc_iter$gamma
-    
-    delta <- mcmc_iter$delta
-    
-    sigma <- mcmc_iter$sigma
-    
-    q <- mcmc_iter$q
-    
-  }
+  #### Matrices to store samples
+  n.keep <- floor(n_iter / thin)
+  samples.beta <- array(NA, c(n.keep, p))
+  samples.phi <- array(NA, c(n.keep, K))
+  samples.nu2 <- array(NA, c(n.keep, 1))
+  samples.sigma2 <- array(NA, c(n.keep, 1))
+  if(!fix.rho) samples.rho <- array(NA, c(n.keep, 1))
+  samples.loglike <- array(NA, c(n.keep, K))
+  samples.fitted <- array(NA, c(n.keep, K))
+  # if(n.miss>0) samples.Y <- array(NA, c(n.keep, n.miss))
   
-  for (s in 1:S) {
-    
-    mcmc_iter <- met_glm_iter(Y, X, Xb, beta, log_post, alpha, gamma, delta, sigma, q, can_sd)
-    
-    Xb <- mcmc_iter$Xb
-    
-    beta <- mcmc_iter$beta
-    
-    log_post <- mcmc_iter$log_post
-    
-    alpha <- mcmc_iter$alpha
-    
-    gamma <- mcmc_iter$gamma
-    
-    delta <- mcmc_iter$delta
-    
-    sigma <- mcmc_iter$sigma
-    
-    q <- mcmc_iter$q
-    
-    mcmc_ssvs[s, ] <- c(alpha, gamma, delta, sigma, q)
-    
+  
+  
+  #### CAR quantities (make sparse)
+  W.quants <- common.Wcheckformat(W)
+  W <- W.quants$W
+  W.triplet <- W.quants$W.triplet
+  n.triplet <- W.quants$n.triplet
+  W.triplet.sum <- W.quants$W.triplet.sum
+  n.neighbours <- W.quants$n.neighbours 
+  W.begfin <- W.quants$W.begfin
+  
+  
+  
+  # Prior quantities
+  
+  ## beta update quantities (Gibbs)
+  prior.var.beta <- rep(100000, p)
+  prior.precision.beta <- solve(diag(prior.var.beta))
+  data.precision.beta <- data.precision.beta <- t(X) %*% X
+  prior.mean.beta <- rep(0, p)
+  
+  ## nu2 update quantities (Gibbs)
+  prior.nu2 <- c(1, 0.01) # prior shape and scale
+  nu2.posterior.shape <- prior.nu2[1] + 0.5*K
+  
+  ## sigma2 update quantities (Gibbs)
+  prior.sigma2 <- c(1, 0.01) # prior shape and scale
+  sigma2.posterior.shape <- prior.sigma2[1] + 0.5*K
+  
+  ## rho update quantities (Metropolis-Hastings)
+  accept <- rep(0,2)
+  proposal.sd.rho <- 0.02
+  
+  ### current determinant (make sparse)
+  if(!fix.rho)
+  {
+    Wstar <- diag(W.quants$n.neighbours) - W
+    Wstar.eigen <- eigen(Wstar)
+    Wstar.val <- Wstar.eigen$values
+    det.Q <- 0.5 * sum(log((rho * Wstar.val + (1-rho))))    
   }
   
   
   
-  return(mcmc_ssvs)
+  for (s in 1:(S + n_burn_in)) {
+    
+    
+    
+    # Metropolis/Gibbs for beta, nu2, sigma2, phi, rho
+    
+    ## beta
+    fc.precision <- prior.precision.beta + data.precision.beta / nu2
+    fc.var <- solve(fc.precision)
+    beta.offset <- Y - phi
+    beta.offset2 <- t(X) %*% beta.offset / nu2 + prior.precision.beta %*% prior.mean.beta
+    fc.mean <- fc.var %*% beta.offset2
+    chol.var <- t(chol(fc.var))
+    beta <- fc.mean + chol.var %*% rnorm(p)
+    
+    ## nu2
+    fitted.current <-  as.numeric(X %*% beta) + phi
+    nu2.posterior.scale <- prior.nu2[2] + 0.5 * sum((Y - fitted.current)^2)
+    nu2 <- 1 / rgamma(1, nu2.posterior.shape, scale=(1/nu2.posterior.scale))  
+    
+    ## phi 
+    offset.phi <- (Y - as.numeric(X %*% beta)) / nu2    
+    phi <- gaussiancarupdate(Wtriplet=W.triplet, Wbegfin=W.begfin, W.triplet.sum, nsites=K, phi=phi, tau2=sigma2, rho=rho, nu2=nu2, offset=offset.phi)
+    if(rho<1)
+    {
+      phi <- phi - mean(phi)
+    }
+    
+    ## sigma2
+    temp2 <- quadform(W.triplet, W.triplet.sum, n.triplet, K, phi, phi, rho)
+    sigma2.posterior.scale <- prior.sigma2[2] + temp2 
+    sigma2 <- 1 / rgamma(1, sigma2.posterior.shape, scale=(1/sigma2.posterior.scale))
+    
+    ## rho 
+    if(!fix.rho)
+    {
+      proposal.rho <- rtruncnorm(n=1, a=0, b=1, mean=rho, sd=proposal.sd.rho)  
+      temp3 <- quadform(W.triplet, W.triplet.sum, n.triplet, K, phi, phi, proposal.rho)
+      det.Q.proposal <- 0.5 * sum(log((proposal.rho * Wstar.val + (1-proposal.rho))))              
+      logprob.current <- det.Q - temp2 / sigma2
+      logprob.proposal <- det.Q.proposal - temp3 / sigma2
+      hastings <- log(dtruncnorm(x=rho, a=0, b=1, mean=proposal.rho, sd=proposal.sd.rho)) - log(dtruncnorm(x=proposal.rho, a=0, b=1, mean=rho, sd=proposal.sd.rho)) 
+      prob <- exp(logprob.proposal - logprob.current + hastings)
+      
+      ## Accept or reject the proposal
+      if(prob > runif(1))
+      {
+        rho <- proposal.rho
+        det.Q <- det.Q.proposal
+        accept[1] <- accept[1] + 1           
+      }
+      accept[2] <- accept[2] + 1           
+    }
+    
+    ## calculate the deviance 
+    fitted <- as.numeric(X %*% beta) + phi
+    loglike <- dnorm(Y, mean = fitted, sd = rep(sqrt(nu2),K), log=TRUE)
+    
+    
+    
+    if(s > n_burn_in & (s-n_burn_in)%%thin==0)
+    {
+      ele <- (s - n_burn_in) / thin
+      samples.beta[ele, ] <- beta
+      samples.phi[ele, ] <- phi
+      samples.nu2[ele, ] <- nu2
+      samples.sigma2[ele, ] <- sigma2
+      if(!fix.rho) samples.rho[ele, ] <- rho
+      samples.loglike[ele, ] <- loglike
+      samples.fitted[ele, ] <- fitted
+      # if(n.miss>0) samples.Y[ele, ] <- Y.DA[which.miss==0]
+    }
+    
+    
+    
+    # Self-tune the acceptance probabilities
+    if(ceiling(s/100) == floor(s/100) & s < n_burn_in)
+    {
+      #### Update the proposal sds
+      if(!fix.rho)
+      {
+        proposal.sd.rho <- common.accceptrates2(accept[1:2], proposal.sd.rho, 40, 50, 0.5)
+      }
+      accept <- c(0,0)
+    }
+    
+    
+    
+  }
+  
+  
+  
+  #### Compute the acceptance rates
+  if(!fix.rho)
+  {
+    accept.rho <- 100 * accept[1] / accept[2]
+  }else
+  {
+    accept.rho <- NA    
+  }
+  accept.final <- accept.rho
+  
+  
+  
+  #### Compute the fitted deviance
+  mean.beta <- apply(samples.beta, 2, mean)
+  mean.phi <- apply(samples.phi, 2, mean)
+  fitted.mean <- X %*% mean.beta + mean.phi
+  nu2.mean <- mean(samples.nu2)
+  deviance.fitted <- -2 * sum(dnorm(Y, mean = fitted.mean, sd = rep(sqrt(nu2.mean),K), log = TRUE), na.rm=TRUE)
+  
+  
+  
+  #### Model fit criteria
+  modelfit <- common.modelfit(samples.loglike, deviance.fitted)
+  
+  
+  
+  #### Create the Fitted values and residuals
+  fitted.values <- apply(samples.fitted, 2, mean)
+  response.residuals <- Y - fitted.values
+  pearson.residuals <- response.residuals /sqrt(nu2.mean)
+  residuals <- data.frame(response=response.residuals, pearson=pearson.residuals)
+  
+  
+  
+  samples <- list(beta = mcmc(samples.beta), phi=mcmc(samples.phi), sigma2=mcmc(samples.sigma2), nu2=mcmc(samples.nu2), rho=mcmc(samples.rho), fitted=mcmc(samples.fitted))
+  results <- list(samples=samples, fitted.values=fitted.values, residuals=residuals, modelfit=modelfit, accept=accept.final)
+  
+  
+  
+  return(results)
   
 }
 

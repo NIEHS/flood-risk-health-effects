@@ -1,5 +1,7 @@
 
 library(Rcpp)
+library(truncnorm)
+library(coda)
 
 # Put in cpp helper functions from duncanplee's code below
 
@@ -39,8 +41,7 @@ return tau2_posteriorscale;
 
 
 
-cppFunction('// [[Rcpp::export]]
-NumericVector gaussiancarupdate(NumericMatrix Wtriplet, NumericMatrix Wbegfin, 
+cppFunction('NumericVector gaussiancarupdate(NumericMatrix Wtriplet, NumericMatrix Wbegfin, 
      NumericVector Wtripletsum, const int nsites, NumericVector phi, double tau2, 
      double rho, double nu2, NumericVector offset)
 {
@@ -208,14 +209,12 @@ common.modelfit <- function(samples.loglike, deviance.fitted)
 #' @param Y response variable (assuming no missing Y values for now)
 #' @param data covariates data frame (without intercept). Assumed to consist of factor variables or standardized continuous variables.
 #' @param W adjacency matrix (assuming no additional islands)
-#' @param inits initialize the parameters
-#' @param can_sd list containing the candidate standard deviations for alpha, delta, sigma, q
 #' @param n_burn_in number of burn-in iterations
 #' @param n_iter number of kept iterations
 #' @param thin level of thinning to apply to the MCMC samples
 #' @return MCMC chain
 #' @export
-met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter, thin = 1) {
+met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   
   X <- model.matrix(~., data = data)
   
@@ -226,10 +225,6 @@ met_gibbs_car <- function(Y, data, inits, can_sd, n_burn_in, n_iter, thin = 1) {
   # Create empty matrix for MCMC samples
   
   S <- n_iter
-  
-  mcmc_ssvs <- matrix(NA, S, length(unlist(inits))) # tracking alpha, gamma, delta, and sigma
-  
-  # colnames(mcmc_ssvs) <- c("alpha", rep("gamma", length(inits$gamma)), rep("delta", p - 1), "sigma", "q")
   
   
   

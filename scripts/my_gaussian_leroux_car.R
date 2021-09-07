@@ -293,6 +293,7 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   proposal.sd.rho <- 0.02
   
   ### current determinant (make sparse)
+  ### This is actually the only place where the full W matrix is used
   if(!fix.rho)
   {
     Wstar <- diag(W.quants$n.neighbours) - W

@@ -21,9 +21,9 @@ i_am("scripts/imported_data_wrangling.R")
 
 # FIPS for states in the Southwestern US: 
 
-sw_states <- c(37, 45, 47, 13, 1, 28, 12)
+se_states <- c(37, 45, 47, 13, 1, 28, 12)
 
-names(sw_states) <- c("NorthCarolina", "SouthCarolina", "Tennessee",
+names(se_states) <- c("NorthCarolina", "SouthCarolina", "Tennessee",
                       "Georgia", "Alabama", "Mississippi", "Florida")
 
 
@@ -79,7 +79,7 @@ places_dat_wide <- rename(places_dat_wide, fips = LocationID)
 
 # TBC: focusing on SE states census tracts for now
 
-places_dat_wide <- places_dat_wide[places_dat_wide$fips %/% 1e9 %in% sw_states, ]
+places_dat_wide <- places_dat_wide[places_dat_wide$fips %/% 1e9 %in% se_states, ]
 
 
 
@@ -96,7 +96,7 @@ cdc_svi[cdc_svi == -999] <- NA
 
 # TBC: focusing on SE states census tracts for now
 
-cdc_svi <- cdc_svi[cdc_svi$fips %/% 1e9 %in% sw_states, ]
+cdc_svi <- cdc_svi[cdc_svi$fips %/% 1e9 %in% se_states, ]
 
 
 
@@ -289,9 +289,9 @@ saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_sw_states_cens
 
 
 
-####################
 
-# TBC: make an edge list instead of adjacency matrix
+
+####################
 
 # making the census tract adjacency matrix from the census tract adjacency file provided by 
 # the Diversity and Disparities website
@@ -302,9 +302,9 @@ census_tract_adjacency <- read.csv(here("imported_data/tract10co/nlist_2010.csv"
 census_tract_fips <- unique(census_tract_adjacency$SOURCE_TRACTID)
 
 # TBC: focusing on SE states for now
-census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$SOURCE_TRACTID %/% 1e9) %in% sw_states,]
-census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e9) %in% sw_states,]
-census_tract_fips <- census_tract_fips[(census_tract_fips %/% 1e9) %in% sw_states]
+census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$SOURCE_TRACTID %/% 1e9) %in% se_states,]
+census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e9) %in% se_states,]
+census_tract_fips <- census_tract_fips[(census_tract_fips %/% 1e9) %in% se_states]
 
 census_tract_adj <- matrix(0, nrow = length(census_tract_fips), ncol = length(census_tract_fips))
 
@@ -377,5 +377,93 @@ census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
 
 
 saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize_sw_states_census_tract.rds"))
+
+
+
+####################
+
+# Constructing an edge list (i.e. matrix of triplets) using sparseMatrix in R
+
+# want to make sure it's compatible with what CARBayes needs (i.e. W.triplet, 
+# W.triplet.sum (i.e. num_nbr_mat), W.begfin (i.e. order edge list correctly), n (i.e. number of regions))
+
+
+
+# # code for shifting from column-oriented to triplet form
+# library(Matrix)
+# data(USCounties)
+# USCounties
+# tUSCounties <- as(USCounties, "dsTMatrix")
+# str(tUSCounties)
+# str(USCounties)
+
+
+
+# # playing around with sparseMatrix function
+# i <- c(1,3:8); j <- c(2,9,6:10); #x <- 7 * (1:7)
+# (A <- sparseMatrix(i, j)) 
+# summary(A)
+# str(A) # note that *internally* 0-based row indices are used
+# 
+# (sA <- sparseMatrix(i, j, symmetric = TRUE)) ## 10 x 10 "nsCMatrix"
+# (tA <- sparseMatrix(i, j, triangular= TRUE)) ## 10 x 10 "ntCMatrix"
+# stopifnot( all(sA == tA + t(tA)),
+#            identical(sA, as(tA + t(tA), "symmetricMatrix")))
+
+
+
+
+
+# FIPS for states in the Southwestern US: 
+
+se_states <- c(37, 45, 47, 13, 1, 28, 12)
+
+names(se_states) <- c("NorthCarolina", "SouthCarolina", "Tennessee",
+                      "Georgia", "Alabama", "Mississippi", "Florida")
+
+# making matrix using sparseMatrix rather than making dense numeric matrix, 
+# can compare with previous approach, just for SE states
+
+census_tract_adjacency <- read.csv(here("imported_data/tract10co/nlist_2010.csv"))
+
+census_tract_fips <- unique(census_tract_adjacency$SOURCE_TRACTID)
+
+# TBC: focusing on SE states for now
+census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$SOURCE_TRACTID %/% 1e9) %in% se_states,]
+census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e9) %in% se_states,]
+census_tract_fips <- census_tract_fips[(census_tract_fips %/% 1e9) %in% se_states]
+
+
+
+row_idx_vec <- sapply(census_tract_adjacency$SOURCE_TRACTID, function(fip) {which(census_tract_fips == fip)})
+col_idx_vec <- sapply(census_tract_adjacency$NEIGHBOR_TRACTID, function(fip) {which(census_tract_fips == fip)})
+
+
+
+census_tract_adj <- sparseMatrix(row_idx_vec, col_idx_vec)
+
+
+
+# TBC: adjacency matrix just for SE states census tracts
+saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_se_states.rds"))
+
+
+
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
+
+
+
+reorganize_idx <- match(fhs_model_df$fips, census_tract_fips) 
+
+census_tract_adj_reorganize <- census_tract_adj[, reorganize_idx]
+
+census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
+
+
+
+saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize_se_states_census_tract.rds"))
+
+
+
 
 

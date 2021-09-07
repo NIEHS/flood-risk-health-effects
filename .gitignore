@@ -15,3 +15,5 @@ imported_data/PLACES__Local_Data_for_Better_Health__Census_Tract_Data_2020_relea
 imported_data/caces_lur_air_pollution/caces_lur_air_pollution_census_tract.csv
 
 imported_data/flood_risk_raster/
+
+.Rapp.history

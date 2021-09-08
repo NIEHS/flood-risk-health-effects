@@ -38,7 +38,7 @@ X <- X[, !(names(X) %in% c("EP_AGE65", "EP_AGE17"))]
 
 collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk_2020_500",
                       "avg_risk_fsf_2020_500", "pct_fs_risk_2050_5", "pct_fs_risk_2020_100",
-                      "daily_mean", "pct_fs_risk_2050_100", "avg_risk_score_2_10", "pct_floodfactor10") 
+                      "daily_mean", "pct_fs_risk_2050_100", "avg_risk_score_2_10", "pct_floodfactor10")
 
 X <- X[, !(names(X) %in% collin_var_names)]
 
@@ -57,7 +57,7 @@ X <- as.matrix(X)
 X           <- scale(X) # Scale covariates
 X[is.na(X)] <- 0        # Fill in missing values with the mean
 
-# if I do mean imputation (which may be problematic), all the counties 
+# if I do mean imputation (which may be problematic), all the counties
 # will have neighbors in W
 
 
@@ -84,62 +84,81 @@ save(chain1, chain2, chain3, file = here("modeling_files/model_3chains_var_exclu
 
 
 
-# # trying a subset of the observations
-# 
-# set.seed(923)
-# 
-# subset_idx <- sample(1:nrow(X), size = 100)
-# 
-# Y_sub <- Y[subset_idx]
-# 
-# X_sub <- X[subset_idx,]
-# 
-# W_sub <- 
+
+
+#################
+
+# 9/8 change: make W into a sparse "ngCMatrix"
+# also use my_gaussian_leroux_car instead of CARBayes
+
+library("here")
+source(here("scripts/my_gaussian_leroux_car.R"))
+
+# Reading in the component data files
+
+W <- readRDS(here("intermediary_data", "countyadj_reorganize.rds"))
+
+W <- as(W, "ngCMatrix")
+
+fls_model_df <- readRDS(here("intermediary_data/fls_model_df.rds"))
+
+# checking that the fips in W and fhs_model_df align
+all.equal(as.numeric(colnames(W)), fls_model_df$fips)
 
 
 
+# extract the response variable
+
+Y <- fls_model_df$`Life expectancy, 2014*`
+
+# extract the covariates matrix
+
+X <- fls_model_df[, 12:(ncol(fls_model_df) - 1)]
 
 
 
+X <- X[, names(X) != "pct_floodfactor1"]
 
-# #################################################
-# #### Run the model on simulated data on a lattice
-# #################################################
-# #### Load other libraries required
-# library(MASS)
-# 
-# #### Set up a square lattice region
-# x.easting <- 1:10
-# x.northing <- 1:10
-# Grid <- expand.grid(x.easting, x.northing)
-# K <- nrow(Grid)
-# 
-# #### set up distance and neighbourhood (W, based on sharing a common border) matrices
-# distance <- as.matrix(dist(Grid))
-# W <-array(0, c(K,K))
-# W[distance==1] <-1
-# 
-# #### Generate the covariates and response data
-# x1 <- rnorm(K)
-# x2 <- rnorm(K)
-# theta <- rnorm(K, sd=0.05)
-# phi <- mvrnorm(n=1, mu=rep(0,K), Sigma=0.4 * exp(-0.1 * distance))
-# logit <- x1 + x2 + theta + phi
-# prob <- exp(logit) / (1 + exp(logit))
-# trials <- rep(50,K)
-# Y <- rbinom(n=K, size=trials, prob=prob)
-# 
-# 
-# #### Run the Leroux model
-# formula <- Y ~ x1 + x2
-# # ## Not run: model <- S.CARleroux(formula=formula, family="binomial",
-# # trials=trials, W=W, burnin=20000, n.sample=100000)
-# # ## End(Not run)
-# 
-# set.seed(821, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
-# 
-# #### Toy example for checking
-# model <- S.CARleroux(formula=formula, family="binomial",
-#                      trials=trials, W=W, burnin=10, n.sample=50)
+# the age-related CDC SVI variables should probably not be in here
+X <- X[, !(names(X) %in% c("EP_AGE65", "EP_AGE17"))]
+
+# exclude some more variables selected by vifstep, to account for multicollinearity
+# excluding all of the pct_fs_risk variables, as well as 3 of the avg_risk_score variables
+# omit daily_mean too, it's collinear with total_mean
+
+collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk_2020_500",
+                      "avg_risk_fsf_2020_500", "pct_fs_risk_2050_5", "pct_fs_risk_2020_100",
+                      "daily_mean", "pct_fs_risk_2050_100", "avg_risk_score_2_10", "pct_floodfactor10") 
+
+X <- X[, !(names(X) %in% collin_var_names)]
+
+
+
+X <- as.matrix(X)
+
+
+
+X           <- scale(X) # Scale covariates
+X[is.na(X)] <- 0        # Fill in missing values with the mean
+
+X <- data.frame(X)
+
+
+
+# only one chain instead of 3, like above
+
+set.seed(821, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+
+tick <- proc.time()[3]
+
+chain1  <- met_gibbs_car(Y, data = X, W, n_burn_in = 10000, n_iter = 90000, thin = 5)
+
+tock <- proc.time()[3]
+
+(tock-tick)/60 # time in minutes
+
+
+
+save(chain1, file = here("modeling_files/model_1chain_var_exclude_sparse.RData"))
 
 

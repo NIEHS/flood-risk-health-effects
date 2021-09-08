@@ -2,6 +2,7 @@
 library(Rcpp)
 library(truncnorm)
 library(coda)
+library(Matrix)
 
 # Put in cpp helper functions from duncanplee's code below
 
@@ -83,66 +84,6 @@ return phinew;
 
 
 
-
-
-# Taken from duncanplee's code
-
-common.Wcheckformat <- function(W)
-{
-  #### Check W is a matrix of the correct dimension
-  if(!is.matrix(W)) stop("W is not a matrix.", call.=FALSE)
-  n <- nrow(W)
-  if(ncol(W)!= n) stop("W is not a square matrix.", call.=FALSE)    
-  
-  
-  #### Check validity of inputed W matrix
-  if(sum(is.na(W))>0) stop("W has missing 'NA' values.", call.=FALSE)
-  if(!is.numeric(W)) stop("W has non-numeric values.", call.=FALSE)
-  if(min(W)<0) stop("W has negative elements.", call.=FALSE)
-  if(sum(W!=t(W))>0) stop("W is not symmetric.", call.=FALSE)
-  if(min(apply(W, 1, sum))==0) stop("W has some areas with no neighbours (one of the row sums equals zero).", call.=FALSE)    
-  
-  
-  #### Create the triplet form
-  ids <- which(W > 0, arr.ind = T)
-  W.triplet <- cbind(ids, W[ids])
-  W.triplet <- W.triplet[ ,c(2,1,3)]
-  
-  #W.triplet <- c(NA, NA, NA)
-  #for(i in 1:n)
-  #{
-  #    for(j in 1:n)
-  #    {
-  #        if(W[i,j]>0)
-  #        {
-  #            W.triplet <- rbind(W.triplet, c(i,j, W[i,j]))     
-  #        }else{}
-  #    }
-  #}
-  #W.triplet <- W.triplet[-1, ]     
-  n.triplet <- nrow(W.triplet) 
-  W.triplet.sum <- tapply(W.triplet[ ,3], W.triplet[ ,1], sum)
-  n.neighbours <- tapply(W.triplet[ ,3], W.triplet[ ,1], length)
-  
-  
-  #### Create the start and finish points for W updating
-  W.begfin <- cbind(c(1, cumsum(n.neighbours[-n])+1), cumsum(n.neighbours))
-  #W.begfin <- array(NA, c(n, 2))     
-  #temp <- 1
-  #for(i in 1:n)
-  #{
-  #    W.begfin[i, ] <- c(temp, (temp + n.neighbours[i]-1))
-  #    temp <- temp + n.neighbours[i]
-  #}
-  
-  
-  #### Return the critical quantities
-  results <- list(W=W, W.triplet=W.triplet, n.triplet=n.triplet, W.triplet.sum=W.triplet.sum, n.neighbours=n.neighbours, W.begfin=W.begfin, n=n)
-  return(results)   
-}
-
-
-
 # Taken from duncanplee's code
 # Acceptance rates - maximum limit on the proposal sd
 common.accceptrates2 <- function(accept, sd, min, max, sd.max)
@@ -208,7 +149,7 @@ common.modelfit <- function(samples.loglike, deviance.fitted)
 #'
 #' @param Y response variable (assuming no missing Y values for now)
 #' @param data covariates data frame (without intercept). Assumed to consist of factor variables or standardized continuous variables.
-#' @param W adjacency matrix (assuming no additional islands)
+#' @param W adjacency matrix (assuming no additional islands) in sparse matrix format (class ngCMatrix)
 #' @param n_burn_in number of burn-in iterations
 #' @param n_iter number of kept iterations
 #' @param thin level of thinning to apply to the MCMC samples
@@ -244,7 +185,8 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   
   # Xb <- X %*% beta
   
-  fix.rho <- FALSE
+  rho <- runif(1)
+  fix.rho <- FALSE  
   
   
   
@@ -262,13 +204,12 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   
   
   #### CAR quantities (make sparse)
-  W.quants <- common.Wcheckformat(W)
-  W <- W.quants$W
-  W.triplet <- W.quants$W.triplet
-  n.triplet <- W.quants$n.triplet
-  W.triplet.sum <- W.quants$W.triplet.sum
-  n.neighbours <- W.quants$n.neighbours 
-  W.begfin <- W.quants$W.begfin
+  
+  dp <- diff(W@p)
+  W.triplet <- cbind(rep(seq_along(dp),dp), W@i + 1, 1) # W@i is 0-based
+  n.triplet <- nrow(W.triplet)
+  W.triplet.sum <- tapply(W.triplet[ ,3], W.triplet[ ,1], sum)
+  W.begfin <- cbind(c(1, cumsum(W.triplet.sum[-nrow(W)])+1), cumsum(W.triplet.sum))
   
   
   
@@ -296,7 +237,7 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   ### This is actually the only place where the full W matrix is used
   if(!fix.rho)
   {
-    Wstar <- diag(W.quants$n.neighbours) - W
+    Wstar <- Diagonal(x = W.triplet.sum) - W
     Wstar.eigen <- eigen(Wstar)
     Wstar.val <- Wstar.eigen$values
     det.Q <- 0.5 * sum(log((rho * Wstar.val + (1-rho))))    

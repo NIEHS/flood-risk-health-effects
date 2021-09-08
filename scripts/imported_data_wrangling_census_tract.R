@@ -449,6 +449,10 @@ saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_se_
 
 
 
+
+
+census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_se_states.rds"))
+
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
 
 
@@ -458,6 +462,13 @@ reorganize_idx <- match(fhs_model_df$fips, census_tract_fips)
 census_tract_adj_reorganize <- census_tract_adj[, reorganize_idx]
 
 census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
+
+
+
+# census_tract_adj_reorganize <- as(census_tract_adj_reorganize, "dgCMatrix")
+# 
+# census_tract_adj_reorganize <- as(census_tract_adj_reorganize, "symmetricMatrix")
+
 
 
 

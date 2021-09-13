@@ -141,3 +141,49 @@ colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[,
 
 
 
+# My sparse implementation
+
+```{r}
+load(here("modeling_files/model_1chain_var_exclude_sparse.RData"))
+```
+
+```{r}
+chain1$modelfit
+```
+
+```{r}
+mcmc_samps <- chain1$samples
+
+effectiveSize(mcmc_samps$beta)
+```
+
+It's easier to achieve a high sample size. I can have 10x fewer iterations.
+
+```{r}
+effectiveSize(mcmc_samps$sigma2)
+```
+
+```{r}
+effectiveSize(mcmc_samps$nu2)
+```
+
+```{r}
+effectiveSize(mcmc_samps$rho)
+```
+
+```{r}
+t(apply(mcmc_samps$beta, 2, quantile, c(0.5, 0.025, 0.975))) 
+```
+
+```{r}
+quantile(mcmc_samps$nu2, c(0.5, 0.025, 0.975))
+```
+
+```{r}
+quantile(mcmc_samps$sigma2, c(0.5, 0.025, 0.975))
+```
+
+```{r}
+quantile(mcmc_samps$rho, c(0.5, 0.025, 0.975))
+```
+

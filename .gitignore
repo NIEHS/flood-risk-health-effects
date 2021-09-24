@@ -17,3 +17,5 @@ imported_data/caces_lur_air_pollution/caces_lur_air_pollution_census_tract.csv
 imported_data/flood_risk_raster/
 
 .Rapp.history
+
+~*.docx

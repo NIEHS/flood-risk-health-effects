@@ -171,6 +171,19 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   
   # Initial values
   
+  # for missing Y values 
+  
+  n <- nrow(X)
+  
+  J <- length(Y) / n
+  which.notna <- matrix(as.numeric(!is.na(Y)), nrow=n, ncol=J)
+  if(J==1) which.notna <- as.numeric(which.notna)
+  n.na <- n*J - sum(which.notna)
+  
+  Y.DA <- Y
+  
+  
+  
   mod.glm <- lm(Y~X-1)
   beta.mean <- mod.glm$coefficients
   beta.sd <- sqrt(diag(summary(mod.glm)$cov.unscaled)) * summary(mod.glm)$sigma
@@ -199,7 +212,7 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   if(!fix.rho) samples.rho <- array(NA, c(n.keep, 1))
   samples.loglike <- array(NA, c(n.keep, K))
   samples.fitted <- array(NA, c(n.keep, K))
-  # if(n.miss>0) samples.Y <- array(NA, c(n.keep, n.miss))
+  if(n.na>0) samples.Y <- array(NA, c(n.keep, n.na))
   
   
   
@@ -249,12 +262,19 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
     
     
     
+    # Sample from Y - data augmentation
+    
+    if(n.na>0)
+    {
+      Y.DA[which.notna==0] <- rnorm(n=n.na, mean=fitted[which.notna==0], sd=sqrt(nu2))
+    }
+    
     # Metropolis/Gibbs for beta, nu2, sigma2, phi, rho
     
     ## beta
     fc.precision <- prior.precision.beta + data.precision.beta / nu2
     fc.var <- solve(fc.precision)
-    beta.offset <- Y - phi
+    beta.offset <- Y.DA - phi
     beta.offset2 <- t(X) %*% beta.offset / nu2 + prior.precision.beta %*% prior.mean.beta
     fc.mean <- fc.var %*% beta.offset2
     chol.var <- t(chol(fc.var))
@@ -262,11 +282,11 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
     
     ## nu2
     fitted.current <-  as.numeric(X %*% beta) + phi
-    nu2.posterior.scale <- prior.nu2[2] + 0.5 * sum((Y - fitted.current)^2)
+    nu2.posterior.scale <- prior.nu2[2] + 0.5 * sum((Y.DA - fitted.current)^2)
     nu2 <- 1 / rgamma(1, nu2.posterior.shape, scale=(1/nu2.posterior.scale))  
     
     ## phi 
-    offset.phi <- (Y - as.numeric(X %*% beta)) / nu2    
+    offset.phi <- (Y.DA - as.numeric(X %*% beta)) / nu2    
     phi <- gaussiancarupdate(Wtriplet=W.triplet, Wbegfin=W.begfin, W.triplet.sum, nsites=K, phi=phi, tau2=sigma2, rho=rho, nu2=nu2, offset=offset.phi)
     if(rho<1)
     {
@@ -315,7 +335,7 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
       if(!fix.rho) samples.rho[ele, ] <- rho
       samples.loglike[ele, ] <- loglike
       samples.fitted[ele, ] <- fitted
-      # if(n.miss>0) samples.Y[ele, ] <- Y.DA[which.miss==0]
+      if(n.na>0) samples.Y[ele, ] <- Y.DA[which.notna==0]
     }
     
     
@@ -371,7 +391,9 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   
   
   
-  samples <- list(beta = mcmc(samples.beta), phi=mcmc(samples.phi), sigma2=mcmc(samples.sigma2), nu2=mcmc(samples.nu2), rho=mcmc(samples.rho), fitted=mcmc(samples.fitted))
+  if(n.na==0) samples.Y = NA
+  
+  samples <- list(beta = mcmc(samples.beta), phi=mcmc(samples.phi), sigma2=mcmc(samples.sigma2), nu2=mcmc(samples.nu2), rho=mcmc(samples.rho), fitted=mcmc(samples.fitted), Y=mcmc(samples.Y))
   results <- list(samples=samples, fitted.values=fitted.values, residuals=residuals, modelfit=modelfit, accept=accept.final)
   
   

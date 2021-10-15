@@ -143,6 +143,8 @@ colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[,
 
 # My sparse implementation
 
+Now also with imputed Y values for missing responses
+
 ```{r}
 load(here("modeling_files/model_1chain_var_exclude_sparse.RData"))
 ```
@@ -172,6 +174,10 @@ effectiveSize(mcmc_samps$rho)
 ```
 
 ```{r}
+effectiveSize(mcmc_samps$Y)
+```
+
+```{r}
 t(apply(mcmc_samps$beta, 2, quantile, c(0.5, 0.025, 0.975))) 
 ```
 
@@ -186,4 +192,11 @@ quantile(mcmc_samps$sigma2, c(0.5, 0.025, 0.975))
 ```{r}
 quantile(mcmc_samps$rho, c(0.5, 0.025, 0.975))
 ```
+
+Imputed Y values
+
+```{r}
+t(apply(mcmc_samps$Y, 2, quantile, c(0.5, 0.025, 0.975))) 
+```
+
 

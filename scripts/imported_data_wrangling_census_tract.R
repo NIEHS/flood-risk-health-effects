@@ -32,6 +32,7 @@ names(se_states) <- c("NorthCarolina", "SouthCarolina", "Tennessee",
 flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"), 
                        colClasses = c("character", rep(NA, 33)))
 
+# adds leading zero to the front of less-than-5-digits zip codes, to make all zip codes length 5
 flood_risk$zipcode <- sprintf("%05s", flood_risk$zipcode)
 
 flood_risk_prev <- flood_risk

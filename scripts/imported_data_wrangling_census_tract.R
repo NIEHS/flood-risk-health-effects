@@ -19,15 +19,6 @@ i_am("scripts/imported_data_wrangling.R")
 
 
 
-# FIPS for states in the Southwestern US: 
-
-se_states <- c(37, 45, 47, 13, 1, 28, 12)
-
-names(se_states) <- c("NorthCarolina", "SouthCarolina", "Tennessee",
-                      "Georgia", "Alabama", "Mississippi", "Florida")
-
-
-
 # reading in the zip code flood risk data
 flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"), 
                        colClasses = c("character", rep(NA, 33)))
@@ -78,12 +69,6 @@ places_dat_wide <- pivot_wider(places_subset, id_cols = c(LocationID, CountyFIPS
 
 places_dat_wide <- rename(places_dat_wide, fips = LocationID)
 
-# TBC: focusing on SE states census tracts for now
-
-places_dat_wide <- places_dat_wide[places_dat_wide$fips %/% 1e9 %in% se_states, ]
-
-
-
 
 
 # reading in the CDC SVI data
@@ -94,10 +79,6 @@ cdc_svi <- rename(cdc_svi, fips = FIPS)
 
 # take care of the -999 missing value indicators
 cdc_svi[cdc_svi == -999] <- NA
-
-# TBC: focusing on SE states census tracts for now
-
-cdc_svi <- cdc_svi[cdc_svi$fips %/% 1e9 %in% se_states, ]
 
 
 
@@ -114,23 +95,25 @@ cdc_svi <- cdc_svi[cdc_svi$fips %/% 1e9 %in% se_states, ]
 
 caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution_census_tract.csv"))
 
-# extract 2015 data
-
-caces_lur_2015 <- caces_lur[caces_lur$year == 2015,]
-
 # don't need the year, state_abbr, lat or lon
 
-caces_lur_subset <- dplyr::select(caces_lur_2015, -c(year, state_abbr, lat, lon))
+caces_lur_subset <- dplyr::select(caces_lur, -c(state_abbr, lat, lon))
 
 # convert from long to wide format
 
 caces_lur_wide <- spread(caces_lur_subset, pollutant, pred_wght)
 
-saveRDS(caces_lur_wide, file = here("intermediary_data/caces_lur_wide_census_tract.rds")) 
+caces_lur_summ <- caces_lur_wide %>% group_by(fips) %>% summarise(co = mean(co), no2 = mean(no2), o3 = mean(o3), 
+                                                                  pm10 = mean(pm10), pm25 = mean(pm25), 
+                                                                  so2 = mean(so2))
 
 
 
-caces_lur_wide <- readRDS(file = here("intermediary_data/caces_lur_wide_census_tract.rds"))
+saveRDS(caces_lur_summ, file = here("intermediary_data/caces_lur_summ_census_tract.rds"))
+
+
+
+caces_lur_summ <- readRDS(file = here("intermediary_data/caces_lur_summ_census_tract.rds"))
 
 
 
@@ -218,12 +201,12 @@ for (fip in places_dat_wide$fips) {
 
 colnames(merged_flood_risk_mat) <- flood_risk_colnames_subset
 
-saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_mat_sw_states_census_tract.rds")) 
+saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_mat_all_census_tract.rds")) 
 
 
 
 
-merged_flood_risk_mat <- readRDS(here("intermediary_data/merged_flood_risk_mat_sw_states_census_tract.rds"))
+merged_flood_risk_mat <- readRDS(here("intermediary_data/merged_flood_risk_mat_all_census_tract.rds"))
 
 
 
@@ -236,7 +219,7 @@ flood_health <- data.frame(places_dat_wide, merged_flood_risk_mat)
 flood_health_svi <- merge(flood_health, cdc_svi, all.x = T, by = "fips")
 
 # then merging with air pollution
-flood_health_svi <- merge(flood_health_svi, caces_lur_wide, all.x = T, by = "fips")
+flood_health_svi <- merge(flood_health_svi, caces_lur_summ, all.x = T, by = "fips")
 
 
 
@@ -248,9 +231,7 @@ flood_health_svi <- flood_health_svi[!(flood_health_svi$STATE %in% c("ALASKA", "
 
 # save the dataset
 
-# TBC: SE states census tracts for now
-
-saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_sw_states_census_tract.rds")) 
+saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_all_census_tract.rds")) 
 
 
 
@@ -258,7 +239,7 @@ saveRDS(flood_health_svi, file = here("intermediary_data/flood_health_svi_sw_sta
 
 # Removing redundant columns, moving id columns to the left
 
-flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_sw_states_census_tract.rds"))
+flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_all_census_tract.rds"))
 
 # remove places_dat variables other than Data_Value_CHD
 # this also puts the outcome variable as the last variable
@@ -283,101 +264,7 @@ fhs_svi_subset <- fhs_outcome_subset %>%
 
 fhs_model_df <- fhs_svi_subset
 
-# TBC: SE states census tract version
-saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
-
-# saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df.rds"))
-
-
-
-
-
-####################
-
-# making the census tract adjacency matrix from the census tract adjacency file provided by 
-# the Diversity and Disparities website
-# (https://s4.ad.brown.edu/Projects/Diversity/Researcher/Pooling.htm)
-
-census_tract_adjacency <- read.csv(here("imported_data/tract10co/nlist_2010.csv"))
-
-census_tract_fips <- unique(census_tract_adjacency$SOURCE_TRACTID)
-
-# TBC: focusing on SE states for now
-census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$SOURCE_TRACTID %/% 1e9) %in% se_states,]
-census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e9) %in% se_states,]
-census_tract_fips <- census_tract_fips[(census_tract_fips %/% 1e9) %in% se_states]
-
-census_tract_adj <- matrix(0, nrow = length(census_tract_fips), ncol = length(census_tract_fips))
-
-row.names(census_tract_adj) <- census_tract_fips
-colnames(census_tract_adj) <- census_tract_fips
-
-start_idx <- 1
-
-for (k in 1:length(census_tract_fips)) {
-  
-  start_idx <- which(census_tract_adjacency$SOURCE_TRACTID == census_tract_fips[k])[1]
-  
-  end_idx <- start_idx
-  
-  while (census_tract_adjacency$SOURCE_TRACTID[end_idx + 1] == census_tract_fips[k]) {
-    
-    end_idx <- end_idx + 1
-    
-    if (end_idx == nrow(census_tract_adjacency)) {
-      break
-    }
-    
-  }
-  
-  nbr_census_tracts <- census_tract_adjacency$NEIGHBOR_TRACTID[start_idx:end_idx]
-  
-  nbr_idx <- which(census_tract_fips %in% nbr_census_tracts)
-  
-  # not necessary, census tract isn't listed as adjacent to itself
-  # nbr_idx <- nbr_idx[nbr_idx != k]
-  
-  census_tract_adj[k, nbr_idx] <- 1
-  
-}
-
-# TBC: adjacency matrix just for SE states census tracts
-saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_sw_states.rds"))
-
-
-
-# # TBC
-# # changing the Oglala county FIPS in the row name/column name from 46113 to 46102
-# row.names(census_tract_adj)[row.names(census_tract_adj) == 46113] <- 46102
-# colnames(census_tract_adj)[colnames(census_tract_adj) == 46113] <- 46102
-# 
-# # saving the full, unprocessed adjacency matrix for all census tracts
-# 
-# saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds"))
-
-
-
-
-
-# omit (and reorder) the fips to match the flood risk fips
-
-# TBC: SE states census tract version
-
-census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_sw_states.rds"))
-
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
-
-
-
-reorganize_idx <- match(fhs_model_df$fips, colnames(census_tract_adj)) 
-
-census_tract_adj_reorganize <- census_tract_adj[, reorganize_idx]
-
-census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
-
-
-
-saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize_sw_states_census_tract.rds"))
+saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tract.rds"))
 
 
 
@@ -413,26 +300,12 @@ saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tr
 
 
 
-
-
-# FIPS for states in the Southwestern US: 
-
-se_states <- c(37, 45, 47, 13, 1, 28, 12)
-
-names(se_states) <- c("NorthCarolina", "SouthCarolina", "Tennessee",
-                      "Georgia", "Alabama", "Mississippi", "Florida")
-
 # making matrix using sparseMatrix rather than making dense numeric matrix, 
 # can compare with previous approach, just for SE states
 
 census_tract_adjacency <- read.csv(here("imported_data/tract10co/nlist_2010.csv"))
 
 census_tract_fips <- unique(census_tract_adjacency$SOURCE_TRACTID)
-
-# TBC: focusing on SE states for now
-census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$SOURCE_TRACTID %/% 1e9) %in% se_states,]
-census_tract_adjacency <- census_tract_adjacency[(census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e9) %in% se_states,]
-census_tract_fips <- census_tract_fips[(census_tract_fips %/% 1e9) %in% se_states]
 
 
 
@@ -445,16 +318,24 @@ census_tract_adj <- sparseMatrix(row_idx_vec, col_idx_vec)
 
 
 
-# TBC: adjacency matrix just for SE states census tracts
-saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_se_states.rds"))
+saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_all.rds"))
 
 
 
+# # TBC
+# # changing the Oglala county FIPS in the row name/column name from 46113 to 46102
+# row.names(census_tract_adj)[row.names(census_tract_adj) == 46113] <- 46102
+# colnames(census_tract_adj)[colnames(census_tract_adj) == 46113] <- 46102
+# 
+# # saving the full, unprocessed adjacency matrix for all census tracts
+# 
+# saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds"))
 
 
-census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_se_states.rds"))
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
+census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_all.rds"))
+
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract.rds"))
 
 
 
@@ -473,7 +354,7 @@ census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
 
 
 
-saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize_se_states_census_tract.rds"))
+saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
 
 
 

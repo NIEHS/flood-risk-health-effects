@@ -246,6 +246,16 @@ flood_health_svi <- flood_health_svi[!(flood_health_svi$STATE %in% c("ALASKA", "
 
 
 
+# merging with GRIDMET data
+
+mean_df_GRIDMET <- readRDS(file = here("intermediary_data/mean_df_GRIDMET.rds"))
+
+mean_df_GRIDMET$fips <- as.numeric(mean_df_GRIDMET$fips)
+
+flood_health_svi <- merge(flood_health_svi, mean_df_GRIDMET, all.x = T, by = "fips")
+
+
+
 # save the dataset
 
 # TBC: SE states census tracts for now

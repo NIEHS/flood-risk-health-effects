@@ -141,6 +141,9 @@ mean(trhupct_summary$trhupct_sum >= 99)
 # all the flood risk zip codes are accounted for within the crosswalk.
 all(flood_risk$zipcode %in% zcta_crosswalk$ZCTA5)
 
+# There are 25 fips in the PLACES dataset not present in the ZCTA crosswalk. This will lead to some missing
+# flood risk variables. 
+
 # approach: take a weighted mean of the non-missing flood risk values of the ZCTAs within each tract.
 
 flood_risk_colnames_subset <- colnames(flood_risk)[(startsWith(colnames(flood_risk), "pct_") | 
@@ -223,7 +226,7 @@ flood_health_svi <- merge(flood_health_svi, caces_lur_summ, all.x = T, by = "fip
 
 
 
-# remove counties in Alaska and Hawaii
+# remove census tracts in Alaska and Hawaii
 
 flood_health_svi <- flood_health_svi[!(flood_health_svi$STATE %in% c("ALASKA", "HAWAII")), ]
 
@@ -272,36 +275,9 @@ saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tra
 
 # Constructing an edge list (i.e. matrix of triplets) using sparseMatrix in R
 
-# want to make sure it's compatible with what CARBayes needs (i.e. W.triplet, 
-# W.triplet.sum (i.e. num_nbr_mat), W.begfin (i.e. order edge list correctly), n (i.e. number of regions))
-
-
-
-# # code for shifting from column-oriented to triplet form
-# library(Matrix)
-# data(USCounties)
-# USCounties
-# tUSCounties <- as(USCounties, "dsTMatrix")
-# str(tUSCounties)
-# str(USCounties)
-
-
-
-# # playing around with sparseMatrix function
-# i <- c(1,3:8); j <- c(2,9,6:10); #x <- 7 * (1:7)
-# (A <- sparseMatrix(i, j)) 
-# summary(A)
-# str(A) # note that *internally* 0-based row indices are used
-# 
-# (sA <- sparseMatrix(i, j, symmetric = TRUE)) ## 10 x 10 "nsCMatrix"
-# (tA <- sparseMatrix(i, j, triangular= TRUE)) ## 10 x 10 "ntCMatrix"
-# stopifnot( all(sA == tA + t(tA)),
-#            identical(sA, as(tA + t(tA), "symmetricMatrix")))
-
 
 
 # making matrix using sparseMatrix rather than making dense numeric matrix, 
-# can compare with previous approach, just for SE states
 
 census_tract_adjacency <- read.csv(here("imported_data/tract10co/nlist_2010.csv"))
 
@@ -339,18 +315,23 @@ fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract.rd
 
 
 
+# There are 24 fips in fhs_model_df not present in the Diversity and Disparities adjacency file.
+missing_fips <- fhs_model_df$fips[!(fhs_model_df$fips %in% census_tract_fips)]
+
+# Let's omit those fips from fhs_model_df.
+fhs_model_df <- fhs_model_df[!(fhs_model_df$fips %in% missing_fips), ]
+
+saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tract.rds"))
+
+
+
 reorganize_idx <- match(fhs_model_df$fips, census_tract_fips) 
+
+
 
 census_tract_adj_reorganize <- census_tract_adj[, reorganize_idx]
 
 census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
-
-
-
-# census_tract_adj_reorganize <- as(census_tract_adj_reorganize, "dgCMatrix")
-# 
-# census_tract_adj_reorganize <- as(census_tract_adj_reorganize, "symmetricMatrix")
-
 
 
 

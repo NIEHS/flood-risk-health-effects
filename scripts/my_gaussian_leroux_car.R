@@ -145,6 +145,43 @@ common.modelfit <- function(samples.loglike, deviance.fitted)
 
 
 
+# Taken from duncanplee's code
+# Compute the DIC. WAIC,LMPL and loglikelihood
+common.modelfit.summarized.loglike <- function(mean.like, mean.recip.like, var.loglike, sum.loglike, n.keep, deviance.fitted)
+{
+  #### WAIC
+  p.w <- sum(var.loglike, na.rm=TRUE)
+  mean.min <- min(mean.like[mean.like>0])
+  mean.like[mean.like==0] <- mean.min
+  lppd <- sum(log(mean.like), na.rm=TRUE)
+  WAIC <- -2 * (lppd - p.w)
+  
+  
+  #### Compute the Conditional Predictive Ordinate
+  CPO <- 1/mean.recip.like
+  mean.min <- min(CPO[CPO>0])
+  CPO[CPO==0] <- mean.min
+  LMPL <- sum(log(CPO), na.rm=TRUE)    
+  
+  
+  #### DIC
+  mean.deviance <- -2 * sum.loglike / n.keep
+  p.d <- mean.deviance - deviance.fitted
+  DIC <- deviance.fitted + 2 * p.d
+  
+  
+  #### loglikelihood
+  loglike <- -0.5 * deviance.fitted
+  
+  
+  #### Model fit criteria
+  modelfit <- c(DIC, p.d, WAIC, p.w, LMPL, loglike)
+  names(modelfit) <- c("DIC", "p.d", "WAIC", "p.w", "LMPL", "loglikelihood")
+  return(modelfit)  
+}
+
+
+
 #' Metropolis-Gibbs algorithm for CAR model
 #'
 #' @param Y response variable (assuming no missing Y values for now)
@@ -153,13 +190,16 @@ common.modelfit <- function(samples.loglike, deviance.fitted)
 #' @param n_burn_in number of burn-in iterations
 #' @param n_iter number of kept iterations
 #' @param thin level of thinning to apply to the MCMC samples
+#' @param keep_first vector of spatial units to keep the parameters for; for other subjects, 
+#' keep track of the running posterior mean.
 #' @return MCMC chain
 #' @export
-met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
+met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1, 
+                          keep_first = 1:nrow(data)) {
   
   X <- model.matrix(~., data = data)
   
-  K <- length(Y)
+  K <- nrow(data)
   
   p <- ncol(X)
   
@@ -206,17 +246,35 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   #### Matrices to store samples
   n.keep <- floor(n_iter / thin)
   samples.beta <- array(NA, c(n.keep, p))
-  samples.phi <- array(NA, c(n.keep, K))
+  samples.phi <- array(NA, c(n.keep, length(keep_first)))
   samples.nu2 <- array(NA, c(n.keep, 1))
   samples.sigma2 <- array(NA, c(n.keep, 1))
   if(!fix.rho) samples.rho <- array(NA, c(n.keep, 1))
-  samples.loglike <- array(NA, c(n.keep, K))
-  samples.fitted <- array(NA, c(n.keep, K))
+  samples.loglike <- array(NA, c(n.keep, length(keep_first)))
+  samples.fitted <- array(NA, c(n.keep, length(keep_first)))
   if(n.na>0) samples.Y <- array(NA, c(n.keep, n.na))
   
   
   
-  #### CAR quantities (make sparse)
+  # If length(keep_first) is less than K, then track the average of parameters across subjects
+  # or other summary statistics, in the case of log-likelihood
+  if (length(keep_first) < K) {
+    
+    mean.phi <- rep(0, K)
+    
+    mean.loglike <- rep(0, K)
+    second.mom.loglike <- rep(0, K)
+    
+    mean.like <- rep(0, K)
+    mean.recip.like <- rep(0, K)
+    
+    mean.fitted <- rep(0, K)
+    
+  }
+  
+  
+  
+  #### CAR quantities (made sparse)
   
   dp <- diff(W@p)
   W.triplet <- cbind(rep(seq_along(dp),dp), W@i + 1, 1) # W@i is 0-based
@@ -329,13 +387,25 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
     {
       ele <- (s - n_burn_in) / thin
       samples.beta[ele, ] <- beta
-      samples.phi[ele, ] <- phi
-      samples.nu2[ele, ] <- nu2
-      samples.sigma2[ele, ] <- sigma2
-      if(!fix.rho) samples.rho[ele, ] <- rho
-      samples.loglike[ele, ] <- loglike
-      samples.fitted[ele, ] <- fitted
+      samples.phi[ele, ] <- phi[keep_first]
+      samples.nu2[ele] <- nu2
+      samples.sigma2[ele] <- sigma2
+      if(!fix.rho) samples.rho[ele] <- rho
+      samples.loglike[ele, ] <- loglike[keep_first]
+      samples.fitted[ele, ] <- fitted[keep_first]
       if(n.na>0) samples.Y[ele, ] <- Y.DA[which.notna==0]
+      
+      if (length(keep_first) < K) {
+        mean.phi <- mean.phi + phi / n.keep
+        
+        mean.loglike <- mean.loglike + loglike / n.keep
+        second.mom.loglike <- second.mom.loglike + loglike^2 / n.keep
+        
+        mean.like <- mean.like + exp(loglike) / n.keep
+        mean.recip.like <- mean.recip.like + exp(-loglike) / n.keep
+        
+        mean.fitted <- mean.fitted + fitted / n.keep
+      }
     }
     
     
@@ -371,7 +441,11 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   
   #### Compute the fitted deviance
   mean.beta <- apply(samples.beta, 2, mean)
-  mean.phi <- apply(samples.phi, 2, mean)
+  
+  if (length(keep_first) == K) {
+    mean.phi <- apply(samples.phi, 2, mean)
+  }
+  
   fitted.mean <- X %*% mean.beta + mean.phi
   nu2.mean <- mean(samples.nu2)
   deviance.fitted <- -2 * sum(dnorm(Y, mean = fitted.mean, sd = rep(sqrt(nu2.mean),K), log = TRUE), na.rm=TRUE)
@@ -379,13 +453,29 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   
   
   #### Model fit criteria
-  modelfit <- common.modelfit(samples.loglike, deviance.fitted)
+  if (length(keep_first) == K) { 
+    
+    modelfit <- common.modelfit(samples.loglike, deviance.fitted) 
+    
+  } else {
+    
+    var.loglike <- (n.keep / (n.keep - 1)) * (second.mom.loglike - mean.loglike^2)
+    
+    sum.loglike <- sum(mean.loglike * n.keep, na.rm = T)
+    
+    modelfit <- common.modelfit.summarized.loglike(mean.like = mean.like, mean.recip.like = mean.recip.like, 
+                                                   var.loglike = var.loglike, sum.loglike = sum.loglike, 
+                                                   n.keep = n.keep, deviance.fitted = deviance.fitted) 
+    
+  }
   
   
   
   #### Create the Fitted values and residuals
-  fitted.values <- apply(samples.fitted, 2, mean)
-  response.residuals <- Y - fitted.values
+  if (length(keep_first) == K) {
+    mean.fitted <- apply(samples.fitted, 2, mean)
+  }
+  response.residuals <- Y - mean.fitted
   pearson.residuals <- response.residuals /sqrt(nu2.mean)
   residuals <- data.frame(response=response.residuals, pearson=pearson.residuals)
   
@@ -393,8 +483,17 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1) {
   
   if(n.na==0) samples.Y = NA
   
-  samples <- list(beta = mcmc(samples.beta), phi=mcmc(samples.phi), sigma2=mcmc(samples.sigma2), nu2=mcmc(samples.nu2), rho=mcmc(samples.rho), fitted=mcmc(samples.fitted), Y=mcmc(samples.Y))
-  results <- list(samples=samples, fitted.values=fitted.values, residuals=residuals, modelfit=modelfit, accept=accept.final)
+  if (length(keep_first) == K) {
+    samples <- list(beta = mcmc(samples.beta), phi=mcmc(samples.phi), sigma2=mcmc(samples.sigma2),
+                    nu2=mcmc(samples.nu2), rho=mcmc(samples.rho), fitted=mcmc(samples.fitted),
+                    Y=mcmc(samples.Y))
+  } else {
+    samples <- list(beta = mcmc(samples.beta), phi=mcmc(samples.phi), mean.phi = mean.phi, sigma2=mcmc(samples.sigma2),
+                    nu2=mcmc(samples.nu2), rho=mcmc(samples.rho), fitted=mcmc(samples.fitted),
+                    Y=mcmc(samples.Y))
+  }
+  
+  results <- list(samples=samples, mean.fitted=mean.fitted, residuals=residuals, modelfit=modelfit, accept=accept.final)
   
   
   

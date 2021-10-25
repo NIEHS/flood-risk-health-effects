@@ -331,8 +331,6 @@ missing_fips <- fhs_model_df$fips[!(fhs_model_df$fips %in% census_tract_fips)]
 # Let's omit those fips from fhs_model_df.
 fhs_model_df <- fhs_model_df[!(fhs_model_df$fips %in% missing_fips), ]
 
-saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tract.rds"))
-
 
 
 reorganize_idx <- match(fhs_model_df$fips, census_tract_fips) 
@@ -342,6 +340,27 @@ reorganize_idx <- match(fhs_model_df$fips, census_tract_fips)
 census_tract_adj_reorganize <- census_tract_adj[, reorganize_idx]
 
 census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
+
+census_tract_fips <- census_tract_fips[reorganize_idx]
+
+
+
+# There are now 6 census tracts without any neighbors. Let's eliminate such census tracts from
+# fhs_model_df and census_tract_adj_reorganize.
+
+no_nbr_idx <- which(!(1:length(census_tract_fips) %in% (census_tract_adj_reorganize@i + 1)))
+
+
+
+fhs_model_df <- fhs_model_df[-no_nbr_idx, ]
+
+census_tract_adj_reorganize <- census_tract_adj_reorganize[, -no_nbr_idx]
+
+census_tract_adj_reorganize <- census_tract_adj_reorganize[-no_nbr_idx, ]
+
+
+
+saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
 
 
 

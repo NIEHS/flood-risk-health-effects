@@ -3,6 +3,7 @@ library(Rcpp)
 library(truncnorm)
 library(coda)
 library(Matrix)
+library(RSpectra)
 
 # Put in cpp helper functions from duncanplee's code below
 
@@ -309,7 +310,7 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1,
   if(!fix.rho)
   {
     Wstar <- Diagonal(x = W.triplet.sum) - W
-    Wstar.eigen <- eigen(Wstar)
+    Wstar.eigen <- eigs_sym(Wstar, nrow(Wstar))
     Wstar.val <- Wstar.eigen$values
     det.Q <- 0.5 * sum(log((rho * Wstar.val + (1-rho))))    
   }

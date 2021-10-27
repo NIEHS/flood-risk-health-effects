@@ -11,6 +11,7 @@ library(ape)
 library(GGally)
 library(usdm)
 library(spdep)
+library(factoextra)
 ```
 
 ```{r}
@@ -171,5 +172,56 @@ Moran's I
 ```
 
 The *p*-value is negligible, so we can reject the null hypothesis of zero spatial autocorrelation. Since the observed value of I is significantly greater then the expected value, the life expectancies are positively autocorrelated, in contrast to negatively autocorrelated. Thus, using a CAR model is justified. 
+
+
+
+# PCA
+
+Conduct PCA on the correlated flood risk variables
+
+```{r}
+flood_risk <- fhs_model_df[, 14:35]
+```
+
+```{r}
+fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
+
+fr_loadings <- fr_pca$rotation
+```
+
+```{r}
+fviz_eig(fr_pca)
+```
+
+```{r}
+summ_pca <- summary(fr_pca)
+
+summ_pca$importance[,1:10]
+```
+
+We started out with 22 variables; including seven PC scores would include 90% of the variance.
+
+
+
+Printing out the loadings, from most negative to least
+
+```{r}
+# First PC Score
+fr_loadings[order(fr_loadings[, 1]), 1]
+```
+
+The first PC score is very interpretable. Only the loading for pct_floodfactor1 is positive.
+
+```{r}
+# Second PC Score
+fr_loadings[order(fr_loadings[, 2]), 2]
+```
+
+Less interpretable--more of a mix of positive and negative loadings.
+
+```{r}
+# Third PC Score
+fr_loadings[order(fr_loadings[, 3]), 3]
+```
 
 

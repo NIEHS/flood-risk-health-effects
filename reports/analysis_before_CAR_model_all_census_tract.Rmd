@@ -1,0 +1,139 @@
+---
+title: "Analysis before fitting the CAR model"
+author: "Alvin Sheng"
+date: "6/28/2021"
+output: pdf_document
+---
+
+```{r}
+library(here)
+library(ape)
+library(GGally)
+library(usdm)
+```
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
+```
+
+# Checking for multicollinearity among the covariates
+
+`S.CARleroux()` automatically puts a fixed ridge penalty on the beta coefficients. Therefore, the large number of covariates and multicollinearity would be accounted for. 
+
+Actually no, because the penalty is negligible. 
+
+## Flood risk variables
+
+```{r}
+ggcorr(data = fhs_model_df[, c(14:35, ncol(fhs_model_df))], progress = F)
+```
+
+```{r}
+flood_cor <- cor(fhs_model_df[complete.cases(fhs_model_df[, c(14:35, ncol(fhs_model_df))]), c(14:35, ncol(fhs_model_df))])
+
+flood_cor[nrow(flood_cor), ] # correlation with dependent variable
+```
+
+For each variable, I take the summary of its correlations with other variables, not including itself. 
+
+```{r}
+diag(flood_cor) <- NA
+
+summary(flood_cor)
+```
+
+Many of the flood risk variables are very correlated.
+
+
+
+# Using VIF to exlude variables
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
+```
+
+```{r}
+X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
+
+X <- X[, names(X) != "pct_floodfactor1"]
+
+X <- X[, names(X) != "avg_risk_score_sfha"]
+
+
+
+X           <- scale(X) # Scale covariates
+
+X <- data.frame(X)
+```
+
+```{r}
+vif(X)
+```
+
+```{r}
+vifstep(X)
+```
+
+This procedure detects that the following variables have collinearity problems. Let's exclude these variables and then rerun the analysis. 
+
+```{r}
+collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk_2020_500", "avg_risk_fsf_2020_500", "pct_fs_risk_2050_5", "pct_fs_risk_2020_100", "no2", "pct_fs_risk_2050_100")
+```
+
+
+
+# Non-spatial modeling
+
+```{r}
+Y <- fhs_model_df$Data_Value_CHD
+
+X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
+
+X <- X[, names(X) != "pct_floodfactor1"]
+
+# exclude some more variables selected by vifstep, to account for multicollinearity
+# excluding all of the pct_fs_risk variables, as well as 3 of the avg_risk_score variables
+
+collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk_2020_500", "avg_risk_fsf_2020_500", "pct_fs_risk_2050_5", "pct_fs_risk_2020_100", "no2", "pct_fs_risk_2050_100")
+
+X <- X[, !(names(X) %in% collin_var_names)]
+
+# also removing avg_risk_score_sfha due to large numbers of NAs
+X <- X[, names(X) != "avg_risk_score_sfha"]
+
+
+
+X           <- scale(X) # Scale covariates
+X[is.na(X)] <- 0        # Fill in missing values with the mean
+
+# if I do mean imputation (which may be problematic), all the counties 
+# will have neighbors in W
+
+# X <- data.frame(X)
+```
+
+```{r}
+fhs_lm <- lm(Y ~ X)
+```
+
+```{r}
+summary(fhs_lm)
+```
+
+
+
+# Checking for spatial autocorrelation
+
+```{r}
+W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
+```
+
+Moran's I
+
+```{r}
+(moran_results <- Moran.I(residuals(fhs_lm), W))
+```
+
+The *p*-value is negligible, so we can reject the null hypothesis of zero spatial autocorrelation. Since the observed value of I is significantly greater then the expected value, the life expectancies are positively autocorrelated, in contrast to negatively autocorrelated. Thus, using a CAR model is justified. 
+
+

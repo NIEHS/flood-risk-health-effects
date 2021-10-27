@@ -10,10 +10,11 @@ library(here)
 library(ape)
 library(GGally)
 library(usdm)
+library(spdep)
 ```
 
 ```{r}
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
 ```
 
 # Checking for multicollinearity among the covariates
@@ -25,7 +26,7 @@ Actually no, because the penalty is negligible.
 ## Flood risk variables
 
 ```{r}
-ggcorr(data = fhs_model_df[, c(14:35, ncol(fhs_model_df))], progress = F)
+ggcorr(data = fhs_model_df[, c(14:35, ncol(fhs_model_df))])
 ```
 
 ```{r}
@@ -82,6 +83,39 @@ collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk
 
 
 
+# Correlations among climate related variables
+
+Excluding variables in collin_var_names
+
+```{r}
+climate_var_idx <- c(14:35, 52:61)
+
+climate_var_idx_exclude <- climate_var_idx[-which(names(fhs_model_df)[climate_var_idx] %in% collin_var_names)]
+```
+
+```{r}
+ggcorr(data = fhs_model_df[, c(climate_var_idx_exclude, ncol(fhs_model_df))])
+```
+
+```{r}
+climate_cor <- cor(fhs_model_df[complete.cases(fhs_model_df[, c(climate_var_idx_exclude, ncol(fhs_model_df))]), c(climate_var_idx_exclude, ncol(fhs_model_df))])
+
+climate_cor[nrow(climate_cor), ] # correlation with dependent variable
+```
+
+For each variable, I take the summary of its correlations with other variables, not including itself. 
+
+```{r}
+diag(climate_cor) <- NA
+
+summary(climate_cor)
+```
+
+Climate variables other than flood risk are not too correlated.
+
+
+
+
 # Non-spatial modeling
 
 ```{r}
@@ -126,12 +160,14 @@ summary(fhs_lm)
 
 ```{r}
 W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
+
+W_listw <- mat2listw(W)
 ```
 
 Moran's I
 
 ```{r}
-(moran_results <- Moran.I(residuals(fhs_lm), W))
+(moran_results <- moran.test(residuals(fhs_lm), W_listw))
 ```
 
 The *p*-value is negligible, so we can reject the null hypothesis of zero spatial autocorrelation. Since the observed value of I is significantly greater then the expected value, the life expectancies are positively autocorrelated, in contrast to negatively autocorrelated. Thus, using a CAR model is justified. 

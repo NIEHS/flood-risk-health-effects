@@ -46,11 +46,41 @@ Many of the flood risk variables are very correlated.
 
 
 
-# Non-spatial modeling
+# Using VIF to exlude variables
 
 ```{r}
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds"))
 ```
+
+```{r}
+X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
+
+X <- X[, names(X) != "pct_floodfactor1"]
+
+X           <- scale(X) # Scale covariates
+
+X <- as.data.frame(X)
+```
+
+```{r}
+vif(X)
+```
+
+```{r}
+vifstep(X)
+```
+
+This procedure detects that the following variables have collinearity problems. Let's exclude these variables and then rerun the analysis. 
+
+```{r}
+collin_var_names <- c("pct_fs_risk_2050_500", "avg_risk_score_all", "pct_fs_risk_2050_100",
+                      "pct_fs_risk_2020_500", "pct_fs_risk_2020_100", "avg_risk_fsf_2020_500",
+                      "pct_fs_risk_2050_5", "avg_risk_score_2_10", "pct_fs_risk_2020_5")
+```
+
+
+
+# Non-spatial modeling
 
 ```{r}
 Y <- fhs_model_df$Data_Value_CHD
@@ -60,6 +90,15 @@ Y <- fhs_model_df$Data_Value_CHD
 X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
 
 X <- X[, names(X) != "pct_floodfactor1"]
+
+# exclude some more variables selected by vifstep, to account for multicollinearity
+# excluding all of the pct_fs_risk variables, as well as 3 of the avg_risk_score variables
+
+collin_var_names <- c("pct_fs_risk_2050_500", "avg_risk_score_all", "pct_fs_risk_2050_100",
+                      "pct_fs_risk_2020_500", "pct_fs_risk_2020_100", "avg_risk_fsf_2020_500",
+                      "pct_fs_risk_2050_5", "avg_risk_score_2_10", "pct_fs_risk_2020_5")
+
+X <- X[, !(names(X) %in% collin_var_names)]
 
 X           <- scale(X) # Scale covariates
 X[is.na(X)] <- 0        # Fill in missing values with the mean
@@ -88,36 +127,6 @@ Moran's I
 ```
 
 The *p*-value is negligible, so we can reject the null hypothesis of zero spatial autocorrelation. Since the observed value of I is significantly greater then the expected value, the life expectancies are positively autocorrelated, in contrast to negatively autocorrelated. Thus, using a CAR model is justified. 
-
-
-
-# Using VIF to exlude variables
-
-```{r}
-X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
-
-X <- X[, names(X) != "pct_floodfactor1"]
-
-X           <- scale(X) # Scale covariates
-
-X <- as.data.frame(X)
-```
-
-```{r}
-vif(X)
-```
-
-```{r}
-vifstep(X)
-```
-
-This procedure detects that the following variables have collinearity problems. Let's exclude these variables and then rerun the analysis. 
-
-```{r}
-collin_var_names <- c("pct_fs_risk_2050_500", "avg_risk_score_all", "pct_fs_risk_2050_100",
-                      "pct_fs_risk_2020_500", "pct_fs_risk_2020_100", "avg_risk_fsf_2020_500",
-                      "pct_fs_risk_2050_5", "avg_risk_score_2_10", "pct_fs_risk_2020_5")
-```
 
 
 

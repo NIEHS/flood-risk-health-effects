@@ -42,8 +42,6 @@ X <- X[, !(names(X) %in% collin_var_names)]
 # also removing avg_risk_score_sfha due to large numbers of NAs
 X <- X[, names(X) != "avg_risk_score_sfha"]
 
-X <- as.matrix(X)
-
 
 
 X           <- scale(X) # Scale covariates

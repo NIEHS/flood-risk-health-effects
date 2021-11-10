@@ -17,6 +17,15 @@ i_am("scripts/imported_data_wrangling.R")
 # CHD prevalence, merge for all of them. Can get census tract fips from the TIGER/LINE 
 # shapefiles of the entire U.S. 
 
+library(sf)
+
+for (i in 1:length(ct_files)) {
+  shp_list[[i]] <- st_read(dsn = paste0("/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/FirstStreet/census_tract_shapefiles/", ct_files[i], "/", paste0(ct_files[i], ".shp")), quiet = T)
+}
+
+shp_df <- do.call("rbind", shp_list)
+
+
 
 
 # reading in the zip code flood risk data
@@ -95,7 +104,7 @@ cdc_svi[cdc_svi == -999] <- NA
 
 caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution_census_tract.csv"))
 
-# don't need the year, state_abbr, lat or lon
+# don't need the state_abbr, lat or lon
 
 caces_lur_subset <- dplyr::select(caces_lur, -c(state_abbr, lat, lon))
 

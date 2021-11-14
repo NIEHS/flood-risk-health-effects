@@ -270,6 +270,7 @@ mean_df_GRIDMET <- readRDS(file = here("intermediary_data/mean_df_GRIDMET.rds"))
 
 mean_df_GRIDMET$fips <- as.numeric(mean_df_GRIDMET$fips)
 
+# correction of SD and VA fips 
 mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 46113] <- mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 46113] %% (46113 * 1e6) + (46102 * 1e6)
 mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 51515] <- mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 51515] %% (51515 * 1e6) + (51019 * 1e6)
 
@@ -326,6 +327,15 @@ saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tra
 
 census_tract_adjacency <- read.csv(here("imported_data/tract10co/nlist_2010.csv"))
 
+# correction of SD and VA fips 
+census_tract_adjacency$SOURCE_TRACTID[census_tract_adjacency$SOURCE_TRACTID %/% 1e6 == 46113] <- census_tract_adjacency$SOURCE_TRACTID[census_tract_adjacency$SOURCE_TRACTID %/% 1e6 == 46113] %% (46113 * 1e6) + (46102 * 1e6)
+census_tract_adjacency$SOURCE_TRACTID[census_tract_adjacency$SOURCE_TRACTID %/% 1e6 == 51515] <- census_tract_adjacency$SOURCE_TRACTID[census_tract_adjacency$SOURCE_TRACTID %/% 1e6 == 51515] %% (51515 * 1e6) + (51019 * 1e6)
+
+census_tract_adjacency$NEIGHBOR_TRACTID[census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e6 == 46113] <- census_tract_adjacency$NEIGHBOR_TRACTID[census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e6 == 46113] %% (46113 * 1e6) + (46102 * 1e6)
+census_tract_adjacency$NEIGHBOR_TRACTID[census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e6 == 51515] <- census_tract_adjacency$NEIGHBOR_TRACTID[census_tract_adjacency$NEIGHBOR_TRACTID %/% 1e6 == 51515] %% (51515 * 1e6) + (51019 * 1e6)
+
+
+
 census_tract_fips <- unique(census_tract_adjacency$SOURCE_TRACTID)
 
 
@@ -343,16 +353,7 @@ saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_all
 
 
 
-# # TBC
-# # changing the Oglala county FIPS in the row name/column name from 46113 to 46102
-# row.names(census_tract_adj)[row.names(census_tract_adj) == 46113] <- 46102
-# colnames(census_tract_adj)[colnames(census_tract_adj) == 46113] <- 46102
-# 
-# # saving the full, unprocessed adjacency matrix for all census tracts
-# 
-# saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj.rds"))
-
-
+# final processing of census_tract_adj and fhs_model_df
 
 census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_all.rds"))
 
@@ -360,7 +361,7 @@ fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract.rd
 
 
 
-# There are 24 fips in fhs_model_df not present in the Diversity and Disparities adjacency file.
+# There are 2 fips in fhs_model_df not present in the Diversity and Disparities adjacency file.
 missing_fips <- fhs_model_df$fips[!(fhs_model_df$fips %in% census_tract_fips)]
 
 # Let's omit those fips from fhs_model_df.
@@ -377,21 +378,6 @@ census_tract_adj_reorganize <- census_tract_adj[, reorganize_idx]
 census_tract_adj_reorganize <- census_tract_adj_reorganize[reorganize_idx, ]
 
 census_tract_fips <- census_tract_fips[reorganize_idx]
-
-
-
-# There are now 6 census tracts without any neighbors. Let's eliminate such census tracts from
-# fhs_model_df and census_tract_adj_reorganize.
-
-no_nbr_idx <- which(!(1:length(census_tract_fips) %in% (census_tract_adj_reorganize@i + 1)))
-
-
-
-fhs_model_df <- fhs_model_df[-no_nbr_idx, ]
-
-census_tract_adj_reorganize <- census_tract_adj_reorganize[, -no_nbr_idx]
-
-census_tract_adj_reorganize <- census_tract_adj_reorganize[-no_nbr_idx, ]
 
 
 

@@ -13,17 +13,17 @@ i_am("scripts/imported_data_wrangling.R")
 
 
 
-# TBC: instead of merging flood risk variables for just census tracts with non-missing
-# CHD prevalence, merge for all of them. Can get census tract fips from the TIGER/LINE 
-# shapefiles of the entire U.S. 
-
 library(sf)
 
+ct_files <- list.files(here("imported_data/census_tract_shapefiles/"))
+
+shp_list <- vector("list", length = length(ct_files))
+
 for (i in 1:length(ct_files)) {
-  shp_list[[i]] <- st_read(dsn = paste0("/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/FirstStreet/census_tract_shapefiles/", ct_files[i], "/", paste0(ct_files[i], ".shp")), quiet = T)
+  shp_list[[i]] <- st_read(dsn = here("imported_data/census_tract_shapefiles", ct_files[i], paste0(ct_files[i], ".shp")), quiet = T)
 }
 
-shp_df <- do.call("rbind", shp_list)
+all_ct_df <- do.call("rbind", shp_list)
 
 
 
@@ -91,10 +91,6 @@ cdc_svi[cdc_svi == -999] <- NA
 
 
 
-# can grab smoking prevalence data from PLACES dataset
-
-
-
 
 
 # CACES LUR air pollution data
@@ -130,6 +126,14 @@ caces_lur_summ <- readRDS(file = here("intermediary_data/caces_lur_summ_census_t
 
 # merge all three datasets together by their fips
 
+ct_fips <- data.frame(fips = as.numeric(all_ct_df$GEOID10))
+
+ct_health <- left_join(ct_fips, places_dat_wide)
+
+
+
+
+
 # reading in the ZCTA crosswalk
 
 # use colClasses to read identifiers with leading zeros
@@ -150,8 +154,10 @@ mean(trhupct_summary$trhupct_sum >= 99)
 # all the flood risk zip codes are accounted for within the crosswalk.
 all(flood_risk$zipcode %in% zcta_crosswalk$ZCTA5)
 
-# There are 25 fips in the PLACES dataset not present in the ZCTA crosswalk. This will lead to some missing
+# There are some fips in the census tracts df not present in the ZCTA crosswalk. This will lead to some missing
 # flood risk variables. 
+
+mean(all_ct_df$GEOID10 %in% unique(zcta_crosswalk$GEOID))
 
 # approach: take a weighted mean of the non-missing flood risk values of the ZCTAs within each tract.
 
@@ -160,15 +166,13 @@ flood_risk_colnames_subset <- colnames(flood_risk)[(startsWith(colnames(flood_ri
                                                      !endsWith(colnames(flood_risk), "fs_fema_difference_2020") & 
                                                      !endsWith(colnames(flood_risk), "fema_sfha")]
 
-merged_flood_risk_mat <- matrix(NA, nrow = nrow(places_dat_wide), ncol = length(flood_risk_colnames_subset))
+merged_flood_risk_mat <- matrix(NA, nrow = length(all_ct_df$GEOID10), ncol = length(flood_risk_colnames_subset))
 
 no_f_dat <- 0
 
 merged_mat_idx <- 1
 
-zcta_crosswalk$GEOID <- as.numeric(zcta_crosswalk$GEOID)
-
-for (fip in places_dat_wide$fips) {
+for (fip in all_ct_df$GEOID10) {
   
   one_tract_mult_zip <- zcta_crosswalk[zcta_crosswalk$GEOID == fip, names(zcta_crosswalk) %in% c("ZCTA5", "TRHUPCT")]
   
@@ -217,21 +221,19 @@ saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_
 
 
 
-
 merged_flood_risk_mat <- readRDS(here("intermediary_data/merged_flood_risk_mat_all_census_tract.rds"))
 
+  
 
-
-
-flood_health <- data.frame(places_dat_wide, merged_flood_risk_mat)
+flood_health <- data.frame(ct_health, merged_flood_risk_mat)
 
 
 
 # then merging with SVI 
-flood_health_svi <- merge(flood_health, cdc_svi, all.x = T, by = "fips")
+flood_health_svi <- left_join(flood_health, cdc_svi, by = "fips")
 
 # then merging with air pollution
-flood_health_svi <- merge(flood_health_svi, caces_lur_summ, all.x = T, by = "fips")
+flood_health_svi <- left_join(flood_health_svi, caces_lur_summ, by = "fips")
 
 
 
@@ -247,7 +249,7 @@ mean_df_GRIDMET <- readRDS(file = here("intermediary_data/mean_df_GRIDMET.rds"))
 
 mean_df_GRIDMET$fips <- as.numeric(mean_df_GRIDMET$fips)
 
-flood_health_svi <- merge(flood_health_svi, mean_df_GRIDMET, all.x = T, by = "fips")
+flood_health_svi <- left_join(flood_health_svi, mean_df_GRIDMET, by = "fips")
 
 
 
@@ -377,5 +379,27 @@ saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tr
 
 
 
+
+
+####################
+
+# Partitioning the U.S. into several regions, to estimate rho parameter via divide-and-conquer
+
+# # Setting up for bigDM package
+# install.packages("devtools")
+# library(devtools)
+# install.packages("INLA", repos=c(getOption("repos"), INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
+# install_github("spatialstatisticsupna/bigDM")
+# install.packages("lwgeom")
+
+library(bigDM)
+library(tmap)
+library(lwgeom)
+
+rand_carto <- random_partition(all_ct_df, max.size = NULL) 
+
+tm_shape(rand_carto) +
+  tm_polygons(col="ID.group") +
+  tm_layout(legend.show=FALSE)
 
 

@@ -24,3 +24,33 @@ fl_cdc_hu <- left_join(fl_count_prop, cdc_count_hu, by = "fips")
 plot(fl_cdc_hu$fl_count_prop, fl_cdc_hu$cdc_count_hu)
 
 
+
+# census tract fips to modify
+
+all_ct_df_va <- all_ct_df[as.numeric(all_ct_df$GEOID10) %/% 1e9 == 51,]
+
+all_ct_df_sd <- all_ct_df[as.numeric(all_ct_df$GEOID10) %/% 1e9 == 46,]
+
+
+
+all_ct_df_va$GEOID10[!(all_ct_df_va$GEOID10 %in% shp_va$GEOID)]
+# [1] "51515050100"
+
+all_ct_df_sd$GEOID10[!(all_ct_df_sd$GEOID10 %in% shp_sd$GEOID)]
+# [1] "46113940800" "46113940900" "46113940500"
+
+
+
+shp_va$GEOID[!(shp_va$GEOID %in% all_ct_df$GEOID10)]
+# [1] "51019050100"
+
+shp_sd$GEOID[!(shp_sd$GEOID %in% all_ct_df$GEOID10)]
+# [1] "46102940900" "46102940800" "46102940500"
+
+
+
+all(c("46113940800", "46113940900", "46113940500") %in% caces_lur_summ$fips)
+all(c("46102940900", "46102940800", "46102940500") %in% caces_lur_summ$fips)
+51515050100 %in% caces_lur_summ$fips
+51019050100 %in% caces_lur_summ$fips
+

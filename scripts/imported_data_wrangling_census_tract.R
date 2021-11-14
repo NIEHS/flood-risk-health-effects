@@ -15,6 +15,8 @@ i_am("scripts/imported_data_wrangling.R")
 
 library(sf)
 
+# using 2010 census tract boundaries
+
 ct_files <- list.files(here("imported_data/census_tract_shapefiles/"))
 
 shp_list <- vector("list", length = length(ct_files))
@@ -23,7 +25,14 @@ for (i in 1:length(ct_files)) {
   shp_list[[i]] <- st_read(dsn = here("imported_data/census_tract_shapefiles", ct_files[i], paste0(ct_files[i], ".shp")), quiet = T)
 }
 
+# I use 2019 census tract boundaries for Virginia and South Dakota, because some of their 
+# fips codes changed in the 2010s
+
+names(shp_list[[48]]) <- names(shp_list[[1]])
+names(shp_list[[49]]) <- names(shp_list[[1]])
+
 all_ct_df <- do.call("rbind", shp_list)
+
 
 
 
@@ -112,7 +121,10 @@ caces_lur_summ <- caces_lur_wide %>% group_by(fips) %>% summarise(co = mean(co),
                                                                   pm10 = mean(pm10), pm25 = mean(pm25), 
                                                                   so2 = mean(so2))
 
+# correct the fips for Virginia and South Dakota
 
+caces_lur_summ$fips[caces_lur_summ$fips %/% 1e6 == 46113] <- caces_lur_summ$fips[caces_lur_summ$fips %/% 1e6 == 46113] %% (46113 * 1e6) + (46102 * 1e6)
+caces_lur_summ$fips[caces_lur_summ$fips %/% 1e6 == 51515] <- caces_lur_summ$fips[caces_lur_summ$fips %/% 1e6 == 51515] %% (51515 * 1e6) + (51019 * 1e6)
 
 saveRDS(caces_lur_summ, file = here("intermediary_data/caces_lur_summ_census_tract.rds"))
 
@@ -141,6 +153,15 @@ ct_health <- left_join(ct_fips, places_dat_wide)
 zcta_crosswalk <- read.csv(here("imported_data", "zcta_crosswalk", "zcta_tract_rel_10.txt"), 
                            colClasses = c(rep("character", 5), rep("numeric", 20)))
 
+zcta_crosswalk$GEOID <- as.numeric(zcta_crosswalk$GEOID)
+
+# correct the fips for Virginia and South Dakota
+
+zcta_crosswalk$GEOID[zcta_crosswalk$GEOID %/% 1e6 == 46113] <- zcta_crosswalk$GEOID[zcta_crosswalk$GEOID %/% 1e6 == 46113] %% (46113 * 1e6) + (46102 * 1e6)
+zcta_crosswalk$GEOID[zcta_crosswalk$GEOID %/% 1e6 == 51515] <- zcta_crosswalk$GEOID[zcta_crosswalk$GEOID %/% 1e6 == 51515] %% (51515 * 1e6) + (51019 * 1e6)
+
+
+
 # I focus on TRHUPCT, "The Percentage of Total Housing Unit Count of the 2010 Census Tract represented by the record" 
 # to merge the flood risk zip code data with the rest of the data in terms of census tracts
 
@@ -157,7 +178,7 @@ all(flood_risk$zipcode %in% zcta_crosswalk$ZCTA5)
 # There are some fips in the census tracts df not present in the ZCTA crosswalk. This will lead to some missing
 # flood risk variables. 
 
-mean(all_ct_df$GEOID10 %in% unique(zcta_crosswalk$GEOID))
+mean(ct_health$fips %in% unique(zcta_crosswalk$GEOID))
 
 # approach: take a weighted mean of the non-missing flood risk values of the ZCTAs within each tract.
 
@@ -172,7 +193,7 @@ no_f_dat <- 0
 
 merged_mat_idx <- 1
 
-for (fip in all_ct_df$GEOID10) {
+for (fip in ct_health$fips) {
   
   one_tract_mult_zip <- zcta_crosswalk[zcta_crosswalk$GEOID == fip, names(zcta_crosswalk) %in% c("ZCTA5", "TRHUPCT")]
   
@@ -248,6 +269,9 @@ flood_health_svi <- flood_health_svi[!(flood_health_svi$STATE %in% c("ALASKA", "
 mean_df_GRIDMET <- readRDS(file = here("intermediary_data/mean_df_GRIDMET.rds"))
 
 mean_df_GRIDMET$fips <- as.numeric(mean_df_GRIDMET$fips)
+
+mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 46113] <- mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 46113] %% (46113 * 1e6) + (46102 * 1e6)
+mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 51515] <- mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 51515] %% (51515 * 1e6) + (51019 * 1e6)
 
 flood_health_svi <- left_join(flood_health_svi, mean_df_GRIDMET, by = "fips")
 

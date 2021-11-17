@@ -164,7 +164,7 @@ set.seed(821, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind 
 
 tick <- proc.time()[3]
 
-chain1  <- met_gibbs_car(Y, data = X, W, n_burn_in = 10000, n_iter = 90000, thin = 5)
+chain1  <- met_gibbs_car(Y, data = X, W, rho = 1, n_burn_in = 10000, n_iter = 90000, thin = 5, keep_first = 1:5)
 
 tock <- proc.time()[3]
 

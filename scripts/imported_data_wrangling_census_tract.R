@@ -391,6 +391,42 @@ saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tr
 
 
 
+# Replacing flood risk variables with the PCs
+
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
+
+flood_risk <- fhs_model_df[, c(14:23, 25:35)] # omitting the 24th variable, avg_risk_score_sfha, because of too many NAs
+
+fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
+
+
+
+summ_pca <- summary(fr_pca)
+
+summ_pca$importance[,1:10] # The first 4 PCs cover 80% of the variance. 
+
+flood_pcs <- matrix(NA, nrow = nrow(fhs_model_df), ncol = 4)
+
+flood_pcs[complete.cases(flood_risk), ] <- fr_pca$x[, 1:4]
+
+flood_pcs <- data.frame(flood_pcs)
+
+names(flood_pcs) <- paste0("flood_risk_pc", 1:ncol(flood_pcs))
+
+
+
+# dimensionality reduction
+fhs_model_df <- fhs_model_df[, -c(14:35)]
+
+fhs_model_df <- data.frame(fhs_model_df, flood_pcs)
+
+fhs_model_df <- fhs_model_df %>% relocate(flood_risk_pc1, flood_risk_pc2, flood_risk_pc3, flood_risk_pc4, .after = E_HH)
+
+
+saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
+
+
+
 ####################
 
 # Partitioning the U.S. into several regions, to estimate rho parameter via divide-and-conquer
@@ -417,7 +453,7 @@ tm_shape(rand_carto) +
 
 
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
 
 W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
 

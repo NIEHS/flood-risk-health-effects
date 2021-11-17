@@ -180,7 +180,8 @@ The *p*-value is negligible, so we can reject the null hypothesis of zero spatia
 Conduct PCA on the correlated flood risk variables
 
 ```{r}
-flood_risk <- fhs_model_df[, 14:35]
+flood_risk <- fhs_model_df[, c(14:23, 25:35)] 
+# omitting the 24th variable, avg_risk_score_sfha, because of too many NAs
 ```
 
 ```{r}
@@ -224,4 +225,7 @@ Less interpretable--more of a mix of positive and negative loadings.
 fr_loadings[order(fr_loadings[, 3]), 3]
 ```
 
-
+```{r}
+# Third PC Score
+fr_loadings[order(fr_loadings[, 4]), 4]
+```

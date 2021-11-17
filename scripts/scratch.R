@@ -49,8 +49,11 @@ shp_sd$GEOID[!(shp_sd$GEOID %in% all_ct_df$GEOID10)]
 
 
 
-all(c("46113940800", "46113940900", "46113940500") %in% caces_lur_summ$fips)
-all(c("46102940900", "46102940800", "46102940500") %in% caces_lur_summ$fips)
-51515050100 %in% caces_lur_summ$fips
-51019050100 %in% caces_lur_summ$fips
+all(c("46113940800", "46113940900", "46113940500") %in% unique(census_tract_adjacency$NEIGHBOR_TRACTID))
+all(c("46102940900", "46102940800", "46102940500") %in% unique(census_tract_adjacency$NEIGHBOR_TRACTID))
+51515050100 %in% unique(census_tract_adjacency$NEIGHBOR_TRACTID)
+51019050100 %in% unique(census_tract_adjacency$NEIGHBOR_TRACTID)
 
+
+
+sum(nrow(W_ne) + nrow(W_at) + nrow(W_mw) + nrow(W_se) + nrow(W_sw) + nrow(W_we) + nrow(W_nw))

@@ -413,3 +413,84 @@ tm_shape(rand_carto) +
   tm_layout(legend.show=FALSE)
 
 
+
+
+
+
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
+
+W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
+
+
+
+ne_states <- c(23, 50, 33, 25, 9, 44, 36, 34)
+
+names(ne_states) <- c("ME", "VT", "NH", "MA", "CT", "RI", "NY", "NJ")
+
+fhs_ne <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% ne_states, ]
+
+W_ne <- W[(fhs_model_df$fips %/% 1e9) %in% ne_states, (fhs_model_df$fips %/% 1e9) %in% ne_states]
+
+
+
+at_states <- c(42, 10, 24, 11, 51, 54, 39, 21)
+
+names(at_states) <- c("PA", "DE", "MD", "DC", "VA", "WV", "OH", "KY")
+
+fhs_at <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% at_states, ]
+
+W_at <- W[(fhs_model_df$fips %/% 1e9) %in% at_states, (fhs_model_df$fips %/% 1e9) %in% at_states]
+
+
+
+mw_states <- c(26, 18, 17, 55, 29, 5)
+
+names(mw_states) <- c("MI", "IN", "IL", "WI", "MO", "AR")
+
+fhs_mw <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% mw_states, ]
+
+W_mw <- W[(fhs_model_df$fips %/% 1e9) %in% mw_states, (fhs_model_df$fips %/% 1e9) %in% mw_states]
+
+
+
+nw_states <- c(27, 19, 38, 46, 31, 20, 30, 56, 16, 53, 41)
+
+names(nw_states) <- c("MN", "IA", "ND", "SD", "NE", "KS", "MT", "WY", "ID", "WA", "OR")
+
+fhs_nw <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% nw_states, ]
+
+W_nw <- W[(fhs_model_df$fips %/% 1e9) %in% nw_states, (fhs_model_df$fips %/% 1e9) %in% nw_states]
+
+
+
+se_states <- c(37, 45, 47, 13, 1, 28, 12)
+
+names(se_states) <- c("NC", "SC", "TN", "GA", "AL", "MS", "FL")
+
+fhs_se <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% se_states, ]
+
+W_se <- W[(fhs_model_df$fips %/% 1e9) %in% se_states, (fhs_model_df$fips %/% 1e9) %in% se_states]
+
+
+
+sw_states <- c(22, 48, 40, 35, 4, 8, 49)
+
+names(sw_states) <- c("LA", "TX", "OK", "NM", "AZ", "CO", "UT")
+
+fhs_sw <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% sw_states, ]
+
+W_sw <- W[(fhs_model_df$fips %/% 1e9) %in% sw_states, (fhs_model_df$fips %/% 1e9) %in% sw_states]
+
+
+
+we_states <- c(6, 32)
+
+names(we_states) <- c("CA", "NV")
+
+fhs_we <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% we_states, ]
+
+W_we <- W[(fhs_model_df$fips %/% 1e9) %in% we_states, (fhs_model_df$fips %/% 1e9) %in% we_states]
+
+
+
+

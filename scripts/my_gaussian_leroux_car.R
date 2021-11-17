@@ -188,6 +188,7 @@ common.modelfit.summarized.loglike <- function(mean.like, mean.recip.like, var.l
 #' @param Y response variable (assuming no missing Y values for now)
 #' @param data covariates data frame (without intercept). Assumed to consist of factor variables or standardized continuous variables.
 #' @param W adjacency matrix (assuming no additional islands) in sparse matrix format (class ngCMatrix)
+#' @param rho option to fix the spatial smoothing parameter
 #' @param n_burn_in number of burn-in iterations
 #' @param n_iter number of kept iterations
 #' @param thin level of thinning to apply to the MCMC samples
@@ -195,7 +196,7 @@ common.modelfit.summarized.loglike <- function(mean.like, mean.recip.like, var.l
 #' keep track of the running posterior mean.
 #' @return MCMC chain
 #' @export
-met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1, 
+met_gibbs_car <- function(Y, data, W, rho = NULL, n_burn_in, n_iter, thin = 1, 
                           keep_first = 1:nrow(data)) {
   
   X <- model.matrix(~., data = data)
@@ -239,8 +240,14 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1,
   
   # Xb <- X %*% beta
   
-  rho <- runif(1)
-  fix.rho <- FALSE  
+  if(is.null(rho))
+  {
+    rho <- runif(1)
+    fix.rho <- FALSE   
+  }else
+  {
+    fix.rho <- TRUE    
+  }
   
   
   
@@ -306,14 +313,23 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1,
   proposal.sd.rho <- 0.02
   
   ### current determinant (make sparse)
-  ### This is actually the only place where the full W matrix is used
   if(!fix.rho)
   {
     Wstar <- Diagonal(x = W.triplet.sum) - W
-    Wstar.eigen <- eigs_sym(Wstar, nrow(Wstar))
+    Wstar.eigen <- eigen(Wstar)
     Wstar.val <- Wstar.eigen$values
     det.Q <- 0.5 * sum(log((rho * Wstar.val + (1-rho))))    
   }
+  
+  
+  
+  ### Check for islands
+  W.list<- mat2listw(W)
+  W.nb <- W.list$neighbours
+  W.islands <- n.comp.nb(W.nb)
+  islands <- W.islands$comp.id
+  n.islands <- max(W.islands$nc)
+  if(rho==1) nu2.posterior.shape <- prior.nu2[1] + 0.5 * (K-n.islands)   
   
   
   
@@ -350,6 +366,10 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1,
     if(rho<1)
     {
       phi <- phi - mean(phi)
+    }
+    else
+    {
+      phi[which(islands==1)] <- phi[which(islands==1)] - mean(phi[which(islands==1)])   
     }
     
     ## sigma2
@@ -482,6 +502,7 @@ met_gibbs_car <- function(Y, data, W, n_burn_in, n_iter, thin = 1,
   
   
   
+  if(fix.rho) samples.rho=NA
   if(n.na==0) samples.Y = NA
   
   if (length(keep_first) == K) {

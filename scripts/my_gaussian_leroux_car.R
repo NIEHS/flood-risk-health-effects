@@ -187,7 +187,7 @@ common.modelfit.summarized.loglike <- function(mean.like, mean.recip.like, var.l
 #'
 #' @param Y response variable (assuming no missing Y values for now)
 #' @param data covariates data frame (without intercept). Assumed to consist of factor variables or standardized continuous variables.
-#' @param W adjacency matrix (assuming no additional islands) in sparse matrix format (class ngCMatrix)
+#' @param W adjacency matrix in sparse matrix format (class ngCMatrix)
 #' @param rho option to fix the spatial smoothing parameter
 #' @param n_burn_in number of burn-in iterations
 #' @param n_iter number of kept iterations

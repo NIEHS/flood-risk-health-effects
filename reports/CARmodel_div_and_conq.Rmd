@@ -242,11 +242,11 @@ quantile(rho_samples, c(0.5, 0.025, 0.975))
 
 
 
-# Intrinsic CAR model
+# Southeastern States
 
 ```{r}
 
-load(here("modeling_files/all_census_tract_intrinsic.RData"))
+load(here("modeling_files/census_tract_se.RData"))
 
 ```
 
@@ -275,4 +275,33 @@ rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
 
 quantile(rho_samples, c(0.5, 0.025, 0.975))
 ```
+
+
+
+# Intrinsic CAR model
+
+```{r}
+
+load(here("modeling_files/all_census_tract_intrinsic.RData"))
+
+```
+
+```{r}
+chain1$modelfit
+
+effectiveSize(chain1$samples$beta)
+
+effectiveSize(chain1$samples$sigma2)
+
+effectiveSize(chain1$samples$nu2)
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
 

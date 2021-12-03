@@ -1,0 +1,278 @@
+---
+title: "CAR model Divide and Conquer"
+author: "Alvin Sheng"
+date: "11/17/2021"
+output: pdf_document
+---
+
+```{r}
+library(here)
+library(coda)
+
+i_am("reports/CARmodel_div_and_conq.Rmd")
+```
+
+```{r}
+fhs_model_df <- readRDS("intermediary_data/fhs_model_df_all_census_tract_pc.rds")
+```
+
+
+
+# Northeastern States
+
+```{r}
+
+load(here("modeling_files/census_tract_ne.RData"))
+
+```
+
+```{r}
+chain1$modelfit
+
+effectiveSize(chain1$samples$beta)
+
+effectiveSize(chain1$samples$sigma2)
+
+effectiveSize(chain1$samples$nu2)
+
+effectiveSize(chain1$samples$rho)
+```
+
+```{r}
+effectiveSize(chain1$samples$phi)
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+```{r}
+rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+
+quantile(rho_samples, c(0.5, 0.025, 0.975))
+```
+
+
+
+# Mid-Atlantic States
+
+```{r}
+
+load(here("modeling_files/census_tract_at.RData"))
+
+```
+
+```{r}
+chain1$modelfit
+
+effectiveSize(chain1$samples$beta)
+
+effectiveSize(chain1$samples$sigma2)
+
+effectiveSize(chain1$samples$nu2)
+
+effectiveSize(chain1$samples$rho)
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+```{r}
+rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+
+quantile(rho_samples, c(0.5, 0.025, 0.975))
+```
+
+
+
+# Midwest States
+
+```{r}
+
+load(here("modeling_files/census_tract_mw.RData"))
+
+```
+
+```{r}
+chain1$modelfit
+
+effectiveSize(chain1$samples$beta)
+
+effectiveSize(chain1$samples$sigma2)
+
+effectiveSize(chain1$samples$nu2)
+
+effectiveSize(chain1$samples$rho)
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+```{r}
+rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+
+quantile(rho_samples, c(0.5, 0.025, 0.975))
+```
+
+
+
+# Southwest States
+
+```{r}
+
+load(here("modeling_files/census_tract_sw.RData"))
+
+```
+
+```{r}
+chain1$modelfit
+
+effectiveSize(chain1$samples$beta)
+
+effectiveSize(chain1$samples$sigma2)
+
+effectiveSize(chain1$samples$nu2)
+
+effectiveSize(chain1$samples$rho)
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+```{r}
+rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+
+quantile(rho_samples, c(0.5, 0.025, 0.975))
+```
+
+
+
+
+
+# Northwestern States
+
+```{r}
+
+load(here("modeling_files/census_tract_nw.RData"))
+
+```
+
+```{r}
+chain1$modelfit
+
+effectiveSize(chain1$samples$beta)
+
+effectiveSize(chain1$samples$sigma2)
+
+effectiveSize(chain1$samples$nu2)
+
+effectiveSize(chain1$samples$rho)
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+```{r}
+rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+
+quantile(rho_samples, c(0.5, 0.025, 0.975))
+```
+
+
+
+
+
+# Western States
+
+```{r}
+
+load(here("modeling_files/census_tract_we.RData"))
+
+```
+
+```{r}
+chain1$modelfit
+
+effectiveSize(chain1$samples$beta)
+
+effectiveSize(chain1$samples$sigma2)
+
+effectiveSize(chain1$samples$nu2)
+
+effectiveSize(chain1$samples$rho)
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+```{r}
+rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+
+quantile(rho_samples, c(0.5, 0.025, 0.975))
+```
+
+
+
+# Intrinsic CAR model
+
+```{r}
+
+load(here("modeling_files/all_census_tract_intrinsic.RData"))
+
+```
+
+```{r}
+chain1$modelfit
+
+effectiveSize(chain1$samples$beta)
+
+effectiveSize(chain1$samples$sigma2)
+
+effectiveSize(chain1$samples$nu2)
+
+effectiveSize(chain1$samples$rho)
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+```{r}
+rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+
+quantile(rho_samples, c(0.5, 0.025, 0.975))
+```
+

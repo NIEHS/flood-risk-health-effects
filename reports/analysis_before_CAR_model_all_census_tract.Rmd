@@ -226,6 +226,9 @@ fr_loadings[order(fr_loadings[, 3]), 3]
 ```
 
 ```{r}
-# Third PC Score
+# Fourth PC Score
 fr_loadings[order(fr_loadings[, 4]), 4]
 ```
+
+
+

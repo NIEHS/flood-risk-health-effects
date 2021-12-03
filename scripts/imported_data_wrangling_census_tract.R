@@ -469,6 +469,16 @@ W_ne <- W[(fhs_model_df$fips %/% 1e9) %in% ne_states, (fhs_model_df$fips %/% 1e9
 
 
 
+se_states <- c(37, 45, 47, 13, 1, 28, 12)
+
+names(se_states) <- c("NC", "SC", "TN", "GA", "AL", "MS", "FL")
+
+fhs_se <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% se_states, ]
+
+W_se <- W[(fhs_model_df$fips %/% 1e9) %in% se_states, (fhs_model_df$fips %/% 1e9) %in% se_states]
+
+
+
 at_states <- c(42, 10, 24, 11, 51, 54, 39, 21)
 
 names(at_states) <- c("PA", "DE", "MD", "DC", "VA", "WV", "OH", "KY")
@@ -496,16 +506,6 @@ names(nw_states) <- c("MN", "IA", "ND", "SD", "NE", "KS", "MT", "WY", "ID", "WA"
 fhs_nw <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% nw_states, ]
 
 W_nw <- W[(fhs_model_df$fips %/% 1e9) %in% nw_states, (fhs_model_df$fips %/% 1e9) %in% nw_states]
-
-
-
-se_states <- c(37, 45, 47, 13, 1, 28, 12)
-
-names(se_states) <- c("NC", "SC", "TN", "GA", "AL", "MS", "FL")
-
-fhs_se <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% se_states, ]
-
-W_se <- W[(fhs_model_df$fips %/% 1e9) %in% se_states, (fhs_model_df$fips %/% 1e9) %in% se_states]
 
 
 

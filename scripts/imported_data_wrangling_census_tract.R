@@ -28,8 +28,10 @@ for (i in 1:length(ct_files)) {
 # I use 2019 census tract boundaries for Virginia and South Dakota, because some of their 
 # fips codes changed in the 2010s
 
-names(shp_list[[48]]) <- names(shp_list[[1]])
-names(shp_list[[49]]) <- names(shp_list[[1]])
+# making names consistent between 2019 versions and 2010 versions
+
+names(shp_list[[which(ct_files == "tl_2019_46_tract")]]) <- names(shp_list[[which(ct_files == "tl_2010_01_tract10")]])
+names(shp_list[[which(ct_files == "tl_2019_51_tract")]]) <- names(shp_list[[which(ct_files == "tl_2010_01_tract10")]])
 
 all_ct_df <- do.call("rbind", shp_list)
 
@@ -319,6 +321,10 @@ saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tra
 
 ####################
 
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract.rds"))
+
+
+
 # Constructing an edge list (i.e. matrix of triplets) using sparseMatrix in R
 
 
@@ -357,8 +363,6 @@ saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_all
 
 census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_all.rds"))
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract.rds"))
-
 
 
 # There are 2 fips in fhs_model_df not present in the Diversity and Disparities adjacency file.
@@ -395,7 +399,10 @@ saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tr
 
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
 
-flood_risk <- fhs_model_df[, c(14:23, 25:35)] # omitting the 24th variable, avg_risk_score_sfha, because of too many NAs
+fr_index <- 14:35
+
+# omitting the 24th variable, avg_risk_score_sfha, because of too many NAs
+flood_risk <- fhs_model_df[, fr_index] %>% dplyr::select(-avg_risk_score_sfha)
 
 fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
 
@@ -405,9 +412,11 @@ summ_pca <- summary(fr_pca)
 
 summ_pca$importance[,1:10] # The first 4 PCs cover 80% of the variance. 
 
-flood_pcs <- matrix(NA, nrow = nrow(fhs_model_df), ncol = 4)
+num_pc <- 4
 
-flood_pcs[complete.cases(flood_risk), ] <- fr_pca$x[, 1:4]
+flood_pcs <- matrix(NA, nrow = nrow(fhs_model_df), ncol = num_pc)
+
+flood_pcs[complete.cases(flood_risk), ] <- fr_pca$x[, 1:num_pc]
 
 flood_pcs <- data.frame(flood_pcs)
 
@@ -416,11 +425,11 @@ names(flood_pcs) <- paste0("flood_risk_pc", 1:ncol(flood_pcs))
 
 
 # dimensionality reduction
-fhs_model_df <- fhs_model_df[, -c(14:35)]
+fhs_model_df <- fhs_model_df[, -fr_index]
 
 fhs_model_df <- data.frame(fhs_model_df, flood_pcs)
 
-fhs_model_df <- fhs_model_df %>% relocate(flood_risk_pc1, flood_risk_pc2, flood_risk_pc3, flood_risk_pc4, .after = E_HH)
+fhs_model_df <- fhs_model_df %>% relocate(starts_with("flood_risk_pc"), flood_risk_pc4, .after = E_HH)
 
 
 saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
@@ -431,6 +440,8 @@ saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tra
 
 # Partitioning the U.S. into several regions, to estimate rho parameter via divide-and-conquer
 
+
+
 # # Setting up for bigDM package
 # install.packages("devtools")
 # library(devtools)
@@ -438,18 +449,22 @@ saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tra
 # install_github("spatialstatisticsupna/bigDM")
 # install.packages("lwgeom")
 
-library(bigDM)
-library(tmap)
-library(lwgeom)
-
-rand_carto <- random_partition(all_ct_df, max.size = NULL) 
-
-tm_shape(rand_carto) +
-  tm_polygons(col="ID.group") +
-  tm_layout(legend.show=FALSE)
 
 
+# # using bigDM package to chop U.S. into 9 rectangular regions
+# library(bigDM)
+# library(tmap)
+# library(lwgeom)
+# 
+# rand_carto <- random_partition(all_ct_df, max.size = NULL) 
+# 
+# tm_shape(rand_carto) +
+#   tm_polygons(col="ID.group") +
+#   tm_layout(legend.show=FALSE)
 
+library(usmap) 
+
+data("statepop") # contains state abbreviations and corresponding state fips
 
 
 
@@ -459,9 +474,9 @@ W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_t
 
 
 
-ne_states <- c(23, 50, 33, 25, 9, 44, 36, 34)
-
-names(ne_states) <- c("ME", "VT", "NH", "MA", "CT", "RI", "NY", "NJ")
+ne_states_names <- c("ME", "VT", "NH", "MA", "CT", "RI", "NY", "NJ")
+ne_states <- sapply(ne_states_names, function(ab) as.numeric(statepop$fips[statepop$abbr == ab]))
+names(ne_states) <- ne_states_names
 
 fhs_ne <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% ne_states, ]
 
@@ -469,9 +484,9 @@ W_ne <- W[(fhs_model_df$fips %/% 1e9) %in% ne_states, (fhs_model_df$fips %/% 1e9
 
 
 
-se_states <- c(37, 45, 47, 13, 1, 28, 12)
-
-names(se_states) <- c("NC", "SC", "TN", "GA", "AL", "MS", "FL")
+se_states_names <- c("NC", "SC", "TN", "GA", "AL", "MS", "FL")
+se_states <- sapply(se_states_names, function(ab) as.numeric(statepop$fips[statepop$abbr == ab]))
+names(se_states) <- se_states_names
 
 fhs_se <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% se_states, ]
 
@@ -479,9 +494,9 @@ W_se <- W[(fhs_model_df$fips %/% 1e9) %in% se_states, (fhs_model_df$fips %/% 1e9
 
 
 
-at_states <- c(42, 10, 24, 11, 51, 54, 39, 21)
-
-names(at_states) <- c("PA", "DE", "MD", "DC", "VA", "WV", "OH", "KY")
+at_states_names <- c("PA", "DE", "MD", "DC", "VA", "WV", "OH", "KY")
+at_states <- sapply(at_states_names, function(ab) as.numeric(statepop$fips[statepop$abbr == ab]))
+names(at_states) <- at_states_names
 
 fhs_at <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% at_states, ]
 
@@ -489,9 +504,9 @@ W_at <- W[(fhs_model_df$fips %/% 1e9) %in% at_states, (fhs_model_df$fips %/% 1e9
 
 
 
-mw_states <- c(26, 18, 17, 55, 29, 5)
-
-names(mw_states) <- c("MI", "IN", "IL", "WI", "MO", "AR")
+mw_states_names <- c("MI", "IN", "IL", "WI", "MO", "AR")
+mw_states <- sapply(mw_states_names, function(ab) as.numeric(statepop$fips[statepop$abbr == ab]))
+names(mw_states) <- mw_states_names
 
 fhs_mw <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% mw_states, ]
 
@@ -499,9 +514,9 @@ W_mw <- W[(fhs_model_df$fips %/% 1e9) %in% mw_states, (fhs_model_df$fips %/% 1e9
 
 
 
-nw_states <- c(27, 19, 38, 46, 31, 20, 30, 56, 16, 53, 41)
-
-names(nw_states) <- c("MN", "IA", "ND", "SD", "NE", "KS", "MT", "WY", "ID", "WA", "OR")
+nw_states_names <- c("MN", "IA", "ND", "SD", "NE", "KS", "MT", "WY", "ID", "WA", "OR")
+nw_states <- sapply(nw_states_names, function(ab) as.numeric(statepop$fips[statepop$abbr == ab]))
+names(nw_states) <- nw_states_names
 
 fhs_nw <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% nw_states, ]
 
@@ -509,9 +524,9 @@ W_nw <- W[(fhs_model_df$fips %/% 1e9) %in% nw_states, (fhs_model_df$fips %/% 1e9
 
 
 
-sw_states <- c(22, 48, 40, 35, 4, 8, 49)
-
-names(sw_states) <- c("LA", "TX", "OK", "NM", "AZ", "CO", "UT")
+sw_states_names <- c("LA", "TX", "OK", "NM", "AZ", "CO", "UT")
+sw_states <- sapply(sw_states_names, function(ab) as.numeric(statepop$fips[statepop$abbr == ab]))
+names(sw_states) <- sw_states_names
 
 fhs_sw <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% sw_states, ]
 
@@ -519,9 +534,9 @@ W_sw <- W[(fhs_model_df$fips %/% 1e9) %in% sw_states, (fhs_model_df$fips %/% 1e9
 
 
 
-we_states <- c(6, 32)
-
-names(we_states) <- c("CA", "NV")
+we_states_names <- c("CA", "NV")
+we_states <- sapply(we_states_names, function(ab) as.numeric(statepop$fips[statepop$abbr == ab]))
+names(we_states) <- we_states_names
 
 fhs_we <- fhs_model_df[(fhs_model_df$fips %/% 1e9) %in% we_states, ]
 

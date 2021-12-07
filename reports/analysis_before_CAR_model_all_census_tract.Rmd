@@ -12,6 +12,7 @@ library(GGally)
 library(usdm)
 library(spdep)
 library(factoextra)
+library(tidyverse)
 ```
 
 ```{r}
@@ -27,11 +28,15 @@ Actually no, because the penalty is negligible.
 ## Flood risk variables
 
 ```{r}
-ggcorr(data = fhs_model_df[, c(14:35, ncol(fhs_model_df))])
+fr_index <- 14:35
 ```
 
 ```{r}
-flood_cor <- cor(fhs_model_df[complete.cases(fhs_model_df[, c(14:35, ncol(fhs_model_df))]), c(14:35, ncol(fhs_model_df))])
+ggcorr(data = fhs_model_df[, c(fr_index, ncol(fhs_model_df))])
+```
+
+```{r}
+flood_cor <- cor(fhs_model_df[complete.cases(fhs_model_df[, c(fr_index, ncol(fhs_model_df))]), c(fr_index, ncol(fhs_model_df))])
 
 flood_cor[nrow(flood_cor), ] # correlation with dependent variable
 ```
@@ -48,7 +53,7 @@ Many of the flood risk variables are very correlated.
 
 
 
-# Using VIF to exlude variables
+# Using VIF to exclude variables
 
 ```{r}
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
@@ -84,12 +89,12 @@ collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk
 
 
 
-# Correlations among climate related variables
+# Correlations among climate related variables: flood risk, pollution, and GRIDMET variables
 
 Excluding variables in collin_var_names
 
 ```{r}
-climate_var_idx <- c(14:35, 52:61)
+climate_var_idx <- c(fr_index, 52:61)
 
 climate_var_idx_exclude <- climate_var_idx[-which(names(fhs_model_df)[climate_var_idx] %in% collin_var_names)]
 ```
@@ -180,8 +185,10 @@ The *p*-value is negligible, so we can reject the null hypothesis of zero spatia
 Conduct PCA on the correlated flood risk variables
 
 ```{r}
-flood_risk <- fhs_model_df[, c(14:23, 25:35)] 
+fr_index <- 14:35
+
 # omitting the 24th variable, avg_risk_score_sfha, because of too many NAs
+flood_risk <- fhs_model_df[, fr_index] %>% dplyr::select(-avg_risk_score_sfha)
 ```
 
 ```{r}
@@ -200,7 +207,9 @@ summ_pca <- summary(fr_pca)
 summ_pca$importance[,1:10]
 ```
 
-We started out with 22 variables; including seven PC scores would include 90% of the variance.
+We started out with 22 variables. Including four PC scores would include 80% of the variance.
+
+Including seven PC scores would include 90% of the variance.
 
 
 

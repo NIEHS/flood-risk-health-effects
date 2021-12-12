@@ -51,9 +51,9 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fh
 ```
 
 ```{r}
-rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+rho_samples_ne <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
 
-quantile(rho_samples, c(0.5, 0.025, 0.975))
+quantile(rho_samples_ne, c(0.5, 0.025, 0.975))
 ```
 
 
@@ -87,9 +87,9 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fh
 ```
 
 ```{r}
-rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+rho_samples_at <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
 
-quantile(rho_samples, c(0.5, 0.025, 0.975))
+quantile(rho_samples_at, c(0.5, 0.025, 0.975))
 ```
 
 
@@ -123,9 +123,9 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fh
 ```
 
 ```{r}
-rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+rho_samples_mw <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
 
-quantile(rho_samples, c(0.5, 0.025, 0.975))
+quantile(rho_samples_mw, c(0.5, 0.025, 0.975))
 ```
 
 
@@ -159,9 +159,9 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fh
 ```
 
 ```{r}
-rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+rho_samples_sw <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
 
-quantile(rho_samples, c(0.5, 0.025, 0.975))
+quantile(rho_samples_sw, c(0.5, 0.025, 0.975))
 ```
 
 
@@ -197,9 +197,9 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fh
 ```
 
 ```{r}
-rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+rho_samples_nw <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
 
-quantile(rho_samples, c(0.5, 0.025, 0.975))
+quantile(rho_samples_nw, c(0.5, 0.025, 0.975))
 ```
 
 
@@ -235,9 +235,9 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fh
 ```
 
 ```{r}
-rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+rho_samples_we <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
 
-quantile(rho_samples, c(0.5, 0.025, 0.975))
+quantile(rho_samples_we, c(0.5, 0.025, 0.975))
 ```
 
 
@@ -271,11 +271,34 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fh
 ```
 
 ```{r}
-rho_samples <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
+rho_samples_se <- c(chain1$samples$rho, chain2$samples$rho, chain3$samples$rho)
 
-quantile(rho_samples, c(0.5, 0.025, 0.975))
+quantile(rho_samples_se, c(0.5, 0.025, 0.975))
 ```
 
+# Finding the average $\rho$
+
+collect the rho_samples across all seven models, take grand average (sum, then divide by 60000 * 7).
+
+Actually, consider weighting by number of census tracts in each region. So, first get individual average rho's. Then, weight according to number of census tracts in the region. 
+
+```{r}
+mean(rho_samples_ne)
+mean(rho_samples_at)
+mean(rho_samples_mw)
+mean(rho_samples_sw)
+mean(rho_samples_nw)
+mean(rho_samples_we)
+mean(rho_samples_se)
+```
+
+```{r}
+(mean(rho_samples_ne) * 10321 + mean(rho_samples_at) * 11479 + mean(rho_samples_mw) * 10935 + 
+   mean(rho_samples_sw) * 11321 + mean(rho_samples_nw) * 6885 + mean(rho_samples_we) * 8743 + 
+   mean(rho_samples_se) * 12853) / (10321 + 11479 + 10935 + 11321 + 6885 + 8743 + 12853)
+```
+
+Weighted rho: 0.9918268. 
 
 
 # Intrinsic CAR model
@@ -305,3 +328,29 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fh
 ```
 
 
+
+# Model with average $\rho$
+
+```{r}
+
+load(here("modeling_files/all_census_tract_ave_rho.RData"))
+
+```
+
+```{r}
+chain1$modelfit
+
+effectiveSize(chain1$samples$beta)
+
+effectiveSize(chain1$samples$sigma2)
+
+effectiveSize(chain1$samples$nu2)
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```

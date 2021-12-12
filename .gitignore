@@ -4,6 +4,7 @@
 .Ruserdata
 *.Rproj
 
+figures/
 figures/tl_2019_us_county/
 figures/qgis_exploration.qgz
 
@@ -16,6 +17,10 @@ imported_data/caces_lur_air_pollution/caces_lur_air_pollution_census_tract.csv
 
 imported_data/flood_risk_raster/
 
+imported_data/census_tract_shapefiles
+
 .Rapp.history
 
 ~*.docx
+
+

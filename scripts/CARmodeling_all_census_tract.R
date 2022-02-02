@@ -96,7 +96,13 @@ fhs_car_chains <- function(dat_frame, first_var, W, rho = NULL, n_burn_in, n_ite
 # 
 # (tock-tick)/60 # time in minutes
 # 
-# save(chain_list[[1]], chain_list[[2]], chain_list[[3]], file = here("modeling_files/all_census_tract_entire.RData"))
+# chain1 <- chain_list[[1]]
+# 
+# chain2 <- chain_list[[2]]
+# 
+# chain3 <- chain_list[[3]]
+# 
+# save(chain1, chain2, chain3, file = here("modeling_files/all_census_tract_entire.RData"))
 
 
 

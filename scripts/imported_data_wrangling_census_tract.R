@@ -297,7 +297,10 @@ flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_all_
 # TBC: selecting only cardiovascular outcomes
 fhs_outcome_subset <- flood_health_svi %>% dplyr::select(!(starts_with("Data_Value") | starts_with("Low_Confidence_Limit") | starts_with("High_Confidence_Limit")) |
                                                            Data_Value_CSMOKING |
-                                                           Data_Value_CHD)
+                                                           Data_Value_CHD | 
+                                                           Data_Value_CASTHMA | 
+                                                           Data_Value_BPHIGH | 
+                                                           Data_Value_MHLTH)
 
 
 
@@ -429,7 +432,7 @@ fhs_model_df <- fhs_model_df[, -fr_index]
 
 fhs_model_df <- data.frame(fhs_model_df, flood_pcs)
 
-fhs_model_df <- fhs_model_df %>% relocate(starts_with("flood_risk_pc"), flood_risk_pc4, .after = E_HH)
+fhs_model_df <- fhs_model_df %>% relocate(starts_with("flood_risk_pc"), .after = E_HH)
 
 
 saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))

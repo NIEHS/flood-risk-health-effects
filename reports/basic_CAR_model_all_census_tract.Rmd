@@ -20,15 +20,15 @@ i_am("reports/basic_CAR_model_all_census_tract.Rmd")
 fhs_model_df <- readRDS("intermediary_data/fhs_model_df_all_census_tract_pc.rds")
 ```
 
-# CAR model results
 
-Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by (), resulting in () samples for inference across the 3 Markov chains. 
+
+# CAR model results, Coronary Heart Disease
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
 
 ```{r}
 load(here("modeling_files/all_census_tract_intrinsic.RData"))
 ```
-
-
 
 ## Model Diagnostics
 
@@ -39,8 +39,8 @@ beta_samples <- mcmc.list(chain1$samples$beta, chain2$samples$beta,
                           chain3$samples$beta)
 ```
 
-```{r, eval = F}
-saveRDS(beta_samples, file = here("modeling_files/all_census_tract_intrinsic_beta_samples.rds"))
+```{r}
+effectiveSize(beta_samples)
 ```
 
 ```{r, eval = F}
@@ -110,14 +110,14 @@ gelman.diag(phi_samples_subset)
 ```{r}
 beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
 
-colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]))
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 4)]))
 ```
 
 ```{r}
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
-Net Effect interpretation: what if each variable in a group (flood risk variables, SVIs, air pollution variables) increased by 1 standard deviation? What is the resulting change in the CHD prevalence?
+<!-- Net Effect interpretation: what if each variable in a group (flood risk variables, SVIs, air pollution variables) increased by 1 standard deviation? What is the resulting change in the dependent variable? -->
 
 <!-- ```{r} -->
 
@@ -134,170 +134,488 @@ List of significant beta coefficients:
 colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
-<!-- ## Presenting the Results -->
 
-<!-- Retrieving the standard deviation used to scale the covariates -->
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+
+beta_inference_df <- as.data.frame(beta_inference)
+
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_inference_df$var_name)
+```
+
+```{r}
+ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  geom_vline(xintercept = c(4.5, 20.5, 26.5, 30.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 2.5, y = 1.45, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 12.5, y = 1.5, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 23.5, y = 1.5, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 28.5, y = 1.5, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent", "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking"))
+```
+
+
+
+# CAR model results, High Blood Pressure
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/all_census_tract_BPHIGH.RData"))
+```
+
+## Model Diagnostics
+
+### Beta samples
+
+```{r}
+beta_samples <- mcmc.list(chain1$samples$beta, chain2$samples$beta, 
+                          chain3$samples$beta)
+```
+
+```{r}
+effectiveSize(beta_samples)
+```
+
+```{r, eval = F}
+plot(beta_samples)
+```
+
+```{r}
+gelman.diag(beta_samples)
+```
+
+
+
+
+### Examining sigma2, nu2, rho
+
+```{r}
+sigma2_samples <- mcmc.list(chain1$samples$sigma2, chain2$samples$sigma2, 
+                            chain3$samples$sigma2)
+
+nu2_samples <- mcmc.list(chain1$samples$nu2, chain2$samples$nu2, 
+                         chain3$samples$nu2)
+
+```
+
+```{r, eval = F}
+plot(sigma2_samples)
+
+plot(nu2_samples)
+```
+
+```{r}
+gelman.diag(sigma2_samples)
+```
+
+```{r}
+gelman.diag(nu2_samples)
+```
+
+
+
+### Examining a sample of the 3108 phi parameters
+
+```{r}
+phi_samples <- mcmc.list(chain1$samples$phi, chain2$samples$phi, chain3$samples$phi)
+```
+
+```{r}
+set.seed(1157, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+
+phi_subset_idx <- sample(1:ncol(phi_samples[[1]]), size = 10)
+
+phi_samples_subset <- phi_samples[, phi_subset_idx]
+```
+
+```{r, eval = F}
+plot(phi_samples_subset)
+```
+
+```{r}
+gelman.diag(phi_samples_subset)
+```
+
+
+
+## Inference
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 4)]))
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+<!-- Net Effect interpretation: what if each variable in a group (flood risk variables, SVIs, air pollution variables) increased by 1 standard deviation? What is the resulting change in the dependent variable? -->
 
 <!-- ```{r} -->
-<!-- fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_sw_states_census_tract.rds")) -->
+
+<!-- sum(beta_inference[2:7, 1]) -->
+<!-- sum(beta_inference[2:22, 1]) -->
+<!-- sum(beta_inference[23:38, 1]) -->
+<!-- sum(beta_inference[39:44, 1]) -->
+
 <!-- ``` -->
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+
+beta_inference_df <- as.data.frame(beta_inference)
+
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_inference_df$var_name)
+```
+
+```{r}
+ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  geom_vline(xintercept = c(4.5, 20.5, 26.5, 30.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 2.5, y = 1.45, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 12.5, y = 1.5, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 23.5, y = 1.5, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 28.5, y = 1.5, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent", "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking"))
+```
+
+
+
+# CAR model results, Asthma
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/all_census_tract_CASTHMA.RData"))
+```
+
+## Model Diagnostics
+
+### Beta samples
+
+```{r}
+beta_samples <- mcmc.list(chain1$samples$beta, chain2$samples$beta, 
+                          chain3$samples$beta)
+```
+
+```{r}
+effectiveSize(beta_samples)
+```
+
+```{r, eval = F}
+plot(beta_samples)
+```
+
+```{r}
+gelman.diag(beta_samples)
+```
+
+
+
+
+### Examining sigma2, nu2, rho
+
+```{r}
+sigma2_samples <- mcmc.list(chain1$samples$sigma2, chain2$samples$sigma2, 
+                            chain3$samples$sigma2)
+
+nu2_samples <- mcmc.list(chain1$samples$nu2, chain2$samples$nu2, 
+                         chain3$samples$nu2)
+
+```
+
+```{r, eval = F}
+plot(sigma2_samples)
+
+plot(nu2_samples)
+```
+
+```{r}
+gelman.diag(sigma2_samples)
+```
+
+```{r}
+gelman.diag(nu2_samples)
+```
+
+
+
+### Examining a sample of the 3108 phi parameters
+
+```{r}
+phi_samples <- mcmc.list(chain1$samples$phi, chain2$samples$phi, chain3$samples$phi)
+```
+
+```{r}
+set.seed(1157, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+
+phi_subset_idx <- sample(1:ncol(phi_samples[[1]]), size = 10)
+
+phi_samples_subset <- phi_samples[, phi_subset_idx]
+```
+
+```{r, eval = F}
+plot(phi_samples_subset)
+```
+
+```{r}
+gelman.diag(phi_samples_subset)
+```
+
+
+
+## Inference
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 4)]))
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+<!-- Net Effect interpretation: what if each variable in a group (flood risk variables, SVIs, air pollution variables) increased by 1 standard deviation? What is the resulting change in the dependent variable? -->
 
 <!-- ```{r} -->
-<!-- X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)] -->
 
-<!-- X <- X[, names(X) != "pct_floodfactor1"] -->
+<!-- sum(beta_inference[2:7, 1]) -->
+<!-- sum(beta_inference[2:22, 1]) -->
+<!-- sum(beta_inference[23:38, 1]) -->
+<!-- sum(beta_inference[39:44, 1]) -->
 
-<!-- X <- as.matrix(X) -->
-
-
-
-<!-- X           <- scale(X) # Scale covariates -->
-<!-- # X[is.na(X)] <- 0        # Fill in missing values with the mean -->
 <!-- ``` -->
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+
+beta_inference_df <- as.data.frame(beta_inference)
+
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_inference_df$var_name)
+```
+
+```{r}
+ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  geom_vline(xintercept = c(4.5, 20.5, 26.5, 30.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 2.5, y = 1.45, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 12.5, y = 1.5, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 23.5, y = 1.5, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 28.5, y = 1.5, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent", "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking"))
+```
+
+
+
+# CAR model results, Poor Mental Health
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/all_census_tract_MHLTH.RData"))
+```
+
+## Model Diagnostics
+
+### Beta samples
+
+```{r}
+beta_samples <- mcmc.list(chain1$samples$beta, chain2$samples$beta, 
+                          chain3$samples$beta)
+```
+
+```{r}
+effectiveSize(beta_samples)
+```
+
+```{r, eval = F}
+plot(beta_samples)
+```
+
+```{r}
+gelman.diag(beta_samples)
+```
+
+
+
+
+### Examining sigma2, nu2, rho
+
+```{r}
+sigma2_samples <- mcmc.list(chain1$samples$sigma2, chain2$samples$sigma2, 
+                            chain3$samples$sigma2)
+
+nu2_samples <- mcmc.list(chain1$samples$nu2, chain2$samples$nu2, 
+                         chain3$samples$nu2)
+
+```
+
+```{r, eval = F}
+plot(sigma2_samples)
+
+plot(nu2_samples)
+```
+
+```{r}
+gelman.diag(sigma2_samples)
+```
+
+```{r}
+gelman.diag(nu2_samples)
+```
+
+
+
+### Examining a sample of the 3108 phi parameters
+
+```{r}
+phi_samples <- mcmc.list(chain1$samples$phi, chain2$samples$phi, chain3$samples$phi)
+```
+
+```{r}
+set.seed(1157, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+
+phi_subset_idx <- sample(1:ncol(phi_samples[[1]]), size = 10)
+
+phi_samples_subset <- phi_samples[, phi_subset_idx]
+```
+
+```{r, eval = F}
+plot(phi_samples_subset)
+```
+
+```{r}
+gelman.diag(phi_samples_subset)
+```
+
+
+
+## Inference
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 4)]))
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+<!-- Net Effect interpretation: what if each variable in a group (flood risk variables, SVIs, air pollution variables) increased by 1 standard deviation? What is the resulting change in the dependent variable? -->
 
 <!-- ```{r} -->
-<!-- (covariate_sds <- attr(X, "scaled:scale")) -->
-<!-- ``` -->
 
-<!-- Rescaling beta_inference (except the intercept) -->
-
-<!-- ```{r} -->
-<!-- beta_inference_scaled <- beta_inference -->
-
-<!-- for (i in 2:nrow(beta_inference)) { -->
-
-<!--   beta_inference_scaled[i, ] <- beta_inference_scaled[i, ] / covariate_sds[i - 1] -->
-
-<!-- } -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- beta_inference_scaled -->
-<!-- ``` -->
-
-<!-- Showing just the results for the significant coefficients -->
-
-<!-- ```{r} -->
-<!-- beta_inference_scaled[sign(beta_inference_scaled[, 2]) == sign(beta_inference_scaled[, 3]), ] -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- round(beta_inference_scaled[sign(beta_inference_scaled[, 2]) == sign(beta_inference_scaled[, 3]), ], digits = 3) -->
-<!-- ``` -->
-
-<!-- Multiplying by factor of 10, for more interpretability -->
-
-<!-- ```{r} -->
-<!-- round((beta_inference_scaled * 10)[sign(beta_inference_scaled[, 2]) == sign(beta_inference_scaled[, 3]), ], digits = 2) -->
-<!-- ``` -->
-
-
-
-<!-- ### Boxplots for the posterior distribution of coefficients -->
-
-<!-- Scaling the posterior distributions of coefficients -->
-
-<!-- ```{r} -->
-<!-- beta_samples_scaled <- beta_samples_matrix -->
-
-<!-- for (j in 2:ncol(beta_samples_matrix)) { -->
-
-<!--   beta_samples_scaled[, j] <- beta_samples_scaled[, j] / covariate_sds[j - 1] -->
-
-<!-- } -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- beta_samples_scaled_10 <- beta_samples_scaled * 10 -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- round(t(apply(beta_samples_scaled_10, 2, quantile, c(0.5, 0.025, 0.975))),2) -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- boxplot(beta_samples_scaled_10) -->
-<!-- ``` -->
-
-
-
-<!-- ```{r} -->
-<!-- boxplot(beta_samples_scaled_10[, 2:13]) -->
-<!-- boxplot(beta_samples_scaled_10[, 14:36]) -->
-
+<!-- sum(beta_inference[2:7, 1]) -->
+<!-- sum(beta_inference[2:22, 1]) -->
+<!-- sum(beta_inference[23:38, 1]) -->
+<!-- sum(beta_inference[39:44, 1]) -->
 
 <!-- ``` -->
 
-<!-- ```{r} -->
-<!-- boxplot(beta_samples_matrix[, 2:13]) -->
-<!-- abline(h = 0, col = "red") -->
+List of significant beta coefficients: 
 
-<!-- boxplot(beta_samples_matrix[, 14:36]) -->
-<!-- abline(h = 0, col = "Red") -->
-<!-- ``` -->
-
-
-
-<!-- ### Boxplots for the posterior distribution of coefficients, in ggplot -->
-
-<!-- ```{r} -->
-<!-- fl_coef_post <- stack(as.data.frame(beta_samples_matrix[, 2:13])) -->
-
-
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- ggplot(fl_coef_post) +  -->
-<!--   geom_boxplot(aes(x = ind, y = values)) +  -->
-<!--   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(),  -->
-<!--        axis.text=element_text(size=12),  -->
-<!--        plot.margin = margin(5.5, 5.5, 5.5, 20)) #+  -->
-<!--   # geom_vline(xintercept = c(6.5, 12.5), col = "blue") +  -->
-<!--   # geom_hline(yintercept = 0, col = "red") +  -->
-<!--   # annotate(geom = "text", x = 3.5, y = 20, label = "Percentage of Properties\nat Risk",  -->
-<!--   #          col = "blue", size = 4.5) +  -->
-<!--   # annotate(geom = "text", x = 9.5, y = 20, label = "Average Risk Score\nof Properties",  -->
-<!--   #          col = "blue", size = 4.5) +  -->
-<!--   # annotate(geom = "text", x = 17, y = 20, label = "Percent of Properties with Risk Score",  -->
-<!--   #          col = "blue", size = 4.5) + -->
-<!--   # scale_x_discrete(labels = c("Certain, 2020", "Certain, 2050",  -->
-<!--   #                             "Substantial, 2020", "Substantial, 2050", -->
-<!--   #                             "Any, 2020", "Any, 2050", -->
-<!--   #                             "All", "All except score 1",  -->
-<!--   #                             "With Substantial Risk", "With Any Risk",  -->
-<!--   #                             "In SFHA", "Not in SFHA",  -->
-<!--   #                             "Score 2", "Score 3", "Score 4", "Score 5",  -->
-<!--   #                             "Score 6", "Score 7", "Score 8", "Score 9",  -->
-<!--   #                             "Score 10")) -->
-<!-- ``` -->
-
-<!-- Choropleth on the pct_floodfactor10 -->
-
-<!-- ```{r} -->
-<!-- other_coef_post <- stack(as.data.frame(beta_samples_matrix[, 14:36])) -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- ggplot(other_coef_post) +  -->
-<!--   geom_boxplot(aes(x = ind, y = values)) +  -->
-<!--   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(),  -->
-<!--         axis.text=element_text(size=12),  -->
-<!--         plot.margin = margin(5.5, 5.5, 5.5, 20)) #+ -->
-<!--   # geom_vline(xintercept = c(16.5, 22.5), col = "blue") +  -->
-<!--   # geom_hline(yintercept = 0, col = "red") + -->
-<!--   # annotate(geom = "text", x = 8.5, y = 1.5, label = "Social Vulnerability Index",  -->
-<!--   #          col = "blue", size = 4.5) +  -->
-<!--   # annotate(geom = "text", x = 19.5, y = 1.5, label = "Air Pollution",  -->
-<!--   #          col = "blue", size = 4.5) + -->
-<!--   #   scale_x_discrete(labels = c("Poverty", "Unemployed", "Per Capita Income", "No High School",  -->
-<!--   #                               "65 or Over", "17 or Under", "Disability",  -->
-<!--   #                               "Single-Parent", "Minority", "Poor English",  -->
-<!--   #                               "Multi-Unit", "Mobile", "Crowded",  -->
-<!--   #                               "No Vehicle", "Group Quarters", "Uninsured",  -->
-<!--   #                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",  -->
-<!--   #                               "Smoking")) -->
-
-<!-- ``` -->
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
 
 
 

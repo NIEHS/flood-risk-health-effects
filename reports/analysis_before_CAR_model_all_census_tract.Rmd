@@ -60,7 +60,7 @@ fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_re
 ```
 
 ```{r}
-X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
+X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 4)]
 
 X <- X[, names(X) != "pct_floodfactor1"]
 
@@ -127,7 +127,7 @@ Climate variables other than flood risk are not too correlated.
 ```{r}
 Y <- fhs_model_df$Data_Value_CHD
 
-X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 1)]
+X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 4)]
 
 X <- X[, names(X) != "pct_floodfactor1"]
 

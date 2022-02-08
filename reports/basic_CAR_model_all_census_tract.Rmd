@@ -178,7 +178,7 @@ ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking"))
+                              "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Coronary Heart Disease")
 ```
 
 
@@ -339,7 +339,7 @@ ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking"))
+                              "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, High Blood Pressure")
 ```
 
 
@@ -500,7 +500,7 @@ ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking"))
+                              "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Asthma")
 ```
 
 
@@ -661,7 +661,7 @@ ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking"))
+                              "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Poor Mental Health")
 ```
 
 

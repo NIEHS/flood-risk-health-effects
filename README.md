@@ -1,5 +1,5 @@
 # flood-risk-health-effects
-GitHub repository for work related to the manuscript "Effects of Flood Risk on Census Tract-Level Health Outcomes"
+GitHub repository for work related to the manuscript "Effects of Flood Risk on Census Tract-Level Health Outcomes in the United States"
 
 The work is ongoing. The most up-to-date results are in reports/basic_CAR_model_all_census_tract.pdf. 
 

@@ -13,6 +13,7 @@ library(usdm)
 library(spdep)
 library(factoextra)
 library(tidyverse)
+library(performance)
 ```
 
 ```{r}
@@ -164,6 +165,8 @@ summary(fhs_lm)
 
 # Checking for spatial autocorrelation
 
+<!-- Adjust data due to missingness, to get code to work -->
+
 ```{r}
 W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
 
@@ -239,5 +242,71 @@ fr_loadings[order(fr_loadings[, 3]), 3]
 fr_loadings[order(fr_loadings[, 4]), 4]
 ```
 
+
+
+# Checking the distributions of the count variables ahead of using Poisson CAR
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
+```
+
+Convert the health outcomes into counts
+
+```{r}
+fhs_model_df_counts <- fhs_model_df %>% 
+  mutate(Data_Value_CHD = round(Data_Value_CHD / 100 * TotalPopulation), 
+         Data_Value_BPHIGH = round(Data_Value_BPHIGH / 100 * TotalPopulation), 
+         Data_Value_CASTHMA = round(Data_Value_CASTHMA / 100 * TotalPopulation), 
+         Data_Value_MHLTH = round(Data_Value_MHLTH / 100 * TotalPopulation))
+```
+
+```{r}
+hist(fhs_model_df_counts$Data_Value_CHD)
+hist(fhs_model_df_counts$Data_Value_BPHIGH)
+hist(fhs_model_df_counts$Data_Value_CASTHMA)
+hist(fhs_model_df_counts$Data_Value_MHLTH)
+```
+
+For convenience, I will fit a simple non-spatial glm to the data, and analyze whether the residuals indicate overdispersion. 
+
+I can then fit a CARBayes model and test for overdispersion on its residuals. 
+
+```{r}
+dat_CHD <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 46, 47, 48)]
+
+glm_CHD <- glm(Data_Value_CHD ~ ., family = poisson, offset = log(fhs_model_df_counts$TotalPopulation), 
+               data = dat_CHD)
+
+check_overdispersion(glm_CHD)
+```
+
+```{r}
+dat_BPHIGH <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 46, 48)]
+
+glm_BPHIGH <- glm(Data_Value_BPHIGH ~ ., family = poisson, offset = log(fhs_model_df_counts$TotalPopulation), 
+               data = dat_BPHIGH)
+
+check_overdispersion(glm_BPHIGH)
+```
+
+```{r}
+dat_CASTHMA <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 47, 48)]
+
+glm_CASTHMA <- glm(Data_Value_CASTHMA ~ ., family = poisson, offset = log(fhs_model_df_counts$TotalPopulation), 
+               data = dat_CASTHMA)
+
+check_overdispersion(glm_CASTHMA)
+```
+
+```{r}
+dat_MHLTH <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 46, 47)]
+
+glm_MHLTH <- glm(Data_Value_MHLTH ~ ., family = poisson, offset = log(fhs_model_df_counts$TotalPopulation), 
+               data = dat_MHLTH)
+
+check_overdispersion(glm_MHLTH)
+```
+
+overdispersion detected in all cases
 
 

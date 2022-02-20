@@ -32,6 +32,44 @@ load(here("modeling_files/all_census_tract_intrinsic.RData"))
 
 ## Model Diagnostics
 
+## Residual Plots
+
+For each chain
+
+```{r}
+plot(chain1$mean.fitted, chain1$residuals$pearson)
+
+abline(h = 0, col = "red")
+```
+
+```{r}
+plot(chain2$mean.fitted, chain2$residuals$pearson)
+
+abline(h = 0, col = "red")
+```
+
+```{r}
+plot(chain3$mean.fitted, chain3$residuals$pearson)
+
+abline(h = 0, col = "red")
+```
+
+```{r}
+qqnorm(chain1$residuals$pearson)
+
+qqline(chain1$residuals$pearson)
+```
+
+What's the proportion of predicted values that correspond to negative counts? Which would not make sense
+
+```{r}
+mean(chain1$mean.fitted < 0, na.rm = T)
+```
+
+Small proportion seems reasonable. 
+
+
+
 ### Beta samples
 
 ```{r}
@@ -192,6 +230,22 @@ load(here("modeling_files/all_census_tract_BPHIGH.RData"))
 ```
 
 ## Model Diagnostics
+
+### Residual plot
+
+```{r}
+plot(chain1$mean.fitted, chain1$residuals$pearson)
+
+abline(h = 0, col = "red")
+```
+
+```{r}
+qqnorm(chain1$residuals$pearson)
+
+qqline(chain1$residuals$pearson)
+```
+
+
 
 ### Beta samples
 
@@ -354,6 +408,22 @@ load(here("modeling_files/all_census_tract_CASTHMA.RData"))
 
 ## Model Diagnostics
 
+### Residual plot
+
+```{r}
+plot(chain1$mean.fitted, chain1$residuals$pearson)
+
+abline(h = 0, col = "red")
+```
+
+```{r}
+qqnorm(chain1$residuals$pearson)
+
+qqline(chain1$residuals$pearson)
+```
+
+
+
 ### Beta samples
 
 ```{r}
@@ -514,6 +584,22 @@ load(here("modeling_files/all_census_tract_MHLTH.RData"))
 ```
 
 ## Model Diagnostics
+
+### Residual plot
+
+```{r}
+plot(chain1$mean.fitted, chain1$residuals$pearson)
+
+abline(h = 0, col = "red")
+```
+
+```{r}
+qqnorm(chain1$residuals$pearson)
+
+qqline(chain1$residuals$pearson)
+```
+
+
 
 ### Beta samples
 

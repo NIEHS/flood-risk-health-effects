@@ -280,6 +280,23 @@ glm_CHD <- glm(Data_Value_CHD ~ ., family = poisson, offset = log(fhs_model_df_c
 check_overdispersion(glm_CHD)
 ```
 
+What if I applied the overdispersion test just to the residuals? Use the code shown in Gelman's textbook
+
+```{r}
+
+n <- stats::nobs(glm_CHD)
+
+k <- length(insight::find_parameters(glm_CHD, effects = "fixed", flatten = TRUE))
+
+yhat <- predict(glm_CHD, type="response")
+z <- (dat_CHD$Data_Value_CHD[complete.cases(dat_CHD)] - yhat)/sqrt(yhat)
+cat ("overdispersion ratio is ", sum(z^2) / (n-k), "\n")
+cat ("p-value of overdispersion test is ", 1 - pchisq (sum(z^2, na.rm = T), n-k), "\n")
+
+```
+
+
+
 ```{r}
 dat_BPHIGH <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 46, 48)]
 
@@ -307,6 +324,159 @@ glm_MHLTH <- glm(Data_Value_MHLTH ~ ., family = poisson, offset = log(fhs_model_
 check_overdispersion(glm_MHLTH)
 ```
 
-overdispersion detected in all cases
+What if I applied the overdispersion test just to the residuals? Use the code shown in Gelman's textbook
+
+```{r}
+
+n <- stats::nobs(glm_MHLTH)
+
+k <- length(insight::find_parameters(glm_MHLTH, effects = "fixed", flatten = TRUE))
+
+yhat <- predict(glm_MHLTH, type="response")
+z <- (dat_MHLTH$Data_Value_MHLTH[complete.cases(dat_MHLTH)] - yhat)/sqrt(yhat)
+cat ("overdispersion ratio is ", sum(z^2) / (n-k), "\n")
+cat ("p-value of overdispersion test is ", 1 - pchisq (sum(z^2, na.rm = T), n-k), "\n")
+
+```
+
+Overdispersion detected in all cases.
+
+
+
+# Residual Diagnostics with Gaussian CAR models
+
+Just apply the overdispersion check to the residuals of the Gaussian models, to see if you get similar results
+
+```{r}
+load(here("modeling_files/all_census_tract_intrinsic.RData")) # for CHD
+```
+
+Transforming to Z-scores under Poisson distribution assumption
+
+```{r}
+dat_CHD <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 46, 47, 48)]
+
+CHD_resid <- chain1$residuals$response
+
+yhat <- chain1$mean.fitted
+
+CHD_resid_ct <- CHD_resid * fhs_model_df_counts$TotalPopulation / 100
+
+yhat_ct <- yhat * fhs_model_df_counts$TotalPopulation / 100
+
+z <- CHD_resid_ct / sqrt(yhat_ct)
+```
+
+```{r}
+n <- sum(!is.na(dat_CHD$Data_Value_CHD))
+
+k <- chain1$modelfit[2]
+
+
+cat ("overdispersion ratio is ", sum(z^2, na.rm = T) / (n-k), "\n")
+cat ("p-value of overdispersion test is ", 1 - pchisq (sum(z^2, na.rm = T), n-k), "\n")
+```
+
+
+
+```{r}
+load(here("modeling_files/all_census_tract_BPHIGH.RData"))
+```
+
+Transforming to Z-scores under Poisson distribution assumption
+
+```{r}
+dat_BPHIGH <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 46, 48)]
+
+BPHIGH_resid <- chain1$residuals$response
+
+yhat <- chain1$mean.fitted
+
+BPHIGH_resid_ct <- BPHIGH_resid * fhs_model_df_counts$TotalPopulation / 100
+
+yhat_ct <- yhat * fhs_model_df_counts$TotalPopulation / 100
+
+z <- BPHIGH_resid_ct / sqrt(yhat_ct)
+```
+
+
+
+```{r}
+n <- sum(!is.na(dat_BPHIGH$Data_Value_BPHIGH))
+
+k <- chain1$modelfit[2]
+
+
+cat ("overdispersion ratio is ", sum(z^2, na.rm = T) / (n-k), "\n")
+cat ("p-value of overdispersion test is ", 1 - pchisq (sum(z^2, na.rm = T), n-k), "\n")
+```
+
+
+
+```{r}
+load(here("modeling_files/all_census_tract_CASTHMA.RData"))
+```
+
+Transforming to Z-scores under Poisson distribution assumption
+
+```{r}
+dat_CASTHMA <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 47, 48)]
+
+CASTHMA_resid <- chain1$residuals$response
+
+yhat <- chain1$mean.fitted
+
+CASTHMA_resid_ct <- CASTHMA_resid * fhs_model_df_counts$TotalPopulation / 100
+
+yhat_ct <- yhat * fhs_model_df_counts$TotalPopulation / 100
+
+z <- CASTHMA_resid_ct / sqrt(yhat_ct)
+```
+
+```{r}
+n <- sum(!is.na(dat_CASTHMA$Data_Value_CASTHMA))
+
+k <- chain1$modelfit[2]
+
+
+cat ("overdispersion ratio is ", sum(z^2, na.rm = T) / (n-k), "\n")
+cat ("p-value of overdispersion test is ", 1 - pchisq (sum(z^2, na.rm = T), n-k), "\n")
+```
+
+Looks underdispersed in this case.
+
+
+
+```{r}
+load(here("modeling_files/all_census_tract_MHLTH.RData"))
+```
+
+Transforming to Z-scores under Poisson distribution assumption
+
+```{r}
+dat_MHLTH <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 46, 47)]
+
+MHLTH_resid <- chain1$residuals$response
+
+yhat <- chain1$mean.fitted
+
+MHLTH_resid_ct <- MHLTH_resid * fhs_model_df_counts$TotalPopulation / 100
+
+yhat_ct <- yhat * fhs_model_df_counts$TotalPopulation / 100
+
+z <- MHLTH_resid_ct / sqrt(yhat_ct)
+```
+
+```{r}
+n <- sum(!is.na(dat_MHLTH$Data_Value_MHLTH))
+
+k <- chain1$modelfit[2]
+
+
+cat ("overdispersion ratio is ", sum(z^2, na.rm = T) / (n-k), "\n")
+cat ("p-value of overdispersion test is ", 1 - pchisq (sum(z^2, na.rm = T), n-k), "\n")
+```
+
+Looks underdispersed in this case.
 
 

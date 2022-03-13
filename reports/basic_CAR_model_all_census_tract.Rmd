@@ -192,7 +192,7 @@ beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_i
 ```
 
 ```{r}
-ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
@@ -217,6 +217,8 @@ ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
                               "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Coronary Heart Disease")
+
+p
 ```
 
 
@@ -369,7 +371,7 @@ beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_i
 ```
 
 ```{r}
-ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
@@ -394,6 +396,8 @@ ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
                               "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, High Blood Pressure")
+
+p
 ```
 
 
@@ -546,7 +550,7 @@ beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_i
 ```
 
 ```{r}
-ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
@@ -571,6 +575,8 @@ ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
                               "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Asthma")
+
+p
 ```
 
 
@@ -723,7 +729,7 @@ beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_i
 ```
 
 ```{r}
-ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
@@ -748,6 +754,8 @@ ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
                               "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Poor Mental Health")
+
+p
 ```
 
 

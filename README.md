@@ -15,9 +15,10 @@ The work is ongoing. The most up-to-date results are in reports/basic_CAR_model_
   * GRIDMET: maximum temperature and maximum relative humidity, summer or winter, averaged over 16 years 2005-2020 and averaged over each census tract. The raster data was processed in both Google Earth Engine and R (see GRIDMET/ folder). 
   * 2010 TIGER/Line Shapefiles (https://www.census.gov/cgi-bin/geo/shapefiles/index.php?year=2010&layergroup=Census+Tracts): used to get list of census tracts for states within the contiguous USA. Corrected the census tract fip codes for two states, Virginia and South Dakota, according to https://www.ddorn.net/data/FIPS_County_Code_Changes.pdf. 
   * Census Tract Adjacency (https://s4.ad.brown.edu/projects/diversity/index.htm): used to construct the adjacency matrix for the census tracts.
-2. scripts/my_gaussian_leroux_car.R: MCMC implementation of the Bayesian conditionally autoregressive (CAR) model. The code is adjusted from the CARBayes package (Lee, 2013, https://github.com/duncanplee/CARBayes/blob/master/R/gaussian.lerouxCAR.R) to accept a large adjacency matrix with class ngCMatrix from the Matrix package. 
-3. CARmodeling_local_job_CHD.R, CARmodeling_local_job_BPHIGH.R, CARmodeling_local_job_CASTHMA.R, CARmodeling_local_job_MHLTH.R in scripts/ folder: runs the CAR model for 3 chains on each of the four health outcomes.
-4. reports/basic_CAR_model_all_census_tract.Rmd: conducts Bayesian model diagnostics and displays model results for each of the health outcomes.
+2. reports/analysis_before_CAR_model_all_census_tract.Rmd: conducts exploratory data analysis prior to fitting the CAR model.
+3. scripts/my_gaussian_leroux_car.R: MCMC implementation of the Bayesian conditionally autoregressive (CAR) model. The code is adjusted from the CARBayes package (Lee, 2013, https://github.com/duncanplee/CARBayes/blob/master/R/gaussian.lerouxCAR.R) to accept a large adjacency matrix with class ngCMatrix from the Matrix package. 
+4. CARmodeling_local_job_CHD.R, CARmodeling_local_job_BPHIGH.R, CARmodeling_local_job_CASTHMA.R, CARmodeling_local_job_MHLTH.R in scripts/ folder: runs the CAR model for 3 chains on each of the four health outcomes.
+5. reports/basic_CAR_model_all_census_tract.Rmd: conducts Bayesian model diagnostics and displays model results for each of the health outcomes.
 
 
 

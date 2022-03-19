@@ -29,6 +29,8 @@ pct_ff_df <- flood_risk_DE %>% group_by(tract_fips) %>% summarise(
   pct_fr_2020_500 = mean(!is.na(mid_chance_0_2021) & mid_chance_0_2021 >= .002), 
   pct_fr_2050_500 = mean(!is.na(mid_chance_0_2051) & mid_chance_0_2051 >= .002),
   avg_ff_all = mean(floodfactor),
+  var_ff_all = var(floodfactor),
+  coeff_var_ff_all = var(floodfactor) / mean(floodfactor),
   avg_ff_2_10 = mean(floodfactor[floodfactor > 1]), 
   avg_ff_2020_100 = mean(floodfactor[!is.na(mid_chance_0_2021) & mid_chance_0_2021 >= .01]), 
   avg_ff_2020_500 = mean(floodfactor[!is.na(mid_chance_0_2021) & mid_chance_0_2021 >= .002]), 
@@ -82,7 +84,7 @@ cor(pct_ff_compare$pct_ff10, pct_ff_compare$pct_floodfactor10)
 
 
 
-summary(fhs_model_fr[, 13:24])
+summary(fhs_model_fr[, 14:35])
 
 View(head(flood_risk_DE, n = 100))
 

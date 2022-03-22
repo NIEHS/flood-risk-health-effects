@@ -25,6 +25,8 @@ for (i in 1:nrow(parcel_data_files)) {
     pct_fs_risk_2020_500 = mean(!is.na(mid_chance_0_2021) & mid_chance_0_2021 >= .002), 
     pct_fs_risk_2050_500 = mean(!is.na(mid_chance_0_2051) & mid_chance_0_2051 >= .002),
     avg_risk_score_all = mean(floodfactor),
+    sd_risk_score_all = sd(floodfactor),
+    cv_risk_score_all = sd(floodfactor) / mean(floodfactor),
     avg_risk_score_2_10 = mean(floodfactor[floodfactor > 1]), 
     avg_risk_fsf_2020_100 = mean(floodfactor[!is.na(mid_chance_0_2021) & mid_chance_0_2021 >= .01]), 
     avg_risk_fsf_2020_500 = mean(floodfactor[!is.na(mid_chance_0_2021) & mid_chance_0_2021 >= .002]), 

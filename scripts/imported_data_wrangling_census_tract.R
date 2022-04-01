@@ -39,35 +39,6 @@ all_ct_df <- do.call("rbind", shp_list)
 
 
 
-# reading in the zip code flood risk data
-flood_risk <- read.csv(here("imported_data", "flood_risk", "Zip_level_risk_FEMA_FSF_v1.3.csv"), 
-                       colClasses = c("character", rep(NA, 33)))
-
-# adds leading zero to the front of less-than-5-digits zip codes, to make all zip codes length 5
-flood_risk$zipcode <- sprintf("%05s", flood_risk$zipcode)
-
-flood_risk_prev <- flood_risk
-
-count_ff_mat <- diag(1 / flood_risk$count_property) %*% as.matrix(select(flood_risk, starts_with("count_floodfactor"))) * 100
-
-colnames(count_ff_mat) <- str_replace(colnames(count_ff_mat), "count", "pct")
-
-flood_risk <- data.frame(flood_risk_prev, count_ff_mat)
-
-# # make percent change variables
-# flood_risk <- flood_risk %>% 
-#   mutate(pct_change_5 = (pct_fs_risk_2050_5 - pct_fs_risk_2020_5) / pct_fs_risk_2020_5, 
-#          pct_change_100 = (pct_fs_risk_2050_100 - pct_fs_risk_2020_100) / pct_fs_risk_2020_100,
-#          pct_change_500 = (pct_fs_risk_2050_500 - pct_fs_risk_2020_500) / pct_fs_risk_2020_500)
-
-saveRDS(flood_risk, file = here("intermediary_data/flood_risk_pct_ff.rds")) 
-
-
-
-flood_risk <- readRDS(file = here("intermediary_data/flood_risk_pct_ff.rds"))
-
-
-
 # work with the PLACES dataset
 # https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Local-Data-for-Better-Health-Census-Tract-D/cwsq-ngmh 
 
@@ -146,109 +117,9 @@ ct_health <- left_join(ct_fips, places_dat_wide)
 
 
 
+extracted_fr <- readRDS(file = here("intermediary_data/extracted_fr.rds"))
 
-
-# reading in the ZCTA crosswalk
-
-# use colClasses to read identifiers with leading zeros
-
-zcta_crosswalk <- read.csv(here("imported_data", "zcta_crosswalk", "zcta_tract_rel_10.txt"), 
-                           colClasses = c(rep("character", 5), rep("numeric", 20)))
-
-zcta_crosswalk$GEOID <- as.numeric(zcta_crosswalk$GEOID)
-
-# correct the fips for Virginia and South Dakota
-
-zcta_crosswalk$GEOID[zcta_crosswalk$GEOID %/% 1e6 == 46113] <- zcta_crosswalk$GEOID[zcta_crosswalk$GEOID %/% 1e6 == 46113] %% (46113 * 1e6) + (46102 * 1e6)
-zcta_crosswalk$GEOID[zcta_crosswalk$GEOID %/% 1e6 == 51515] <- zcta_crosswalk$GEOID[zcta_crosswalk$GEOID %/% 1e6 == 51515] %% (51515 * 1e6) + (51019 * 1e6)
-
-
-
-# I focus on TRHUPCT, "The Percentage of Total Housing Unit Count of the 2010 Census Tract represented by the record" 
-# to merge the flood risk zip code data with the rest of the data in terms of census tracts
-
-# mini EDA
-trhupct_summary<- zcta_crosswalk %>% group_by(GEOID) %>% summarise(trhupct_sum = sum(TRHUPCT), trpoppct_sum = sum(TRPOPPCT), 
-                                                                   trareapct_sum = sum(TRAREAPCT))
-
-# most census tracts are wholly accounted for by the zip codes.
-mean(trhupct_summary$trhupct_sum >= 99)
-
-# all the flood risk zip codes are accounted for within the crosswalk.
-all(flood_risk$zipcode %in% zcta_crosswalk$ZCTA5)
-
-# There are some fips in the census tracts df not present in the ZCTA crosswalk. This will lead to some missing
-# flood risk variables. 
-
-mean(ct_health$fips %in% unique(zcta_crosswalk$GEOID))
-
-# approach: take a weighted mean of the non-missing flood risk values of the ZCTAs within each tract.
-
-flood_risk_colnames_subset <- colnames(flood_risk)[(startsWith(colnames(flood_risk), "pct_") | 
-                                                      startsWith(colnames(flood_risk), "avg_risk_")) & 
-                                                     !endsWith(colnames(flood_risk), "fs_fema_difference_2020") & 
-                                                     !endsWith(colnames(flood_risk), "fema_sfha")]
-
-merged_flood_risk_mat <- matrix(NA, nrow = length(all_ct_df$GEOID10), ncol = length(flood_risk_colnames_subset))
-
-no_f_dat <- 0
-
-merged_mat_idx <- 1
-
-for (fip in ct_health$fips) {
-  
-  one_tract_mult_zip <- zcta_crosswalk[zcta_crosswalk$GEOID == fip, names(zcta_crosswalk) %in% c("ZCTA5", "TRHUPCT")]
-  
-  one_tract_mult_zip <- rename(one_tract_mult_zip, zipcode = ZCTA5)
-  
-  one_tract_mult_zip_flood_risk <- merge(one_tract_mult_zip, flood_risk, by = "zipcode")
-  
-  # # zip codes making up the tract
-  # zips <- one_tract_mult_zip$ZCTA5
-  
-  # # corresponding TRHUPCT, i.e. percentage of housing units covered by zip code within the tract,
-  # # turned back into decimal
-  # trhupcts <- one_tract_mult_zip$TRHUPCT[one_tract_mult_zip$ZCTA5 %in% zip_flood_risk_mat$zipcode] / 100
-  
-  
-  
-  col_idx <- 1
-  
-  for (coln in flood_risk_colnames_subset) {
-    
-    if (nrow(one_tract_mult_zip_flood_risk) == 0) {
-      
-      merged_flood_risk_mat[merged_mat_idx, col_idx] <- NaN
-      
-      no_f_dat <- no_f_dat + 1
-      
-    } else {
-      
-      merged_flood_risk_mat[merged_mat_idx, col_idx] <- sum(one_tract_mult_zip_flood_risk[coln] * 
-                                                              one_tract_mult_zip_flood_risk$TRHUPCT, na.rm = T) / 
-        sum(one_tract_mult_zip_flood_risk$TRHUPCT[!is.na(one_tract_mult_zip_flood_risk[coln])])
-      
-    }
-    
-    col_idx <- col_idx + 1
-    
-  }
-  
-  merged_mat_idx <- merged_mat_idx + 1
-  
-}
-
-colnames(merged_flood_risk_mat) <- flood_risk_colnames_subset
-
-saveRDS(merged_flood_risk_mat, file = here("intermediary_data/merged_flood_risk_mat_all_census_tract.rds")) 
-
-
-
-merged_flood_risk_mat <- readRDS(here("intermediary_data/merged_flood_risk_mat_all_census_tract.rds"))
-
-  
-
-flood_health <- data.frame(ct_health, merged_flood_risk_mat)
+flood_health <- left_join(ct_health, extracted_fr, by = c("fips" = "tract_fips"))
 
 
 

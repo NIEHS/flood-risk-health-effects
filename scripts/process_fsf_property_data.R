@@ -11,11 +11,31 @@ extracted_fr_list <- vector("list", length = nrow(parcel_data_files))
 
 for (i in 1:nrow(parcel_data_files)) {
   
-  drive_download(parcel_data_files[i, ])
-  
-  flood_risk_parcel <- read.csv(parcel_data_files[i,]$name)
-  
-  
+  # For California, some census tracts are split between two files. Need to combine the 
+  # two CA files before aggregation
+  if (parcel_data_files[i,]$name == "FSF_Property_Data_State_6_1of2_Confidential_TradeSecrets_BusinessProprietary.csv") {
+    
+    next
+    
+  } else if (parcel_data_files[i,]$name == "FSF_Property_Data_State_6_1of1_Confidential_TradeSecrets_BusinessProprietary.csv") {
+    
+    drive_download(parcel_data_files[i, ])
+    drive_download(parcel_data_files[parcel_data_files$name == "FSF_Property_Data_State_6_1of2_Confidential_TradeSecrets_BusinessProprietary.csv", ])
+    
+    CA1 <- read_csv("FSF_Property_Data_State_6_1of1_Confidential_TradeSecrets_BusinessProprietary.csv")
+    CA2 <- read_csv("FSF_Property_Data_State_6_1of2_Confidential_TradeSecrets_BusinessProprietary.csv")
+    
+    flood_risk_parcel <- rbind(CA1, CA2)
+    
+    file.remove("FSF_Property_Data_State_6_1of2_Confidential_TradeSecrets_BusinessProprietary.csv") 
+    
+  } else {
+    
+    drive_download(parcel_data_files[i, ])
+    
+    flood_risk_parcel <- read_csv(parcel_data_files[i,]$name)
+    
+  }
   
   pct_ff_df <- flood_risk_parcel %>% group_by(tract_fips) %>% summarise(
     pct_fs_risk_2020_5 = mean(!is.na(mid_chance_0_2021) & mid_chance_0_2021 >= .20), 
@@ -49,11 +69,37 @@ for (i in 1:nrow(parcel_data_files)) {
   file.remove(parcel_data_files[i,]$name) 
   
 }
-  
+
 
 
 extracted_fr <- do.call("rbind", extracted_fr_list)
 
+
+
+# # Why are there duplicates?
+# # 27 census tracts in California are duplicated twice each. 
+# 
+# dup_fips <- extracted_fr$tract_fips[duplicated(extracted_fr$tract_fips)]
+# 
+# # View(extracted_fr[extracted_fr$tract_fips %in% dup_fips,])
+# 
+# table(extracted_fr[extracted_fr$tract_fips %in% dup_fips,]$tract_fips)
+# 
+# CA1 <- read_csv("imported_data/flood_risk/FSF_Property_Data_State_6_1of1_Confidential_TradeSecrets_BusinessProprietary.csv")
+# 
+# CA2 <- read_csv("imported_data/flood_risk/FSF_Property_Data_State_6_1of2_Confidential_TradeSecrets_BusinessProprietary.csv")
+# 
+# # What should I do with the duplicates? Combine the California files, then compute the estimates
+# 
+# CA_both <- rbind(CA1, CA2)
+
+
+
+# TODO: check that extracted_fr is the same even with read_csv
+
+
+
 saveRDS(extracted_fr, file = here("intermediary_data/extracted_fr.rds"))
+
 
 

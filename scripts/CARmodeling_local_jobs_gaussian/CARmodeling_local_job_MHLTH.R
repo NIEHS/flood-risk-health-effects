@@ -16,7 +16,7 @@ W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_t
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
 
 # remove 3 response variables that are not MHLTH
-fhs_model_df <- fhs_model_df[-c(45, 46, 47)]
+fhs_model_df <- fhs_model_df[-c(46, 47, 48)]
 
 source(here("scripts/my_gaussian_leroux_car.R"))
 

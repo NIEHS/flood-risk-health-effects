@@ -165,7 +165,6 @@ flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_all_
 
 # remove places_dat variables other than Data_Value_CHD
 # this also puts the outcome variable as the last variable
-# TBC: selecting only cardiovascular outcomes
 fhs_outcome_subset <- flood_health_svi %>% dplyr::select(!(starts_with("Data_Value") | starts_with("Low_Confidence_Limit") | starts_with("High_Confidence_Limit")) |
                                                            Data_Value_CSMOKING |
                                                            Data_Value_CHD | 
@@ -275,8 +274,7 @@ fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_re
 
 fr_index <- 14:35
 
-# omitting the 24th variable, avg_risk_score_sfha, because of too many NAs
-flood_risk <- fhs_model_df[, fr_index] %>% dplyr::select(-avg_risk_score_sfha)
+flood_risk <- fhs_model_df[, fr_index] 
 
 fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
 
@@ -284,9 +282,9 @@ fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T
 
 summ_pca <- summary(fr_pca)
 
-summ_pca$importance[,1:10] # The first 4 PCs cover 80% of the variance. 
+summ_pca$importance[,1:10] # The first 5 PCs cover 80% of the variance. 
 
-num_pc <- 4
+num_pc <- 5
 
 flood_pcs <- matrix(NA, nrow = nrow(fhs_model_df), ncol = num_pc)
 

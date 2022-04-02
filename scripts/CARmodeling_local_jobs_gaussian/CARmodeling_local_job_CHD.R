@@ -1,4 +1,4 @@
-# Running CAR model for CHD
+# Running CAR model for CHD 
 
 library(CARBayes)
 library(here)

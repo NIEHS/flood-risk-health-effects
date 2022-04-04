@@ -242,6 +242,11 @@ fr_loadings[order(fr_loadings[, 3]), 3]
 fr_loadings[order(fr_loadings[, 4]), 4]
 ```
 
+```{r}
+# Fourth PC Score
+fr_loadings[order(fr_loadings[, 5]), 5]
+```
+
 
 
 # Checking the distributions of the count variables ahead of using Poisson CAR

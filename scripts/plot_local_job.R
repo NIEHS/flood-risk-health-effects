@@ -13,7 +13,7 @@ fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc
 # TODO: run local job, copy to Global Environment
 
 # TODO: just modify the suffix
-load(here("modeling_files/all_census_tract_intrinsic.RData"))
+load(here("modeling_files/all_census_tract_CASTHMA.RData"))
 
 
 
@@ -50,8 +50,9 @@ beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_i
 
 
 
-# TODO: just modify the suffix
-pCHD <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+# TODO: modify the suffix
+# TODO: change the ggtitle
+(pCASTHMA <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
@@ -75,4 +76,4 @@ pCHD <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Poor Mental Health")
+                              "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Asthma"))

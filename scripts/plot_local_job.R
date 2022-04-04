@@ -10,12 +10,16 @@ fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc
 
 
 
-load(here("modeling_files/all_census_tract_MHLTH.RData"))
+# TODO: run local job, copy to Global Environment
+
+# TODO: just modify the suffix
+load(here("modeling_files/all_census_tract_intrinsic.RData"))
 
 
 
 beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
 
+# TODO: make sure the subsetting is correct
 colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 14:(ncol(fhs_model_df) - 4)]))
 
 
@@ -46,8 +50,8 @@ beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_i
 
 
 
-
-p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+# TODO: just modify the suffix
+pCHD <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 

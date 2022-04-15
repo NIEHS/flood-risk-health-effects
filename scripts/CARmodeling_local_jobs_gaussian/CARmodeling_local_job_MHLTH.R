@@ -16,7 +16,7 @@ W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_t
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
 
 # remove 3 response variables that are not MHLTH
-fhs_model_df <- fhs_model_df[-c(46, 47, 48)]
+fhs_model_df <- fhs_model_df[, -(ncol(fhs_model_df) + c(-3, -2, -1))]
 
 source(here("scripts/my_gaussian_leroux_car.R"))
 
@@ -93,7 +93,7 @@ tick <- proc.time()[3]
 
 ### put in function here
 
-chain_list <- fhs_car_chains(fhs_model_df, first_var = 14, W = W, rho = 1, n_burn_in = 10000, n_iter = 100000, thin = 2,
+chain_list <- fhs_car_chains(fhs_model_df, first_var = 19, W = W, rho = 1, n_burn_in = 10000, n_iter = 100000, thin = 2,
                              keep_first = keep_first, num_chains = 3)
 
 tock <- proc.time()[3]

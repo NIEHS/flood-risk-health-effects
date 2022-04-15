@@ -180,9 +180,11 @@ fhs_outcome_subset <- flood_health_svi %>% dplyr::select(!(starts_with("Data_Val
 fhs_svi_subset <- fhs_outcome_subset %>% 
   relocate(ST, STATE, ST_ABBR, STCNTY, COUNTY,
            LOCATION, AREA_SQMI, E_TOTPOP, 
-           E_HU, E_HH, .after = TotalPopulation) %>%
+           E_HU, E_HH,
+           RPL_THEME1, RPL_THEME2, RPL_THEME3, RPL_THEME4, RPL_THEMES,
+           .after = TotalPopulation) %>%
   select(!(starts_with("E_") & !ends_with(c("TOTPOP", "HU", "HH")))) %>%
-  select(!starts_with(c("MP_", "M_", "EPL_", "SPL_", "RPL_", "F_")))
+  select(!starts_with(c("MP_", "M_", "EPL_", "SPL_", "F_")))
 
 
 

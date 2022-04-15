@@ -221,14 +221,13 @@ census_tract_fips <- unique(census_tract_adjacency$SOURCE_TRACTID)
 
 
 
+# Next seven lines take quite a while. 
+# Can skip the construction of adjacency matrix and read it in instead
+
 row_idx_vec <- sapply(census_tract_adjacency$SOURCE_TRACTID, function(fip) {which(census_tract_fips == fip)})
 col_idx_vec <- sapply(census_tract_adjacency$NEIGHBOR_TRACTID, function(fip) {which(census_tract_fips == fip)})
 
-
-
 census_tract_adj <- sparseMatrix(row_idx_vec, col_idx_vec)
-
-
 
 saveRDS(census_tract_adj, file = here("intermediary_data", "census_tract_adj_all.rds"))
 
@@ -274,7 +273,9 @@ saveRDS(census_tract_adj_reorganize, file = here("intermediary_data", "census_tr
 
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
 
-fr_index <- 14:35
+first_var <- 19
+
+fr_index <- first_var:(first_var + 21)
 
 flood_risk <- fhs_model_df[, fr_index] 
 
@@ -303,7 +304,7 @@ fhs_model_df <- fhs_model_df[, -fr_index]
 
 fhs_model_df <- data.frame(fhs_model_df, flood_pcs)
 
-fhs_model_df <- fhs_model_df %>% relocate(starts_with("flood_risk_pc"), .after = E_HH)
+fhs_model_df <- fhs_model_df %>% relocate(starts_with("flood_risk_pc"), .after = RPL_THEMES)
 
 
 saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))

@@ -61,7 +61,7 @@ fhs_car_chains <- function(dat_frame, first_var, W, rho = NULL, n_burn_in, n_ite
   X           <- scale(X) # Scale covariates
   X[is.na(X)] <- 0        # Fill in missing values with the mean
   
-  # if I do mean imputation (which may be problematic), all the counties
+  # if I do mean imputation (which may be problematic), all the spatial units
   # will have neighbors in W
   
   X <- data.frame(X)
@@ -84,8 +84,6 @@ fhs_car_chains <- function(dat_frame, first_var, W, rho = NULL, n_burn_in, n_ite
 }
 
 
-
-# Chunk that runs through entire U.S, without fixing rho. Don't actually run this
 
 set.seed(821, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
 

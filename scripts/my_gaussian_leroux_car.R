@@ -194,12 +194,17 @@ common.modelfit.summarized.loglike <- function(mean.like, mean.recip.like, var.l
 #' @param thin level of thinning to apply to the MCMC samples
 #' @param keep_first vector of spatial units to keep the parameters for; for other subjects, 
 #' keep track of the running posterior mean.
+#' @param has_intercept include intercept in model
 #' @return MCMC chain
 #' @export
 met_gibbs_car <- function(Y, data, W, rho = NULL, n_burn_in, n_iter, thin = 1, 
-                          keep_first = 1:nrow(data)) {
+                          keep_first = 1:nrow(data), has_intercept = T) {
   
   X <- model.matrix(~., data = data)
+  
+  if (!has_intercept) {
+    X <- X[, -1]
+  }
   
   K <- nrow(data)
   

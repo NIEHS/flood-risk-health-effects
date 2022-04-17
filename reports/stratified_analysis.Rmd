@@ -252,7 +252,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median)) 
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, First Strata")
+                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, Lower Strata")
 
 p
 ```
@@ -282,7 +282,7 @@ p <- ggplot(beta_inference_df_strat1[-1, ], aes(x = var_name, y = post_median)) 
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, Second Strata")
+                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, Upper Strata")
 
 p
 ```

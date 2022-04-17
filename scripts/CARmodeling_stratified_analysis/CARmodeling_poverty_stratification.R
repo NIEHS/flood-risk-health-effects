@@ -9,6 +9,8 @@ library(parallel)
 
 library(dplyr)
 
+select <- dplyr::select
+
 ##### Reading in the component data files
 
 W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
@@ -41,7 +43,7 @@ set.seed(821, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind 
 
 tick <- proc.time()[3]
 
-chain_list <- fhs_car_chains_stratif(fhs_model_df, first_var = 19, W = W, rho = 1, n_burn_in = 10000, n_iter = 100000, thin = 2,
+model_res <- fhs_car_chains_stratif(fhs_model_df, first_var = 19, W = W, rho = 1, n_burn_in = 10000, n_iter = 100000, thin = 2,
                              keep_first = keep_first, num_chains = 3, strat_covariate = strat_covariate, strat_fn = median)
 
 tock <- proc.time()[3]
@@ -50,15 +52,17 @@ tock <- proc.time()[3]
 
 
 
-chain1 <- chain_list[[1]]
+chain1 <- model_res$chain_list[[1]]
 
-chain2 <- chain_list[[2]]
+chain2 <- model_res$chain_list[[2]]
 
-chain3 <- chain_list[[3]]
+chain3 <- model_res$chain_list[[3]]
+
+var_names <- model_res$var_names
 
 
 
-save(chain1, chain2, chain3, fhs_model_df,
+save(chain1, chain2, chain3, var_names,
      file = here("modeling_files/model_stratif_poverty.RData"))
 
 

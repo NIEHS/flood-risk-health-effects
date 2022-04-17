@@ -70,7 +70,7 @@ fhs_car_chains_stratif <- function(dat_frame, first_var, W, rho = 1, n_burn_in, 
   
   
   
-  return(chain_list)
+  return(list(chain_list = chain_list, var_names = colnames(X_intx_cbind)))
   
 }
 

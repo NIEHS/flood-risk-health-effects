@@ -45,34 +45,26 @@ fhs_car_chains_stratif <- function(dat_frame, first_var, W, rho = 1, n_burn_in, 
   
   
   
+  strat0 <- ifelse(strat_covariate <= strat_fn(strat_covariate), 1, 0)
+  strat1 <- ifelse(strat_covariate <= strat_fn(strat_covariate), 0, 1)
+  
+  
+  
+  X_intx0 <- model.matrix(rep(1, nrow(X)) ~ strat0 + strat0:., data = X)[, -1]
+  X_intx1 <- model.matrix(rep(1, nrow(X)) ~ strat1 + strat1:., data = X)[, -1]
+  
+  X_intx_cbind <- as.data.frame(cbind(X_intx0, X_intx1))
+  
+  
+  
   # assuming there are two strata
-  chain_list <- vector("list", length = 2 * num_chains)
+  chain_list <- vector("list", length = num_chains)
   
   # for the first strata (values corresponding to strat_covariate being below the median)
   for (i in 1:num_chains) {
     
-    X_sub <- X[strat_covariate <= median(strat_covariate), ]
-    Y_sub <- Y[strat_covariate <= median(strat_covariate)]
-    
-    W_sub <- W[strat_covariate <= median(strat_covariate), strat_covariate <= median(strat_covariate)]
-    
-    chain_list[[i]]  <- met_gibbs_car(Y_sub, data = X_sub, W_sub, rho = rho, n_burn_in = n_burn_in, n_iter = n_iter, thin = thin,
-                                      keep_first = keep_first)
-    
-  }
-  
-  
-  
-  # for the first strata (values corresponding to strat_covariate being below the median)
-  for (i in 1:num_chains) {
-    
-    X_sub <- X[strat_covariate > median(strat_covariate), ]
-    Y_sub <- Y[strat_covariate > median(strat_covariate), ]
-    
-    W_sub <- W[strat_covariate > median(strat_covariate), strat_covariate > median(strat_covariate)]
-    
-    chain_list[[i + num_chains]]  <- met_gibbs_car(Y_sub, data = X_sub, W_sub, rho = rho, n_burn_in = n_burn_in, n_iter = n_iter, thin = thin,
-                                      keep_first = keep_first)
+    chain_list[[i]]  <- met_gibbs_car(Y, data = X_intx_cbind, W, rho = rho, n_burn_in = n_burn_in, n_iter = n_iter, thin = thin,
+                                      keep_first = keep_first, has_intercept = F)
     
   }
   

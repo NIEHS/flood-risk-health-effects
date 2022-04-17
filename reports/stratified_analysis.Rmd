@@ -1,0 +1,23 @@
+---
+title: "Stratified Analysis"
+author: "Alvin Sheng"
+output: pdf_document
+---
+
+```{r}
+library(here)
+library(coda)
+library(CARBayes)
+library(ggplot2)
+library(tidyverse)
+```
+
+# Non-Spatial Modeling
+
+```{r}
+
+```
+
+
+
+

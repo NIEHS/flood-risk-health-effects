@@ -50,22 +50,15 @@ tock <- proc.time()[3]
 
 
 
-chain1_lowstrat <- chain_list[[1]]
+chain1 <- chain_list[[1]]
 
-chain2_lowstrat <- chain_list[[2]]
+chain2 <- chain_list[[2]]
 
-chain3_lowstrat <- chain_list[[3]]
+chain3 <- chain_list[[3]]
 
 
 
-chain1_highstrat <- chain_list[[4]]
-
-chain2_highstrat <- chain_list[[5]]
-
-chain3_highstrat <- chain_list[[6]]
-
-save(chain1_lowstrat, chain2_lowstrat, chain3_lowstrat,
-     chain1_highstrat, chain2_highstrat, chain3_highstrat,
+save(chain1, chain2, chain3, fhs_model_df,
      file = here("modeling_files/model_stratif_poverty.RData"))
 
 

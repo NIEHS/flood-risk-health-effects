@@ -100,6 +100,10 @@ phi_subset_idx <- sample(1:ncol(phi_samples[[1]]), size = 10)
 phi_samples_subset <- phi_samples[, phi_subset_idx]
 ```
 
+```{r}
+effectiveSize(phi_samples_subset)
+```
+
 ```{r, eval = F, include = F}
 plot(phi_samples_subset)
 ```
@@ -112,10 +116,76 @@ gelman.diag(phi_samples_subset)
 
 ## Inference
 
+<!-- TODO: intercept was included by accident. But it'll be ignored in the following results anyway -->
+
 ```{r}
 beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
 
-colnames(beta_samples_matrix) <- var_names
+# TODO: change to var_names later
+colnames(beta_samples_matrix) <- c("strat0",                    
+"strat0:flood_risk_pc1",     
+"strat0:flood_risk_pc2",     
+"strat0:flood_risk_pc3",     
+"strat0:flood_risk_pc4",     
+"strat0:flood_risk_pc5",     
+"strat0:EP_UNEMP",           
+"strat0:EP_PCI",             
+"strat0:EP_NOHSDP",          
+"strat0:EP_AGE65",           
+"strat0:EP_AGE17",           
+"strat0:EP_DISABL",          
+"strat0:EP_SNGPNT",          
+"strat0:EP_MINRTY",          
+"strat0:EP_LIMENG",          
+"strat0:EP_MUNIT",          
+"strat0:EP_MOBILE",          
+"strat0:EP_CROWD",           
+"strat0:EP_NOVEH",           
+"strat0:EP_GROUPQ",          
+"strat0:EP_UNINSUR",         
+"strat0:co",                 
+"strat0:no2",                
+"strat0:o3",                 
+"strat0:pm10",               
+"strat0:pm25",               
+"strat0:so2",                
+"strat0:summer_tmmx",        
+"strat0:winter_tmmx",        
+"strat0:summer_rmax",        
+"strat0:winter_rmax",        
+"strat0:Data_Value_CSMOKING",
+"strat1",                    
+"strat1:flood_risk_pc1",     
+"strat1:flood_risk_pc2",     
+"strat1:flood_risk_pc3",     
+"strat1:flood_risk_pc4",     
+"strat1:flood_risk_pc5",     
+"strat1:EP_UNEMP",           
+"strat1:EP_PCI",             
+"strat1:EP_NOHSDP",          
+"strat1:EP_AGE65",           
+"strat1:EP_AGE17",           
+"strat1:EP_DISABL",          
+"strat1:EP_SNGPNT",          
+"strat1:EP_MINRTY",          
+"strat1:EP_LIMENG",          
+"strat1:EP_MUNIT",           
+"strat1:EP_MOBILE",          
+"strat1:EP_CROWD",           
+"strat1:EP_NOVEH",           
+"strat1:EP_GROUPQ",          
+"strat1:EP_UNINSUR",         
+"strat1:co",                 
+"strat1:no2",                
+"strat1:o3",                 
+"strat1:pm10",               
+"strat1:pm25",               
+"strat1:so2",                
+"strat1:summer_tmmx",        
+"strat1:winter_tmmx",        
+"strat1:summer_rmax",       
+"strat1:winter_rmax",        
+"strat1:Data_Value_CSMOKING") # var_names
 ```
 
 ```{r}
@@ -155,6 +225,8 @@ beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
 beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
 ```
 
+Note: The intercept for both strata (corresponding to poverty) is not included.
+
 ```{r}
 p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median)) + 
   geom_point() + 
@@ -180,7 +252,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median)) 
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Coronary Heart Disease, First Strata")
+                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, First Strata")
 
 p
 ```
@@ -210,7 +282,7 @@ p <- ggplot(beta_inference_df_strat1[-1, ], aes(x = var_name, y = post_median)) 
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Coronary Heart Disease, Second Strata")
+                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, Second Strata")
 
 p
 ```

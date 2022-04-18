@@ -20,6 +20,20 @@ library(performance)
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
 ```
 
+# Summary Statistics for Table 1 of paper
+
+```{r}
+first_var <- 19
+
+summ_stats <- round(t(apply(fhs_model_df[, first_var:ncol(fhs_model_df)], 2, function(vec) {
+  c(mean(vec, na.rm = T), sd(vec, na.rm = T), range(vec, na.rm = T))
+})),5)
+
+colnames(summ_stats) <- c("mean", "sd", "min", "max")
+
+summ_stats
+```
+
 # Checking for multicollinearity among the covariates
 
 `S.CARleroux()` automatically puts a fixed ridge penalty on the beta coefficients. Therefore, the large number of covariates and multicollinearity would be accounted for. 
@@ -306,7 +320,7 @@ cat ("p-value of overdispersion test is ", 1 - pchisq (sum(z^2, na.rm = T), n-k)
 dat_BPHIGH <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 46, 48)]
 
 glm_BPHIGH <- glm(Data_Value_BPHIGH ~ ., family = poisson, offset = log(fhs_model_df_counts$TotalPopulation), 
-               data = dat_BPHIGH)
+                  data = dat_BPHIGH)
 
 check_overdispersion(glm_BPHIGH)
 ```
@@ -315,7 +329,7 @@ check_overdispersion(glm_BPHIGH)
 dat_CASTHMA <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 47, 48)]
 
 glm_CASTHMA <- glm(Data_Value_CASTHMA ~ ., family = poisson, offset = log(fhs_model_df_counts$TotalPopulation), 
-               data = dat_CASTHMA)
+                   data = dat_CASTHMA)
 
 check_overdispersion(glm_CASTHMA)
 ```
@@ -324,7 +338,7 @@ check_overdispersion(glm_CASTHMA)
 dat_MHLTH <- fhs_model_df_counts[, -c(1, 2, 3, 4:13, 45, 46, 47)]
 
 glm_MHLTH <- glm(Data_Value_MHLTH ~ ., family = poisson, offset = log(fhs_model_df_counts$TotalPopulation), 
-               data = dat_MHLTH)
+                 data = dat_MHLTH)
 
 check_overdispersion(glm_MHLTH)
 ```

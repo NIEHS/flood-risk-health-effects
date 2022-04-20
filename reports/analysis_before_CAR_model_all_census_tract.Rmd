@@ -27,7 +27,7 @@ first_var <- 19
 
 summ_stats <- round(t(apply(fhs_model_df[, first_var:ncol(fhs_model_df)], 2, function(vec) {
   c(mean(vec, na.rm = T), sd(vec, na.rm = T), range(vec, na.rm = T))
-})),5)
+})),2)
 
 colnames(summ_stats) <- c("mean", "sd", "min", "max")
 

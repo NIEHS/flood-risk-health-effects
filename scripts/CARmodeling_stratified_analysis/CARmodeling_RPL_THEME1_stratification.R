@@ -17,8 +17,8 @@ W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_t
 
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
 
-# remove 3 response variables that are not CHD
-fhs_model_df <- fhs_model_df[, -(ncol(fhs_model_df) + c(-2, -1, 0))]
+# remove 3 response variables that are not MHLTH
+fhs_model_df <- fhs_model_df[, -(ncol(fhs_model_df) + c(-3, -2, -1))]
 
 # TODO: remove SVIs that correspond to a given stratification variable
 strat_covariate <- fhs_model_df$RPL_THEME1
@@ -63,6 +63,6 @@ var_names <- model_res$var_names
 
 
 save(chain1, chain2, chain3, var_names,
-     file = here("modeling_files/model_stratif_rpl1.RData"))
+     file = here("modeling_files/model_stratif_rpl1_MHLTH.RData"))
 
 

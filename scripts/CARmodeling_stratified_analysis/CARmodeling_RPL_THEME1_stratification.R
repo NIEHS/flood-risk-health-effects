@@ -2,12 +2,10 @@
 
 library(here)
 
-library(shapefiles)
-library(sp)
 library(spdep)
-library(parallel)
 
 library(dplyr)
+
 
 select <- dplyr::select
 

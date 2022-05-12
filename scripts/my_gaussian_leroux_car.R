@@ -3,7 +3,6 @@ library(Rcpp)
 library(truncnorm)
 library(coda)
 library(Matrix)
-library(RSpectra)
 
 # Put in cpp helper functions from duncanplee's code below
 

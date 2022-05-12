@@ -1,11 +1,8 @@
-# Running CAR model for CHD, stratified on median Poverty
+# Running CAR model for CHD, stratified
 
 library(here)
 
-library(shapefiles)
-library(sp)
 library(spdep)
-library(parallel)
 
 library(dplyr)
 
@@ -17,12 +14,12 @@ W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_t
 
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
 
-# remove 3 response variables that are not MHLTH
-fhs_model_df <- fhs_model_df[, -(ncol(fhs_model_df) + c(-3, -2, -1))]
+# remove 3 response variables that are not CASTHMA
+fhs_model_df <- fhs_model_df[, -(ncol(fhs_model_df) + c(-3, -1, 0))]
 
 # TODO: remove SVIs that correspond to a given stratification variable
-strat_covariate <- fhs_model_df$EP_POV
-fhs_model_df <- select(fhs_model_df, -EP_POV)
+strat_covariate <- fhs_model_df$RPL_THEME3
+fhs_model_df <- select(fhs_model_df, -EP_MINRTY, -EP_LIMENG)
 
 source(here("scripts/sensitan_helper_fns.R"))
 
@@ -63,6 +60,6 @@ var_names <- model_res$var_names
 
 
 save(chain1, chain2, chain3, var_names,
-     file = here("modeling_files/model_stratif_poverty_MHLTH.RData"))
+     file = here("modeling_files/model_stratif_rpl3_CASTHMA.RData"))
 
 

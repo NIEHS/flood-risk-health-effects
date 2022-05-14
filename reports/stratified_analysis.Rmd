@@ -147,15 +147,18 @@ beta_inference_df <- rename(beta_inference_df,
                             post_97.5 = `97.5%`)
 
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_inference_df$var_name)
+
+beta_inference_df$strat <- as.factor(c(rep(0, (nrow(beta_inference_df)/2)), 
+                             rep(1, (nrow(beta_inference_df)/2))))
 ```
 
-Splitting up the beta coefficients for each strata
+<!-- Splitting up the beta coefficients for each strata -->
 
-```{r}
-beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+<!-- ```{r} -->
+<!-- beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),] -->
 
-beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
-```
+<!-- beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),] -->
+<!-- ``` -->
 
 Note: The intercept for both strata (corresponding to poverty) is not included.
 

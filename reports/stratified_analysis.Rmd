@@ -566,7 +566,7 @@ p
 
 
 
-# CAR model results, Coronary Heart Disease Stratified on RPL_THEME3
+# CAR model results, Coronary Heart Disease Stratified on RPL_THEME4
 
 Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
 

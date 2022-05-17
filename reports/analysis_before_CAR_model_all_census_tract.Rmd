@@ -233,31 +233,39 @@ Printing out the loadings, from most negative to least
 
 ```{r}
 # First PC Score
-fr_loadings[order(fr_loadings[, 1]), 1]
+fr_loadings[, 1]
 ```
 
 The first PC score is very interpretable. Only the loading for pct_floodfactor1 is positive.
 
 ```{r}
 # Second PC Score
-fr_loadings[order(fr_loadings[, 2]), 2]
+fr_loadings[, 2]
 ```
 
 Less interpretable--more of a mix of positive and negative loadings.
 
 ```{r}
 # Third PC Score
-fr_loadings[order(fr_loadings[, 3]), 3]
+fr_loadings[, 3]
 ```
 
 ```{r}
 # Fourth PC Score
-fr_loadings[order(fr_loadings[, 4]), 4]
+fr_loadings[, 4]
 ```
 
 ```{r}
 # Fifth PC Score
-fr_loadings[order(fr_loadings[, 5]), 5]
+fr_loadings[, 5]
+```
+
+```{r}
+round(fr_loadings[, 1:5], digits = 2)
+```
+
+```{r}
+round(fr_loadings[, 1:8], digits = 2)
 ```
 
 

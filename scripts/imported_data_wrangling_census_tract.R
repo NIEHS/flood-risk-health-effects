@@ -5,15 +5,14 @@ library(stringr)
 library(tidyverse)
 library(tidyr)
 library(Matrix)
-library(stringr)
+
+library(sf)
 
 select <- dplyr::select
 
 i_am("scripts/imported_data_wrangling.R")
 
 
-
-library(sf)
 
 # using 2010 census tract boundaries
 

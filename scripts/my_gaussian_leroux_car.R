@@ -1,8 +1,11 @@
 
+library(Matrix)
+
+# libraries used in original CARBayes code
 library(Rcpp)
 library(truncnorm)
+library(spdep)
 library(coda)
-library(Matrix)
 
 # Put in cpp helper functions from duncanplee's code below
 

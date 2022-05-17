@@ -9,7 +9,7 @@ The work is ongoing. The most up-to-date results are in reports/basic_CAR_model_
 
 1. scripts/imported_data_wrangling_census_tract.R: does data cleaning for all the datafiles. See FloodRiskPlanOfWork.pdf for a comprehensive description of the data.  
   * PLACES Local Data for Better Health: contains the four health outcomes of interest, i.e., Coronary Heart Disease, High Blood Pressure, Current Asthma, and Poor Mental Health.
-  * First Street Foundation property flood risk for each ZCTA: normalized the count_floodfactor variables by count_property. Used a ZCTA crosswalk to merge the ZCTA flood risk information with the census tracts, weighting by the percent of housing units in the overlap with the census tract. Used PCA to reduce the large number of flood risk variables to a small number of principal component scores. 
+  * Flood risk at each property in the contiguous U.S. as determined by the First Street Foundation model: aggregated property-level statistics to the level of census tracts. Used PCA to reduce the large number of flood risk variables to a small number of principal component scores. 
   * CDC Social Vulnerability Index: replaced missing value indicators -999 with NA. 
   * CACES LUR Air Pollution: averaged 6 pollutant concentrations over 16 years 2000-2015. 
   * GRIDMET: maximum temperature and maximum relative humidity, summer or winter, averaged over 16 years 2005-2020 and averaged over each census tract. The raster data was processed in both Google Earth Engine and R (see GRIDMET/ folder). 

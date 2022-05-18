@@ -20,6 +20,10 @@ The work is ongoing. The most up-to-date results are in reports/basic_CAR_model_
 4. CARmodeling_local_job_CHD.R, CARmodeling_local_job_BPHIGH.R, CARmodeling_local_job_CASTHMA.R, CARmodeling_local_job_MHLTH.R in scripts/ folder: runs the CAR model for 3 chains on each of the four health outcomes.
 5. reports/basic_CAR_model_all_census_tract.Rmd: conducts Bayesian model diagnostics and displays model results for each of the health outcomes.
 
+# Small Code Example
+
+See small_demo.R for a demonstration of my implementation of the Leroux CAR model based on CARBayes.
+
 
 
 Citation for CARBayes package: Duncan Lee (2013). CARBayes: An R Package for Bayesian

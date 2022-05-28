@@ -13,7 +13,7 @@ library(tidyverse)
 ```
 
 ```{r}
-fhs_model_df <- readRDS("intermediary_data/fhs_model_df_all_census_tract_pc.rds")
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
 ```
 
 <!-- # Non-Spatial Modeling -->
@@ -27,7 +27,7 @@ fhs_model_df <- readRDS("intermediary_data/fhs_model_df_all_census_tract_pc.rds"
 Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
 
 ```{r}
-load(here("modeling_files/model_stratif_poverty.RData"))
+load(here("modeling_files/stratified_analysis/model_stratif_poverty.RData"))
 ```
 
 ### Beta samples
@@ -146,29 +146,33 @@ beta_inference_df <- rename(beta_inference_df,
                             post_2.5 = `2.5%`, 
                             post_97.5 = `97.5%`)
 
-beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_inference_df$var_name)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
 
-beta_inference_df$strat <- as.factor(c(rep(0, (nrow(beta_inference_df)/2)), 
-                             rep(1, (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                             rep("Upper", (nrow(beta_inference_df)/2))))
 ```
 
-<!-- Splitting up the beta coefficients for each strata -->
+Splitting up the beta coefficients for each strata
 
-<!-- ```{r} -->
-<!-- beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),] -->
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
 
-<!-- beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),] -->
-<!-- ``` -->
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
 
 Note: The intercept for both strata (corresponding to poverty) is not included.
 
 ```{r}
-p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median)) + 
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 10)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  scale_color_discrete(drop = FALSE) +
+  labs(color = "Strata") +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = c(5.5, 20.5, 26.5, 30.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
   annotate(geom = "text", x = 3, y = 1.45, label = "Flood\nRisk",
@@ -187,7 +191,9 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median)) 
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, Lower Strata")
+                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, Stratified on Poverty") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4")
 
 p
 ```

@@ -18,7 +18,7 @@ source(here("scripts/my_gaussian_leroux_car.R"))
 #' @return MCMC chains
 #' @export
 fhs_car_chains_stratif <- function(dat_frame, first_var, W, rho = 1, n_burn_in, n_iter, thin = 1, 
-                                   keep_first = 1:nrow(data), num_chains = 3, strat_covariate, strat_fn = median) {
+                                   keep_first = 1:nrow(dat_frame), num_chains = 3, strat_covariate, strat_fn = median) {
   
   # extract the response variable
   

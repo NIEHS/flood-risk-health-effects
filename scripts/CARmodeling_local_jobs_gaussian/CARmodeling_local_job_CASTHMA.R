@@ -46,7 +46,7 @@ keep_first <- sort(sample(1:nrow(fhs_model_df), size = 1000))
 #' @return MCMC chains
 #' @export
 fhs_car_chains <- function(dat_frame, first_var, W, rho = NULL, n_burn_in, n_iter, thin = 1, 
-                           keep_first = 1:nrow(data), num_chains = 3) {
+                           keep_first = 1:nrow(dat_frame), num_chains = 3) {
   
   # extract the response variable
   

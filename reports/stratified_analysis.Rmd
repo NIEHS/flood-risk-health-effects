@@ -271,17 +271,17 @@ colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[,
 
 ```{r}
 # first, process the beta_inference matrix in a form ggplot can understand
-
 beta_inference_df <- as.data.frame(beta_inference)
-
 beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
-
 beta_inference_df <- rename(beta_inference_df, 
                             post_median = `50%`,
                             post_2.5 = `2.5%`, 
                             post_97.5 = `97.5%`)
-
-beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_inference_df$var_name)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                             rep("Upper", (nrow(beta_inference_df)/2))))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -295,12 +295,12 @@ beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nr
 Note: The intercept for both strata (corresponding to poverty) is not included.
 
 ```{r}
-p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median)) + 
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 10)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = c(5.5, 17.5, 23.5, 27.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
   annotate(geom = "text", x = 3, y = 1.45, label = "Flood\nRisk",
@@ -318,8 +318,12 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median)) 
                               "No Vehicle", "Group Quarters", "Uninsured",
                               "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
                               "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, Lower Strata")
-
+                              "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, Stratified on RPL Theme 1") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                      values = c("#F8766D", "#00BFC4"), 
+                      drop = FALSE)
 p
 ```
 

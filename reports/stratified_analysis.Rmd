@@ -1,7 +1,9 @@
 ---
 title: "Stratified Analysis"
 author: "Alvin Sheng"
-output: pdf_document
+output: 
+  pdf_document:
+    toc: true
 ---
 
 ```{r}
@@ -22,7 +24,9 @@ fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc
 
 ```
 
-# CAR model results, Coronary Heart Disease Stratified on Poverty
+# CHD Stratified Analysis
+
+## CAR model results, Coronary Heart Disease Stratified on Poverty
 
 Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
 
@@ -112,7 +116,7 @@ gelman.diag(phi_samples_subset)
 
 
 
-## Inference
+### Inference
 
 ```{r}
 beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
@@ -151,7 +155,7 @@ beta_inference_df$var_name <- factor(beta_inference_df$var_name,
                                      levels = unique(beta_inference_df$var_name))
 
 beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                             rep("Upper", (nrow(beta_inference_df)/2))))
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -162,7 +166,7 @@ beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
 beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
 ```
 
-Note: The intercept for both strata (corresponding to poverty) is not included.
+Note: The intercept for both strata is not included.
 
 ```{r}
 p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
@@ -193,8 +197,8 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
-                      values = c("#F8766D", "#00BFC4"), 
-                      drop = FALSE)
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
 
 p
 ```
@@ -235,12 +239,12 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
                               "Smoking")) + ggtitle("95% Credible Intervals, Coronary Heart Disease, Stratified on Poverty") +
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") +
-    scale_shape_manual(name = "Strata",
-                      values = c(19, 17),
-                      drop = FALSE) +
+  scale_shape_manual(name = "Strata",
+                     values = c(19, 17),
+                     drop = FALSE) +
   scale_color_manual(name = "Strata",
-                      values = c("#F8766D", "#00BFC4"),
-                      drop = FALSE)
+                     values = c("#F8766D", "#00BFC4"),
+                     drop = FALSE)
 
 p
 ```
@@ -249,7 +253,7 @@ p
 
 
 
-# CAR model results, Coronary Heart Disease Stratified on RPL_THEME1
+## CAR model results, Coronary Heart Disease Stratified on RPL_THEME1
 
 ```{r}
 load(here("modeling_files/stratified_analysis/model_stratif_rpl1.RData"))
@@ -287,7 +291,7 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                             rep("Upper", (nrow(beta_inference_df)/2))))
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -298,11 +302,12 @@ beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
 beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
 ```
 
-Note: The intercept for both strata (corresponding to poverty) is not included.
+Note: The intercept for both strata is not included.
 
 ```{r}
 p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
   geom_point() + 
+  ylim(c(-1, 2)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 10)) +
@@ -328,8 +333,8 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
-                      values = c("#F8766D", "#00BFC4"), 
-                      drop = FALSE)
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
 p
 ```
 
@@ -343,7 +348,7 @@ ggsave(here("figures/final_figures/stratified_analysis/CHD_CI_rpl1.pdf"),
 
 
 
-# CAR model results, Coronary Heart Disease Stratified on RPL_THEME2
+## CAR model results, Coronary Heart Disease Stratified on RPL_THEME2
 
 ```{r}
 load(here("modeling_files/stratified_analysis/model_stratif_rpl2.RData"))
@@ -381,7 +386,7 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                             rep("Upper", (nrow(beta_inference_df)/2))))
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -392,11 +397,12 @@ beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
 beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
 ```
 
-Note: The intercept for both strata (corresponding to poverty) is not included.
+Note: The intercept for both strata is not included.
 
 ```{r}
 p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
   geom_point() + 
+  ylim(c(-1, 2)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 10)) +
@@ -422,8 +428,8 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
-                      values = c("#F8766D", "#00BFC4"), 
-                      drop = FALSE)
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
 
 p
 ```
@@ -438,7 +444,7 @@ ggsave(here("figures/final_figures/stratified_analysis/CHD_CI_rpl2.pdf"),
 
 
 
-# CAR model results, Coronary Heart Disease Stratified on RPL_THEME3
+## CAR model results, Coronary Heart Disease Stratified on RPL_THEME3
 
 Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
 
@@ -478,7 +484,7 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                             rep("Upper", (nrow(beta_inference_df)/2))))
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -489,11 +495,12 @@ beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
 beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
 ```
 
-Note: The intercept for both strata (corresponding to poverty) is not included.
+Note: The intercept for both strata is not included.
 
 ```{r}
 p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
   geom_point() + 
+  ylim(c(-1, 2)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 10)) +
@@ -520,8 +527,8 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
-                      values = c("#F8766D", "#00BFC4"), 
-                      drop = FALSE)
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
 
 p
 ```
@@ -536,7 +543,7 @@ ggsave(here("figures/final_figures/stratified_analysis/CHD_CI_rpl3.pdf"),
 
 
 
-# CAR model results, Coronary Heart Disease Stratified on RPL_THEME4
+## CAR model results, Coronary Heart Disease Stratified on RPL_THEME4
 
 Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
 
@@ -576,7 +583,7 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                             rep("Upper", (nrow(beta_inference_df)/2))))
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -587,11 +594,12 @@ beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
 beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
 ```
 
-Note: The intercept for both strata (corresponding to poverty) is not included.
+Note: The intercept for both strata is not included.
 
 ```{r}
 p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
   geom_point() + 
+  ylim(c(-1, 2)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 10)) +
@@ -618,8 +626,8 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
-                      values = c("#F8766D", "#00BFC4"), 
-                      drop = FALSE)
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
 
 p
 ```
@@ -634,8 +642,7 @@ ggsave(here("figures/final_figures/stratified_analysis/CHD_CI_rpl4.pdf"),
 
 
 
-
-# CAR model results, Coronary Heart Disease Stratified on RPL_THEMES
+## CAR model results, Coronary Heart Disease Stratified on RPL_THEMES
 
 Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
 
@@ -675,7 +682,7 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                             rep("Upper", (nrow(beta_inference_df)/2))))
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -686,22 +693,23 @@ beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
 beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
 ```
 
-Note: The intercept for both strata (corresponding to poverty) is not included.
+Note: The intercept for both strata is not included.
 
 ```{r}
 p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
   geom_point() + 
+  ylim(c(-1, 2)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 10)) +
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = c(5.5, 6.5, 12.5, 16.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
-  annotate(geom = "text", x = 3, y = 1.05, label = "Flood\nRisk",
+  annotate(geom = "text", x = 3, y = 1.45, label = "Flood\nRisk",
            col = "blue", size = 4.5) +
-  annotate(geom = "text", x = 9.5, y = 1.1, label = "Air Pollution",
+  annotate(geom = "text", x = 9.5, y = 1.5, label = "Air Pollution",
            col = "blue", size = 4.5) +
-  annotate(geom = "text", x = 14.5, y = 1.1, label = "GRIDMET",
+  annotate(geom = "text", x = 14.5, y = 1.5, label = "GRIDMET",
            col = "blue", size = 4.5) +
   scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
                               "Uninsured",
@@ -711,8 +719,8 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
-                      values = c("#F8766D", "#00BFC4"), 
-                      drop = FALSE)
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
 
 p
 ```

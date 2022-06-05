@@ -6,6 +6,8 @@ output:
     toc: true
 ---
 
+\newpage
+
 ```{r}
 library(here)
 library(coda)
@@ -171,6 +173,7 @@ Note: The intercept for both strata is not included.
 ```{r}
 p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
   geom_point() + 
+  ylim(c(-1, 2)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 10)) +
@@ -731,6 +734,1746 @@ ggsave(here("figures/final_figures/stratified_analysis/CHD_CI_rpls.pdf"),
        width = 8, height = 6, units = "in")
 ```
 
+
+
+# BPHIGH Stratified Analysis
+
+Repeating the stratified analysis in the last section, this time just doing the plots
+
+## Stratified on Poverty
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_poverty_BPHIGH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-3, 5)) + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 20.5, 26.5, 30.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 12.5, y = 4, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 23.5, y = 4, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 28.5, y = 4, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent", "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, High Blood Pressure, Stratified on Poverty") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/BPHIGH_CI_poverty.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+## Stratified on RPL_THEME1
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl1_BPHIGH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-3, 5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 17.5, 23.5, 27.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 11.5, y = 4, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 20.5, y = 4, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 25.5, y = 4, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent", "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, High Blood Pressure, Stratified on RPL Theme 1") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/BPHIGH_CI_rpl1.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEME2
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl2_BPHIGH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-3, 5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 17.5, 23.5, 27.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 11.5, y = 4, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 20.5, y = 4, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 25.5, y = 4, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, High Blood Pressure, Stratified on RPL Theme 2") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/BPHIGH_CI_rpl2.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEME3
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl3_BPHIGH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-3, 5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 19.5, 25.5, 29.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 12.5, y = 4, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 22.5, y = 4, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 27.5, y = 4, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, High Blood Pressure, Stratified on RPL Theme 3") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/BPHIGH_CI_rpl3.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEME4
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl4_BPHIGH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-3, 5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 16.5, 22.5, 26.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 11, y = 4, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 19.5, y = 4, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 24.5, y = 4, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent",
+                              "Minority", "Poor English",
+                              "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, High Blood Pressure, Stratified on RPL Theme 4") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/BPHIGH_CI_rpl4.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEMES
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpls_BPHIGH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-3, 5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 6.5, 12.5, 16.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 9.5, y = 4, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 14.5, y = 4, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, High Blood Pressure, Stratified on All RPL Themes") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/BPHIGH_CI_rpls.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+# CASTHMA Stratified Analysis
+
+Repeating the stratified analysis in the last section, this time just doing the plots
+
+## Stratified on Poverty
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_poverty_CASTHMA.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() +
+  ylim(c(-1, 1.5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 20.5, 26.5, 30.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 0.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 12.5, y = 1, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 23.5, y = 1, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 28.5, y = 1, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent", "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Asthma, Stratified on Poverty") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/CASTHMA_CI_poverty.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+## Stratified on RPL_THEME1
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl1_CASTHMA.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1, 1.5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 17.5, 23.5, 27.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 0.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 11.5, y = 1, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 20.5, y = 1, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 25.5, y = 1, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent", "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Asthma, Stratified on RPL Theme 1") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/CASTHMA_CI_rpl1.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEME2
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl2_CASTHMA.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1, 1.5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 17.5, 23.5, 27.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 0.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 11.5, y = 1, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 20.5, y = 1, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 25.5, y = 1, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Asthma, Stratified on RPL Theme 2") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/CASTHMA_CI_rpl2.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEME3
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl3_CASTHMA.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1, 1.5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 19.5, 25.5, 29.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 0.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 12.5, y = 1, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 22.5, y = 1, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 27.5, y = 1, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Asthma, Stratified on RPL Theme 3") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/CASTHMA_CI_rpl3.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEME4
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl4_CASTHMA.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1, 1.5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 16.5, 22.5, 26.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 0.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 11, y = 1, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 19.5, y = 1, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 24.5, y = 1, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent",
+                              "Minority", "Poor English",
+                              "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Asthma, Stratified on RPL Theme 4") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/CASTHMA_CI_rpl4.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEMES
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpls_CASTHMA.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1, 1.5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 6.5, 12.5, 16.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 0.95, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 9.5, y = 1, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 14.5, y = 1, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Asthma, Stratified on All RPL Themes") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/CASTHMA_CI_rpls.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+# MHLTH Stratified Analysis
+
+Repeating the stratified analysis in the last section, this time just doing the plots
+
+## Stratified on Poverty
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_poverty_MHLTH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() +
+  ylim(c(-1.5, 4)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 20.5, 26.5, 30.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.75, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 12.5, y = 3.8, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 23.5, y = 3.8, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 28.5, y = 3.8, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent", "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Poor Mental Health, Stratified on Poverty") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/MHLTH_CI_poverty.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+## Stratified on RPL_THEME1
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl1_MHLTH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1.5, 4)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 17.5, 23.5, 27.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.75, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 11.5, y = 3.8, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 20.5, y = 3.8, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 25.5, y = 3.8, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent", "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Poor Mental Health, Stratified on RPL Theme 1") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/MHLTH_CI_rpl1.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEME2
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl2_MHLTH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1.5, 4)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 17.5, 23.5, 27.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.75, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 11.5, y = 3.8, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 20.5, y = 3.8, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 25.5, y = 3.8, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "Minority", "Poor English",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Poor Mental Health, Stratified on RPL Theme 2") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/MHLTH_CI_rpl2.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEME3
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl3_MHLTH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1.5, 4)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 19.5, 25.5, 29.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.75, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 12.5, y = 3.8, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 22.5, y = 3.8, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 27.5, y = 3.8, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent",
+                              "Multi-Unit", "Mobile", "Crowded",
+                              "No Vehicle", "Group Quarters", "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Poor Mental Health, Stratified on RPL Theme 3") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/MHLTH_CI_rpl3.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEME4
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpl4_MHLTH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1.5, 4)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 16.5, 22.5, 26.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.75, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 11, y = 3.8, label = "Social Vulnerability Index",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 19.5, y = 3.8, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 24.5, y = 3.8, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Poverty", "Unemployed", "Per Capita Income", "No High School",
+                              "65 or Over", "17 or Under", "Disability",
+                              "Single-Parent",
+                              "Minority", "Poor English",
+                              "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Poor Mental Health, Stratified on RPL Theme 4") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/MHLTH_CI_rpl4.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+
+
+## Stratified on RPL_THEMES
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/stratified_analysis/model_stratif_rpls_MHLTH.RData"))
+```
+
+```{r}
+beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
+
+colnames(beta_samples_matrix) <- var_names
+```
+
+```{r}
+(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inference_df <- as.data.frame(beta_inference)
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
+                                     levels = unique(beta_inference_df$var_name))
+beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                       rep("Upper", (nrow(beta_inference_df)/2))))
+```
+
+Splitting up the beta coefficients for each strata
+
+```{r}
+beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+
+beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+```
+
+Note: The intercept for both strata is not included.
+
+```{r}
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+  geom_point() + 
+  ylim(c(-1.5, 4)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = c(5.5, 6.5, 12.5, 16.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 3.75, label = "Flood\nRisk",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 9.5, y = 3.8, label = "Air Pollution",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 14.5, y = 3.8, label = "GRIDMET",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5",
+                              "Uninsured",
+                              "CO", "NO2", "O3", "PM10", "PM2.5", "SO2",
+                              "Summer Temperature", "Winter Temperature", "Summer Humidity", "Winter Humidity",
+                              "Smoking")) + ggtitle("95% Credible Intervals, Poor Mental Health, Stratified on All RPL Themes") + 
+  geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/stratified_analysis/MHLTH_CI_rpls.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
 
 
 

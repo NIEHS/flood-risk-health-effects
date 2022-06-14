@@ -8,8 +8,8 @@ figures/tl_2019_us_county/
 figures/census_tract_shapefiles/
 figures/qgis_exploration.qgz
 
-modeling_files/
-modeling_files/model2.rds
+modeling_files/all_census_tract*
+modeling_files/stratified_analysis/model_stratif*
 
 imported_data/PLACES__Local_Data_for_Better_Health__Census_Tract_Data_2020_release.csv
 imported_data/caces_lur_air_pollution/caces_lur_air_pollution_census_tract.csv

@@ -130,6 +130,10 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_poverty.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
@@ -272,10 +276,16 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl1.RData"))
+```
+
+
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -367,10 +377,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl2.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -465,10 +479,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl3.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -564,10 +582,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl4.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -663,10 +685,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpls.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -756,10 +782,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_poverty.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -851,10 +881,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl1.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -946,10 +980,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl2.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1044,10 +1082,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl3.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1143,10 +1185,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl4.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1242,10 +1288,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpls.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1337,10 +1387,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_poverty.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1432,10 +1486,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl1.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1527,10 +1585,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl2.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1625,10 +1687,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl3.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1724,10 +1790,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl4.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1823,10 +1893,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpls.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -1918,10 +1992,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_poverty.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -2013,10 +2091,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl1.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -2108,10 +2190,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl2.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -2206,10 +2292,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl3.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -2305,10 +2395,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl4.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 
@@ -2404,10 +2498,14 @@ colnames(beta_samples_matrix) <- var_names
 (beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
 ```
 
+```{r}
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpls.RData"))
+```
+
 List of significant beta coefficients: 
 
 ```{r}
-colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
 ```
 
 

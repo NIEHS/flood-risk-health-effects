@@ -43,7 +43,11 @@ Actually no, because the penalty is negligible.
 ## Flood risk variables
 
 ```{r}
-fr_index <- 14:35
+fr_index <- 19:40
+```
+
+```{r}
+apply(fhs_model_df[fr_index], 2, function(vec) sd(vec, na.rm = T))
 ```
 
 ```{r}
@@ -75,7 +79,7 @@ fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_re
 ```
 
 ```{r}
-X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 4)]
+X <- fhs_model_df[, 19:(ncol(fhs_model_df) - 4)]
 
 X <- X[, names(X) != "pct_floodfactor1"]
 
@@ -107,7 +111,7 @@ collin_var_names <- c("avg_risk_score_all", "pct_fs_risk_2050_500", "pct_fs_risk
 Excluding variables in collin_var_names
 
 ```{r}
-climate_var_idx <- c(fr_index, 52:61)
+climate_var_idx <- c(fr_index, 57:66)
 
 climate_var_idx_exclude <- climate_var_idx[-which(names(fhs_model_df)[climate_var_idx] %in% collin_var_names)]
 ```
@@ -140,7 +144,7 @@ Climate variables other than flood risk are not too correlated.
 ```{r}
 Y <- fhs_model_df$Data_Value_CHD
 
-X <- fhs_model_df[, 14:(ncol(fhs_model_df) - 4)]
+X <- fhs_model_df[, 19:(ncol(fhs_model_df) - 4)]
 
 X <- X[, names(X) != "pct_floodfactor1"]
 
@@ -197,6 +201,8 @@ summary(fhs_lm)
 
 # PCA
 
+## PCA with Centering and Scaling beforehand
+
 Conduct PCA on the correlated flood risk variables
 
 ```{r}
@@ -223,9 +229,9 @@ summ_pca <- summary(fr_pca)
 summ_pca$importance[,1:10]
 ```
 
-We started out with 22 variables. Including four PC scores would include 80% of the variance.
+We started out with 22 variables. Including five PC scores would include 80% of the variance.
 
-Including seven PC scores would include 90% of the variance.
+Including eight PC scores would include 90% of the variance.
 
 
 
@@ -267,6 +273,66 @@ round(fr_loadings[, 1:5], digits = 2)
 ```{r}
 round(fr_loadings[, 1:8], digits = 2)
 ```
+
+## PCA with Centering but no Scaling beforehand
+
+Do PCA *without* scaling beforehand, and use biplots, etc. to compare results with those in the last section. I think just scaling all covariates once, *after* PCA, will lead to more interpretable results
+
+Conduct PCA on the correlated flood risk variables
+
+```{r}
+first_var <- 19
+
+fr_index <- first_var:(first_var + 21)
+
+flood_risk <- fhs_model_df[, fr_index]
+```
+
+```{r}
+fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = F)
+
+fr_loadings <- fr_pca$rotation
+```
+
+```{r}
+fviz_eig(fr_pca)
+```
+
+```{r}
+summ_pca <- summary(fr_pca)
+
+summ_pca$importance[,1:10]
+```
+
+We started out with 22 variables. Including two PC scores would include >90% of the variance. Perhaps I can also look at the top 5 PCs, to get > 99% variance explained. 
+
+
+
+Printing out the loadings, from most negative to least
+
+```{r}
+# First PC Score
+fr_loadings[, 1]
+```
+
+The first PC score is very interpretable. Only the loadings for the first five pct_floodfactor variables are positive.
+
+```{r}
+# Second PC Score
+fr_loadings[, 2]
+```
+
+The second PC score only has negative loadings for pct_floodfactor1 and some of the avg_risk_score variables. 
+
+```{r}
+round(fr_loadings[, 1:2], digits = 2)
+```
+
+```{r}
+round(fr_loadings[, 1:8], digits = 2)
+```
+
+
 
 
 

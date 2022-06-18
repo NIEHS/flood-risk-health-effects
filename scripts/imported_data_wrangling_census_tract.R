@@ -278,13 +278,13 @@ fr_index <- first_var:(first_var + 21)
 
 flood_risk <- fhs_model_df[, fr_index] 
 
-fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
+fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = F)
 
 
 
 summ_pca <- summary(fr_pca)
 
-summ_pca$importance[,1:10] # The first 5 PCs cover 80% of the variance. 
+summ_pca$importance[,1:10] # The first 5 PCs cover 99% of the variance. 
 
 num_pc <- 5
 

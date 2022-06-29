@@ -1,5 +1,5 @@
 Summarizing sensitivity analysis, in list format
-•	Including more PC such that 90% of the variance is accounted for
+•	Including less PCs such that only 90% of the variance is accounted for (2 PCs)
 •	Using the original flood risk variables selected by a VIF-based procedure
 •	Remove certain sets of variables, i.e., social vulnerability indices, weather variables, pollution variables, etc. 
 •	Fit non-spatial models

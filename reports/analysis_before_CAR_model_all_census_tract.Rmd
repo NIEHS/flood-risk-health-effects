@@ -306,8 +306,6 @@ summ_pca$importance[,1:10]
 
 We started out with 22 variables. Including two PC scores would include >90% of the variance. Perhaps I can also look at the top 5 PCs, to get > 99% variance explained. 
 
-
-
 Printing out the loadings, from most negative to least
 
 ```{r}
@@ -330,6 +328,21 @@ round(fr_loadings[, 1:2], digits = 2)
 
 ```{r}
 round(fr_loadings[, 1:8], digits = 2)
+```
+
+
+
+```{r}
+# Extract loadings of the variables
+fr_loadings_df <- data.frame(Variables = rownames(fr_pca$rotation), fr_pca$rotation)
+
+    # Plot
+ggplot(fr_loadings_df) +
+  geom_segment(data = fr_loadings_df, aes(x = 0, y = 0, xend = PC1,
+     yend = PC2), arrow = arrow(length = unit(1/2, "picas")),
+     color = "black") +
+  annotate("text", x = (fr_loadings_df$PC1), y = (fr_loadings_df$PC2),
+     label = fr_loadings_df$Variables)
 ```
 
 

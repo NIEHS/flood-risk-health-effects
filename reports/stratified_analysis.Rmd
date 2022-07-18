@@ -41,7 +41,7 @@ Citation: Acock, A. C. (2014). A Gentle Introduction to Stata (4th ed.). Texas: 
 Translating the heuristic for our estimates $\hat{b}$, we have that
 
 1. Weak: $|\hat{b}| < 0.2 \times SD(Y)$
-2. Moderate: $0.2 < |\hat{b}| < 0.5 \times SD(Y)$
+2. Moderate: $0.2 \times SD(Y) < |\hat{b}| < 0.5 \times SD(Y)$
 3. Strong: $|\hat{b}| > 0.5 \times SD(Y)$
 
 In the following ggplots, I include the positive/negative cut-off for the "Weak" effect size as dashed red lines. 

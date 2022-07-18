@@ -309,3 +309,29 @@ fhs_model_df <- fhs_model_df %>% relocate(starts_with("flood_risk_pc"), .after =
 saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
 
 
+
+
+
+
+
+# # Partitioning the U.S. into several regions, to estimate rho parameter via divide-and-conquer
+# 
+# # Setting up for bigDM package
+# install.packages("devtools")
+# library(devtools)
+# install.packages("INLA", repos=c(getOption("repos"), INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
+# install_github("spatialstatisticsupna/bigDM")
+# install.packages("lwgeom")
+# 
+# # using bigDM package to chop U.S. into 9 rectangular regions
+# library(bigDM)
+# library(tmap)
+# library(lwgeom)
+# 
+# rand_carto <- random_partition(all_ct_df, max.size = NULL)
+# 
+# tm_shape(rand_carto) +
+#   tm_polygons(col="ID.group") +
+#   tm_layout(legend.show=FALSE)
+
+

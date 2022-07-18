@@ -7,6 +7,7 @@ library(rgeos)
 library(maptools)
 library(viridis)
 library(stringr)
+library(geomerge)
 
 # first test if you can get blank plot, with reduced dpi
 
@@ -71,5 +72,7 @@ map_all_ct_CHD <- ggplot() + geom_polygon(data = shp_se_states_df, aes(x = long,
 
 
 # map_all_ct_CHD
+
+
 
 

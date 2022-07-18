@@ -199,81 +199,6 @@ summary(fhs_lm)
 
 
 
-# PCA
-
-## PCA with Centering and Scaling beforehand
-
-Conduct PCA on the correlated flood risk variables
-
-```{r}
-first_var <- 19
-
-fr_index <- first_var:(first_var + 21)
-
-flood_risk <- fhs_model_df[, fr_index]
-```
-
-```{r}
-fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
-
-fr_loadings <- fr_pca$rotation
-```
-
-```{r}
-fviz_eig(fr_pca)
-```
-
-```{r}
-summ_pca <- summary(fr_pca)
-
-summ_pca$importance[,1:10]
-```
-
-We started out with 22 variables. Including five PC scores would include 80% of the variance.
-
-Including eight PC scores would include 90% of the variance.
-
-
-
-Printing out the loadings, from most negative to least
-
-```{r}
-# First PC Score
-fr_loadings[, 1]
-```
-
-The first PC score is very interpretable. Only the loading for pct_floodfactor1 is positive.
-
-```{r}
-# Second PC Score
-fr_loadings[, 2]
-```
-
-Less interpretable--more of a mix of positive and negative loadings.
-
-```{r}
-# Third PC Score
-fr_loadings[, 3]
-```
-
-```{r}
-# Fourth PC Score
-fr_loadings[, 4]
-```
-
-```{r}
-# Fifth PC Score
-fr_loadings[, 5]
-```
-
-```{r}
-round(fr_loadings[, 1:5], digits = 2)
-```
-
-```{r}
-round(fr_loadings[, 1:8], digits = 2)
-```
-
 ## PCA with Centering but no Scaling beforehand
 
 Do PCA *without* scaling beforehand, and use biplots, etc. to compare results with those in the last section. I think just scaling all covariates once, *after* PCA, will lead to more interpretable results
@@ -346,6 +271,104 @@ ggplot(fr_loadings_df) +
 ```
 
 
+
+# Re-checking the Model Diagnostics with Flood Risk PCs
+
+Noticed that NO2 has a VIF greater than 10. This variable should probably be removed from the analysis. Let's see what effect this has on the coefficients of the other pollution variables. 
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
+```
+
+## Correlations among climate related variables: flood risk, pollution, and GRIDMET variables
+
+Excluding variables in collin_var_names
+
+```{r}
+fr_index <- 19:23
+
+climate_var_idx <- c(fr_index, 40:49)
+```
+
+```{r}
+ggcorr(data = fhs_model_df[, c(climate_var_idx, ncol(fhs_model_df))])
+```
+
+```{r}
+climate_cor <- cor(fhs_model_df[complete.cases(fhs_model_df[, c(climate_var_idx, ncol(fhs_model_df) - 3)]), c(climate_var_idx, ncol(fhs_model_df) - 3)])
+
+climate_cor[nrow(climate_cor), ] # correlation with CHD
+```
+
+For each variable, I take the summary of its correlations with other variables, not including itself. 
+
+```{r}
+diag(climate_cor) <- NA
+
+summary(climate_cor)
+```
+
+Climate variables other than flood risk are not too correlated.
+
+## Using VIF to exclude variables
+
+```{r}
+X <- fhs_model_df[, 19:(ncol(fhs_model_df) - 4)]
+
+
+
+X           <- scale(X) # Scale covariates
+
+X <- data.frame(X)
+```
+
+```{r}
+vif(X)
+```
+
+```{r}
+vifstep(X)
+```
+
+This procedure detects that the following variables have collinearity problems. Let's exclude these variables and then rerun the analysis. 
+
+```{r}
+collin_var_names <- c("no2")
+```
+
+
+
+## Non-spatial modeling
+
+```{r}
+Y <- fhs_model_df$Data_Value_CHD
+
+X <- fhs_model_df[, 19:(ncol(fhs_model_df) - 4)]
+
+# exclude some more variables selected by vifstep, to account for multicollinearity
+
+collin_var_names <- c("no2")
+
+X <- X[, !(names(X) %in% collin_var_names)]
+
+
+
+X           <- scale(X) # Scale covariates
+X[is.na(X)] <- 0        # Fill in missing values with the mean
+
+# if I do mean imputation (which may be problematic), all the counties 
+# will have neighbors in W
+
+# X <- data.frame(X)
+```
+
+```{r}
+fhs_lm <- lm(Y ~ X)
+```
+
+```{r}
+summary(fhs_lm)
+```
 
 
 

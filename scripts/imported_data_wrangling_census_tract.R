@@ -310,7 +310,13 @@ saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tra
 
 
 
+# Removing collinear variable(s)
 
+collin_var_names <- c("no2")
+
+fhs_model_df <- fhs_model_df[, !(names(fhs_model_df) %in% collin_var_names)]
+
+saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_no_collinear.rds"))
 
 
 

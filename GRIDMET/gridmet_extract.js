@@ -17,6 +17,14 @@ var geometry =
           [-134.86771875, 23.645099515205715],
           [-65.08256250000001, 23.645099515205715],
           [-65.08256250000001, 51.34473095759078]]], null, false);
+          
+          
+          
+// When running through the script on Google Earth Engine, click on the 
+// button "Run" for each task, then send it to the desired Google Drive folder,
+// e.g. NIEHS work/GRIDMET
+
+// Takes about 10 minutes for each task
 
 
 
@@ -37,531 +45,259 @@ var tempVis = {
 
 
 
-var summer_tmmx_2020 = maximumTemperature.filter(ee.Filter.date('2020-06-20', '2020-09-23'));
+var tmmx_2020 = maximumTemperature.filter(ee.Filter.date('2020-01-01', '2020-12-31'));
 
-var mean = summer_tmmx_2020.mean()
+var mean = tmmx_2020.mean()
 
-Map.addLayer(mean, tempVis, 'summer_tmmx_2020');
+Map.addLayer(mean, tempVis, 'tmmx_2020');
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2020', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_tmmx_2020 = maximumTemperature.filter(ee.Filter.date('2020-12-21', '2021-03-21'));
-
-var mean = winter_tmmx_2020.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2020');
-
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2020', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2020', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
 
 
-var summer_tmmx_2019 = maximumTemperature.filter(ee.Filter.date('2019-06-21', '2019-09-24'));
+var tmmx_2019 = maximumTemperature.filter(ee.Filter.date('2019-01-01', '2019-12-31'));
 
-var mean = summer_tmmx_2019.mean()
+var mean = tmmx_2019.mean()
 
-Map.addLayer(mean, tempVis, 'summer_tmmx_2019');
+Map.addLayer(mean, tempVis, 'tmmx_2019');
 
-// Export.image.toDrive({
-//     image: mean,
-//     description: 'summer_tmmx_2019', 
-//     crs: 'EPSG:3857', 
-//     scale: 4638.3, 
-//     region: geometry
-//   });
-
-
-
-var winter_tmmx_2019 = maximumTemperature.filter(ee.Filter.date('2019-12-21', '2020-03-20'));
-
-var mean = winter_tmmx_2019.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2019');
-
-
-// Export.image.toDrive({
-//     image: mean,
-//     description: 'winter_tmmx_2019', 
-//     crs: 'EPSG:3857', 
-//     scale: 4638.3, 
-//     region: geometry
-//   });
+Export.image.toDrive({
+    image: mean,
+    description: 'tmmx_2019', 
+    crs: 'EPSG:3857', 
+    scale: 4638.3, 
+    region: geometry
+  });
   
   
   
-var summer_tmmx_2018 = maximumTemperature.filter(ee.Filter.date('2018-06-21', '2018-09-23'));
+var tmmx_2018 = maximumTemperature.filter(ee.Filter.date('2018-01-01', '2018-12-31'));
 
-var mean = summer_tmmx_2018.mean()
+var mean = tmmx_2018.mean()
 
-Map.addLayer(mean, tempVis, 'summer_tmmx_2018');
+Map.addLayer(mean, tempVis, 'tmmx_2018');
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2018', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2018', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
 
 
-var winter_tmmx_2018 = maximumTemperature.filter(ee.Filter.date('2018-12-21', '2019-03-21'));
+var tmmx_2017 = maximumTemperature.filter(ee.Filter.date('2017-01-01', '2017-12-31'));
 
-var mean = winter_tmmx_2018.mean()
+var mean = tmmx_2017.mean()
 
-Map.addLayer(mean, tempVis, 'winter_tmmx_2018');
+Map.addLayer(mean, tempVis, 'tmmx_2017');
 
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2017', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2018', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
 
 
+var tmmx_2016 = maximumTemperature.filter(ee.Filter.date('2016-01-01', '2016-12-31'));
 
-var summer_tmmx_2017 = maximumTemperature.filter(ee.Filter.date('2017-06-21', '2017-09-23'));
+var mean = tmmx_2016.mean()
 
-var mean = summer_tmmx_2017.mean()
+Map.addLayer(mean, tempVis, 'tmmx_2016');
 
-Map.addLayer(mean, tempVis, 'summer_tmmx_2017');
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2016', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2017', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
 
 
+var tmmx_2015 = maximumTemperature.filter(ee.Filter.date('2015-01-01', '2015-12-31'));
 
-var winter_tmmx_2017 = maximumTemperature.filter(ee.Filter.date('2017-12-21', '2018-03-21'));
+var mean = tmmx_2015.mean()
 
-var mean = winter_tmmx_2017.mean()
+Map.addLayer(mean, tempVis, 'tmmx_2015');
 
-Map.addLayer(mean, tempVis, 'winter_tmmx_2017');
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2015', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2017', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
 
+var tmmx_2014 = maximumTemperature.filter(ee.Filter.date('2014-01-01', '2014-12-31'));
 
+var mean = tmmx_2014.mean()
 
-var summer_tmmx_2016 = maximumTemperature.filter(ee.Filter.date('2016-06-20', '2016-09-23'));
+Map.addLayer(mean, tempVis, 'tmmx_2014');
 
-var mean = summer_tmmx_2016.mean()
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2014', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
-Map.addLayer(mean, tempVis, 'summer_tmmx_2016');
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2016', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
 
+var tmmx_2013 = maximumTemperature.filter(ee.Filter.date('2013-01-01', '2013-12-31'));
 
+var mean = tmmx_2013.mean()
 
-var winter_tmmx_2016 = maximumTemperature.filter(ee.Filter.date('2016-12-21', '2017-03-21'));
+Map.addLayer(mean, tempVis, 'tmmx_2013');
 
-var mean = winter_tmmx_2016.mean()
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2013', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
-Map.addLayer(mean, tempVis, 'winter_tmmx_2016');
 
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2016', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+var tmmx_2012 = maximumTemperature.filter(ee.Filter.date('2012-01-01', '2012-12-31'));
 
+var mean = tmmx_2012.mean()
 
+Map.addLayer(mean, tempVis, 'tmmx_2012');
 
-var summer_tmmx_2015 = maximumTemperature.filter(ee.Filter.date('2015-06-21', '2015-09-24'));
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2012', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
-var mean = summer_tmmx_2015.mean()
 
-Map.addLayer(mean, tempVis, 'summer_tmmx_2015');
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2015', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+var tmmx_2011 = maximumTemperature.filter(ee.Filter.date('2011-01-01', '2011-12-31'));
 
+var mean = tmmx_2011.mean()
 
+Map.addLayer(mean, tempVis, 'tmmx_2011');
 
-var winter_tmmx_2015 = maximumTemperature.filter(ee.Filter.date('2015-12-21', '2016-03-21'));
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2011', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
-var mean = winter_tmmx_2015.mean()
 
-Map.addLayer(mean, tempVis, 'winter_tmmx_2015');
 
+var tmmx_2010 = maximumTemperature.filter(ee.Filter.date('2010-01-01', '2010-12-31'));
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2015', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+var mean = tmmx_2010.mean()
 
+Map.addLayer(mean, tempVis, 'tmmx_2010');
 
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2010', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
-var summer_tmmx_2014 = maximumTemperature.filter(ee.Filter.date('2014-06-21', '2014-09-23'));
 
-var mean = summer_tmmx_2014.mean()
 
-Map.addLayer(mean, tempVis, 'summer_tmmx_2014');
+var tmmx_2009 = maximumTemperature.filter(ee.Filter.date('2009-01-01', '2009-12-31'));
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2014', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+var mean = tmmx_2009.mean()
 
+Map.addLayer(mean, tempVis, 'tmmx_2009');
 
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2009', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
-var winter_tmmx_2014 = maximumTemperature.filter(ee.Filter.date('2014-12-21', '2015-03-21'));
 
-var mean = winter_tmmx_2014.mean()
 
-Map.addLayer(mean, tempVis, 'winter_tmmx_2014');
+var tmmx_2008 = maximumTemperature.filter(ee.Filter.date('2008-01-01', '2008-12-31'));
 
+var mean = tmmx_2008.mean()
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2014', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+Map.addLayer(mean, tempVis, 'tmmx_2008');
 
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2008', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
 
-var summer_tmmx_2013 = maximumTemperature.filter(ee.Filter.date('2013-06-21', '2013-09-23'));
 
-var mean = summer_tmmx_2013.mean()
+var tmmx_2007 = maximumTemperature.filter(ee.Filter.date('2007-01-01', '2007-12-31'));
 
-Map.addLayer(mean, tempVis, 'summer_tmmx_2013');
+var mean = tmmx_2007.mean()
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2013', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+Map.addLayer(mean, tempVis, 'tmmx_2007');
 
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2007', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
 
-var winter_tmmx_2013 = maximumTemperature.filter(ee.Filter.date('2013-12-21', '2014-03-21'));
 
-var mean = winter_tmmx_2013.mean()
+var tmmx_2006 = maximumTemperature.filter(ee.Filter.date('2006-01-01', '2006-12-31'));
 
-Map.addLayer(mean, tempVis, 'winter_tmmx_2013');
+var mean = tmmx_2006.mean()
 
+Map.addLayer(mean, tempVis, 'tmmx_2006');
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2013', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2006', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
 
 
-var summer_tmmx_2012 = maximumTemperature.filter(ee.Filter.date('2012-06-20', '2012-09-23'));
+var tmmx_2005 = maximumTemperature.filter(ee.Filter.date('2005-01-01', '2005-12-31'));
 
-var mean = summer_tmmx_2012.mean()
+var mean = tmmx_2005.mean()
 
-Map.addLayer(mean, tempVis, 'summer_tmmx_2012');
+Map.addLayer(mean, tempVis, 'tmmx_2005');
 
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2012', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_tmmx_2012 = maximumTemperature.filter(ee.Filter.date('2012-12-21', '2013-03-21'));
-
-var mean = winter_tmmx_2012.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2012');
-
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2012', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var summer_tmmx_2011 = maximumTemperature.filter(ee.Filter.date('2011-06-21', '2011-09-24'));
-
-var mean = summer_tmmx_2011.mean()
-
-Map.addLayer(mean, tempVis, 'summer_tmmx_2011');
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2011', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_tmmx_2011 = maximumTemperature.filter(ee.Filter.date('2011-12-22', '2012-03-21'));
-
-var mean = winter_tmmx_2011.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2011');
-
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2011', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var summer_tmmx_2010 = maximumTemperature.filter(ee.Filter.date('2010-06-21', '2010-09-23'));
-
-var mean = summer_tmmx_2010.mean()
-
-Map.addLayer(mean, tempVis, 'summer_tmmx_2010');
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2010', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_tmmx_2010 = maximumTemperature.filter(ee.Filter.date('2010-12-21', '2011-03-21'));
-
-var mean = winter_tmmx_2010.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2010');
-
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2010', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var summer_tmmx_2009 = maximumTemperature.filter(ee.Filter.date('2009-06-21', '2009-09-23'));
-
-var mean = summer_tmmx_2009.mean()
-
-Map.addLayer(mean, tempVis, 'summer_tmmx_2009');
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2009', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_tmmx_2009 = maximumTemperature.filter(ee.Filter.date('2009-12-21', '2010-03-21'));
-
-var mean = winter_tmmx_2009.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2009');
-
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2009', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var summer_tmmx_2008 = maximumTemperature.filter(ee.Filter.date('2008-06-20', '2008-09-23'));
-
-var mean = summer_tmmx_2008.mean()
-
-Map.addLayer(mean, tempVis, 'summer_tmmx_2008');
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2008', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_tmmx_2008 = maximumTemperature.filter(ee.Filter.date('2008-12-21', '2009-03-21'));
-
-var mean = winter_tmmx_2008.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2008');
-
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2008', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var summer_tmmx_2007 = maximumTemperature.filter(ee.Filter.date('2007-06-21', '2007-09-24'));
-
-var mean = summer_tmmx_2007.mean()
-
-Map.addLayer(mean, tempVis, 'summer_tmmx_2007');
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2007', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_tmmx_2007 = maximumTemperature.filter(ee.Filter.date('2007-12-22', '2008-03-21'));
-
-var mean = winter_tmmx_2007.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2007');
-
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2007', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var summer_tmmx_2006 = maximumTemperature.filter(ee.Filter.date('2006-06-21', '2006-09-24'));
-
-var mean = summer_tmmx_2006.mean()
-
-Map.addLayer(mean, tempVis, 'summer_tmmx_2006');
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2006', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_tmmx_2006 = maximumTemperature.filter(ee.Filter.date('2006-12-21', '2007-03-21'));
-
-var mean = winter_tmmx_2006.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2006');
-
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2006', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var summer_tmmx_2005 = maximumTemperature.filter(ee.Filter.date('2005-06-21', '2005-09-24'));
-
-var mean = summer_tmmx_2005.mean()
-
-Map.addLayer(mean, tempVis, 'summer_tmmx_2005');
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_tmmx_2005', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_tmmx_2005 = maximumTemperature.filter(ee.Filter.date('2005-12-21', '2006-03-21'));
-
-var mean = winter_tmmx_2005.mean()
-
-Map.addLayer(mean, tempVis, 'winter_tmmx_2005');
-
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_tmmx_2005', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
+Export.image.toDrive({
+  image: mean,
+  description: 'tmmx_2005', 
+  crs: 'EPSG:3857', 
+  scale: 4638.3, 
+  region: geometry
+});
 
 
 
@@ -577,47 +313,15 @@ var humidVis = {
 
 
 
-var summer_rmax_2020 = maximumHumidity.filter(ee.Filter.date('2020-06-20', '2020-09-23'));
+var rmax_2020 = maximumHumidity.filter(ee.Filter.date('2020-01-01', '2020-12-31'));
 
-var mean = summer_rmax_2020.mean()
+var mean = rmax_2020.mean()
 
-Map.addLayer(mean, humidVis, 'summer_rmax_2020');
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'summer_rmax_2020', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var winter_rmax_2020 = maximumHumidity.filter(ee.Filter.date('2020-12-21', '2021-03-21'));
-
-var mean = winter_rmax_2020.mean()
-
-Map.addLayer(mean, humidVis, 'winter_rmax_2020');
-
-// Export.image.toDrive({
-//   image: mean,
-//   description: 'winter_rmax_2020', 
-//   crs: 'EPSG:3857', 
-//   scale: 4638.3, 
-//   region: geometry
-// });
-
-
-
-var summer_rmax_2019 = maximumHumidity.filter(ee.Filter.date('2019-06-21', '2019-09-24'));
-
-var mean = summer_rmax_2019.mean()
-
-Map.addLayer(mean, humidVis, 'summer_rmax_2019');
+Map.addLayer(mean, humidVis, 'rmax_2020');
 
 Export.image.toDrive({
   image: mean,
-  description: 'summer_rmax_2019', 
+  description: 'rmax_2020', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -625,16 +329,15 @@ Export.image.toDrive({
 
 
 
-var winter_rmax_2019 = maximumHumidity.filter(ee.Filter.date('2019-12-21', '2020-03-20'));
+var rmax_2019 = maximumHumidity.filter(ee.Filter.date('2019-01-01', '2019-12-31'));
 
-var mean = winter_rmax_2019.mean()
+var mean = rmax_2019.mean()
 
-Map.addLayer(mean, humidVis, 'winter_rmax_2019');
-
+Map.addLayer(mean, humidVis, 'rmax_2019');
 
 Export.image.toDrive({
   image: mean,
-  description: 'winter_rmax_2019', 
+  description: 'rmax_2019', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -642,15 +345,15 @@ Export.image.toDrive({
 
 
 
-var summer_rmax_2018 = maximumHumidity.filter(ee.Filter.date('2018-06-21', '2018-09-23'));
+var rmax_2018 = maximumHumidity.filter(ee.Filter.date('2018-01-01', '2018-12-31'));
 
-var mean = summer_rmax_2018.mean()
+var mean = rmax_2018.mean()
 
-Map.addLayer(mean, humidVis, 'summer_rmax_2018');
+Map.addLayer(mean, humidVis, 'rmax_2018');
 
 Export.image.toDrive({
   image: mean,
-  description: 'summer_rmax_2018', 
+  description: 'rmax_2018', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -658,16 +361,15 @@ Export.image.toDrive({
 
 
 
-var winter_rmax_2018 = maximumHumidity.filter(ee.Filter.date('2018-12-21', '2019-03-21'));
+var rmax_2017 = maximumHumidity.filter(ee.Filter.date('2017-01-01', '2017-12-31'));
 
-var mean = winter_rmax_2018.mean()
+var mean = rmax_2017.mean()
 
-Map.addLayer(mean, humidVis, 'winter_rmax_2018');
-
+Map.addLayer(mean, humidVis, 'rmax_2017');
 
 Export.image.toDrive({
   image: mean,
-  description: 'winter_rmax_2018', 
+  description: 'rmax_2017', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -675,15 +377,15 @@ Export.image.toDrive({
 
 
 
-var summer_rmax_2017 = maximumHumidity.filter(ee.Filter.date('2017-06-21', '2017-09-23'));
+var rmax_2016 = maximumHumidity.filter(ee.Filter.date('2016-01-01', '2016-12-31'));
 
-var mean = summer_rmax_2017.mean()
+var mean = rmax_2016.mean()
 
-Map.addLayer(mean, humidVis, 'summer_rmax_2017');
+Map.addLayer(mean, humidVis, 'rmax_2016');
 
 Export.image.toDrive({
   image: mean,
-  description: 'summer_rmax_2017', 
+  description: 'rmax_2016', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -691,16 +393,15 @@ Export.image.toDrive({
 
 
 
-var winter_rmax_2017 = maximumHumidity.filter(ee.Filter.date('2017-12-21', '2018-03-21'));
+var rmax_2015 = maximumHumidity.filter(ee.Filter.date('2015-01-01', '2015-12-31'));
 
-var mean = winter_rmax_2017.mean()
+var mean = rmax_2015.mean()
 
-Map.addLayer(mean, humidVis, 'winter_rmax_2017');
-
+Map.addLayer(mean, humidVis, 'rmax_2015');
 
 Export.image.toDrive({
   image: mean,
-  description: 'winter_rmax_2017', 
+  description: 'rmax_2015', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -708,15 +409,15 @@ Export.image.toDrive({
 
 
 
-var summer_rmax_2016 = maximumHumidity.filter(ee.Filter.date('2016-06-20', '2016-09-23'));
+var rmax_2014 = maximumHumidity.filter(ee.Filter.date('2014-01-01', '2014-12-31'));
 
-var mean = summer_rmax_2016.mean()
+var mean = rmax_2014.mean()
 
-Map.addLayer(mean, humidVis, 'summer_rmax_2016');
+Map.addLayer(mean, humidVis, 'rmax_2014');
 
 Export.image.toDrive({
   image: mean,
-  description: 'summer_rmax_2016', 
+  description: 'rmax_2014', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -724,16 +425,15 @@ Export.image.toDrive({
 
 
 
-var winter_rmax_2016 = maximumHumidity.filter(ee.Filter.date('2016-12-21', '2017-03-21'));
+var rmax_2013 = maximumHumidity.filter(ee.Filter.date('2013-01-01', '2013-12-31'));
 
-var mean = winter_rmax_2016.mean()
+var mean = rmax_2013.mean()
 
-Map.addLayer(mean, humidVis, 'winter_rmax_2016');
-
+Map.addLayer(mean, humidVis, 'rmax_2013');
 
 Export.image.toDrive({
   image: mean,
-  description: 'winter_rmax_2016', 
+  description: 'rmax_2013', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -741,15 +441,15 @@ Export.image.toDrive({
 
 
 
-var summer_rmax_2015 = maximumHumidity.filter(ee.Filter.date('2015-06-21', '2015-09-24'));
+var rmax_2012 = maximumHumidity.filter(ee.Filter.date('2012-01-01', '2012-12-31'));
 
-var mean = summer_rmax_2015.mean()
+var mean = rmax_2012.mean()
 
-Map.addLayer(mean, humidVis, 'summer_rmax_2015');
+Map.addLayer(mean, humidVis, 'rmax_2012');
 
 Export.image.toDrive({
   image: mean,
-  description: 'summer_rmax_2015', 
+  description: 'rmax_2012', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -757,16 +457,15 @@ Export.image.toDrive({
 
 
 
-var winter_rmax_2015 = maximumHumidity.filter(ee.Filter.date('2015-12-21', '2016-03-21'));
+var rmax_2011 = maximumHumidity.filter(ee.Filter.date('2011-01-01', '2011-12-31'));
 
-var mean = winter_rmax_2015.mean()
+var mean = rmax_2011.mean()
 
-Map.addLayer(mean, humidVis, 'winter_rmax_2015');
-
+Map.addLayer(mean, humidVis, 'rmax_2011');
 
 Export.image.toDrive({
   image: mean,
-  description: 'winter_rmax_2015', 
+  description: 'rmax_2011', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -774,15 +473,15 @@ Export.image.toDrive({
 
 
 
-var summer_rmax_2014 = maximumHumidity.filter(ee.Filter.date('2014-06-21', '2014-09-23'));
+var rmax_2010 = maximumHumidity.filter(ee.Filter.date('2010-01-01', '2010-12-31'));
 
-var mean = summer_rmax_2014.mean()
+var mean = rmax_2010.mean()
 
-Map.addLayer(mean, humidVis, 'summer_rmax_2014');
+Map.addLayer(mean, humidVis, 'rmax_2010');
 
 Export.image.toDrive({
   image: mean,
-  description: 'summer_rmax_2014', 
+  description: 'rmax_2010', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -790,16 +489,15 @@ Export.image.toDrive({
 
 
 
-var winter_rmax_2014 = maximumHumidity.filter(ee.Filter.date('2014-12-21', '2015-03-21'));
+var rmax_2009 = maximumHumidity.filter(ee.Filter.date('2009-01-01', '2009-12-31'));
 
-var mean = winter_rmax_2014.mean()
+var mean = rmax_2009.mean()
 
-Map.addLayer(mean, humidVis, 'winter_rmax_2014');
-
+Map.addLayer(mean, humidVis, 'rmax_2009');
 
 Export.image.toDrive({
   image: mean,
-  description: 'winter_rmax_2014', 
+  description: 'rmax_2009', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -807,15 +505,15 @@ Export.image.toDrive({
 
 
 
-var summer_rmax_2013 = maximumHumidity.filter(ee.Filter.date('2013-06-21', '2013-09-23'));
+var rmax_2008 = maximumHumidity.filter(ee.Filter.date('2008-01-01', '2008-12-31'));
 
-var mean = summer_rmax_2013.mean()
+var mean = rmax_2008.mean()
 
-Map.addLayer(mean, humidVis, 'summer_rmax_2013');
+Map.addLayer(mean, humidVis, 'rmax_2008');
 
 Export.image.toDrive({
   image: mean,
-  description: 'summer_rmax_2013', 
+  description: 'rmax_2008', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -823,16 +521,15 @@ Export.image.toDrive({
 
 
 
-var winter_rmax_2013 = maximumHumidity.filter(ee.Filter.date('2013-12-21', '2014-03-21'));
+var rmax_2007 = maximumHumidity.filter(ee.Filter.date('2007-01-01', '2007-12-31'));
 
-var mean = winter_rmax_2013.mean()
+var mean = rmax_2007.mean()
 
-Map.addLayer(mean, humidVis, 'winter_rmax_2013');
-
+Map.addLayer(mean, humidVis, 'rmax_2007');
 
 Export.image.toDrive({
   image: mean,
-  description: 'winter_rmax_2013', 
+  description: 'rmax_2007', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -840,15 +537,15 @@ Export.image.toDrive({
 
 
 
-var summer_rmax_2012 = maximumHumidity.filter(ee.Filter.date('2012-06-20', '2012-09-23'));
+var rmax_2006 = maximumHumidity.filter(ee.Filter.date('2006-01-01', '2006-12-31'));
 
-var mean = summer_rmax_2012.mean()
+var mean = rmax_2006.mean()
 
-Map.addLayer(mean, humidVis, 'summer_rmax_2012');
+Map.addLayer(mean, humidVis, 'rmax_2006');
 
 Export.image.toDrive({
   image: mean,
-  description: 'summer_rmax_2012', 
+  description: 'rmax_2006', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
@@ -856,252 +553,19 @@ Export.image.toDrive({
 
 
 
-var winter_rmax_2012 = maximumHumidity.filter(ee.Filter.date('2012-12-21', '2013-03-21'));
+var rmax_2005 = maximumHumidity.filter(ee.Filter.date('2005-01-01', '2005-12-31'));
 
-var mean = winter_rmax_2012.mean()
+var mean = rmax_2005.mean()
 
-Map.addLayer(mean, humidVis, 'winter_rmax_2012');
-
+Map.addLayer(mean, humidVis, 'rmax_2005');
 
 Export.image.toDrive({
   image: mean,
-  description: 'winter_rmax_2012', 
+  description: 'rmax_2005', 
   crs: 'EPSG:3857', 
   scale: 4638.3, 
   region: geometry
 });
-
-
-
-var summer_rmax_2011 = maximumHumidity.filter(ee.Filter.date('2011-06-21', '2011-09-24'));
-
-var mean = summer_rmax_2011.mean()
-
-Map.addLayer(mean, humidVis, 'summer_rmax_2011');
-
-Export.image.toDrive({
-  image: mean,
-  description: 'summer_rmax_2011', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var winter_rmax_2011 = maximumHumidity.filter(ee.Filter.date('2011-12-22', '2012-03-21'));
-
-var mean = winter_rmax_2011.mean()
-
-Map.addLayer(mean, humidVis, 'winter_rmax_2011');
-
-
-Export.image.toDrive({
-  image: mean,
-  description: 'winter_rmax_2011', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var summer_rmax_2010 = maximumHumidity.filter(ee.Filter.date('2010-06-21', '2010-09-23'));
-
-var mean = summer_rmax_2010.mean()
-
-Map.addLayer(mean, humidVis, 'summer_rmax_2010');
-
-Export.image.toDrive({
-  image: mean,
-  description: 'summer_rmax_2010', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var winter_rmax_2010 = maximumHumidity.filter(ee.Filter.date('2010-12-21', '2011-03-21'));
-
-var mean = winter_rmax_2010.mean()
-
-Map.addLayer(mean, humidVis, 'winter_rmax_2010');
-
-
-Export.image.toDrive({
-  image: mean,
-  description: 'winter_rmax_2010', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var summer_rmax_2009 = maximumHumidity.filter(ee.Filter.date('2009-06-21', '2009-09-23'));
-
-var mean = summer_rmax_2009.mean()
-
-Map.addLayer(mean, humidVis, 'summer_rmax_2009');
-
-Export.image.toDrive({
-  image: mean,
-  description: 'summer_rmax_2009', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var winter_rmax_2009 = maximumHumidity.filter(ee.Filter.date('2009-12-21', '2010-03-21'));
-
-var mean = winter_rmax_2009.mean()
-
-Map.addLayer(mean, humidVis, 'winter_rmax_2009');
-
-
-Export.image.toDrive({
-  image: mean,
-  description: 'winter_rmax_2009', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var summer_rmax_2008 = maximumHumidity.filter(ee.Filter.date('2008-06-20', '2008-09-23'));
-
-var mean = summer_rmax_2008.mean()
-
-Map.addLayer(mean, humidVis, 'summer_rmax_2008');
-
-Export.image.toDrive({
-  image: mean,
-  description: 'summer_rmax_2008', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var winter_rmax_2008 = maximumHumidity.filter(ee.Filter.date('2008-12-21', '2009-03-21'));
-
-var mean = winter_rmax_2008.mean()
-
-Map.addLayer(mean, humidVis, 'winter_rmax_2008');
-
-
-Export.image.toDrive({
-  image: mean,
-  description: 'winter_rmax_2008', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var summer_rmax_2007 = maximumHumidity.filter(ee.Filter.date('2007-06-21', '2007-09-24'));
-
-var mean = summer_rmax_2007.mean()
-
-Map.addLayer(mean, humidVis, 'summer_rmax_2007');
-
-Export.image.toDrive({
-  image: mean,
-  description: 'summer_rmax_2007', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var winter_rmax_2007 = maximumHumidity.filter(ee.Filter.date('2007-12-22', '2008-03-21'));
-
-var mean = winter_rmax_2007.mean()
-
-Map.addLayer(mean, humidVis, 'winter_rmax_2007');
-
-
-Export.image.toDrive({
-  image: mean,
-  description: 'winter_rmax_2007', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var summer_rmax_2006 = maximumHumidity.filter(ee.Filter.date('2006-06-21', '2006-09-24'));
-
-var mean = summer_rmax_2006.mean()
-
-Map.addLayer(mean, humidVis, 'summer_rmax_2006');
-
-Export.image.toDrive({
-  image: mean,
-  description: 'summer_rmax_2006', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var winter_rmax_2006 = maximumHumidity.filter(ee.Filter.date('2006-12-21', '2007-03-21'));
-
-var mean = winter_rmax_2006.mean()
-
-Map.addLayer(mean, humidVis, 'winter_rmax_2006');
-
-
-Export.image.toDrive({
-  image: mean,
-  description: 'winter_rmax_2006', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var summer_rmax_2005 = maximumHumidity.filter(ee.Filter.date('2005-06-21', '2005-09-24'));
-
-var mean = summer_rmax_2005.mean()
-
-Map.addLayer(mean, humidVis, 'summer_rmax_2005');
-
-Export.image.toDrive({
-  image: mean,
-  description: 'summer_rmax_2005', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
-
-
-var winter_rmax_2005 = maximumHumidity.filter(ee.Filter.date('2005-12-21', '2006-03-21'));
-
-var mean = winter_rmax_2005.mean()
-
-Map.addLayer(mean, humidVis, 'winter_rmax_2005');
-
-
-Export.image.toDrive({
-  image: mean,
-  description: 'winter_rmax_2005', 
-  crs: 'EPSG:3857', 
-  scale: 4638.3, 
-  region: geometry
-});
-
 
 
 

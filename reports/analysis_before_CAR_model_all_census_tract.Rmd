@@ -46,8 +46,10 @@ Actually no, because the penalty is negligible.
 fr_index <- 19:40
 ```
 
+Variances of the flood risk variables
+
 ```{r}
-apply(fhs_model_df[fr_index], 2, function(vec) sd(vec, na.rm = T))
+apply(fhs_model_df[fr_index], 2, function(vec) var(vec, na.rm = T))
 ```
 
 ```{r}
@@ -199,7 +201,7 @@ summary(fhs_lm)
 
 
 
-## PCA with Centering but no Scaling beforehand
+# PCA with Centering but no Scaling beforehand
 
 Do PCA *without* scaling beforehand, and use biplots, etc. to compare results with those in the last section. I think just scaling all covariates once, *after* PCA, will lead to more interpretable results
 
@@ -269,6 +271,116 @@ ggplot(fr_loadings_df) +
   annotate("text", x = (fr_loadings_df$PC1), y = (fr_loadings_df$PC2),
      label = fr_loadings_df$Variables)
 ```
+
+# Checking out the PCA of the 5 pollution variables
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
+```
+
+```{r}
+pollute_index <- 40:45
+
+pollute_var <- fhs_model_df[, pollute_index]
+```
+
+```{r}
+var(pollute_var, na.rm = T)
+```
+
+May not want to scale if using these PCs in model. 
+
+Actually, it's ok, since I'm using only 1 PC instead of comparing among PCs. The linear combinations are still interpretable. 
+
+```{r}
+pollute_pca <- prcomp(pollute_var[complete.cases(pollute_var),], center = T, scale. = T)
+
+pollute_loadings <- pollute_pca$rotation
+```
+
+```{r}
+fviz_eig(pollute_pca)
+```
+
+```{r}
+summ_pca <- summary(pollute_pca)
+
+summ_pca$importance
+```
+
+```{r}
+round(pollute_loadings, digits = 2)
+```
+
+
+```{r}
+# Extract loadings of the variables
+pollute_loadings_df <- data.frame(Variables = rownames(pollute_pca$rotation), pollute_pca$rotation)
+
+    # Plot
+ggplot(pollute_loadings_df) +
+  geom_segment(data = pollute_loadings_df, aes(x = 0, y = 0, xend = PC1,
+     yend = PC2), arrow = arrow(length = unit(1/2, "picas")),
+     color = "black") +
+  annotate("text", x = (pollute_loadings_df$PC1), y = (pollute_loadings_df$PC2),
+     label = pollute_loadings_df$Variables)
+```
+
+# Checking out the PCA of the 5 pollution variables
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
+```
+
+```{r}
+met_index <- 46:49
+
+met_var <- fhs_model_df[, met_index]
+```
+
+```{r}
+var(met_var, na.rm = T)
+```
+
+May not want to scale if using these PCs in model
+
+```{r}
+met_pca <- prcomp(met_var[complete.cases(met_var),], center = T, scale. = T)
+
+met_loadings <- met_pca$rotation
+```
+
+```{r}
+fviz_eig(met_pca)
+```
+
+```{r}
+summ_pca <- summary(met_pca)
+
+summ_pca$importance
+```
+
+```{r}
+round(met_loadings, digits = 2)
+```
+
+
+```{r}
+# Extract loadings of the variables
+met_loadings_df <- data.frame(Variables = rownames(met_pca$rotation), met_pca$rotation)
+
+    # Plot
+ggplot(met_loadings_df) +
+  geom_segment(data = met_loadings_df, aes(x = 0, y = 0, xend = PC1,
+     yend = PC2), arrow = arrow(length = unit(1/2, "picas")),
+     color = "black") +
+  annotate("text", x = (met_loadings_df$PC1), y = (met_loadings_df$PC2),
+     label = met_loadings_df$Variables)
+```
+
+
+
+<!-- TODO: put PCs into fhs_model_df, then rerun next section -->
 
 
 

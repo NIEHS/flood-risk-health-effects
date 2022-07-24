@@ -24,28 +24,18 @@ i_am("GRIDMET/gridmet_raster_extraction.Rmd")
 # Reading in the rasters
 
 ```{r}
-tmmx_files <- list.files(here("GRIDMET/tmmx"))
+tmmx_files <- list.files(here("GRIDMET/all_year_tmmx"))
 
-summer_tmmx_files <- tmmx_files[str_detect(tmmx_files, "summer")]
-
-winter_tmmx_files <- tmmx_files[str_detect(tmmx_files, "winter")]
-```
-
-```{r}
-rmax_files <- list.files(here("GRIDMET/rmax"))
-
-summer_rmax_files <- rmax_files[str_detect(rmax_files, "summer")]
-
-winter_rmax_files <- rmax_files[str_detect(rmax_files, "winter")]
+rmax_files <- list.files(here("GRIDMET/all_year_rmax"))
 ```
 
 
 
 ```{r}
-num_rast <- length(summer_tmmx_files)
+num_rast <- length(tmmx_files)
 
 # This raster array has 2 dimensions: 
-# first dimension is for the 4 variables, second dimension is for the years
+# first dimension is for the 2 variables, second dimension is for the years
 
 raster_array <- list()
 
@@ -53,8 +43,6 @@ raster_array <- list()
 
 raster_array[[1]] <- vector("list", length = num_rast)
 raster_array[[2]] <- vector("list", length = num_rast)
-raster_array[[3]] <- vector("list", length = num_rast)
-raster_array[[4]] <- vector("list", length = num_rast)
 
 ```
 
@@ -62,13 +50,9 @@ raster_array[[4]] <- vector("list", length = num_rast)
 
 for (i in 1:num_rast) {
   
-  raster_array[[1]][[i]] <- suppressWarnings(raster(here("GRIDMET/tmmx/", summer_tmmx_files[i])))
+  raster_array[[1]][[i]] <- suppressWarnings(raster(here("GRIDMET/all_year_tmmx", tmmx_files[i])))
   
-  raster_array[[2]][[i]] <- suppressWarnings(raster(here("GRIDMET/tmmx/", winter_tmmx_files[i])))
-  
-  raster_array[[3]][[i]] <- suppressWarnings(raster(here("GRIDMET/rmax/", summer_rmax_files[i])))
-  
-  raster_array[[4]][[i]] <- suppressWarnings(raster(here("GRIDMET/rmax/", winter_rmax_files[i])))
+  raster_array[[2]][[i]] <- suppressWarnings(raster(here("GRIDMET/all_year_rmax", rmax_files[i])))
   
 }
 
@@ -79,59 +63,37 @@ for (i in 1:num_rast) {
 Stacking all four types of rasters
 
 ```{r}
-summer_tmmx <- stack(raster_array[[1]])
+tmmx <- stack(raster_array[[1]])
 
-winter_tmmx <- stack(raster_array[[2]])
-
-summer_rmax <- stack(raster_array[[3]])
-
-winter_rmax <- stack(raster_array[[4]])
+rmax <- stack(raster_array[[2]])
 ```
 
 
 
 ```{r}
-summer_tmmx_mean <- mean(summer_tmmx)
+tmmx_mean <- mean(tmmx)
 
-winter_tmmx_mean <- mean(winter_tmmx)
-
-summer_rmax_mean <- mean(summer_rmax)
-
-winter_rmax_mean <- mean(winter_rmax)
+rmax_mean <- mean(rmax)
 ```
 
 
 
 ```{r}
-mean_array_list <- list(summer_tmmx_mean, winter_tmmx_mean, summer_rmax_mean, winter_rmax_mean)
+mean_array_list <- list(tmmx_mean, rmax_mean)
 ```
 
 
 
 # Plotting the rasters
 
-Maximum Temperature
-
 ```{r}
-plot(raster_array[[1]][[1]]) # summer 2005
+plot(raster_array[[1]][[1]]) # tmmx 2005
 
-plot(raster_array[[2]][[1]]) # winter 2005
+plot(raster_array[[2]][[1]]) # rmax 2005
 
-plot(raster_array[[1]][[num_rast]]) # summer 2020
+plot(raster_array[[1]][[num_rast]]) # tmmx 2020
 
-plot(raster_array[[2]][[num_rast]]) # winter 2020
-```
-
-Maximum Relative Humidity
-
-```{r}
-plot(raster_array[[3]][[1]]) # summer 2005
-
-plot(raster_array[[4]][[1]]) # winter 2005
-
-plot(raster_array[[3]][[num_rast]]) # summer 2020
-
-plot(raster_array[[4]][[num_rast]]) # winter 2020
+plot(raster_array[[2]][[num_rast]]) # rmax 2020
 ```
 
 
@@ -141,7 +103,7 @@ plot(raster_array[[4]][[num_rast]]) # winter 2020
 Reading in all the state shapefiles
 
 ```{r}
-ct_files <- list.files(here("census_tract_shapefiles/"))
+ct_files <- list.files(here("imported_data/census_tract_shapefiles/"))
 ```
 
 ```{r}
@@ -150,9 +112,14 @@ shp_list <- vector("list", length = length(ct_files))
 
 for (i in 1:length(ct_files)) {
   
-  shp_list[[i]] <- st_read(dsn = here("census_tract_shapefiles", ct_files[i], paste0(ct_files[i], ".shp")), quiet = T)
+  shp_list[[i]] <- st_read(dsn = here("imported_data/census_tract_shapefiles", ct_files[i], paste0(ct_files[i], ".shp")), quiet = T)
   
 }
+
+# making names consistent between 2019 versions and 2010 versions
+
+names(shp_list[[which(ct_files == "tl_2019_46_tract")]]) <- names(shp_list[[which(ct_files == "tl_2010_01_tract10")]])
+names(shp_list[[which(ct_files == "tl_2019_51_tract")]]) <- names(shp_list[[which(ct_files == "tl_2010_01_tract10")]])
 
 shp_df <- do.call("rbind", shp_list)
 
@@ -160,15 +127,12 @@ shp_df <- do.call("rbind", shp_list)
 
 
 
-Focus on North Carolina first, before reading in the other TIGER/LINE shapefiles
-
 ```{r}
 
 num_ct <- nrow(shp_df)
 
 mean_df <- data.frame(fips = shp_df$GEOID10, 
-                            summer_tmmx = rep(NA, num_ct), winter_tmmx = rep(NA, num_ct), 
-                      summer_rmax = rep(NA, num_ct), winter_rmax = rep(NA, num_ct))
+                            tmmx = rep(NA, num_ct), rmax = rep(NA, num_ct))
 
 ```
 
@@ -176,7 +140,7 @@ mean_df <- data.frame(fips = shp_df$GEOID10,
 
 for (i in 1:nrow(shp_df)) { # looping over the fips
   
-  for (j in 1:4) { # looping over the variables
+  for (j in 1:2) { # looping over the variables
     
     suppressWarnings(mean_df[i, j + 1] <- exact_extract(x = mean_array_list[[j]], 
                                           y = shp_df[i, ], fun = "mean"))
@@ -186,8 +150,10 @@ for (i in 1:nrow(shp_df)) { # looping over the fips
 }
 ```
 
+The above loop takes a long time.
+
 ```{r}
-saveRDS(mean_df, file = here("extracted_results/mean_df_GRIDMET.rds"))
+saveRDS(mean_df, file = here("intermediary_data/mean_df_GRIDMET.rds"))
 ```
 
 

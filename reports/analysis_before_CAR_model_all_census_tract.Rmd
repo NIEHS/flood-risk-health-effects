@@ -339,7 +339,11 @@ met_var <- fhs_model_df[, met_index]
 ```
 
 ```{r}
-var(met_var, na.rm = T)
+var(met_var[complete.cases(met_var),])
+```
+
+```{r}
+cor(met_var[complete.cases(met_var),])
 ```
 
 May not want to scale if using these PCs in model
@@ -376,6 +380,36 @@ ggplot(met_loadings_df) +
      color = "black") +
   annotate("text", x = (met_loadings_df$PC1), y = (met_loadings_df$PC2),
      label = met_loadings_df$Variables)
+```
+
+### comparing with combined tmmx and rmax variables
+
+```{r}
+mean_df_GRIDMET <- readRDS(file = here("intermediary_data/mean_df_GRIDMET.rds"))
+
+mean_df_GRIDMET$fips <- as.numeric(mean_df_GRIDMET$fips)
+
+mean_df_GRIDMET <- mean_df_GRIDMET[!(mean_df_GRIDMET$fips %in% c(6075980401, 12087980100)), ]
+```
+
+```{r}
+all.equal(fhs_model_df$fips, mean_df_GRIDMET$fips)
+```
+
+```{r}
+met_index <- 46:49
+
+met_var <- fhs_model_df[, met_index]
+```
+
+```{r}
+all_met_var <- cbind(met_var, mean_df_GRIDMET[, -1])
+
+ggcorr(data = all_met_var)
+```
+
+```{r}
+cor(all_met_var[complete.cases(all_met_var),])
 ```
 
 

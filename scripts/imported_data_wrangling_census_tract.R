@@ -98,6 +98,7 @@ caces_lur_summ <- caces_lur_wide %>% group_by(fips) %>% summarise(co = mean(co),
 caces_lur_summ$fips[caces_lur_summ$fips %/% 1e6 == 46113] <- caces_lur_summ$fips[caces_lur_summ$fips %/% 1e6 == 46113] %% (46113 * 1e6) + (46102 * 1e6)
 caces_lur_summ$fips[caces_lur_summ$fips %/% 1e6 == 51515] <- caces_lur_summ$fips[caces_lur_summ$fips %/% 1e6 == 51515] %% (51515 * 1e6) + (51019 * 1e6)
 
+# if re-run, git may detect a modification in this file where there's actually none.
 saveRDS(caces_lur_summ, file = here("intermediary_data/caces_lur_summ_census_tract.rds"))
 
 
@@ -142,9 +143,7 @@ mean_df_GRIDMET <- readRDS(file = here("intermediary_data/mean_df_GRIDMET.rds"))
 
 mean_df_GRIDMET$fips <- as.numeric(mean_df_GRIDMET$fips)
 
-# correction of SD and VA fips 
-mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 46113] <- mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 46113] %% (46113 * 1e6) + (46102 * 1e6)
-mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 51515] <- mean_df_GRIDMET$fips[mean_df_GRIDMET$fips %/% 1e6 == 51515] %% (51515 * 1e6) + (51019 * 1e6)
+mean_df_GRIDMET <- mean_df_GRIDMET[!(mean_df_GRIDMET$fips %in% c(6075980401, 12087980100)), ]
 
 flood_health_svi <- left_join(flood_health_svi, mean_df_GRIDMET, by = "fips")
 
@@ -240,6 +239,7 @@ census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_all.rds"
 
 # There are 2 fips in fhs_model_df not present in the Diversity and Disparities adjacency file.
 missing_fips <- fhs_model_df$fips[!(fhs_model_df$fips %in% census_tract_fips)]
+# These missing fips are 6075980401, 12087980100
 
 # Let's omit those fips from fhs_model_df.
 fhs_model_df <- fhs_model_df[!(fhs_model_df$fips %in% missing_fips), ]
@@ -278,13 +278,13 @@ fr_index <- first_var:(first_var + 21)
 
 flood_risk <- fhs_model_df[, fr_index] 
 
-fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = F)
+fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
 
 
 
 summ_pca <- summary(fr_pca)
 
-summ_pca$importance[,1:10] # The first 5 PCs cover 99% of the variance. 
+summ_pca$importance[,1:10] # The first 5 PCs cover 80% of the variance. 
 
 num_pc <- 5
 
@@ -310,13 +310,49 @@ saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_all_census_tra
 
 
 
-# Removing collinear variable(s)
 
-collin_var_names <- c("no2")
 
-fhs_model_df <- fhs_model_df[, !(names(fhs_model_df) %in% collin_var_names)]
+# Replacing the pollution variables with the first PC
 
-saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_no_collinear.rds"))
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
+
+first_var <- 40
+
+pollute_index <- first_var:(first_var + 5)
+
+pollute_conc <- fhs_model_df[, pollute_index] 
+
+pollute_pca <- prcomp(pollute_conc[complete.cases(pollute_conc),], center = T, scale. = T)
+
+
+
+summ_pca <- summary(pollute_pca)
+
+summ_pca$importance # The first 3 PCs cover 80% of the variance. 
+
+num_pc <- 3
+
+pollute_pcs <- matrix(NA, nrow = nrow(fhs_model_df), ncol = num_pc)
+
+pollute_pcs[complete.cases(pollute_conc), ] <- pollute_pca$x[, 1:num_pc]
+
+pollute_pcs <- data.frame(pollute_pcs)
+
+names(pollute_pcs) <- paste0("pollute_conc_pc", 1:ncol(pollute_pcs))
+
+
+
+# dimensionality reduction
+fhs_model_df <- fhs_model_df[, -pollute_index]
+
+fhs_model_df <- data.frame(fhs_model_df, pollute_pcs)
+
+fhs_model_df <- fhs_model_df %>% relocate(starts_with("pollute_conc_pc"), .after = EP_UNINSUR)
+
+
+saveRDS(fhs_model_df, file = here("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds"))
+
+
 
 
 

@@ -326,7 +326,7 @@ ggplot(pollute_loadings_df) +
      label = pollute_loadings_df$Variables)
 ```
 
-# Checking out the PCA of the 5 pollution variables
+# Checking out the PCA of the 4 meteorological variables
 
 ```{r}
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))

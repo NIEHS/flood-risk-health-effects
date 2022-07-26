@@ -1,0 +1,344 @@
+---
+title: "Mitigation of Multicollinearity Analysis"
+author: "Alvin Sheng"
+date: '2022-07-24'
+output: pdf_document
+---
+
+```{r}
+library(here)
+library(GGally)
+library(usdm)
+library(factoextra)
+library(tidyverse)
+```
+
+
+
+# Checking for multicollinearity among the covariates
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg_prev.rds"))
+```
+
+## All climate-related variables: flood risk, pollution, and GRIDMET variables
+
+Excluding variables in collin_var_names
+
+```{r}
+fr_index <- 19:40
+
+climate_var_idx <- c(fr_index, 57:66)
+```
+
+```{r}
+ggcorr(data = fhs_model_df[, c(climate_var_idx, ncol(fhs_model_df) - 3)])
+```
+
+
+
+## Flood risk variables
+
+```{r}
+fr_index <- 19:40
+```
+
+Variances of the flood risk variables
+
+```{r}
+apply(fhs_model_df[fr_index], 2, function(vec) var(vec, na.rm = T))
+```
+
+```{r}
+ggcorr(data = fhs_model_df[, c(fr_index, ncol(fhs_model_df) - 3)])
+```
+
+For each variable, I take the summary of its correlations with other variables, not including itself. 
+
+```{r}
+flood_cor <- cor(fhs_model_df[complete.cases(fhs_model_df[, c(fr_index, ncol(fhs_model_df))]), c(fr_index, ncol(fhs_model_df))])
+
+diag(flood_cor) <- NA
+
+summary(flood_cor)
+```
+
+Many of the flood risk variables are very correlated.
+
+
+
+### PCA with Centering AND Scaling
+
+I think scaling all covariates twice, before and after PCA, will lead to more interpretable results
+
+Conduct PCA on the correlated flood risk variables
+
+```{r}
+first_var <- 19
+
+fr_index <- first_var:(first_var + 21)
+
+flood_risk <- fhs_model_df[, fr_index]
+```
+
+```{r}
+fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
+
+fr_loadings <- fr_pca$rotation
+```
+
+```{r}
+fviz_eig(fr_pca)
+```
+
+```{r}
+summ_pca <- summary(fr_pca)
+
+summ_pca$importance[,1:10]
+```
+
+We started out with 22 variables. Including five PC scores would include >80% of the variance. Perhaps I can also look at the top 8 PCs, to get >90% variance explained. 
+
+Printing out the loadings, from most negative to least
+
+```{r}
+round(fr_loadings[, 1:8], digits = 2)
+```
+
+```{r}
+# Extract loadings of the variables
+fr_loadings_df <- data.frame(Variables = rownames(fr_pca$rotation), fr_pca$rotation)
+
+    # Plot
+ggplot(fr_loadings_df) +
+  geom_segment(data = fr_loadings_df, aes(x = 0, y = 0, xend = PC1,
+     yend = PC2), arrow = arrow(length = unit(1/2, "picas")),
+     color = "black") +
+  annotate("text", x = (fr_loadings_df$PC1), y = (fr_loadings_df$PC2),
+     label = fr_loadings_df$Variables)
+```
+
+**Data pre-processing decision: Use first 5 flood risk PCs.**
+
+
+
+## Pollution Variables
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg_prev.rds"))
+```
+
+```{r}
+pollute_index <- 57:62
+
+pollute_var <- fhs_model_df[, pollute_index]
+```
+
+```{r}
+ggcorr(data = pollute_var)
+```
+
+```{r}
+cor(pollute_var[complete.cases(pollute_var),])
+```
+
+
+
+### PCA
+
+```{r}
+pollute_index <- 57:62
+
+pollute_var <- fhs_model_df[, pollute_index]
+```
+
+```{r}
+var(pollute_var, na.rm = T)
+```
+
+```{r}
+pollute_pca <- prcomp(pollute_var[complete.cases(pollute_var),], center = T, scale. = T)
+
+pollute_loadings <- pollute_pca$rotation
+```
+
+```{r}
+fviz_eig(pollute_pca)
+```
+
+First 3 PCs should be sufficient.
+
+```{r}
+summ_pca <- summary(pollute_pca)
+
+summ_pca$importance
+```
+
+```{r}
+round(pollute_loadings, digits = 2)
+```
+
+
+```{r}
+# Extract loadings of the variables
+pollute_loadings_df <- data.frame(Variables = rownames(pollute_pca$rotation), pollute_pca$rotation)
+
+    # Plot
+ggplot(pollute_loadings_df) +
+  geom_segment(data = pollute_loadings_df, aes(x = 0, y = 0, xend = PC1,
+     yend = PC2), arrow = arrow(length = unit(1/2, "picas")),
+     color = "black") +
+  annotate("text", x = (pollute_loadings_df$PC1), y = (pollute_loadings_df$PC2),
+     label = pollute_loadings_df$Variables)
+```
+
+**Data pre-processing decision: Use first 3 pollution PCs.**
+
+
+
+## Meteorological Variables
+
+```{r}
+mean_df_GRIDMET <- readRDS(file = here("intermediary_data/mean_df_GRIDMET.rds"))
+
+mean_df_GRIDMET$fips <- as.numeric(mean_df_GRIDMET$fips)
+
+mean_df_GRIDMET <- mean_df_GRIDMET[!(mean_df_GRIDMET$fips %in% c(6075980401, 12087980100)), ]
+```
+
+```{r}
+all.equal(fhs_model_df$fips, mean_df_GRIDMET$fips)
+```
+
+```{r}
+met_index <- 63:66
+
+met_var <- fhs_model_df[, met_index]
+```
+
+```{r}
+all_met_var <- cbind(met_var, mean_df_GRIDMET[, -1])
+
+ggcorr(data = all_met_var)
+```
+
+```{r}
+cor(all_met_var[complete.cases(all_met_var),])
+```
+
+### PCA
+
+```{r}
+met_index <- 63:66
+
+met_var <- fhs_model_df[, met_index]
+```
+
+```{r}
+var(met_var[complete.cases(met_var),])
+```
+
+```{r}
+cor(met_var[complete.cases(met_var),])
+```
+
+```{r}
+met_pca <- prcomp(met_var[complete.cases(met_var),], center = T, scale. = T)
+
+met_loadings <- met_pca$rotation
+```
+
+```{r}
+fviz_eig(met_pca)
+```
+
+```{r}
+summ_pca <- summary(met_pca)
+
+summ_pca$importance
+```
+
+```{r}
+round(met_loadings, digits = 2)
+```
+
+
+```{r}
+# Extract loadings of the variables
+met_loadings_df <- data.frame(Variables = rownames(met_pca$rotation), met_pca$rotation)
+
+    # Plot
+ggplot(met_loadings_df) +
+  geom_segment(data = met_loadings_df, aes(x = 0, y = 0, xend = PC1,
+     yend = PC2), arrow = arrow(length = unit(1/2, "picas")),
+     color = "black") +
+  annotate("text", x = (met_loadings_df$PC1), y = (met_loadings_df$PC2),
+     label = met_loadings_df$Variables)
+```
+
+**Data pre-processing decision: Use combined tmmx and rmax variables instead of splitting into summer and winter.**
+
+
+
+# New data frame (all the new things you did)
+
+Summary of data pre-processing decisions to reduce multicollinearity: 
+
+* Use first 5 flood risk PCs, scaling before and after PCA.
+* Use first 3 pollution PCs, scaling before and after PCA.
+* Use combined tmmx and rmax variables instead of splitting into summer and winter.
+
+Below is the new set of covariates to be put in the model:
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds"))
+
+names(fhs_model_df)[19:(ncol(fhs_model_df) - 4)]
+```
+
+## VIF
+
+Let's see if the data pre-processing has improved multicollinearity. With less multicollinearity, the beta estimates will have smaller standard errors. 
+
+```{r}
+X <- fhs_model_df[, 19:(ncol(fhs_model_df) - 4)]
+
+X           <- scale(X) # Scale covariates
+
+X <- data.frame(X)
+```
+
+```{r}
+vif(X)
+```
+
+```{r}
+vifstep(X)
+```
+
+\texttt{vifstep} wasn't able to detect multicollinearity issues. The VIF caps out at 6 for Data_Value_CSmoking. All the climate-related variables and principal components have VIFs that caps out at 2.4. 
+
+
+
+# Non-spatial modeling (Preview of results prior to Bayesian CAR modeling)
+
+```{r}
+Y <- fhs_model_df$Data_Value_CHD
+
+X <- fhs_model_df[, 19:(ncol(fhs_model_df) - 4)]
+
+
+
+X           <- scale(X) # Scale covariates
+X[is.na(X)] <- 0        # Fill in missing values with the mean
+```
+
+```{r}
+fhs_lm <- lm(Y ~ X)
+```
+
+```{r}
+summary(fhs_lm)
+```
+
+

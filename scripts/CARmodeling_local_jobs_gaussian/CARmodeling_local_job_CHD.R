@@ -13,7 +13,7 @@ library(parallel)
 
 W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds"))
 
 # remove 3 response variables that are not CHD
 fhs_model_df <- fhs_model_df[, -(ncol(fhs_model_df) + c(-2, -1, 0))]

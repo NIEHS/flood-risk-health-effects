@@ -238,9 +238,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CHD, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CHD, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -286,9 +284,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
                      drop = FALSE) +
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"),
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CHD, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CHD, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -384,9 +380,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CHD, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CHD, col = "red", linetype = "dashed")
+                     drop = FALSE)
 p
 ```
 
@@ -485,9 +479,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CHD, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CHD, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -590,9 +582,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CHD, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CHD, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -695,9 +685,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CHD, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CHD, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -794,9 +782,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CHD, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CHD, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -899,9 +885,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_BPHIGH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_BPHIGH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -999,9 +983,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_BPHIGH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_BPHIGH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 p
 ```
 
@@ -1100,9 +1082,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_BPHIGH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_BPHIGH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -1205,9 +1185,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_BPHIGH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_BPHIGH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -1310,9 +1288,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_BPHIGH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_BPHIGH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -1409,9 +1385,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_BPHIGH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_BPHIGH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -1516,9 +1490,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CASTHMA, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CASTHMA, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -1616,9 +1588,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CASTHMA, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CASTHMA, col = "red", linetype = "dashed")
+                     drop = FALSE)
 p
 ```
 
@@ -1717,9 +1687,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CASTHMA, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CASTHMA, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -1822,9 +1790,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CASTHMA, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CASTHMA, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -1927,9 +1893,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CASTHMA, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CASTHMA, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -2026,9 +1990,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_CASTHMA, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_CASTHMA, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -2133,9 +2095,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_MHLTH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_MHLTH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -2233,9 +2193,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_MHLTH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_MHLTH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 p
 ```
 
@@ -2334,9 +2292,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_MHLTH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_MHLTH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -2439,9 +2395,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_MHLTH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_MHLTH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -2544,9 +2498,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_MHLTH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_MHLTH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```
@@ -2643,9 +2595,7 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
   geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
-                     drop = FALSE) + 
-  geom_hline(yintercept = 0.2 * sd_MHLTH, col = "red", linetype = "dashed") + 
-  geom_hline(yintercept = -0.2 * sd_MHLTH, col = "red", linetype = "dashed")
+                     drop = FALSE)
 
 p
 ```

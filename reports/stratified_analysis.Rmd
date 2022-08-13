@@ -164,7 +164,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_poverty.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_poverty.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -264,7 +264,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl1.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl1.rds"))
 ```
 
 
@@ -361,7 +361,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl2.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl2.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -459,7 +459,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl3.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl3.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -558,7 +558,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl4.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl4.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -657,7 +657,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpls.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpls.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -750,7 +750,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_poverty.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_poverty.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -845,7 +845,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl1.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl1.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -940,7 +940,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl2.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl2.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1038,7 +1038,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl3.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl3.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1137,7 +1137,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl4.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpl4.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1236,7 +1236,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpls.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_rpls.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1331,7 +1331,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_poverty.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_poverty.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1426,7 +1426,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl1.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl1.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1521,7 +1521,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl2.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl2.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1619,7 +1619,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl3.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl3.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1718,7 +1718,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl4.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpl4.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1817,7 +1817,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpls.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CASTHMA_rpls.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -1912,7 +1912,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_poverty.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_poverty.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -2007,7 +2007,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl1.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl1.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -2102,7 +2102,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl2.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl2.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -2200,7 +2200,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl3.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl3.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -2299,7 +2299,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl4.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpl4.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -2398,7 +2398,7 @@ colnames(beta_samples_matrix) <- var_names
 ```
 
 ```{r}
-saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpls.RData"))
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/MHLTH_rpls.rds"))
 ```
 
 List of significant beta coefficients: 

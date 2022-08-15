@@ -1,0 +1,150 @@
+---
+title: "Flood Risk PC Coeff Results"
+author: "Alvin Sheng"
+output: pdf_document
+---
+
+```{r}
+library(here)
+```
+
+For each health outcome, read in the results for the six strata, extract the flood risk PC coefficients, and stack them
+
+# Helper Functions
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+beta_inf2data_frame <- function(beta_inference) {
+  
+  beta_inference_df <- as.data.frame(beta_inference)
+  beta_inference_df <- rename(beta_inference_df, 
+                              post_median = `50%`,
+                              post_2.5 = `2.5%`, 
+                              post_97.5 = `97.5%`)
+  beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
+                                         rep("Upper", (nrow(beta_inference_df)/2))))
+  
+  return(beta_inference_df)
+  
+}
+```
+
+```{r}
+# extract the flood risk PC coefficients and stack them
+# pc_idx is the vector of indices of the flood risk PC coefficients, after splitting data frame by strata
+beta_data_frames_stack <- function(beta_df_list, pc_idx) {
+  
+  beta_pcs_strat0_list <- list()
+  
+  beta_pcs_strat1_list <- list()
+  
+  for (i in 1:length(beta_df_list)) {
+    
+    beta_inference_df <- beta_df_list[[i]]
+    
+    beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+    
+    beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+    
+    beta_pcs_strat0_list[[i]] <- beta_inference_df_strat0[pc_idx, ]
+    
+    beta_pcs_strat1_list[[i]] <- beta_inference_df_strat1[pc_idx, ]
+    
+  }
+  
+  beta_pcs_strat0 <- do.call("rbind", beta_pcs_strat0_list)
+  beta_pcs_strat1 <- do.call("rbind", beta_pcs_strat1_list)
+  
+  beta_pcs_strat0 <- mutate(beta_pcs_strat0, var_idx = factor(1:nrow(beta_pcs_strat0)))
+  beta_pcs_strat1 <- mutate(beta_pcs_strat1, var_idx = factor(1:nrow(beta_pcs_strat1)))
+  
+  return(list(beta_pcs_strat0 = beta_pcs_strat0, beta_pcs_strat1 = beta_pcs_strat1))
+  
+}
+```
+
+
+
+
+
+# CHD
+
+```{r}
+
+beta_inf_poverty <- readRDS(here("modeling_files/stratified_analysis/beta_inference_files/CHD_poverty.rds"))
+
+beta_inf_rpl1 <- readRDS(here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl1.rds"))
+
+beta_inf_rpl2 <- readRDS(here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl2.rds"))
+
+beta_inf_rpl3 <- readRDS(here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl3.rds"))
+
+beta_inf_rpl4 <- readRDS(here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpl4.rds"))
+
+beta_inf_rpls <- readRDS(here("modeling_files/stratified_analysis/beta_inference_files/CHD_rpls.rds"))
+
+```
+
+
+
+```{r}
+
+beta_inf_poverty_df <- beta_inf2data_frame(beta_inf_poverty)
+
+beta_inf_rpl1_df <- beta_inf2data_frame(beta_inf_rpl1)
+
+beta_inf_rpl2_df <- beta_inf2data_frame(beta_inf_rpl2)
+
+beta_inf_rpl3_df <- beta_inf2data_frame(beta_inf_rpl3)
+
+beta_inf_rpl4_df <- beta_inf2data_frame(beta_inf_rpl4)
+
+beta_inf_rpls_df <- beta_inf2data_frame(beta_inf_rpls)
+
+
+
+beta_df_list <- list(beta_inf_poverty_df, beta_inf_rpl1_df, beta_inf_rpl2_df, 
+                     beta_inf_rpl3_df, beta_inf_rpl4_df, beta_inf_rpls_df)
+
+```
+
+```{r}
+pc_idx <- 2:6
+  
+beta_CHD_pcs <- beta_data_frames_stack(beta_df_list, pc_idx)
+```
+
+```{r}
+p <- ggplot(beta_CHD_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, color = strat)) + 
+  geom_point() +
+  ylim(c(-0.11, 0.065)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_vline(xintercept = 5 * c(1:5) + 0.5, col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  annotate(geom = "text", x = 3, y = 0.06, label = "POV\nStrata",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 8, y = 0.06, label = "Theme 1\nStrata",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 13, y = 0.06, label = "Theme 2\nStrata",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 18, y = 0.06, label = "Theme 3\nStrata",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 23, y = 0.06, label = "Theme 4\nStrata",
+           col = "blue", size = 4.5) +
+  annotate(geom = "text", x = 28, y = 0.06, label = "All Theme\nStrata",
+           col = "blue", size = 4.5) +
+  scale_x_discrete(labels = rep(c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5"), 6)) + ggtitle("95% Credible Intervals for Flood Risk PCs, Coronary Heart Disease") + 
+  geom_point(data = beta_CHD_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_CHD_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+p
+```
+
+
+
+

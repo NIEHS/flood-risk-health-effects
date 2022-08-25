@@ -196,7 +196,7 @@ p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
-        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
   geom_vline(xintercept = c(5.5, 21.5, 24.5, 26.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
@@ -215,6 +215,12 @@ p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Coronary Heart Disease")
 
 p
+```
+
+```{r}
+ggsave(here("figures/final_figures/CHD_cred_intervals.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
 ```
 
 
@@ -371,7 +377,7 @@ p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
-        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
   geom_vline(xintercept = c(5.5, 21.5, 24.5, 26.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
@@ -390,6 +396,12 @@ p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, High Blood Pressure")
 
 p
+```
+
+```{r}
+ggsave(here("figures/final_figures/BPHIGH_cred_intervals.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
 ```
 
 
@@ -546,7 +558,7 @@ p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
-        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
   geom_vline(xintercept = c(5.5, 21.5, 24.5, 26.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
@@ -565,6 +577,12 @@ p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Asthma")
 
 p
+```
+
+```{r}
+ggsave(here("figures/final_figures/CASTHMA_cred_intervals.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
 ```
 
 
@@ -721,7 +739,7 @@ p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
   geom_point() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
-        plot.margin = margin(5.5, 5.5, 5.5, 10)) +
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
   geom_vline(xintercept = c(5.5, 21.5, 24.5, 26.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
@@ -740,6 +758,12 @@ p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) +
                               "Smoking")) + ggtitle("95% Credible Intervals of Coefficients, Poor Mental Health")
 
 p
+```
+
+```{r}
+ggsave(here("figures/final_figures/MHLTH_cred_intervals.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
 ```
 
 

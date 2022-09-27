@@ -22,8 +22,9 @@ beta_inf2data_frame <- function(beta_inference) {
                               post_median = `50%`,
                               post_2.5 = `2.5%`, 
                               post_97.5 = `97.5%`)
-  beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                         rep("Upper", (nrow(beta_inference_df)/2))))
+  beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                         rep("High SV", (nrow(beta_inference_df)/2))), 
+                                       levels = c("Low SV", "High SV"))
   
   return(beta_inference_df)
   
@@ -160,7 +161,7 @@ Make a summary of significant coefficients and their signs, for each strata
 
 signif_summ <- matrix(NA, nrow = 2, ncol = 5 * 6)
 
-row.names(signif_summ) <- c("Lower", "Upper")
+row.names(signif_summ) <- c("Low SV", "High SV")
 colnames(signif_summ) <- paste(rep(c("POV Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
                                       "Theme 3 Strata PC", "Theme 4 Strata PC", "All Theme Strata PC"), each = 5),
                                 rep(1:5, times = 6))
@@ -287,7 +288,7 @@ Make a summary of significant coefficients and their signs, for each strata
 
 signif_summ <- matrix(NA, nrow = 2, ncol = 5 * 6)
 
-row.names(signif_summ) <- c("Lower", "Upper")
+row.names(signif_summ) <- c("Low SV", "High SV")
 colnames(signif_summ) <- paste(rep(c("POV Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
                                       "Theme 3 Strata PC", "Theme 4 Strata PC", "All Theme Strata PC"), each = 5),
                                 rep(1:5, times = 6))
@@ -416,7 +417,7 @@ Make a summary of significant coefficients and their signs, for each strata
 
 signif_summ <- matrix(NA, nrow = 2, ncol = 5 * 6)
 
-row.names(signif_summ) <- c("Lower", "Upper")
+row.names(signif_summ) <- c("Low SV", "High SV")
 colnames(signif_summ) <- paste(rep(c("POV Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
                                       "Theme 3 Strata PC", "Theme 4 Strata PC", "All Theme Strata PC"), each = 5),
                                 rep(1:5, times = 6))
@@ -545,7 +546,7 @@ Make a summary of significant coefficients and their signs, for each strata
 
 signif_summ <- matrix(NA, nrow = 2, ncol = 5 * 6)
 
-row.names(signif_summ) <- c("Lower", "Upper")
+row.names(signif_summ) <- c("Low SV", "High SV")
 colnames(signif_summ) <- paste(rep(c("POV Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
                                       "Theme 3 Strata PC", "Theme 4 Strata PC", "All Theme Strata PC"), each = 5),
                                 rep(1:5, times = 6))

@@ -67,3 +67,11 @@ W.islands <- n.comp.nb(W.nb)
 islands <- W.islands$comp.id
 n.islands <- max(W.islands$nc)
 if(rho==1) tau2.posterior.shape <- prior.tau2[1] + 0.5 * (K-n.islands) 
+
+
+
+
+head(scale(as.matrix(flood_risk[complete.cases(flood_risk), ])) %*% fr_loadings_scaled[, 1:5])
+
+
+

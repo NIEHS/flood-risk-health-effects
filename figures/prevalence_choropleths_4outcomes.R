@@ -45,7 +45,7 @@ mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 
 
 
 
-fhs_model_df <- readRDS("intermediary_data/fhs_model_df_all_census_tract_pc.rds")
+fhs_model_df <- readRDS("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds")
 
 fips <- as.character(fhs_model_df$fips)
 
@@ -58,19 +58,28 @@ outcome_df <- data.frame(GEOID10 = fips_leading_zero, Prevalence = mean.fitted)
 
 
 
-all_ct_df@data <- left_join(all_ct_df@data, outcome_df, by = "GEOID10")
+# consider plotting just for NC to test out code
 
-all_ct_df2 <- broom::tidy(all_ct_df, region = "GEOID10")
+all_ct_df_NC <- all_ct_df[all_ct_df$STATEFP10 == 37, ]
 
-
-
-all_ct_df2 <- all_ct_df2 %>% left_join(all_ct_df@data, by = c("id" = "GEOID10"))
-
-map_all_ct_CHD <- ggplot() + geom_polygon(data = shp_se_states_df, aes(x = long, y = lat, group = group, fill = Prevalence)) + theme_void() + 
-  scale_fill_viridis()
+tm_shape(all_ct_df_NC) +
+  tm_polygons("GEOID10")
 
 
 
+# # below chunk of code takes too long
+# 
+# all_ct_df@data <- left_join(all_ct_df@data, outcome_df, by = "GEOID10")
+# 
+# all_ct_df2 <- broom::tidy(all_ct_df, region = "GEOID10")
+# 
+# 
+# 
+# all_ct_df2 <- all_ct_df2 %>% left_join(all_ct_df@data, by = c("id" = "GEOID10"))
+# 
+# map_all_ct_CHD <- ggplot() + geom_polygon(data = shp_se_states_df, aes(x = long, y = lat, group = group, fill = Prevalence)) + theme_void() + 
+#   scale_fill_viridis()
+# 
 # map_all_ct_CHD
 
 

@@ -20,6 +20,21 @@ i_am("reports/basic_CAR_model_all_census_tract.Rmd")
 fhs_model_df <- readRDS("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds")
 ```
 
+Function for post-processing the inference
+
+```{r}
+pc_idx <- 2:6
+pc2flip <- c(-1, 1, -1, -1, -1)
+
+post_flip <- function(beta_inf_subset, pc2flip) {
+  names_temp <- colnames(beta_inf_subset)
+  beta_inf_subset[pc2flip == -1, ] <- beta_inf_subset[pc2flip == -1, c(1, 3, 2)]
+  colnames(beta_inf_subset) <- names_temp
+  return(sweep(beta_inf_subset, 1, pc2flip, FUN = "*"))
+}
+```
+
+
 
 
 # CAR model results, Coronary Heart Disease
@@ -152,7 +167,12 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 19:(ncol(fh
 ```
 
 ```{r}
-(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+
+# flipping the inference results according to the flipped PCs
+beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
+
+beta_inference
 ```
 
 <!-- Net Effect interpretation: what if each variable in a group (flood risk variables, SVIs, air pollution variables) increased by 1 standard deviation? What is the resulting change in the dependent variable? -->
@@ -333,7 +353,12 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 19:(ncol(fh
 ```
 
 ```{r}
-(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+
+# flipping the inference results according to the flipped PCs
+beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
+
+beta_inference
 ```
 
 <!-- Net Effect interpretation: what if each variable in a group (flood risk variables, SVIs, air pollution variables) increased by 1 standard deviation? What is the resulting change in the dependent variable? -->
@@ -514,7 +539,12 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 19:(ncol(fh
 ```
 
 ```{r}
-(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+
+# flipping the inference results according to the flipped PCs
+beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
+
+beta_inference
 ```
 
 <!-- Net Effect interpretation: what if each variable in a group (flood risk variables, SVIs, air pollution variables) increased by 1 standard deviation? What is the resulting change in the dependent variable? -->
@@ -695,7 +725,12 @@ colnames(beta_samples_matrix) <- c("Intercept", names(fhs_model_df[, 19:(ncol(fh
 ```
 
 ```{r}
-(beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5))
+beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+
+# flipping the inference results according to the flipped PCs
+beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
+
+beta_inference
 ```
 
 <!-- Net Effect interpretation: what if each variable in a group (flood risk variables, SVIs, air pollution variables) increased by 1 standard deviation? What is the resulting change in the dependent variable? -->

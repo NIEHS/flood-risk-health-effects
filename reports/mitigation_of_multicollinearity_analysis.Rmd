@@ -97,12 +97,16 @@ summ_pca <- summary(fr_pca)
 summ_pca$importance[,1:10]
 ```
 
-We started out with 22 variables. Including five PC scores would include >80% of the variance. Perhaps I can also look at the top 8 PCs, to get >90% variance explained. 
+We started out with 22 variables. Including five PC scores would include >80% of the variance. 
+
+```{r}
+num_pc <- unname(which(summ_pca$importance[3, ] > 0.80)[1])
+```
 
 Printing out the loadings, from most negative to least
 
 ```{r}
-round(fr_loadings[, 1:8], digits = 2)
+round(fr_loadings[, 1:num_pc], digits = 2)
 ```
 
 ```{r}
@@ -119,6 +123,33 @@ ggplot(fr_loadings_df) +
 ```
 
 **Data pre-processing decision: Use first 5 flood risk PCs.**
+
+### Getting the loadings that account for scaling after the PCA
+
+```{r}
+pc_sdev <- fr_pca$sdev[1:num_pc]
+```
+
+```{r}
+fr_loadings_scaled <- sweep(fr_loadings[, 1:num_pc], 2, pc_sdev, FUN = "/")
+```
+
+```{r}
+round(fr_loadings_scaled, 2)
+```
+
+<!-- TODO: flip PC 1, PC 3, PC 4, PC 5 to make them more intuitive -->
+
+```{r}
+pc2flip <- c(-1, 1, -1, -1, -1)
+
+fr_loadings_scaled_flipped <- sweep(fr_loadings_scaled, 2, pc2flip, FUN = "*")
+```
+
+
+```{r}
+round(fr_loadings_scaled_flipped, 2)
+```
 
 
 

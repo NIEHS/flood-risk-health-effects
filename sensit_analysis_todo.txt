@@ -1,10 +1,8 @@
 Summarizing sensitivity analysis, in list format
 •	Including more PCs such that 90% of the variance is accounted for (8 PCs) - drop
-•	Using the original flood risk variables selected by a VIF-based procedure
+•	Using the original flood risk variables selected by a VIF-based procedure - just focus on FF scores, can figure out how to group things better (reasonable ppl doing reasonable things)
 •	Remove certain sets of variables, i.e., social vulnerability indices, weather variables, pollution variables, etc. 
 •	Fit non-spatial models
 •	use a two-stage propensity score adjustment in the models
-	o	The spatial propensity score (labelled "S+P" in the review) seems to be a reasonable approach.  A complication for you is that there are multiple treatments, one for each PC.  But for the purpose of a sensitivity analysis you could just include the propensity score for the first PC because that's the only one that appears to have an effect.
-•	use low and high climate scenario for the flood risk variables as well as mid
-
-•	Fit a Poisson CAR model rather than a Gaussian CAR
+	o	The spatial propensity score (labelled "S+P" in the review) seems to be a reasonable approach.  A complication for you is that there are multiple treatments, one for each PC.  But for the purpose of a sensitivity analysis you could just include the propensity score for the first PC because that's the only one that appears to have an effect. -- open can of worms? Just do for your own benefit
+•	use low and high climate scenario for the flood risk variables as well as mid -- maybe just do it for the high

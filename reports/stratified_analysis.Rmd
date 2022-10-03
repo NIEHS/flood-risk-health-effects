@@ -215,8 +215,8 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -320,8 +320,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -423,8 +423,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -529,8 +529,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -636,8 +636,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -743,8 +743,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -844,8 +844,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -947,8 +947,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1050,8 +1050,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1156,8 +1156,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1263,8 +1263,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1370,8 +1370,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1473,8 +1473,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1576,8 +1576,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1679,8 +1679,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1785,8 +1785,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1892,8 +1892,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -1999,8 +1999,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -2102,8 +2102,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -2205,8 +2205,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -2308,8 +2308,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -2414,8 +2414,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -2521,8 +2521,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -2628,8 +2628,8 @@ beta_inference_df <- rename(beta_inference_df,
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
-beta_inference_df$strat <- as.factor(c(rep("Lower", (nrow(beta_inference_df)/2)), 
-                                       rep("Upper", (nrow(beta_inference_df)/2))))
+beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
+                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata

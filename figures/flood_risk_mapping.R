@@ -38,19 +38,19 @@ i_am("figures/flood_risk_mapping.R")
 
 # reading in the shapefiles for all SE states
 
-shp_nc <- readOGR(dsn = "/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/flood-risk-health-effects/figures/census_tract_shapefiles/tl_2010_37_tract10/tl_2010_37_tract10.shp")  
+shp_nc <- readOGR(dsn = here("imported_data/census_tract_shapefiles", "tl_2010_37_tract10", paste0("tl_2010_37_tract10", ".shp")))  
 
-shp_sc <- readOGR(dsn = "/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/flood-risk-health-effects/figures/census_tract_shapefiles/tl_2010_45_tract10/tl_2010_45_tract10.shp")  
+shp_sc <- readOGR(dsn = here("imported_data/census_tract_shapefiles", "tl_2010_45_tract10", paste0("tl_2010_45_tract10", ".shp")))  
 
-shp_tn <- readOGR(dsn = "/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/flood-risk-health-effects/figures/census_tract_shapefiles/tl_2010_47_tract10/tl_2010_47_tract10.shp") 
+shp_tn <- readOGR(dsn = here("imported_data/census_tract_shapefiles", "tl_2010_47_tract10", paste0("tl_2010_47_tract10", ".shp"))) 
 
-shp_ga <- readOGR(dsn = "/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/flood-risk-health-effects/figures/census_tract_shapefiles/tl_2010_13_tract10/tl_2010_13_tract10.shp") 
+shp_ga <- readOGR(dsn = here("imported_data/census_tract_shapefiles", "tl_2010_13_tract10", paste0("tl_2010_13_tract10", ".shp"))) 
 
-shp_al <- readOGR(dsn = "/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/flood-risk-health-effects/figures/census_tract_shapefiles/tl_2010_01_tract10/tl_2010_01_tract10.shp") 
+shp_al <- readOGR(dsn = here("imported_data/census_tract_shapefiles", "tl_2010_01_tract10", paste0("tl_2010_01_tract10", ".shp"))) 
 
-shp_ms <- readOGR(dsn = "/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/flood-risk-health-effects/figures/census_tract_shapefiles/tl_2010_28_tract10/tl_2010_28_tract10.shp") 
+shp_ms <- readOGR(dsn = here("imported_data/census_tract_shapefiles", "tl_2010_28_tract10", paste0("tl_2010_28_tract10", ".shp"))) 
 
-shp_fl <- readOGR(dsn = "/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/flood-risk-health-effects/figures/census_tract_shapefiles/tl_2010_12_tract10/tl_2010_12_tract10.shp") 
+shp_fl <- readOGR(dsn = here("imported_data/census_tract_shapefiles", "tl_2010_12_tract10", paste0("tl_2010_12_tract10", ".shp"))) 
 
 
 
@@ -75,7 +75,7 @@ shp_se_states <- do.call(rbind, list(shp_nc, shp_sc, shp_tn, shp_ga, shp_al, shp
 
 # check map against the one in the Rmd
 
-fhs_model_df <- readRDS("/Users/Alvin/Documents/NCSU_Fall_2021/NIH_SIP/flood-risk-health-effects/intermediary_data/fhs_model_df_sw_states_census_tract.rds")
+fhs_model_df <- readRDS("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds")
 
 fips <- as.character(fhs_model_df$fips)
 

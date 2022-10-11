@@ -245,6 +245,27 @@ ggsave(here("figures/final_figures/CHD_cred_intervals.pdf"),
 
 
 
+```{r}
+p <- ggplot(beta_inference_df[2:6, ], aes(x = var_name, y = post_median)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  geom_hline(yintercept = 0, col = "red") +
+  scale_x_discrete(labels = c("Flood PC 1", "Flood PC 2", "Flood PC 3", "Flood PC 4", "Flood PC 5")) + ggtitle("95% Credible Intervals for Flood Risk PCs, Coronary Heart Disease")
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/CHD_cred_intervals_fr_only.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
 # CAR model results, High Blood Pressure
 
 Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
@@ -425,6 +446,25 @@ p
 
 ```{r}
 ggsave(here("figures/final_figures/BPHIGH_cred_intervals.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+```{r}
+p <- ggplot(beta_inference_df[2:6, ], aes(x = var_name, y = post_median)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  geom_hline(yintercept = 0, col = "red") +
+  scale_x_discrete(labels = c("Flood PC 1", "Flood PC 2", "Flood PC 3", "Flood PC 4", "Flood PC 5")) + ggtitle("95% Credible Intervals for Flood Risk PCs, High Blood Pressure")
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/BPHIGH_cred_intervals_fr_only.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 ```
@@ -615,6 +655,25 @@ ggsave(here("figures/final_figures/CASTHMA_cred_intervals.pdf"),
        width = 8, height = 6, units = "in")
 ```
 
+```{r}
+p <- ggplot(beta_inference_df[2:6, ], aes(x = var_name, y = post_median)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  geom_hline(yintercept = 0, col = "red") +
+  scale_x_discrete(labels = c("Flood PC 1", "Flood PC 2", "Flood PC 3", "Flood PC 4", "Flood PC 5")) + ggtitle("95% Credible Intervals for Flood Risk PCs, Asthma")
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/CASTHMA_cred_intervals_fr_only.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
 
 
 # CAR model results, Poor Mental Health
@@ -797,6 +856,25 @@ p
 
 ```{r}
 ggsave(here("figures/final_figures/MHLTH_cred_intervals.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+```{r}
+p <- ggplot(beta_inference_df[2:6, ], aes(x = var_name, y = post_median)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  geom_hline(yintercept = 0, col = "red") +
+  scale_x_discrete(labels = c("Flood PC 1", "Flood PC 2", "Flood PC 3", "Flood PC 4", "Flood PC 5")) + ggtitle("95% Credible Intervals for Flood Risk PCs, Poor Mental Health")
+
+p
+```
+
+```{r}
+ggsave(here("figures/final_figures/MHLTH_cred_intervals_fr_only.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 ```

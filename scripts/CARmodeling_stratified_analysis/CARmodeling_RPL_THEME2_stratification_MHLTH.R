@@ -24,7 +24,7 @@ fhs_model_df <- fhs_model_df[, -(ncol(fhs_model_df) + c(-3, -2, -1))]
 strat_covariate <- fhs_model_df$RPL_THEME2
 fhs_model_df <- select(fhs_model_df, -EP_AGE65, -EP_AGE17, -EP_DISABL, -EP_SNGPNT)
 
-source(here("scripts/sensitan_helper_fns.R"))
+source(here("scripts/fhs_car_chains_stratif_function.R"))
 
 
 

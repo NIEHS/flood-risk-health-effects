@@ -15,11 +15,12 @@
 #' @param keep_first vector of spatial units to keep the parameters for; for other subjects, 
 #' keep track of the running posterior mean.
 #' @param num_chains number of desired chains
+#' @param save_dir directory to save the list of MCMC results
 #' @param subset_omit subset of variables to omit from dat_frame
 #' @return MCMC chains
 #' @export
 fhs_car_chains_subset_omit <- function(dat_frame, first_var, W, rho = NULL, n_burn_in, n_iter, thin = 1, 
-                           keep_first = 1:nrow(dat_frame), num_chains = 3, subset_omit = c()) {
+                           keep_first = 1:nrow(dat_frame), num_chains = 3, save_dir, subset_omit = c()) {
   
   # extract the response variable
   
@@ -54,9 +55,7 @@ fhs_car_chains_subset_omit <- function(dat_frame, first_var, W, rho = NULL, n_bu
     
   }
   
-  
-  
-  return(chain_list)
+  save(chain_list, file = save_dir)
   
 }
 

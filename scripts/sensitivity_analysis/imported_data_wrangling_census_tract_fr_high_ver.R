@@ -103,7 +103,7 @@ caces_lur_summ$fips[caces_lur_summ$fips %/% 1e6 == 51515] <- caces_lur_summ$fips
 
 
 
-caces_lur_summ <- readRDS(file = here("intermediary_data/caces_lur_summ_census_tract.rds"))
+# caces_lur_summ <- readRDS(file = here("intermediary_data/caces_lur_summ_census_tract.rds"))
 
 
 
@@ -159,7 +159,7 @@ flood_health_svi <- left_join(flood_health_svi, mean_df_GRIDMET, by = "fips")
 
 # Removing redundant columns, moving id columns to the left
 
-flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_all_census_tract.rds"))
+# flood_health_svi <- readRDS(file = here("intermediary_data/flood_health_svi_all_census_tract.rds"))
 
 # remove places_dat variables other than Data_Value_CHD
 # this also puts the outcome variable as the last variable
@@ -194,7 +194,7 @@ fhs_model_df <- fhs_svi_subset
 
 ####################
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract.rds"))
+# fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract.rds"))
 
 
 
@@ -233,7 +233,7 @@ census_tract_adj <- sparseMatrix(row_idx_vec, col_idx_vec)
 
 # final processing of census_tract_adj and fhs_model_df
 
-census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_all.rds"))
+# census_tract_adj <- readRDS(here("intermediary_data", "census_tract_adj_all.rds"))
 
 
 
@@ -270,7 +270,7 @@ census_tract_fips <- census_tract_fips[reorganize_idx]
 
 # Replacing flood risk variables with the PCs
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
+# fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg.rds"))
 
 first_var <- 19
 
@@ -314,7 +314,7 @@ fhs_model_df <- fhs_model_df %>% relocate(starts_with("flood_risk_pc"), .after =
 
 # Replacing the pollution variables with the first PC
 
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
+# fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
 
 first_var <- 40
 
@@ -351,29 +351,5 @@ fhs_model_df <- fhs_model_df %>% relocate(starts_with("pollute_conc_pc"), .after
 
 
 saveRDS(fhs_model_df, file = here("intermediary_data/sensitivity_analysis/fhs_model_df_high_ver.rds"))
-
-
-
-
-
-# # Partitioning the U.S. into several regions, to estimate rho parameter via divide-and-conquer
-# 
-# # Setting up for bigDM package
-# install.packages("devtools")
-# library(devtools)
-# install.packages("INLA", repos=c(getOption("repos"), INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
-# install_github("spatialstatisticsupna/bigDM")
-# install.packages("lwgeom")
-# 
-# # using bigDM package to chop U.S. into 9 rectangular regions
-# library(bigDM)
-# library(tmap)
-# library(lwgeom)
-# 
-# rand_carto <- random_partition(all_ct_df, max.size = NULL)
-# 
-# tm_shape(rand_carto) +
-#   tm_polygons(col="ID.group") +
-#   tm_layout(legend.show=FALSE)
 
 

@@ -95,10 +95,6 @@ extracted_fr <- do.call("rbind", extracted_fr_list)
 
 
 
-# TODO: check that extracted_fr is the same even with read_csv
-
-
-
 saveRDS(extracted_fr, file = here("intermediary_data/extracted_fr.rds"))
 
 

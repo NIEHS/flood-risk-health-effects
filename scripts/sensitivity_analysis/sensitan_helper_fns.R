@@ -1,7 +1,7 @@
 
 # Functions for the sensitivity analyses
 
-
+source(here("scripts/my_gaussian_leroux_car.R"))
 
 #' Function to omit sets of variables and run the model
 #'

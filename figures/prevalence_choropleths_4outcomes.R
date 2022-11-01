@@ -10,8 +10,6 @@ library(stringr)
 library(geomerge)
 library(tmap)
 
-# first test if you can get blank plot, with reduced dpi
-
 
 
 # using 2010 census tract boundaries
@@ -184,20 +182,20 @@ dev.off()
 
 
 
-# # below chunk of code takes too long
-# 
-# all_ct_df@data <- left_join(all_ct_df@data, outcome_df, by = "GEOID10")
-# 
-# all_ct_df2 <- broom::tidy(all_ct_df, region = "GEOID10")
-# 
-# 
-# 
-# all_ct_df2 <- all_ct_df2 %>% left_join(all_ct_df@data, by = c("id" = "GEOID10"))
-# 
-# map_all_ct_CHD <- ggplot() + geom_polygon(data = shp_se_states_df, aes(x = long, y = lat, group = group, fill = CHD_prevalence_smoothed)) + theme_void() + 
-#   scale_fill_viridis()
-# 
-# map_all_ct_CHD
+# Checking out raw prevalences for MHLTH, just to check
+
+outcome_df_raw <- data.frame(GEOID10 = fips_leading_zero,
+                         MHLTH_prevalence = fhs_model_df$Data_Value_MHLTH)
+
+# merge outcome_df to all_ct_df's dataframe (@data)
+
+all_ct_df@data <- left_join(all_ct_df@data, outcome_df_raw)
+
+jpeg(file = here("figures/MHLTH_raw_prevalence.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("MHLTH_prevalence", palette = "viridis", 
+          title = "Poor Mental Health\nRaw Prevalence", style = "cont")
+dev.off()
 
 
 

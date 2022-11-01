@@ -60,19 +60,19 @@ omit_subsets_run_model <- function(dat_frame, save_folder) {
                              subset_omit = c("EP_POV", "EP_UNEMP", "EP_PCI", "EP_NOHSDP", 
                                              "EP_AGE65", "EP_AGE17", "EP_DISABL", "EP_SNGPNT", 
                                              "EP_MINRTY", "EP_LIMENG", "EP_MUNIT", "EP_MOBILE", 
-                                             "EP_CROWD", "EP_NOVEH", "EP_GROUPQ", "EP_UNINSUR")) 
+                                             "EP_CROWD", "EP_NOVEH", "EP_GROUPQ")) 
   
-  # weather
-  fhs_car_chains_subset_omit(dat_frame, first_var, W, rho, n_burn_in, n_iter, thin, 
-                             keep_first, num_chains, 
-                             save_dir = paste0(save_folder, "omit_pollution.RData"), 
-                             subset_omit = c("pollute_conc_pc1", "pollute_conc_pc2", "pollute_conc_pc3")) 
+  # # weather
+  # fhs_car_chains_subset_omit(dat_frame, first_var, W, rho, n_burn_in, n_iter, thin, 
+  #                            keep_first, num_chains, 
+  #                            save_dir = paste0(save_folder, "omit_pollution.RData"), 
+  #                            subset_omit = c("pollute_conc_pc1", "pollute_conc_pc2", "pollute_conc_pc3")) 
   
-  # pollution
-  fhs_car_chains_subset_omit(dat_frame, first_var, W, rho, n_burn_in, n_iter, thin, 
-                             keep_first, num_chains, 
-                             save_dir = paste0(save_folder, "omit_weather.RData"), 
-                             subset_omit = c("tmmx", "rmax"))
+  # # pollution
+  # fhs_car_chains_subset_omit(dat_frame, first_var, W, rho, n_burn_in, n_iter, thin, 
+  #                            keep_first, num_chains, 
+  #                            save_dir = paste0(save_folder, "omit_weather.RData"), 
+  #                            subset_omit = c("tmmx", "rmax"))
   
 }
 

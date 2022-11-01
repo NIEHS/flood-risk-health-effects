@@ -17,7 +17,7 @@ library(tidyverse)
 ```
 
 ```{r}
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_pc.rds"))
+fhs_model_df <- readRDS("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds")
 ```
 
 Function for post-processing the inference

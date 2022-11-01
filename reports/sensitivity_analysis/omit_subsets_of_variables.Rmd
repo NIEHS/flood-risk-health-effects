@@ -1,0 +1,319 @@
+---
+title: 'Sensitivity Analysis: Omitting Subsets of Variables'
+author: "Alvin Sheng"
+output: 
+  pdf_document:
+    toc: true
+---
+
+\newpage
+
+```{r}
+library(here)
+library(coda)
+library(CARBayes)
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+fhs_model_df <- readRDS("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds")
+
+var_names <- c("Intercept", names(fhs_model_df[, 19:(ncol(fhs_model_df) - 4)]))
+```
+
+```{r}
+names_omit_svi <- var_names[!(var_names %in% c("EP_POV", "EP_UNEMP", "EP_PCI", "EP_NOHSDP", 
+                                             "EP_AGE65", "EP_AGE17", "EP_DISABL", "EP_SNGPNT", 
+                                             "EP_MINRTY", "EP_LIMENG", "EP_MUNIT", "EP_MOBILE", 
+                                             "EP_CROWD", "EP_NOVEH", "EP_GROUPQ"))]
+```
+
+Function for post-processing the inference
+
+```{r}
+pc_idx <- 2:6
+pc2flip <- c(-1, 1, -1, -1, -1)
+
+post_flip <- function(beta_inf_subset, pc2flip) {
+  names_temp <- colnames(beta_inf_subset)
+  beta_inf_subset[pc2flip == -1, ] <- beta_inf_subset[pc2flip == -1, c(1, 3, 2)]
+  colnames(beta_inf_subset) <- names_temp
+  return(sweep(beta_inf_subset, 1, pc2flip, FUN = "*"))
+}
+```
+
+
+
+# CHD Sensitivity Analysis
+
+## CAR model results, Coronary Heart Disease, Omitting SVI
+
+Inference is based on 3 markov chains, each of which has been run for 110000 samples, the first 10000 of which has been removed for burn-in. The remaining 100000 samples are thinned by 2, resulting in 150000 samples for inference across the 3 Markov chains. 
+
+```{r}
+load(here("modeling_files/sensitivity_analysis/omit_subsets_of_variables/CHD_omit_SVI.RData"))
+```
+
+### Beta samples
+
+```{r}
+beta_samples <- mcmc.list(chain_list[[1]]$samples$beta, chain_list[[2]]$samples$beta, 
+                          chain_list[[3]]$samples$beta)
+```
+
+```{r}
+effectiveSize(beta_samples)
+```
+
+```{r, eval = F, include = F}
+plot(beta_samples)
+```
+
+```{r, eval = F, include = F}
+gelman.diag(beta_samples)
+```
+
+
+
+
+### Examining sigma2, nu2, rho
+
+```{r}
+sigma2_samples <- mcmc.list(chain_list[[1]]$samples$sigma2, chain_list[[2]]$samples$sigma2, 
+                          chain_list[[3]]$samples$sigma2)
+
+nu2_samples <- mcmc.list(chain_list[[1]]$samples$nu2, chain_list[[2]]$samples$nu2, 
+                          chain_list[[3]]$samples$nu2)
+
+```
+
+```{r}
+effectiveSize(sigma2_samples)
+effectiveSize(nu2_samples)
+```
+
+```{r, eval = F, include = F}
+plot(sigma2_samples)
+
+plot(nu2_samples)
+```
+
+```{r, eval = F, include = F}
+gelman.diag(sigma2_samples)
+```
+
+```{r, eval = F, include = F}
+gelman.diag(nu2_samples)
+```
+
+
+
+### Examining a sample of the 3108 phi parameters
+
+```{r}
+phi_samples <- mcmc.list(chain_list[[1]]$samples$phi, chain_list[[2]]$samples$phi, 
+                          chain_list[[3]]$samples$phi)
+```
+
+```{r}
+set.seed(1157, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+
+phi_subset_idx <- sample(1:ncol(phi_samples[[1]]), size = 10)
+
+phi_samples_subset <- phi_samples[, phi_subset_idx]
+```
+
+```{r}
+effectiveSize(phi_samples_subset)
+```
+
+```{r, eval = F, include = F}
+plot(phi_samples_subset)
+```
+
+```{r, eval = F, include = F}
+gelman.diag(phi_samples_subset)
+```
+
+
+
+### Inference
+
+```{r}
+beta_samples_matrix <- rbind(chain_list[[1]]$samples$beta, chain_list[[2]]$samples$beta, 
+                          chain_list[[3]]$samples$beta)
+
+colnames(beta_samples_matrix) <- names_omit_svi
+```
+
+```{r}
+beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+
+# flipping the inference results according to the flipped PCs
+beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
+
+beta_inference
+```
+
+```{r}
+# TODO
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/CHD_poverty.rds"))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+
+beta_inference_df <- as.data.frame(beta_inference)
+
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_inference_df$var_name)
+```
+
+```{r}
+# TODO
+p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  #geom_vline(xintercept = c(5.5, 21.5, 24.5, 26.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  #annotate(geom = "text", x = 3.5, y = 1.65, label = "Flood\nRisk",
+           # col = "blue", size = 4.5) +
+  #annotate(geom = "text", x = 13.5, y = 1.7, label = "Social Vulnerability Index",
+           # col = "blue", size = 4.5) +
+  # scale_x_discrete(labels = c("Flood PC 1", "Flood PC 2", "Flood PC 3", "Flood PC 4", "Flood PC 5",
+  #                             "Poverty", "Unemployed", "Per Capita Income", "No High School",
+  #                             "65 or Over", "17 or Under", "Disability",
+  #                             "Single-Parent", "Minority", "Poor English",
+  #                             "Multi-Unit", "Mobile", "Crowded",
+  #                             "No Vehicle", "Group Quarters", "Uninsured",
+  #                             "Pollution PC 1", "Pollution PC 2", "Pollution PC 3",
+  #                             "Maximum Temperature", "Maximum Humidity",
+  #                             "Smoking")) + 
+  ggtitle("95% Credible Intervals of Coefficients, Coronary Heart Disease")
+
+p
+```
+
+```{r}
+# TODO
+ggsave(here("figures/final_figures/stratified_analysis/CHD_CI_poverty.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+
+
+# BHIGH Sensitivity Analysis
+
+## CAR model results, High Blood Pressure, Omitting SVI
+
+```{r}
+load(here("modeling_files/sensitivity_analysis/omit_subsets_of_variables/BPHIGH_omit_SVI.RData"))
+```
+
+
+
+### Inference
+
+```{r}
+beta_samples_matrix <- rbind(chain_list[[1]]$samples$beta, chain_list[[2]]$samples$beta, 
+                          chain_list[[3]]$samples$beta)
+
+colnames(beta_samples_matrix) <- names_omit_svi
+```
+
+```{r}
+beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+
+# flipping the inference results according to the flipped PCs
+beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
+
+beta_inference
+```
+
+```{r}
+# TODO
+saveRDS(beta_inference, file = here("modeling_files/stratified_analysis/beta_inference_files/BPHIGH_poverty.rds"))
+```
+
+List of significant beta coefficients: 
+
+```{r}
+colnames(beta_samples_matrix)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])]
+```
+
+
+
+### Credible Interval plots for the coefficients, in ggplot
+
+```{r}
+# first, process the beta_inference matrix in a form ggplot can understand
+
+beta_inference_df <- as.data.frame(beta_inference)
+
+beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
+
+beta_inference_df <- rename(beta_inference_df, 
+                            post_median = `50%`,
+                            post_2.5 = `2.5%`, 
+                            post_97.5 = `97.5%`)
+
+beta_inference_df$var_name <- factor(beta_inference_df$var_name, levels = beta_inference_df$var_name)
+```
+
+```{r}
+# TODO
+p <- ggplot(beta_inference_df[-1, ], aes(x = var_name, y = post_median)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4)) + 
+  #geom_vline(xintercept = c(5.5, 21.5, 24.5, 26.5), col = "blue") +
+  geom_hline(yintercept = 0, col = "red") +
+  #annotate(geom = "text", x = 3.5, y = 1.65, label = "Flood\nRisk",
+           # col = "blue", size = 4.5) +
+  #annotate(geom = "text", x = 13.5, y = 1.7, label = "Social Vulnerability Index",
+           # col = "blue", size = 4.5) +
+  # scale_x_discrete(labels = c("Flood PC 1", "Flood PC 2", "Flood PC 3", "Flood PC 4", "Flood PC 5",
+  #                             "Poverty", "Unemployed", "Per Capita Income", "No High School",
+  #                             "65 or Over", "17 or Under", "Disability",
+  #                             "Single-Parent", "Minority", "Poor English",
+  #                             "Multi-Unit", "Mobile", "Crowded",
+  #                             "No Vehicle", "Group Quarters", "Uninsured",
+  #                             "Pollution PC 1", "Pollution PC 2", "Pollution PC 3",
+  #                             "Maximum Temperature", "Maximum Humidity",
+  #                             "Smoking")) + 
+  ggtitle("95% Credible Intervals of Coefficients, High Blood Pressure")
+
+p
+```
+
+```{r}
+# TODO
+ggsave(here("figures/final_figures/stratified_analysis/BPHIGH_CI_poverty.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+```
+
+

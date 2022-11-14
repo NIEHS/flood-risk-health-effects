@@ -276,21 +276,23 @@ first_var <- 19
 
 fr_index <- first_var:(first_var + 21)
 
-flood_risk <- fhs_model_df[, fr_index] 
+load(here("intermediary_data/fr_pca.RData"))
 
-fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
+flood_risk <- fhs_model_df[fr_not_missing_idx, fr_index] 
+
+# center and scale the flood risk variables according to original centering and scaling
+
+flood_risk_scaled <- scale(flood_risk, center = fr_pca$center, scale = fr_pca$scale)
+
+flood_risk_rotate <- flood_risk_scaled %*% fr_pca$rotation
 
 
-
-summ_pca <- summary(fr_pca)
-
-summ_pca$importance[,1:10] # The first 5 PCs cover 80% of the variance. 
 
 num_pc <- 5
 
 flood_pcs <- matrix(NA, nrow = nrow(fhs_model_df), ncol = num_pc)
 
-flood_pcs[complete.cases(flood_risk), ] <- fr_pca$x[, 1:num_pc]
+flood_pcs[fr_not_missing_idx, ] <- flood_risk_rotate[, 1:num_pc]
 
 flood_pcs <- data.frame(flood_pcs)
 

@@ -280,6 +280,9 @@ flood_risk <- fhs_model_df[, fr_index]
 
 fr_pca <- prcomp(flood_risk[complete.cases(flood_risk),], center = T, scale. = T)
 
+# saving the fr_pca in order to rotate new flood risk observations
+saveRDS(fr_pca, file = "intermediary_data/fr_pca.rds")
+
 
 
 summ_pca <- summary(fr_pca)

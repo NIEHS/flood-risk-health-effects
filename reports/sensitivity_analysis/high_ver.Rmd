@@ -6,10 +6,6 @@ output:
     toc: true
 ---
 
-```{r, echo = F}
-# TODO: make plots for flood risk PCs only
-```
-
 \newpage
 
 ```{r setup, include=FALSE}
@@ -28,15 +24,19 @@ library(tidyverse)
 fhs_model_df <- readRDS("intermediary_data/sensitivity_analysis/fhs_model_df_high_ver.rds")
 
 var_names <- c("Intercept", "flood_risk_pc1", "flood_risk_pc2",
-                          "flood_risk_pc3", "flood_risk_pc4", "flood_risk_pc5", 
-                          "EP_UNINSUR", "pollute_conc_pc1", "pollute_conc_pc2",
-                          "pollute_conc_pc3", "tmmx", "rmax", "Data_Value_CSMOKING")
+               "flood_risk_pc3", "flood_risk_pc4", "flood_risk_pc5", 
+               "EP_UNINSUR", "pollute_conc_pc1", "pollute_conc_pc2",
+               "pollute_conc_pc3", "tmmx", "rmax", "Data_Value_CSMOKING")
 ```
 
 ```{r}
 names_high_ver_strat <- c(paste("strat0", var_names, sep = ":"), 
                           paste("strat1", var_names, sep = ":"))
 ```
+
+
+
+## Helper Functions
 
 Function for post-processing the inference
 
@@ -51,6 +51,31 @@ post_flip <- function(beta_inf_subset, pc2flip) {
   return(sweep(beta_inf_subset, 1, pc2flip, FUN = "*"))
 }
 ```
+
+```{r}
+# extract the flood risk PC coefficients
+# pc_idx is the vector of indices of the flood risk PC coefficients, after splitting data frame by strata
+beta_data_frames_extract <- function(beta_inference_df, pc_idx) {
+  
+  beta_inference_df_strat0 <- beta_inference_df[1:(nrow(beta_inference_df)/2),]
+  
+  beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nrow(beta_inference_df),]
+  
+  beta_pcs_strat0 <- beta_inference_df_strat0[pc_idx, ]
+  
+  beta_pcs_strat1 <- beta_inference_df_strat1[pc_idx, ]
+  
+  
+  
+  beta_pcs_strat0 <- mutate(beta_pcs_strat0, var_idx = factor(1:nrow(beta_pcs_strat0)))
+  beta_pcs_strat1 <- mutate(beta_pcs_strat1, var_idx = factor(1:nrow(beta_pcs_strat1)))
+  
+  return(list(beta_pcs_strat0 = beta_pcs_strat0, beta_pcs_strat1 = beta_pcs_strat1))
+  
+}
+```
+
+
 
 # CAR model results, Coronary Heart Disease Stratified on RPL_THEMES
 
@@ -104,7 +129,7 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
-                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
+                                    rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -149,7 +174,37 @@ ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CHD_CI_rpls.pdf
        width = 8, height = 6, units = "in")
 ```
 
+```{r}
+pc_extract_idx <- 2:6
+  
+beta_CHD_pcs <- beta_data_frames_extract(beta_inference_df, pc_extract_idx)
+```
 
+```{r}
+p <- ggplot(beta_CHD_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, color = strat)) + 
+  geom_point() +
+  ylim(c(-0.04, 0.13)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_hline(yintercept = 0, col = "red") +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5"), 6) + ggtitle("95% Credible Intervals for Flood Risk PCs, Coronary Heart Disease") + 
+  geom_point(data = beta_CHD_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_CHD_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+p
+```
+
+```{r}
+
+ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CHD_cred_intervals_fr_only.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+
+```
 
 
 
@@ -203,7 +258,7 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
-                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
+                                    rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -246,6 +301,38 @@ p
 ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/BPHIGH_CI_rpls.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
+```
+
+```{r}
+pc_extract_idx <- 2:6
+  
+beta_BPHIGH_pcs <- beta_data_frames_extract(beta_inference_df, pc_extract_idx)
+```
+
+```{r}
+p <- ggplot(beta_BPHIGH_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, color = strat)) + 
+  geom_point() +
+  ylim(c(-0.23, 0.28)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_hline(yintercept = 0, col = "red") +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5"), 6) + ggtitle("95% Credible Intervals for Flood Risk PCs, High Blood Pressure") + 
+  geom_point(data = beta_BPHIGH_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_BPHIGH_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+p
+```
+
+```{r}
+
+ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/BPHIGH_cred_intervals_fr_only.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+
 ```
 
 
@@ -300,7 +387,7 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
-                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
+                                    rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -343,6 +430,38 @@ p
 ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CASTHMA_CI_rpls.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
+```
+
+```{r}
+pc_extract_idx <- 2:6
+  
+beta_CASTHMA_pcs <- beta_data_frames_extract(beta_inference_df, pc_extract_idx)
+```
+
+```{r}
+p <- ggplot(beta_CASTHMA_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, color = strat)) + 
+  geom_point() +
+  ylim(c(-0.035, 0.0285)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_hline(yintercept = 0, col = "red") +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5"), 6) + ggtitle("95% Credible Intervals for Flood Risk PCs, Asthma") + 
+  geom_point(data = beta_CASTHMA_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_CASTHMA_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+p
+```
+
+```{r}
+
+ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CASTHMA_cred_intervals_fr_only.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+
 ```
 
 
@@ -399,7 +518,7 @@ beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
 beta_inference_df$strat <- factor(c(rep("Low SV", (nrow(beta_inference_df)/2)), 
-                                       rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
+                                    rep("High SV", (nrow(beta_inference_df)/2))), levels = c("Low SV", "High SV"))
 ```
 
 Splitting up the beta coefficients for each strata
@@ -442,6 +561,38 @@ p
 ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/MHLTH_CI_rpls.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
+```
+
+```{r}
+pc_extract_idx <- 2:6
+  
+beta_MHLTH_pcs <- beta_data_frames_extract(beta_inference_df, pc_extract_idx)
+```
+
+```{r}
+p <- ggplot(beta_MHLTH_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, color = strat)) + 
+  geom_point() +
+  ylim(c(-0.043, 0.055)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
+        axis.text=element_text(size=12), 
+        plot.margin = margin(5.5, 5.5, 5.5, 25)) +
+  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_hline(yintercept = 0, col = "red") +
+  scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5"), 6) + ggtitle("95% Credible Intervals for Flood Risk PCs, Poor Mental Health") + 
+  geom_point(data = beta_MHLTH_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
+  geom_errorbar(data = beta_MHLTH_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  scale_color_manual(name = "Strata",
+                     values = c("#F8766D", "#00BFC4"), 
+                     drop = FALSE)
+p
+```
+
+```{r}
+
+ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/MHLTH_cred_intervals_fr_only.pdf"),
+       plot = p, device = "pdf", 
+       width = 8, height = 6, units = "in")
+
 ```
 
 

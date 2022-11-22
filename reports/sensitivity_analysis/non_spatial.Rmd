@@ -115,14 +115,24 @@ beta_data_frames_extract <- function(beta_inference_df, pc_idx) {
 
 ```{r}
 chd_res <- non_spatial_strat_model(covariates_CHD, first_var, strat_covariate, strat_fn = median)
+
+beta_results <- summary(chd_res$lm_obj)$coefficients
 ```
 
 ```{r}
-colnames(beta_samples_matrix) <- names_non_spat_strat
+row.names(beta_results) <- names_non_spat_strat
 ```
 
 ```{r}
-beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+beta_inference <- cbind(beta_results[, 1], 
+                        beta_results[, 1] - 2 * beta_results[, 2], 
+                        beta_results[, 1] + 2 * beta_results[, 2])
+  
+colnames(beta_inference) <- c("pt_est", "lb", "ub")
+
+beta_inference <- round(beta_inference, 5)
+
+
 
 pc_idx <- c(2:6, 
             nrow(beta_inference)/2 + 2:6)
@@ -131,10 +141,6 @@ pc_idx <- c(2:6,
 beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
 
 beta_inference
-```
-
-```{r}
-saveRDS(beta_inference, file = here("modeling_files/sensitivity_analysis/high_ver/beta_inference_files/CHD_rpls.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -151,10 +157,6 @@ row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])
 # first, process the beta_inference matrix in a form ggplot can understand
 beta_inference_df <- as.data.frame(beta_inference)
 beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
-beta_inference_df <- rename(beta_inference_df, 
-                            post_median = `50%`,
-                            post_2.5 = `2.5%`, 
-                            post_97.5 = `97.5%`)
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
@@ -173,13 +175,13 @@ beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nr
 Note: The intercept for both strata is not included.
 
 ```{r}
-p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = pt_est, color = strat)) + 
   geom_point() + 
   ylim(c(-1, 2)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_errorbar(aes(ymin = lb, ymax = ub, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = c(5.5, 6.5, 9.5, 11.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
   annotate(geom = "text", x = 3, y = 1.45, label = "Flood\nRisk",
@@ -188,9 +190,9 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
                               "Uninsured",
                               "Pollution PC 1", "Pollution PC 2", "Pollution PC 3",
                               "Maximum Temperature", "Maximum Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals, CHD, Stratified on All RPL Themes, High Emissions Scenario") + 
+                              "Smoking")) + ggtitle("95% Credible Intervals, CHD, Stratified on All RPL Themes, Non-Spatial") + 
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
-  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = lb, ymax = ub, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
                      drop = FALSE)
@@ -199,7 +201,7 @@ p
 ```
 
 ```{r}
-ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CHD_CI_rpls.pdf"),
+ggsave(here("figures/final_figures/sensitivity_analysis/non_spatial/CHD_CI_rpls.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 ```
@@ -211,17 +213,16 @@ beta_CHD_pcs <- beta_data_frames_extract(beta_inference_df, pc_extract_idx)
 ```
 
 ```{r}
-p <- ggplot(beta_CHD_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, color = strat)) + 
+p <- ggplot(beta_CHD_pcs$beta_pcs_strat0, aes(x = var_idx, y = pt_est, color = strat)) + 
   geom_point() +
-  ylim(c(-0.04, 0.13)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_errorbar(aes(ymin = lb, ymax = ub, width = 0.4), col = "#F8766D") + 
   geom_hline(yintercept = 0, col = "red") +
   scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5"), 6) + ggtitle("95% Credible Intervals for Flood Risk PCs, Coronary Heart Disease") + 
   geom_point(data = beta_CHD_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
-  geom_errorbar(data = beta_CHD_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  geom_errorbar(data = beta_CHD_pcs$beta_pcs_strat1, aes(ymin = lb, ymax = ub, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
                      drop = FALSE)
@@ -230,7 +231,7 @@ p
 
 ```{r}
 
-ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CHD_cred_intervals_fr_only.pdf"),
+ggsave(here("figures/final_figures/sensitivity_analysis/non_spatial/CHD_cred_intervals_fr_only.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 
@@ -241,17 +242,25 @@ ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CHD_cred_interv
 # CAR model results, High Blood Pressure Stratified on RPL_THEMES
 
 ```{r}
-load(here("modeling_files/sensitivity_analysis/high_ver/all_census_tract_BPHIGH.RData"))
+bphigh_res <- non_spatial_strat_model(covariates_BPHIGH, first_var, strat_covariate, strat_fn = median)
+
+beta_results <- summary(bphigh_res$lm_obj)$coefficients
 ```
 
 ```{r}
-beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
-
-colnames(beta_samples_matrix) <- names_non_spat_strat
+row.names(beta_results) <- names_non_spat_strat
 ```
 
 ```{r}
-beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+beta_inference <- cbind(beta_results[, 1], 
+                        beta_results[, 1] - 2 * beta_results[, 2], 
+                        beta_results[, 1] + 2 * beta_results[, 2])
+  
+colnames(beta_inference) <- c("pt_est", "lb", "ub")
+
+beta_inference <- round(beta_inference, 5)
+
+
 
 pc_idx <- c(2:6, 
             nrow(beta_inference)/2 + 2:6)
@@ -260,10 +269,6 @@ pc_idx <- c(2:6,
 beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
 
 beta_inference
-```
-
-```{r}
-saveRDS(beta_inference, file = here("modeling_files/sensitivity_analysis/high_ver/beta_inference_files/BPHIGH_rpls.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -280,10 +285,6 @@ row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])
 # first, process the beta_inference matrix in a form ggplot can understand
 beta_inference_df <- as.data.frame(beta_inference)
 beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
-beta_inference_df <- rename(beta_inference_df, 
-                            post_median = `50%`,
-                            post_2.5 = `2.5%`, 
-                            post_97.5 = `97.5%`)
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
@@ -302,13 +303,13 @@ beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nr
 Note: The intercept for both strata is not included.
 
 ```{r}
-p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = pt_est, color = strat)) + 
   geom_point() + 
   ylim(c(-3, 5)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_errorbar(aes(ymin = lb, ymax = ub, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = c(5.5, 6.5, 9.5, 11.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
   annotate(geom = "text", x = 3, y = 3.95, label = "Flood\nRisk",
@@ -317,9 +318,9 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
                               "Uninsured",
                               "Pollution PC 1", "Pollution PC 2", "Pollution PC 3",
                               "Maximum Temperature", "Maximum Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals, BPHIGH, Stratified on All RPL Themes, High Emissions Scenario") + 
+                              "Smoking")) + ggtitle("95% Credible Intervals, BPHIGH, Stratified on All RPL Themes, Non-Spatial") + 
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
-  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = lb, ymax = ub, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
                      drop = FALSE)
@@ -328,7 +329,7 @@ p
 ```
 
 ```{r}
-ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/BPHIGH_CI_rpls.pdf"),
+ggsave(here("figures/final_figures/sensitivity_analysis/non_spatial/BPHIGH_CI_rpls.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 ```
@@ -340,17 +341,16 @@ beta_BPHIGH_pcs <- beta_data_frames_extract(beta_inference_df, pc_extract_idx)
 ```
 
 ```{r}
-p <- ggplot(beta_BPHIGH_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, color = strat)) + 
+p <- ggplot(beta_BPHIGH_pcs$beta_pcs_strat0, aes(x = var_idx, y = pt_est, color = strat)) + 
   geom_point() +
-  ylim(c(-0.23, 0.28)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_errorbar(aes(ymin = lb, ymax = ub, width = 0.4), col = "#F8766D") + 
   geom_hline(yintercept = 0, col = "red") +
   scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5"), 6) + ggtitle("95% Credible Intervals for Flood Risk PCs, High Blood Pressure") + 
   geom_point(data = beta_BPHIGH_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
-  geom_errorbar(data = beta_BPHIGH_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  geom_errorbar(data = beta_BPHIGH_pcs$beta_pcs_strat1, aes(ymin = lb, ymax = ub, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
                      drop = FALSE)
@@ -359,7 +359,7 @@ p
 
 ```{r}
 
-ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/BPHIGH_cred_intervals_fr_only.pdf"),
+ggsave(here("figures/final_figures/sensitivity_analysis/non_spatial/BPHIGH_cred_intervals_fr_only.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 
@@ -370,17 +370,25 @@ ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/BPHIGH_cred_int
 # CAR model results, Asthma Stratified on RPL_THEMES
 
 ```{r}
-load(here("modeling_files/sensitivity_analysis/high_ver/all_census_tract_CASTHMA.RData"))
+casthma_res <- non_spatial_strat_model(covariates_CASTHMA, first_var, strat_covariate, strat_fn = median)
+
+beta_results <- summary(casthma_res$lm_obj)$coefficients
 ```
 
 ```{r}
-beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
-
-colnames(beta_samples_matrix) <- names_non_spat_strat
+row.names(beta_results) <- names_non_spat_strat
 ```
 
 ```{r}
-beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+beta_inference <- cbind(beta_results[, 1], 
+                        beta_results[, 1] - 2 * beta_results[, 2], 
+                        beta_results[, 1] + 2 * beta_results[, 2])
+  
+colnames(beta_inference) <- c("pt_est", "lb", "ub")
+
+beta_inference <- round(beta_inference, 5)
+
+
 
 pc_idx <- c(2:6, 
             nrow(beta_inference)/2 + 2:6)
@@ -389,10 +397,6 @@ pc_idx <- c(2:6,
 beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
 
 beta_inference
-```
-
-```{r}
-saveRDS(beta_inference, file = here("modeling_files/sensitivity_analysis/high_ver/beta_inference_files/CASTHMA_rpls.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -409,10 +413,6 @@ row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])
 # first, process the beta_inference matrix in a form ggplot can understand
 beta_inference_df <- as.data.frame(beta_inference)
 beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
-beta_inference_df <- rename(beta_inference_df, 
-                            post_median = `50%`,
-                            post_2.5 = `2.5%`, 
-                            post_97.5 = `97.5%`)
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
@@ -431,13 +431,13 @@ beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nr
 Note: The intercept for both strata is not included.
 
 ```{r}
-p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = pt_est, color = strat)) + 
   geom_point() + 
   ylim(c(-1, 1.5)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_errorbar(aes(ymin = lb, ymax = ub, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = c(5.5, 6.5, 9.5, 11.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
   annotate(geom = "text", x = 3, y = 0.95, label = "Flood\nRisk",
@@ -446,9 +446,9 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
                               "Uninsured",
                               "Pollution PC 1", "Pollution PC 2", "Pollution PC 3",
                               "Maximum Temperature", "Maximum Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals, Asthma, Stratified on All RPL Themes, High Emissions Scenario") + 
+                              "Smoking")) + ggtitle("95% Credible Intervals, Asthma, Stratified on All RPL Themes, Non-Spatial") + 
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
-  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = lb, ymax = ub, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
                      drop = FALSE)
@@ -457,7 +457,7 @@ p
 ```
 
 ```{r}
-ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CASTHMA_CI_rpls.pdf"),
+ggsave(here("figures/final_figures/sensitivity_analysis/non_spatial/CASTHMA_CI_rpls.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 ```
@@ -469,17 +469,16 @@ beta_CASTHMA_pcs <- beta_data_frames_extract(beta_inference_df, pc_extract_idx)
 ```
 
 ```{r}
-p <- ggplot(beta_CASTHMA_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, color = strat)) + 
+p <- ggplot(beta_CASTHMA_pcs$beta_pcs_strat0, aes(x = var_idx, y = pt_est, color = strat)) + 
   geom_point() +
-  ylim(c(-0.035, 0.0285)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_errorbar(aes(ymin = lb, ymax = ub, width = 0.4), col = "#F8766D") + 
   geom_hline(yintercept = 0, col = "red") +
   scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5"), 6) + ggtitle("95% Credible Intervals for Flood Risk PCs, Asthma") + 
   geom_point(data = beta_CASTHMA_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
-  geom_errorbar(data = beta_CASTHMA_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  geom_errorbar(data = beta_CASTHMA_pcs$beta_pcs_strat1, aes(ymin = lb, ymax = ub, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
                      drop = FALSE)
@@ -488,7 +487,7 @@ p
 
 ```{r}
 
-ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CASTHMA_cred_intervals_fr_only.pdf"),
+ggsave(here("figures/final_figures/sensitivity_analysis/non_spatial/CASTHMA_cred_intervals_fr_only.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 
@@ -501,17 +500,25 @@ ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/CASTHMA_cred_in
 # CAR model results, Poor Mental Health Stratified on RPL_THEMES
 
 ```{r}
-load(here("modeling_files/sensitivity_analysis/high_ver/all_census_tract_MHLTH.RData"))
+mhlth_res <- non_spatial_strat_model(covariates_MHLTH, first_var, strat_covariate, strat_fn = median)
+
+beta_results <- summary(mhlth_res$lm_obj)$coefficients
 ```
 
 ```{r}
-beta_samples_matrix <- rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta)
-
-colnames(beta_samples_matrix) <- names_non_spat_strat
+row.names(beta_results) <- names_non_spat_strat
 ```
 
 ```{r}
-beta_inference <- round(t(apply(beta_samples_matrix, 2, quantile, c(0.5, 0.025, 0.975))),5)
+beta_inference <- cbind(beta_results[, 1], 
+                        beta_results[, 1] - 2 * beta_results[, 2], 
+                        beta_results[, 1] + 2 * beta_results[, 2])
+  
+colnames(beta_inference) <- c("pt_est", "lb", "ub")
+
+beta_inference <- round(beta_inference, 5)
+
+
 
 pc_idx <- c(2:6, 
             nrow(beta_inference)/2 + 2:6)
@@ -520,10 +527,6 @@ pc_idx <- c(2:6,
 beta_inference[pc_idx, ] <- post_flip(beta_inference[pc_idx, ], pc2flip)
 
 beta_inference
-```
-
-```{r}
-saveRDS(beta_inference, file = here("modeling_files/sensitivity_analysis/high_ver/beta_inference_files/MHLTH_rpls.rds"))
 ```
 
 List of significant beta coefficients: 
@@ -540,10 +543,6 @@ row.names(beta_inference)[sign(beta_inference[, 2]) == sign(beta_inference[, 3])
 # first, process the beta_inference matrix in a form ggplot can understand
 beta_inference_df <- as.data.frame(beta_inference)
 beta_inference_df <- mutate(beta_inference_df, var_name = row.names(beta_inference_df))
-beta_inference_df <- rename(beta_inference_df, 
-                            post_median = `50%`,
-                            post_2.5 = `2.5%`, 
-                            post_97.5 = `97.5%`)
 beta_inference_df$var_name <- substring(beta_inference_df$var_name, first = 8)
 beta_inference_df$var_name <- factor(beta_inference_df$var_name, 
                                      levels = unique(beta_inference_df$var_name))
@@ -562,13 +561,13 @@ beta_inference_df_strat1 <- beta_inference_df[(nrow(beta_inference_df)/2 + 1):nr
 Note: The intercept for both strata is not included.
 
 ```{r}
-p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, color = strat)) + 
+p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = pt_est, color = strat)) + 
   geom_point() + 
   ylim(c(-1.5, 4)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_errorbar(aes(ymin = lb, ymax = ub, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = c(5.5, 6.5, 9.5, 11.5), col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
   annotate(geom = "text", x = 3, y = 3.75, label = "Flood\nRisk",
@@ -577,9 +576,9 @@ p <- ggplot(beta_inference_df_strat0[-1, ], aes(x = var_name, y = post_median, c
                               "Uninsured",
                               "Pollution PC 1", "Pollution PC 2", "Pollution PC 3",
                               "Maximum Temperature", "Maximum Humidity",
-                              "Smoking")) + ggtitle("95% Credible Intervals, MHLTH, Stratified on All RPL Themes, High Emissions Scenario") + 
+                              "Smoking")) + ggtitle("95% Credible Intervals, MHLTH, Stratified on All RPL Themes, Non-Spatial") + 
   geom_point(data = beta_inference_df_strat1[-1, ], col = "#00BFC4") + # strat 1
-  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  geom_errorbar(data = beta_inference_df_strat1[-1, ], aes(ymin = lb, ymax = ub, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
                      drop = FALSE)
@@ -588,7 +587,7 @@ p
 ```
 
 ```{r}
-ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/MHLTH_CI_rpls.pdf"),
+ggsave(here("figures/final_figures/sensitivity_analysis/non_spatial/MHLTH_CI_rpls.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 ```
@@ -600,17 +599,16 @@ beta_MHLTH_pcs <- beta_data_frames_extract(beta_inference_df, pc_extract_idx)
 ```
 
 ```{r}
-p <- ggplot(beta_MHLTH_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, color = strat)) + 
+p <- ggplot(beta_MHLTH_pcs$beta_pcs_strat0, aes(x = var_idx, y = pt_est, color = strat)) + 
   geom_point() +
-  ylim(c(-0.043, 0.055)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text=element_text(size=12), 
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
-  geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
+  geom_errorbar(aes(ymin = lb, ymax = ub, width = 0.4), col = "#F8766D") + 
   geom_hline(yintercept = 0, col = "red") +
   scale_x_discrete(labels = c("PC 1", "PC 2", "PC 3", "PC 4", "PC 5"), 6) + ggtitle("95% Credible Intervals for Flood Risk PCs, Poor Mental Health") + 
   geom_point(data = beta_MHLTH_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
-  geom_errorbar(data = beta_MHLTH_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
+  geom_errorbar(data = beta_MHLTH_pcs$beta_pcs_strat1, aes(ymin = lb, ymax = ub, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
                      values = c("#F8766D", "#00BFC4"), 
                      drop = FALSE)
@@ -619,7 +617,7 @@ p
 
 ```{r}
 
-ggsave(here("figures/final_figures/sensitivity_analysis/high_ver/MHLTH_cred_intervals_fr_only.pdf"),
+ggsave(here("figures/final_figures/sensitivity_analysis/non_spatial/MHLTH_cred_intervals_fr_only.pdf"),
        plot = p, device = "pdf", 
        width = 8, height = 6, units = "in")
 

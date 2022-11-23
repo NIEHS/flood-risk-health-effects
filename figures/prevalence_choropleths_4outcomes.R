@@ -40,15 +40,23 @@ all_ct_df <- do.call("rbind", shp_list)
 
 load(here("modeling_files/stratified_analysis/model_stratif_rpls.RData"))
 CHD.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
+CHD.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
+CHD.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
 
 load(here("modeling_files/stratified_analysis/model_stratif_rpls_BPHIGH.RData"))
 BPHIGH.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
+BPHIGH.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
+BPHIGH.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
 
 load(here("modeling_files/stratified_analysis/model_stratif_rpls_CASTHMA.RData"))
 CASTHMA.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
+CASTHMA.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
+CASTHMA.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
 
 load(here("modeling_files/stratified_analysis/model_stratif_rpls_MHLTH.RData"))
 MHLTH.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
+MHLTH.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
+MHLTH.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
 
 
 
@@ -68,6 +76,14 @@ outcome_df <- data.frame(GEOID10 = fips_leading_zero,
                          BPHIGH_prevalence_smoothed = BPHIGH.mean.fitted, 
                          CASTHMA_prevalence_smoothed = CASTHMA.mean.fitted, 
                          MHLTH_prevalence_smoothed = MHLTH.mean.fitted, 
+                         CHD.mean.phi = CHD.mean.phi, 
+                         BPHIGH.mean.phi = BPHIGH.mean.phi, 
+                         CASTHMA.mean.phi = CASTHMA.mean.phi, 
+                         MHLTH.mean.phi = MHLTH.mean.phi,
+                         CHD.mean.resid = CHD.mean.resid, 
+                         BPHIGH.mean.resid = BPHIGH.mean.resid, 
+                         CASTHMA.mean.resid = CASTHMA.mean.resid, 
+                         MHLTH.mean.resid = MHLTH.mean.resid,
                          flood_risk_pc1 = -fhs_model_df$flood_risk_pc1)
 
 # truncating the occasional negative prevalence at zero
@@ -196,6 +212,36 @@ tmap_save(p, here("figures/final_figures/consistent_flood_risk_fitted.pdf"))
 #   tm_fill("MHLTH_prevalence", palette = "viridis", 
 #           title = "Poor Mental Health\nRaw Prevalence", style = "cont")
 # dev.off()
+
+
+
+
+
+# Plotting choropleths of the spatial random effects
+
+p <- tm_shape(all_ct_df) +
+  tm_fill("CHD.mean.phi", palette = "viridis", title = "Coronary Heart Disease\nSpatial Random Effect", style = "cont")
+tmap_save(p, here("figures/final_figures/CHD_mean_phi.pdf"))
+
+p <- tm_shape(all_ct_df) +
+  tm_fill("BPHIGH.mean.phi", palette = "viridis", title = "High Blood Pressure\nSpatial Random Effect", style = "cont")
+tmap_save(p, here("figures/final_figures/BPHIGH_mean_phi.pdf"))
+
+p <- tm_shape(all_ct_df) +
+  tm_fill("CASTHMA.mean.phi", palette = "viridis", title = "Asthma\nSpatial Random Effect", style = "cont")
+tmap_save(p, here("figures/final_figures/CASTHMA_mean_phi.pdf"))
+
+p <- tm_shape(all_ct_df) +
+  tm_fill("MHLTH.mean.phi", palette = "viridis", title = "Poor Mental Health\nSpatial Random Effect", style = "cont")
+tmap_save(p, here("figures/final_figures/MHLTH_mean_phi.pdf"))
+
+
+
+# # Plotting choropleths of the non-spatial residuals
+# 
+# p <- tm_shape(all_ct_df) +
+#   tm_fill("CHD.mean.resid", palette = "viridis", title = "Coronary Heart Disease\nNon-Spatial Residuals", style = "cont")
+# tmap_save(p, here("figures/final_figures/CHD_mean_resid.pdf"))
 
 
 

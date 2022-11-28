@@ -169,7 +169,7 @@ p <- ggplot(beta_CHD_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, colo
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_hline(yintercept = 0, col = "red") +
-  scale_x_discrete(labels = c("FF Group 1", "FF Group 2", "FF Group 3"), 6) + ggtitle("95% Credible Intervals for Flood Risk Groupings, Coronary Heart Disease") + 
+  scale_x_discrete(labels = c("FF Group 1", "FF Group 2", "FF Group 3"), 6) + ggtitle("95% Credible Intervals for Flood Factor Groupings, Coronary Heart Disease") + 
   geom_point(data = beta_CHD_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_CHD_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
@@ -291,7 +291,7 @@ p <- ggplot(beta_BPHIGH_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, c
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_hline(yintercept = 0, col = "red") +
-  scale_x_discrete(labels = c("FF Group 1", "FF Group 2", "FF Group 3"), 6) + ggtitle("95% Credible Intervals for Flood Risk Groupings, High Blood Pressure") + 
+  scale_x_discrete(labels = c("FF Group 1", "FF Group 2", "FF Group 3"), 6) + ggtitle("95% Credible Intervals for Flood Factor Groupings, High Blood Pressure") + 
   geom_point(data = beta_BPHIGH_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_BPHIGH_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
@@ -413,7 +413,7 @@ p <- ggplot(beta_CASTHMA_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, 
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_hline(yintercept = 0, col = "red") +
-  scale_x_discrete(labels = c("FF Group 1", "FF Group 2", "FF Group 3"), 6) + ggtitle("95% Credible Intervals for Flood Risk Groupings, Asthma") + 
+  scale_x_discrete(labels = c("FF Group 1", "FF Group 2", "FF Group 3"), 6) + ggtitle("95% Credible Intervals for Flood Factor Groupings, Asthma") + 
   geom_point(data = beta_CASTHMA_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_CASTHMA_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",
@@ -537,7 +537,7 @@ p <- ggplot(beta_MHLTH_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, co
         plot.margin = margin(5.5, 5.5, 5.5, 25)) +
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_hline(yintercept = 0, col = "red") +
-  scale_x_discrete(labels = c("FF Group 1", "FF Group 2", "FF Group 3"), 6) + ggtitle("95% Credible Intervals for Flood Risk Groupings, Poor Mental Health") + 
+  scale_x_discrete(labels = c("FF Group 1", "FF Group 2", "FF Group 3"), 6) + ggtitle("95% Credible Intervals for Flood Factor Groupings, Poor Mental Health") + 
   geom_point(data = beta_MHLTH_pcs$beta_pcs_strat1, col = "#00BFC4") + # strat 1
   geom_errorbar(data = beta_MHLTH_pcs$beta_pcs_strat1, aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#00BFC4") + 
   scale_color_manual(name = "Strata",

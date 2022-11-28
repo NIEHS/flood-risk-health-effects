@@ -137,7 +137,7 @@ tmap_save(p, here("figures/final_figures/CHD_mean_fitted.pdf"))
 # # trying out jpeg with lossy compression
 # jpeg(file = here("figures/final_figures/CHD_mean_fitted.jpeg"), width = 700)
 # tm_shape(all_ct_df) +
-#   tm_fill("CHD_prevalence_smoothed", palette = "viridis", 
+#   tm_fill("CHD_prevalence_smoothed", palette = "viridis",
 #           title = "Coronary Heart Disease\nPrevalence", style = "cont", breaks = c(0, 5, 10, 15, 20, 25))
 # dev.off()
 
@@ -234,6 +234,29 @@ tmap_save(p, here("figures/final_figures/CASTHMA_mean_phi.pdf"))
 p <- tm_shape(all_ct_df) +
   tm_fill("MHLTH.mean.phi", palette = "viridis", title = "Poor Mental Health\nSpatial Random Effect", style = "cont")
 tmap_save(p, here("figures/final_figures/MHLTH_mean_phi.pdf"))
+
+# jpeg versions
+
+# trying out jpeg with lossy compression
+jpeg(file = here("figures/final_figures/CHD_mean_phi.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("CHD.mean.phi", palette = "viridis", title = "Coronary Heart Disease\nSpatial Random Effect", style = "cont")
+dev.off()
+
+jpeg(file = here("figures/final_figures/BPHIGH_mean_phi.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("BPHIGH.mean.phi", palette = "viridis", title = "High Blood Pressure\nSpatial Random Effect", style = "cont")
+dev.off()
+
+jpeg(file = here("figures/final_figures/CASTHMA_mean_phi.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("CASTHMA.mean.phi", palette = "viridis", title = "Asthma\nSpatial Random Effect", style = "cont")
+dev.off()
+
+jpeg(file = here("figures/final_figures/MHLTH_mean_phi.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("MHLTH.mean.phi", palette = "viridis", title = "Poor Mental Health\nSpatial Random Effect", style = "cont")
+dev.off()
 
 
 

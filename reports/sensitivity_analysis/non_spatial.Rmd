@@ -17,19 +17,32 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(here)
 library(coda)
-library(CARBayes)
 library(ggplot2)
 library(tidyverse)
+library(spdep)
 ```
 
 ```{r}
-fhs_model_df <- readRDS("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds")
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds"))
 
 var_names <- c("Intercept", "flood_risk_pc1", "flood_risk_pc2",
                "flood_risk_pc3", "flood_risk_pc4", "flood_risk_pc5", 
                "EP_UNINSUR", "pollute_conc_pc1", "pollute_conc_pc2",
                "pollute_conc_pc3", "tmmx", "rmax", "Data_Value_CSMOKING")
 ```
+
+Reading in adjacency matrix
+
+```{r}
+W <- readRDS(file = here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
+
+# converting it to a form mat2listw() can understand
+W <- as(W, "dMatrix")
+
+# converting it to a form to be used in moran.test()
+W_listw <- mat2listw(W)
+```
+
 
 ```{r}
 names_non_spat_strat <- c(paste("strat0", var_names, sep = ":"), 
@@ -118,6 +131,23 @@ chd_res <- non_spatial_strat_model(covariates_CHD, first_var, strat_covariate, s
 
 beta_results <- summary(chd_res$lm_obj)$coefficients
 ```
+
+Moran's I test for spatial autocorrelation
+
+```{r}
+# mean imputing the residuals corresponding to missing Y values
+resid_w_impute <- rep(NA, nrow(fhs_model_df))
+
+resid_w_impute[!is.na(fhs_model_df$Data_Value_CHD)] <- chd_res$lm_obj$residuals
+
+resid_w_impute[is.na(fhs_model_df$Data_Value_CHD)] <- 0
+```
+
+```{r}
+(moran_results <- moran.test(resid_w_impute, W_listw))
+```
+
+The *p*-value is negligible, so we can reject the null hypothesis of zero spatial autocorrelation. Since the observed value of the Moran I statistic is significantly greater then the expected value, the residuals are positively autocorrelated, in contrast to negatively autocorrelated. Thus, using a CAR model is justified.
 
 ```{r}
 row.names(beta_results) <- names_non_spat_strat
@@ -247,6 +277,23 @@ bphigh_res <- non_spatial_strat_model(covariates_BPHIGH, first_var, strat_covari
 beta_results <- summary(bphigh_res$lm_obj)$coefficients
 ```
 
+Moran's I test for spatial autocorrelation
+
+```{r}
+# mean imputing the residuals corresponding to missing Y values
+resid_w_impute <- rep(NA, nrow(fhs_model_df))
+
+resid_w_impute[!is.na(fhs_model_df$Data_Value_BPHIGH)] <- bphigh_res$lm_obj$residuals
+
+resid_w_impute[is.na(fhs_model_df$Data_Value_BPHIGH)] <- 0
+```
+
+```{r}
+(moran_results <- moran.test(resid_w_impute, W_listw))
+```
+
+The *p*-value is negligible, so we can reject the null hypothesis of zero spatial autocorrelation. Since the observed value of the Moran I statistic is significantly greater then the expected value, the residuals are positively autocorrelated, in contrast to negatively autocorrelated. Thus, using a CAR model is justified.
+
 ```{r}
 row.names(beta_results) <- names_non_spat_strat
 ```
@@ -374,6 +421,23 @@ casthma_res <- non_spatial_strat_model(covariates_CASTHMA, first_var, strat_cova
 
 beta_results <- summary(casthma_res$lm_obj)$coefficients
 ```
+
+Moran's I test for spatial autocorrelation
+
+```{r}
+# mean imputing the residuals corresponding to missing Y values
+resid_w_impute <- rep(NA, nrow(fhs_model_df))
+
+resid_w_impute[!is.na(fhs_model_df$Data_Value_CASTHMA)] <- casthma_res$lm_obj$residuals
+
+resid_w_impute[is.na(fhs_model_df$Data_Value_CASTHMA)] <- 0
+```
+
+```{r}
+(moran_results <- moran.test(resid_w_impute, W_listw))
+```
+
+The *p*-value is negligible, so we can reject the null hypothesis of zero spatial autocorrelation. Since the observed value of the Moran I statistic is significantly greater then the expected value, the residuals are positively autocorrelated, in contrast to negatively autocorrelated. Thus, using a CAR model is justified.
 
 ```{r}
 row.names(beta_results) <- names_non_spat_strat
@@ -504,6 +568,23 @@ mhlth_res <- non_spatial_strat_model(covariates_MHLTH, first_var, strat_covariat
 
 beta_results <- summary(mhlth_res$lm_obj)$coefficients
 ```
+
+Moran's I test for spatial autocorrelation
+
+```{r}
+# mean imputing the residuals corresponding to missing Y values
+resid_w_impute <- rep(NA, nrow(fhs_model_df))
+
+resid_w_impute[!is.na(fhs_model_df$Data_Value_MHLTH)] <- mhlth_res$lm_obj$residuals
+
+resid_w_impute[is.na(fhs_model_df$Data_Value_MHLTH)] <- 0
+```
+
+```{r}
+(moran_results <- moran.test(resid_w_impute, W_listw))
+```
+
+The *p*-value is negligible, so we can reject the null hypothesis of zero spatial autocorrelation. Since the observed value of the Moran I statistic is significantly greater then the expected value, the residuals are positively autocorrelated, in contrast to negatively autocorrelated. Thus, using a CAR model is justified.
 
 ```{r}
 row.names(beta_results) <- names_non_spat_strat

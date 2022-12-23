@@ -17,6 +17,8 @@ library(tidyverse)
 
 # Checking for multicollinearity among the covariates
 
+The only difference between the file intermediary_data/fhs_model_df_all_census_tract_reorg_prev.rds and intermediary_data/fhs_model_df_all_census_tract_reorg.rds is that the former has "summer_tmmx", "winter_tmmx", "summer_rmax", "winter_rmax", whereas the latter just has "tmmx", "rmax".
+
 ```{r}
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_all_census_tract_reorg_prev.rds"))
 ```
@@ -205,6 +207,12 @@ summ_pca <- summary(pollute_pca)
 summ_pca$importance
 ```
 
+Including three PC scores would include >80% of the variance. 
+
+```{r}
+num_pc <- unname(which(summ_pca$importance[3, ] > 0.80)[1])
+```
+
 ```{r}
 round(pollute_loadings, digits = 2)
 ```
@@ -224,6 +232,20 @@ ggplot(pollute_loadings_df) +
 ```
 
 **Data pre-processing decision: Use first 3 pollution PCs.**
+
+### Getting the loadings that account for scaling after the PCA
+
+```{r}
+pc_sdev <- pollute_pca$sdev[1:num_pc]
+```
+
+```{r}
+pollute_loadings_scaled <- sweep(pollute_loadings[, 1:num_pc], 2, pc_sdev, FUN = "/")
+```
+
+```{r}
+round(pollute_loadings_scaled, 2)
+```
 
 
 

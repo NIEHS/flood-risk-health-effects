@@ -76,9 +76,6 @@ cdc_svi[cdc_svi == -999] <- NA
 
 # CACES LUR air pollution data
 
-# Since CACES doesn't like files with more than 5k fips, 
-# I'm using data provided by Melissa Lowe
-
 caces_lur <- read.csv(here("imported_data/caces_lur_air_pollution/caces_lur_air_pollution_census_tract.csv"))
 
 # don't need the state_abbr, lat or lon

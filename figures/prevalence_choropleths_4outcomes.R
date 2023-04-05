@@ -10,6 +10,8 @@ library(stringr)
 library(geomerge)
 library(tmap)
 
+select <- dplyr::select
+
 
 
 # using 2010 census tract boundaries
@@ -100,6 +102,67 @@ all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
 
 
 
+# make a subselected X matrix to do the lin prod with just flood risk PCs
+
+# In case you're worried about the direction of the PCs, don't be. The signs
+# of the beta coefficient and the PC will cancel out in the linear product.
+
+first_var <- 19
+
+# remove non-covariates, including the 4 response variables
+X <- fhs_model_df[, -c(1:(first_var - 1), ncol(fhs_model_df) + c(-3, -2, -1, 0))]
+
+strat_covariate <- fhs_model_df$RPL_THEMES
+X <- select(X, -EP_POV, -EP_UNEMP, -EP_PCI, -EP_NOHSDP, 
+                       -EP_AGE65, -EP_AGE17, -EP_DISABL, -EP_SNGPNT, 
+                       -EP_MINRTY, -EP_LIMENG,
+                       -EP_MUNIT, -EP_MOBILE, -EP_CROWD, -EP_NOVEH, -EP_GROUPQ)
+
+
+
+X           <- scale(X) # Scale covariates
+X[is.na(X)] <- 0        # Fill in missing values with the mean
+
+# if I do mean imputation (which may be problematic), all the spatial units
+# will have neighbors in W
+
+X <- data.frame(X)
+
+# if the stratification variable has missing values, assume that they take the mean value, 
+# which may be below or above the median value that everything is stratified on.
+
+strat_covariate[is.na(strat_covariate)] <- mean(strat_covariate, na.rm = T)
+
+strat_fn <- median
+
+strat0 <- ifelse(strat_covariate <= strat_fn(strat_covariate), 1, 0)
+strat1 <- ifelse(strat_covariate <= strat_fn(strat_covariate), 0, 1)
+
+
+
+X_intx0 <- model.matrix(rep(1, nrow(X)) ~ strat0 + strat0:., data = X)[, -1]
+X_intx1 <- model.matrix(rep(1, nrow(X)) ~ strat1 + strat1:., data = X)[, -1]
+
+X_intx_cbind <- as.data.frame(cbind(X_intx0, X_intx1))
+
+###
+pc_idx <- c(2:6, 
+            ncol(X_intx_cbind)/2 + 2:6)
+
+X_intx_fr_pc <- X_intx_cbind[, pc_idx] # ******** the X matrix to do the linear product
+
+# TODO: you can do a debug check by seeing if the mean linear predictor of all variables (w/ X_intx_cbind) plus
+# the mean phi equals mean fitted
+
+# TODO: extract the beta predictions, compute the linear predictor across MCMC loops
+# just for the flood risk variables, calculate the mean, then make choropleth map
+
+# ***** fitted <- as.numeric(X %*% beta) + phi, take out the phi and subset the linear product
+
+
+
+
+
 # # plotting just for NC to test out code
 # 
 all_ct_df_NC <- all_ct_df[all_ct_df$STATEFP10 == 37, ]
@@ -124,6 +187,9 @@ dev.off()
 
 
 
+
+# 4/5/2023: recalling how breaks are determined--breaks[1] is zero, breaks[6] is the maximum prevalence rounded up to a nice number
+# breaks[2:5] are the 4 equispaced points between breaks[1] and breaks[6]
 
 # # for whole continental U.S.
 # # Pdf seems better, png is too blurry

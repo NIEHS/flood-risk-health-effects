@@ -75,3 +75,21 @@ head(scale(as.matrix(flood_risk[complete.cases(flood_risk), ])) %*% fr_loadings_
 
 
 
+
+
+library(here)
+W <- readRDS(here("intermediary_data", "census_tract_adj_reorganize_all_census_tract.rds"))
+dim(W)
+W_mat <- as.matrix(W) # sparse->dense coercion: allocating vector of size 19.6 GiB
+summary(diag(W_mat))
+
+dp <- diff(W@p)
+W.triplet <- cbind(rep(seq_along(dp),dp), W@i + 1, 1) # W@i is 0-based
+n.triplet <- nrow(W.triplet)
+W.triplet.sum <- tapply(W.triplet[ ,3], W.triplet[ ,1], sum)
+W.begfin <- cbind(c(1, cumsum(W.triplet.sum[-nrow(W)])+1), cumsum(W.triplet.sum))
+
+
+
+summary(W.triplet.sum) # number of neighbors of each census tract
+

@@ -44,21 +44,25 @@ load(here("modeling_files/stratified_analysis/model_stratif_rpls.RData"))
 CHD.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
 CHD.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
 CHD.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
+CHD.mean.beta <- apply(rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta), 2, mean)
 
 load(here("modeling_files/stratified_analysis/model_stratif_rpls_BPHIGH.RData"))
 BPHIGH.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
 BPHIGH.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
 BPHIGH.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
+BPHIGH.mean.beta <- apply(rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta), 2, mean)
 
 load(here("modeling_files/stratified_analysis/model_stratif_rpls_CASTHMA.RData"))
 CASTHMA.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
 CASTHMA.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
 CASTHMA.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
+CASTHMA.mean.beta <- apply(rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta), 2, mean)
 
 load(here("modeling_files/stratified_analysis/model_stratif_rpls_MHLTH.RData"))
 MHLTH.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
 MHLTH.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
 MHLTH.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
+MHLTH.mean.beta <- apply(rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta), 2, mean)
 
 
 
@@ -93,10 +97,6 @@ outcome_df$CHD_prevalence_smoothed <- pmax(outcome_df$CHD_prevalence_smoothed, 0
 outcome_df$BPHIGH_prevalence_smoothed <- pmax(outcome_df$BPHIGH_prevalence_smoothed, 0)
 outcome_df$CASTHMA_prevalence_smoothed <- pmax(outcome_df$CASTHMA_prevalence_smoothed, 0)
 outcome_df$MHLTH_prevalence_smoothed <- pmax(outcome_df$MHLTH_prevalence_smoothed, 0)
-
-# merge outcome_df to all_ct_df's dataframe (@data)
-
-all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
 
 
 
@@ -145,44 +145,58 @@ X_intx1 <- model.matrix(rep(1, nrow(X)) ~ strat1 + strat1:., data = X)[, -1]
 
 X_intx_cbind <- as.data.frame(cbind(X_intx0, X_intx1))
 
-###
+
+
+### Start of calculations for flood risk linear prediction
+
 pc_idx <- c(2:6, 
             ncol(X_intx_cbind)/2 + 2:6)
 
-X_intx_fr_pc <- X_intx_cbind[, pc_idx] # ******** the X matrix to do the linear product
+X_intx_fr_pc <- X_intx_cbind[, pc_idx] # the X matrix to do the linear product, just for flood risk variables
 
-# TODO: you can do a debug check by seeing if the mean linear predictor of all variables (w/ X_intx_cbind) plus
-# the mean phi equals mean fitted
+# debug check: does the mean linear predictor of all variables (w/ X_intx_cbind) plus mean phi equal mean fitted?
+# just for MHLTH
+mean_lin_pred <- as.vector(as.matrix(X_intx_cbind) %*% MHLTH.mean.beta)
+all.equal(mean_lin_pred + MHLTH.mean.phi, MHLTH.mean.fitted) # debug check passed
 
-# TODO: extract the beta predictions, compute the linear predictor across MCMC loops
-# just for the flood risk variables, calculate the mean, then make choropleth map
+# Compute the linear predictor across MCMC loops, just for flood risk variables
 
-# ***** fitted <- as.numeric(X %*% beta) + phi, take out the phi and subset the linear product
+CHD.mean.fr.pred <- as.vector(as.matrix(X_intx_fr_pc) %*% CHD.mean.beta[pc_idx])
+BPHIGH.mean.fr.pred <- as.vector(as.matrix(X_intx_fr_pc) %*% BPHIGH.mean.beta[pc_idx])
+CASTHMA.mean.fr.pred <- as.vector(as.matrix(X_intx_fr_pc) %*% CASTHMA.mean.beta[pc_idx])
+MHLTH.mean.fr.pred <- as.vector(as.matrix(X_intx_fr_pc) %*% MHLTH.mean.beta[pc_idx])
+
+# debug check: logical subsetting vs. numeric indexing
+all.equal(CHD.mean.fr.pred, as.vector(as.matrix(X_intx_cbind) %*% (CHD.mean.beta*(1:26 %in% pc_idx)))) # debug check passed
+
+# incorp into outcomes_df
+outcome_df <- data.frame(outcome_df, CHD.mean.fr.pred, BPHIGH.mean.fr.pred, CASTHMA.mean.fr.pred, MHLTH.mean.fr.pred)
+
+# merge outcome_df to all_ct_df's dataframe (@data)
+all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
 
 
 
-
-
-# # plotting just for NC to test out code
-# 
-all_ct_df_NC <- all_ct_df[all_ct_df$STATEFP10 == 37, ]
-# 
-# p <- tm_shape(all_ct_df_NC) +
-#   tm_fill("CHD_prevalence_smoothed", palette = "viridis", title = "Coronary Heart Disease\nPrevalence", style = "cont")
-# tmap_save(p, here("figures/final_figures/NC_test_tmap.pdf"))
-# 
-# # turn off boundaries and legend, use png with low res
-# png(file = here("figures/final_figures/NC_test_tmap.png"), res = 100)
+# # # plotting just for NC to test out code
+# # 
+# all_ct_df_NC <- all_ct_df[all_ct_df$STATEFP10 == 37, ]
+# # 
+# # p <- tm_shape(all_ct_df_NC) +
+# #   tm_fill("CHD_prevalence_smoothed", palette = "viridis", title = "Coronary Heart Disease\nPrevalence", style = "cont")
+# # tmap_save(p, here("figures/final_figures/NC_test_tmap.pdf"))
+# # 
+# # # turn off boundaries and legend, use png with low res
+# # png(file = here("figures/final_figures/NC_test_tmap.png"), res = 100)
+# # tm_shape(all_ct_df_NC) +
+# #   tm_fill("CHD_prevalence_smoothed", legend.show = F, palette = "viridis")
+# # dev.off()
+# # 
+# # trying out jpeg with lossy compression
+# jpeg(file = here("figures/final_figures/NC_test_tmap.jpeg"), width = 700)
 # tm_shape(all_ct_df_NC) +
-#   tm_fill("CHD_prevalence_smoothed", legend.show = F, palette = "viridis")
+#   tm_fill("CHD.mean.fr.pred", palette = "PRGn", midpoint = 0,
+#           title = "Coronary Heart Disease\nFlood Risk Linear Predictions", style = "cont")
 # dev.off()
-# 
-# trying out jpeg with lossy compression
-jpeg(file = here("figures/final_figures/NC_test_tmap.jpeg"), width = 700)
-tm_shape(all_ct_df_NC) +
-  tm_fill("CHD.mean.phi", palette = "PRGn", midpoint = 0,
-          title = "Coronary Heart Disease\nSpatial Random Effect", style = "cont")
-dev.off()
 
 
 
@@ -301,30 +315,32 @@ dev.off()
 #   tm_fill("MHLTH.mean.phi", palette = "viridis", title = "Poor Mental Health\nSpatial Random Effect", style = "cont")
 # tmap_save(p, here("figures/final_figures/MHLTH_mean_phi.pdf"))
 
-# jpeg versions
 
-# 3/17/23 change: using divergent color palette instead of viridis
 
-# trying out jpeg with lossy compression
-jpeg(file = here("figures/final_figures/CHD_mean_phi.jpeg"), width = 700)
-tm_shape(all_ct_df) +
-  tm_fill("CHD.mean.phi", palette = "PRGn", midpoint = 0, title = "Coronary Heart Disease\nSpatial Random Effect", style = "cont")
-dev.off()
-
-jpeg(file = here("figures/final_figures/BPHIGH_mean_phi.jpeg"), width = 700)
-tm_shape(all_ct_df) +
-  tm_fill("BPHIGH.mean.phi", palette = "PRGn", midpoint = 0, title = "High Blood Pressure\nSpatial Random Effect", style = "cont")
-dev.off()
-
-jpeg(file = here("figures/final_figures/CASTHMA_mean_phi.jpeg"), width = 700)
-tm_shape(all_ct_df) +
-  tm_fill("CASTHMA.mean.phi", palette = "PRGn", midpoint = 0, title = "Asthma\nSpatial Random Effect", style = "cont")
-dev.off()
-
-jpeg(file = here("figures/final_figures/MHLTH_mean_phi.jpeg"), width = 700)
-tm_shape(all_ct_df) +
-  tm_fill("MHLTH.mean.phi", palette = "PRGn", midpoint = 0, title = "Poor Mental Health\nSpatial Random Effect", style = "cont")
-dev.off()
+# # jpeg versions
+# 
+# # 3/17/23 change: using divergent color palette instead of viridis
+# 
+# # trying out jpeg with lossy compression
+# jpeg(file = here("figures/final_figures/CHD_mean_phi.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("CHD.mean.phi", palette = "PRGn", midpoint = 0, title = "Coronary Heart Disease\nSpatial Random Effect", style = "cont")
+# dev.off()
+# 
+# jpeg(file = here("figures/final_figures/BPHIGH_mean_phi.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("BPHIGH.mean.phi", palette = "PRGn", midpoint = 0, title = "High Blood Pressure\nSpatial Random Effect", style = "cont")
+# dev.off()
+# 
+# jpeg(file = here("figures/final_figures/CASTHMA_mean_phi.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("CASTHMA.mean.phi", palette = "PRGn", midpoint = 0, title = "Asthma\nSpatial Random Effect", style = "cont")
+# dev.off()
+# 
+# jpeg(file = here("figures/final_figures/MHLTH_mean_phi.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("MHLTH.mean.phi", palette = "PRGn", midpoint = 0, title = "Poor Mental Health\nSpatial Random Effect", style = "cont")
+# dev.off()
 
 
 
@@ -335,5 +351,27 @@ dev.off()
 # tmap_save(p, here("figures/final_figures/CHD_mean_resid.pdf"))
 
 
+
+# Plotting the linear predictions of flood risk predictors only
+
+jpeg(file = here("figures/final_figures/CHD_mean_fr_pred.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("CHD.mean.fr.pred", palette = "PRGn", midpoint = 0, title = "Coronary Heart Disease\nFlood Risk Linear Predictions", style = "cont")
+dev.off()
+
+jpeg(file = here("figures/final_figures/BPHIGH_mean_fr_pred.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("BPHIGH.mean.fr.pred", palette = "PRGn", midpoint = 0, title = "High Blood Pressure\nFlood Risk Linear Predictions", style = "cont")
+dev.off()
+
+jpeg(file = here("figures/final_figures/CASTHMA_mean_fr_pred.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("CASTHMA.mean.fr.pred", palette = "PRGn", midpoint = 0, title = "Asthma\nFlood Risk Linear Predictions", style = "cont")
+dev.off()
+
+jpeg(file = here("figures/final_figures/MHLTH_mean_fr_pred.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("MHLTH.mean.fr.pred", palette = "PRGn", midpoint = 0, title = "Poor Mental Health\nFlood Risk Linear Predictions", style = "cont")
+dev.off()
 
 

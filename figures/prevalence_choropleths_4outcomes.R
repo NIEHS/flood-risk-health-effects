@@ -205,98 +205,98 @@ all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
 # 4/5/2023: recalling how breaks are determined--breaks[1] is zero, breaks[6] is the maximum prevalence rounded up to a nice number
 # breaks[2:5] are the 4 equispaced points between breaks[1] and breaks[6]
 
-# # for whole continental U.S.
-# # Pdf seems better, png is too blurry
-# 
-# 
-# 
-# p <- tm_shape(all_ct_df) +
-#   tm_fill("CHD_prevalence_smoothed", palette = "viridis", title = "Coronary Heart Disease\nPrevalence", style = "cont", breaks = c(0, 5, 10, 15, 20, 25))
-# tmap_save(p, here("figures/final_figures/CHD_mean_fitted.pdf"))
-# 
-# # # trying out jpeg with lossy compression
-# # jpeg(file = here("figures/final_figures/CHD_mean_fitted.jpeg"), width = 700)
-# # tm_shape(all_ct_df) +
-# #   tm_fill("CHD_prevalence_smoothed", palette = "viridis",
-# #           title = "Coronary Heart Disease\nPrevalence", style = "cont", breaks = c(0, 5, 10, 15, 20, 25))
-# # dev.off()
-# 
-# 
-# 
-# p <- tm_shape(all_ct_df) +
-#   tm_fill("BPHIGH_prevalence_smoothed", palette = "viridis", title = "High Blood Pressure\nPrevalence", style = "cont", breaks = c(0, 16, 32, 48, 64, 80))
-# tmap_save(p, here("figures/final_figures/BPHIGH_mean_fitted.pdf"))
-# 
-# # # trying out jpeg with lossy compression
-# # jpeg(file = here("figures/final_figures/BPHIGH_mean_fitted.jpeg"), width = 700)
-# # tm_shape(all_ct_df) +
-# #   tm_fill("BPHIGH_prevalence_smoothed", palette = "viridis", 
-# #           title = "High Blood Pressure\nPrevalence", style = "cont", breaks = c(0, 16, 32, 48, 64, 80))
-# # dev.off()
-# 
-# 
-# 
-# p <- tm_shape(all_ct_df) +
-#   tm_fill("CASTHMA_prevalence_smoothed", palette = "viridis", title = "Asthma\nPrevalence", style = "cont", breaks = c(0, 4, 8, 12, 16, 20))
-# tmap_save(p, here("figures/final_figures/CASTHMA_mean_fitted.pdf"))
-# 
-# # # trying out jpeg with lossy compression
-# # jpeg(file = here("figures/final_figures/CASTHMA_mean_fitted.jpeg"), width = 700)
-# # tm_shape(all_ct_df) +
-# #   tm_fill("CASTHMA_prevalence_smoothed", palette = "viridis", 
-# #           title = "Asthma\nPrevalence", style = "cont", breaks = c(0, 4, 8, 12, 16, 20))
-# # dev.off()
-# 
-# 
-# 
-# p <- tm_shape(all_ct_df) +
-#   tm_fill("MHLTH_prevalence_smoothed", palette = "viridis", title = "Poor Mental Health\nPrevalence", style = "cont", breaks = c(0, 7, 14, 21, 28, 35))
-# tmap_save(p, here("figures/final_figures/MHLTH_mean_fitted.pdf"))
-# 
-# # # trying out jpeg with lossy compression
-# # jpeg(file = here("figures/final_figures/MHLTH_mean_fitted.jpeg"), width = 700)
-# # tm_shape(all_ct_df) +
-# #   tm_fill("MHLTH_prevalence_smoothed", palette = "viridis", 
-# #           title = "Poor Mental Health\nPrevalence", style = "cont", breaks = c(0, 7, 14, 21, 28, 35))
-# # dev.off()
-# 
-# 
-# 
-# # flood risk PC1, or "consistent flood risk"
-# p <- tm_shape(all_ct_df) +
-#   tm_fill("flood_risk_pc1", palette = "viridis", title = "Consistent Flood Risk Score", style = "cont", breaks = c(-4, 2, 8, 14, 20, 26))
-# tmap_save(p, here("figures/final_figures/consistent_flood_risk_fitted.pdf"))
-# 
-# # # trying out jpeg with lossy compression
-# # jpeg(file = here("figures/final_figures/consistent_flood_risk_fitted.jpeg"), width = 700)
-# # tm_shape(all_ct_df) +
-# #   tm_fill("flood_risk_pc1", palette = "viridis", 
-# #           title = "Consistent Flood Risk Score", style = "cont", breaks = c(-4, 2, 8, 14, 20, 26))
-# # dev.off()
-# 
-# 
-# 
-# 
-# 
-# # # Checking out raw prevalences for MHLTH, just to check
-# # 
-# # outcome_df_raw <- data.frame(GEOID10 = fips_leading_zero,
-# #                          MHLTH_prevalence = fhs_model_df$Data_Value_MHLTH)
-# # 
-# # # merge outcome_df to all_ct_df's dataframe (@data)
-# # 
-# # all_ct_df@data <- left_join(all_ct_df@data, outcome_df_raw)
-# # 
-# # jpeg(file = here("figures/MHLTH_raw_prevalence.jpeg"), width = 700)
-# # tm_shape(all_ct_df) +
-# #   tm_fill("MHLTH_prevalence", palette = "viridis", 
-# #           title = "Poor Mental Health\nRaw Prevalence", style = "cont")
-# # dev.off()
-# 
-# 
-# 
-# 
-# 
+# for whole continental U.S.
+# Pdf seems better, png is too blurry
+
+
+
+p <- tm_shape(all_ct_df) +
+  tm_fill("CHD_prevalence_smoothed", palette = "viridis", title = "Coronary Heart Disease\nPrevalence", style = "cont", breaks = c(0, 5, 10, 15, 20, 25))
+tmap_save(p, here("figures/final_figures/CHD_mean_fitted.pdf"))
+
+# # trying out jpeg with lossy compression
+# jpeg(file = here("figures/final_figures/CHD_mean_fitted.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("CHD_prevalence_smoothed", palette = "viridis",
+#           title = "Coronary Heart Disease\nPrevalence", style = "cont", breaks = c(0, 5, 10, 15, 20, 25))
+# dev.off()
+
+
+
+p <- tm_shape(all_ct_df) +
+  tm_fill("BPHIGH_prevalence_smoothed", palette = "viridis", title = "High Blood Pressure\nPrevalence", style = "cont", breaks = c(0, 16, 32, 48, 64, 80))
+tmap_save(p, here("figures/final_figures/BPHIGH_mean_fitted.pdf"))
+
+# # trying out jpeg with lossy compression
+# jpeg(file = here("figures/final_figures/BPHIGH_mean_fitted.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("BPHIGH_prevalence_smoothed", palette = "viridis",
+#           title = "High Blood Pressure\nPrevalence", style = "cont", breaks = c(0, 16, 32, 48, 64, 80))
+# dev.off()
+
+
+
+p <- tm_shape(all_ct_df) +
+  tm_fill("CASTHMA_prevalence_smoothed", palette = "viridis", title = "Asthma\nPrevalence", style = "cont", breaks = c(0, 4, 8, 12, 16, 20))
+tmap_save(p, here("figures/final_figures/CASTHMA_mean_fitted.pdf"))
+
+# # trying out jpeg with lossy compression
+# jpeg(file = here("figures/final_figures/CASTHMA_mean_fitted.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("CASTHMA_prevalence_smoothed", palette = "viridis",
+#           title = "Asthma\nPrevalence", style = "cont", breaks = c(0, 4, 8, 12, 16, 20))
+# dev.off()
+
+
+
+p <- tm_shape(all_ct_df) +
+  tm_fill("MHLTH_prevalence_smoothed", palette = "viridis", title = "Poor Mental Health\nPrevalence", style = "cont", breaks = c(0, 7, 14, 21, 28, 35))
+tmap_save(p, here("figures/final_figures/MHLTH_mean_fitted.pdf"))
+
+# # trying out jpeg with lossy compression
+# jpeg(file = here("figures/final_figures/MHLTH_mean_fitted.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("MHLTH_prevalence_smoothed", palette = "viridis",
+#           title = "Poor Mental Health\nPrevalence", style = "cont", breaks = c(0, 7, 14, 21, 28, 35))
+# dev.off()
+
+
+
+# flood risk PC1, or "consistent flood risk"
+p <- tm_shape(all_ct_df) +
+  tm_fill("flood_risk_pc1", palette = "viridis", title = "Consistent Flood Risk Score", style = "cont", breaks = c(-4, 2, 8, 14, 20, 26))
+tmap_save(p, here("figures/final_figures/consistent_flood_risk_fitted.pdf"))
+
+# # trying out jpeg with lossy compression
+# jpeg(file = here("figures/final_figures/consistent_flood_risk_fitted.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("flood_risk_pc1", palette = "viridis",
+#           title = "Consistent Flood Risk Score", style = "cont", breaks = c(-4, 2, 8, 14, 20, 26))
+# dev.off()
+ 
+ 
+ 
+ 
+
+# # Checking out raw prevalences for MHLTH, just to check
+#
+# outcome_df_raw <- data.frame(GEOID10 = fips_leading_zero,
+#                          MHLTH_prevalence = fhs_model_df$Data_Value_MHLTH)
+#
+# # merge outcome_df to all_ct_df's dataframe (@data)
+#
+# all_ct_df@data <- left_join(all_ct_df@data, outcome_df_raw)
+#
+# jpeg(file = here("figures/MHLTH_raw_prevalence.jpeg"), width = 700)
+# tm_shape(all_ct_df) +
+#   tm_fill("MHLTH_prevalence", palette = "viridis",
+#           title = "Poor Mental Health\nRaw Prevalence", style = "cont")
+# dev.off()
+
+
+
+
+
 # # Plotting choropleths of the spatial random effects
 # 
 # p <- tm_shape(all_ct_df) +
@@ -317,30 +317,30 @@ all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
 
 
 
-# # jpeg versions
-# 
-# # 3/17/23 change: using divergent color palette instead of viridis
-# 
-# # trying out jpeg with lossy compression
-# jpeg(file = here("figures/final_figures/CHD_mean_phi.jpeg"), width = 700)
-# tm_shape(all_ct_df) +
-#   tm_fill("CHD.mean.phi", palette = "PRGn", midpoint = 0, title = "Coronary Heart Disease\nSpatial Random Effect", style = "cont")
-# dev.off()
-# 
-# jpeg(file = here("figures/final_figures/BPHIGH_mean_phi.jpeg"), width = 700)
-# tm_shape(all_ct_df) +
-#   tm_fill("BPHIGH.mean.phi", palette = "PRGn", midpoint = 0, title = "High Blood Pressure\nSpatial Random Effect", style = "cont")
-# dev.off()
-# 
-# jpeg(file = here("figures/final_figures/CASTHMA_mean_phi.jpeg"), width = 700)
-# tm_shape(all_ct_df) +
-#   tm_fill("CASTHMA.mean.phi", palette = "PRGn", midpoint = 0, title = "Asthma\nSpatial Random Effect", style = "cont")
-# dev.off()
-# 
-# jpeg(file = here("figures/final_figures/MHLTH_mean_phi.jpeg"), width = 700)
-# tm_shape(all_ct_df) +
-#   tm_fill("MHLTH.mean.phi", palette = "PRGn", midpoint = 0, title = "Poor Mental Health\nSpatial Random Effect", style = "cont")
-# dev.off()
+# Plotting choropleths of the spatial random effects, jpeg versions
+
+# 3/17/23 change: using divergent color palette instead of viridis
+
+# trying out jpeg with lossy compression
+jpeg(file = here("figures/final_figures/CHD_mean_phi.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("CHD.mean.phi", palette = "PRGn", midpoint = 0, title = "Coronary Heart Disease\nSpatial Random Effect", style = "cont")
+dev.off()
+
+jpeg(file = here("figures/final_figures/BPHIGH_mean_phi.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("BPHIGH.mean.phi", palette = "PRGn", midpoint = 0, title = "High Blood Pressure\nSpatial Random Effect", style = "cont")
+dev.off()
+
+jpeg(file = here("figures/final_figures/CASTHMA_mean_phi.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("CASTHMA.mean.phi", palette = "PRGn", midpoint = 0, title = "Asthma\nSpatial Random Effect", style = "cont")
+dev.off()
+
+jpeg(file = here("figures/final_figures/MHLTH_mean_phi.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("MHLTH.mean.phi", palette = "PRGn", midpoint = 0, title = "Poor Mental Health\nSpatial Random Effect", style = "cont")
+dev.off()
 
 
 

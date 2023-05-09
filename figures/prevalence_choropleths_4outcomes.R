@@ -78,6 +78,10 @@ fips_leading_zero <- sapply(fips, FUN = function(fip) {
 # Flipped the flood_risk_pc1 variable to make it a "risk" variable
 
 outcome_df <- data.frame(GEOID10 = fips_leading_zero, 
+                         CHD_prevalence = fhs_model_df$Data_Value_CHD,
+                         BPHIGH_prevalence = fhs_model_df$Data_Value_BPHIGH, 
+                         CASTHMA_prevalence = fhs_model_df$Data_Value_CASTHMA,
+                         MHLTH_prevalence = fhs_model_df$Data_Value_MHLTH,
                          CHD_prevalence_smoothed = CHD.mean.fitted, 
                          BPHIGH_prevalence_smoothed = BPHIGH.mean.fitted, 
                          CASTHMA_prevalence_smoothed = CASTHMA.mean.fitted, 
@@ -172,9 +176,6 @@ all.equal(CHD.mean.fr.pred, as.vector(as.matrix(X_intx_cbind) %*% (CHD.mean.beta
 # incorp into outcomes_df
 outcome_df <- data.frame(outcome_df, CHD.mean.fr.pred, BPHIGH.mean.fr.pred, CASTHMA.mean.fr.pred, MHLTH.mean.fr.pred)
 
-# merge outcome_df to all_ct_df's dataframe (@data)
-all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
-
 
 
 # # # plotting just for NC to test out code
@@ -200,6 +201,47 @@ all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
 
 
 
+# merge outcome_df to all_ct_df's dataframe (@data)
+all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
+
+
+
+# Raw prevalences
+
+# trying out jpeg with lossy compression
+jpeg(file = here("figures/final_figures/CHD_prev.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("CHD_prevalence", palette = "viridis",
+          title = "Coronary Heart Disease\nPrevalence", style = "cont", breaks = c(0, 5, 10, 15, 20, 25))
+dev.off()
+
+# trying out jpeg with lossy compression
+jpeg(file = here("figures/final_figures/BPHIGH_prev.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("BPHIGH_prevalence", palette = "viridis",
+          title = "High Blood Pressure\nPrevalence", style = "cont", breaks = c(0, 16, 32, 48, 64, 80))
+dev.off()
+
+# trying out jpeg with lossy compression
+jpeg(file = here("figures/final_figures/CASTHMA_prev.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("CASTHMA_prevalence", palette = "viridis",
+          title = "Asthma\nPrevalence", style = "cont", breaks = c(0, 4, 8, 12, 16, 20))
+dev.off()
+
+# trying out jpeg with lossy compression
+jpeg(file = here("figures/final_figures/MHLTH_prev.jpeg"), width = 700)
+tm_shape(all_ct_df) +
+  tm_fill("MHLTH_prevalence", palette = "viridis",
+          title = "Poor Mental Health\nPrevalence", style = "cont", breaks = c(0, 7, 14, 21, 28, 35))
+dev.off()
+
+# There occurs 
+# Warning message: Values have found that are higher than the highest break 
+# but the proportion of values above the bound is less than 0.00001 for each health outcome
+
+
+
 
 
 # 4/5/2023: recalling how breaks are determined--breaks[1] is zero, breaks[6] is the maximum prevalence rounded up to a nice number
@@ -207,8 +249,6 @@ all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
 
 # for whole continental U.S.
 # Pdf seems better, png is too blurry
-
-
 
 p <- tm_shape(all_ct_df) +
   tm_fill("CHD_prevalence_smoothed", palette = "viridis", title = "Coronary Heart Disease\nPrevalence", style = "cont", breaks = c(0, 5, 10, 15, 20, 25))

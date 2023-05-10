@@ -126,7 +126,7 @@ p <- ggplot(beta_CHD_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, colo
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = 5 * c(1:5) + 0.5, col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
-  annotate(geom = "text", x = 3, y = 0.12, label = "POV\nStrata",
+  annotate(geom = "text", x = 3, y = 0.12, label = "Poverty\nStrata",
            col = "blue", size = 4.5) +
   annotate(geom = "text", x = 8, y = 0.12, label = "Theme 1\nStrata",
            col = "blue", size = 4.5) +
@@ -162,7 +162,7 @@ Make a summary of significant coefficients and their signs, for each strata
 signif_summ <- matrix(NA, nrow = 2, ncol = 5 * 6)
 
 row.names(signif_summ) <- c("Low SV", "High SV")
-colnames(signif_summ) <- paste(rep(c("POV Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
+colnames(signif_summ) <- paste(rep(c("Poverty Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
                                       "Theme 3 Strata PC", "Theme 4 Strata PC", "All Theme Strata PC"), each = 5),
                                 rep(1:5, times = 6))
 
@@ -255,7 +255,7 @@ p <- ggplot(beta_BPHIGH_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, c
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = 5 * c(1:5) + 0.5, col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
-  annotate(geom = "text", x = 3, y = 0.27, label = "POV\nStrata",
+  annotate(geom = "text", x = 3, y = 0.27, label = "Poverty\nStrata",
            col = "blue", size = 4.5) +
   annotate(geom = "text", x = 8, y = 0.27, label = "Theme 1\nStrata",
            col = "blue", size = 4.5) +
@@ -289,7 +289,7 @@ Make a summary of significant coefficients and their signs, for each strata
 signif_summ <- matrix(NA, nrow = 2, ncol = 5 * 6)
 
 row.names(signif_summ) <- c("Low SV", "High SV")
-colnames(signif_summ) <- paste(rep(c("POV Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
+colnames(signif_summ) <- paste(rep(c("Poverty Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
                                       "Theme 3 Strata PC", "Theme 4 Strata PC", "All Theme Strata PC"), each = 5),
                                 rep(1:5, times = 6))
 
@@ -384,7 +384,7 @@ p <- ggplot(beta_CASTHMA_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, 
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = 5 * c(1:5) + 0.5, col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
-  annotate(geom = "text", x = 3, y = 0.027, label = "POV\nStrata",
+  annotate(geom = "text", x = 3, y = 0.027, label = "Poverty\nStrata",
            col = "blue", size = 4.5) +
   annotate(geom = "text", x = 8, y = 0.027, label = "Theme 1\nStrata",
            col = "blue", size = 4.5) +
@@ -418,7 +418,7 @@ Make a summary of significant coefficients and their signs, for each strata
 signif_summ <- matrix(NA, nrow = 2, ncol = 5 * 6)
 
 row.names(signif_summ) <- c("Low SV", "High SV")
-colnames(signif_summ) <- paste(rep(c("POV Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
+colnames(signif_summ) <- paste(rep(c("Poverty Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
                                       "Theme 3 Strata PC", "Theme 4 Strata PC", "All Theme Strata PC"), each = 5),
                                 rep(1:5, times = 6))
 
@@ -513,7 +513,7 @@ p <- ggplot(beta_MHLTH_pcs$beta_pcs_strat0, aes(x = var_idx, y = post_median, co
   geom_errorbar(aes(ymin = post_2.5, ymax = post_97.5, width = 0.4), col = "#F8766D") + 
   geom_vline(xintercept = 5 * c(1:5) + 0.5, col = "blue") +
   geom_hline(yintercept = 0, col = "red") +
-  annotate(geom = "text", x = 3, y = 0.05, label = "POV\nStrata",
+  annotate(geom = "text", x = 3, y = 0.05, label = "Poverty\nStrata",
            col = "blue", size = 4.5) +
   annotate(geom = "text", x = 8, y = 0.05, label = "Theme 1\nStrata",
            col = "blue", size = 4.5) +
@@ -547,7 +547,7 @@ Make a summary of significant coefficients and their signs, for each strata
 signif_summ <- matrix(NA, nrow = 2, ncol = 5 * 6)
 
 row.names(signif_summ) <- c("Low SV", "High SV")
-colnames(signif_summ) <- paste(rep(c("POV Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
+colnames(signif_summ) <- paste(rep(c("Poverty Strata PC", "Theme 1 Strata PC", "Theme 2 Strata PC", 
                                       "Theme 3 Strata PC", "Theme 4 Strata PC", "All Theme Strata PC"), each = 5),
                                 rep(1:5, times = 6))
 

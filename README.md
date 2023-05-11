@@ -1,13 +1,14 @@
 # flood-risk-health-effects
 GitHub repository for work related to the manuscript "Effects of Flood Risk on Census Tract-Level Health Outcomes in the United States"
 
-The work is ongoing. The most up-to-date results are in reports/basic_CAR_model_all_census_tract.pdf. 
+The work is ongoing. The most up-to-date results are in reports/basic_CAR_model_all_census_tract
+. 
 
 
 
 # Data Analysis Pipeline
 
-1. scripts/imported_data_wrangling_census_tract.R: does data cleaning for all the datafiles. See FloodRiskPlanOfWork.pdf for a comprehensive description of the data.  
+1. scripts/imported_data_wrangling_census_tract.R: does data cleaning for all the datafiles. See FloodRiskPlanOfWork.docx for a comprehensive description of the data.  
   * PLACES Local Data for Better Health: contains the four health outcomes of interest, i.e., Coronary Heart Disease, High Blood Pressure, Current Asthma, and Poor Mental Health.
   * Flood risk at each property in the contiguous U.S. as determined by the First Street Foundation model: aggregated property-level statistics to the level of census tracts. Used PCA to reduce the large number of flood risk variables to a small number of principal component scores. 
   * CDC Social Vulnerability Index: replaced missing value indicators -999 with NA. 

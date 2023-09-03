@@ -1,0 +1,82 @@
+---
+title: "Calculations for the Revisions"
+author: "Alvin Sheng"
+date: "2023-08-28"
+output: pdf_document
+---
+
+```{r}
+library(here)
+library(readxl)
+library(stringr)
+library(tidyverse)
+library(tidyr)
+library(Matrix)
+
+library(sf)
+
+select <- dplyr::select
+```
+
+## Variability of response variables among census tracts 
+
+```{r}
+# work with the PLACES dataset
+# https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Local-Data-for-Better-Health-Census-Tract-D/cwsq-ngmh 
+
+places_dat <- read.csv(here("imported_data", 
+                            "PLACES__Local_Data_for_Better_Health__Census_Tract_Data_2020_release.csv"))
+
+# don't need the year, state_abbr, lat or lon
+
+places_subset <- dplyr::select(places_dat, -c(Year, StateAbbr, StateDesc, LocationName, 
+                                              DataSource, Category, Data_Value_Unit, Data_Value_Type, 
+                                              Data_Value_Footnote_Symbol, Data_Value_Footnote, 
+                                              Geolocation, DataValueTypeID))
+
+# convert from long to wide format
+
+places_dat_wide <- pivot_wider(places_subset, id_cols = c(LocationID, CountyFIPS, TotalPopulation),
+                               names_from = MeasureId, 
+                               values_from = c(Data_Value, Low_Confidence_Limit, High_Confidence_Limit))
+
+places_dat_wide <- rename(places_dat_wide, fips = LocationID)
+```
+
+```{r}
+# checking heteroskedasticity
+summary(places_dat_wide$High_Confidence_Limit_CHD - places_dat_wide$Low_Confidence_Limit_CHD)
+sd(places_dat_wide$Data_Value_CHD)
+
+summary(places_dat_wide$High_Confidence_Limit_BPHIGH - places_dat_wide$Low_Confidence_Limit_BPHIGH)
+sd(places_dat_wide$Data_Value_BPHIGH)
+
+summary(places_dat_wide$High_Confidence_Limit_CASTHMA - places_dat_wide$Low_Confidence_Limit_CASTHMA)
+sd(places_dat_wide$Data_Value_CASTHMA)
+
+summary(places_dat_wide$High_Confidence_Limit_MHLTH - places_dat_wide$Low_Confidence_Limit_MHLTH)
+sd(places_dat_wide$Data_Value_MHLTH)
+```
+
+
+
+## Checking Census Tract Statistics
+
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds"))
+```
+
+```{r}
+summary(fhs_model_df$E_TOTPOP)
+summary(fhs_model_df$E_HU)
+summary(fhs_model_df$E_HH)
+```
+
+```{r}
+sd(fhs_model_df$E_TOTPOP, na.rm = T)
+sd(fhs_model_df$E_HU, na.rm = T)
+sd(fhs_model_df$E_HH, na.rm = T)
+```
+
+
+

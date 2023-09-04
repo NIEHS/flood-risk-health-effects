@@ -18,7 +18,11 @@ library(sf)
 select <- dplyr::select
 ```
 
-## Variability of response variables among census tracts 
+```{r}
+fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds"))
+```
+
+# Variability of response variables among census tracts 
 
 ```{r}
 # work with the PLACES dataset
@@ -60,11 +64,7 @@ sd(places_dat_wide$Data_Value_MHLTH)
 
 
 
-## Checking Census Tract Statistics
-
-```{r}
-fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds"))
-```
+# Checking Census Tract Statistics
 
 ```{r}
 summary(fhs_model_df$E_TOTPOP)
@@ -78,5 +78,158 @@ sd(fhs_model_df$E_HU, na.rm = T)
 sd(fhs_model_df$E_HH, na.rm = T)
 ```
 
+# Checking distributions of the stratification variables
+
+```{r}
+hist(fhs_model_df$EP_POV)
+abline(v = median(fhs_model_df$EP_POV, na.rm = T), col = "red")
+
+hist(fhs_model_df$RPL_THEME1)
+abline(v = median(fhs_model_df$RPL_THEME1, na.rm = T), col = "red")
+
+hist(fhs_model_df$RPL_THEME2)
+abline(v = median(fhs_model_df$RPL_THEME2, na.rm = T), col = "red")
+
+hist(fhs_model_df$RPL_THEME3)
+abline(v = median(fhs_model_df$RPL_THEME3, na.rm = T), col = "red")
+
+hist(fhs_model_df$RPL_THEME4)
+abline(v = median(fhs_model_df$RPL_THEME4, na.rm = T), col = "red")
+
+hist(fhs_model_df$RPL_THEMES)
+abline(v = median(fhs_model_df$RPL_THEMES, na.rm = T), col = "red")
+```
+
+Doing single histogram with median line, for single SVIs
+
+```{r}
+par(mfrow = c(5, 3))
+
+hist(fhs_model_df$EP_POV, main = "% Below Poverty Level", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_POV, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_UNEMP, main = "% Unemployed", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_UNEMP, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_PCI, main = "Per Capita Income", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_PCI, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_NOHSDP, main = "% No High School Diploma", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_NOHSDP, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_AGE65, main = "% Over 65", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_AGE65, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_AGE17, main = "% Under 17", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_AGE17, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_DISABL, main = "% Disabled", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_DISABL, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_SNGPNT, main = "% Households Single Parent", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_SNGPNT, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_MINRTY, main = "% Minority", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_MINRTY, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_LIMENG, main = "% Limited English", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_LIMENG, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_MUNIT, main = "% Housing With More Than 10 Units", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_MUNIT, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_MOBILE, main = "% Mobile Homes", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_MOBILE, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_CROWD, main = "% Crowded Housing", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_CROWD, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_NOVEH, main = "% Households Without Vehicles", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_NOVEH, na.rm = T), col = "red")
+
+hist(fhs_model_df$EP_GROUPQ, main = "% Persons in Group Quarters", xlab = NULL, ylab= NULL)
+abline(v = median(fhs_model_df$EP_GROUPQ, na.rm = T), col = "red")
+
+# export as US Letter, Portrait, as figures/final_figures/SVI_distributions.pdf 
+```
+
+```{r}
+strat_covariate <- fhs_model_df$EP_POV
+strat_covariate[is.na(strat_covariate)] <- mean(strat_covariate, na.rm = T)
+
+strat <- ifelse(strat_covariate <= strat_fn(strat_covariate), "Below Median", "Above Median")
+strat <- factor(strat, levels = c("Below Median", "Above Median"))
+
+hist_dat <- data.frame(values = strat_covariate, strat = strat)
+
+ggplot(hist_dat, aes(x = values, fill = strat)) +                       # Draw overlaying histogram
+  geom_histogram(position = "identity", alpha = 0.7, bins = 50)
+```
+
+
+
+# Checking Linear Regression Assumptions for Models Stratified on all SVI Themes
+
+```{r}
+# loading requisite data
+
+load(here("modeling_files/stratified_analysis/model_stratif_rpls.RData"))
+CHD.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
+CHD.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
+CHD.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
+CHD.mean.beta <- apply(rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta), 2, mean)
+
+load(here("modeling_files/stratified_analysis/model_stratif_rpls_BPHIGH.RData"))
+BPHIGH.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
+BPHIGH.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
+BPHIGH.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
+BPHIGH.mean.beta <- apply(rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta), 2, mean)
+
+load(here("modeling_files/stratified_analysis/model_stratif_rpls_CASTHMA.RData"))
+CASTHMA.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
+CASTHMA.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
+CASTHMA.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
+CASTHMA.mean.beta <- apply(rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta), 2, mean)
+
+load(here("modeling_files/stratified_analysis/model_stratif_rpls_MHLTH.RData"))
+MHLTH.mean.fitted <- (chain1$mean.fitted + chain2$mean.fitted + chain3$mean.fitted) / 3
+MHLTH.mean.phi <- (chain1$samples$mean.phi + chain2$samples$mean.phi + chain3$samples$mean.phi) / 3
+MHLTH.mean.resid <- (chain1$residuals$response + chain2$residuals$response + chain3$residuals$response) / 3
+MHLTH.mean.beta <- apply(rbind(chain1$samples$beta, chain2$samples$beta, chain3$samples$beta), 2, mean)
+```
+
+QQ-plots
+
+```{r}
+qqnorm(CHD.mean.resid)
+qqline(CHD.mean.resid)
+
+qqnorm(BPHIGH.mean.resid)
+qqline(BPHIGH.mean.resid)
+
+qqnorm(CASTHMA.mean.resid)
+qqline(CASTHMA.mean.resid)
+
+qqnorm(MHLTH.mean.resid)
+qqline(MHLTH.mean.resid)
+```
+
+Residuals vs. Fitted
+
+```{r}
+plot(CHD.mean.fitted, CHD.mean.resid)
+```
+
+```{r}
+plot(BPHIGH.mean.fitted, BPHIGH.mean.resid)
+```
+
+```{r}
+plot(CASTHMA.mean.fitted, CASTHMA.mean.resid)
+```
+
+```{r}
+plot(MHLTH.mean.fitted, MHLTH.mean.resid)
+```
 
 

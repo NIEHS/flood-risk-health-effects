@@ -22,6 +22,42 @@ select <- dplyr::select
 fhs_model_df <- readRDS(here("intermediary_data/fhs_model_df_fr_and_pollute_pc.rds"))
 ```
 
+# Double checking summary statistics of missingness across the responses and covariates
+
+In particular, the median and maximum
+
+```{r}
+summary(apply(fhs_model_df[, 19:ncol(fhs_model_df)], 2, function(vec) {mean(is.na(vec))}))
+```
+
+# Checking distribution of the responses
+
+```{r}
+hist(fhs_model_df$Data_Value_CHD)
+qqnorm(fhs_model_df$Data_Value_CHD)
+qqline(fhs_model_df$Data_Value_CHD)
+```
+
+```{r}
+hist(fhs_model_df$Data_Value_BPHIGH)
+qqnorm(fhs_model_df$Data_Value_BPHIGH)
+qqline(fhs_model_df$Data_Value_BPHIGH)
+```
+
+```{r}
+hist(fhs_model_df$Data_Value_CASTHMA)
+qqnorm(fhs_model_df$Data_Value_CASTHMA)
+qqline(fhs_model_df$Data_Value_CASTHMA)
+```
+
+```{r}
+hist(fhs_model_df$Data_Value_MHLTH)
+qqnorm(fhs_model_df$Data_Value_MHLTH)
+qqline(fhs_model_df$Data_Value_MHLTH)
+```
+
+
+
 # Variability of response variables among census tracts 
 
 ```{r}
@@ -102,7 +138,7 @@ abline(v = median(fhs_model_df$RPL_THEMES, na.rm = T), col = "red")
 
 Doing single histogram with median line, for single SVIs
 
-```{r}
+```{r, eval = F}
 par(mfrow = c(5, 3))
 
 hist(fhs_model_df$EP_POV, main = "% Below Poverty Level", xlab = NULL, ylab= NULL)
@@ -154,6 +190,8 @@ abline(v = median(fhs_model_df$EP_GROUPQ, na.rm = T), col = "red")
 ```
 
 ```{r}
+strat_fn <- median
+
 strat_covariate <- fhs_model_df$EP_POV
 strat_covariate[is.na(strat_covariate)] <- mean(strat_covariate, na.rm = T)
 

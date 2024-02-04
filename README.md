@@ -1,5 +1,5 @@
 # flood-risk-health-effects
-GitHub repository for work related to the manuscript "Associations between Flood Risk and United States Census Tract-Level Health Outcomes," submitted to the American Journal of Epidemiology.
+GitHub repository for work related to the manuscript "Associations between Flood Risk and United States Census Tract-Level Health Outcomes," submitted to the American Journal of Epidemiology, currently in press.
 
 
 

@@ -183,25 +183,25 @@ all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
 
 
 
-# # # plotting just for NC to test out code
-# #
-# all_ct_df_NC <- all_ct_df[all_ct_df$STATEFP10 == 37, ]
-# #
-# # p <- tm_shape(all_ct_df_NC) +
-# #   tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "Coronary Heart Disease\nPrevalence", style = "cont")
-# # tmap_save(p, here("figures/final_figures/NC_test_tmap.pdf"))
-# #
-# # # turn off boundaries and legend, use png with low res
-# # png(file = here("figures/final_figures/NC_test_tmap.png"), res = 100)
-# # tm_shape(all_ct_df_NC) +
-# #   tm_fill("CHD_prevalence_smoothed", legend.show = F, palette = "Greens")
-# # dev.off()
-# #
+# # plotting just for NC to test out code
+#
+all_ct_df_NC <- all_ct_df[all_ct_df$STATEFP10 == 37, ]
+#
+# p <- tm_shape(all_ct_df_NC) +
+#   tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "Coronary Heart Disease\nPrevalence", style = "cont")
+# tmap_save(p, here("figures/final_figures/NC_test_tmap.pdf"))
+#
+# # turn off boundaries and legend, use png with low res
+# png(file = here("figures/final_figures/NC_test_tmap.png"), res = 100)
+# tm_shape(all_ct_df_NC) +
+#   tm_fill("CHD_prevalence_smoothed", legend.show = F, palette = "Greens")
+# dev.off()
+#
 # # trying out jpeg with lossy compression
 # jpeg(file = here("figures/final_figures/NC_test_tmap.jpeg"), width = 700)
-# tm_shape(all_ct_df_NC) +
-#   tm_fill("CHD.mean.fr.pred", palette = "Greens", midpoint = 0,
-#           title = "Coronary Heart Disease\nFlood Risk Linear Predictions", style = "cont", legend.reverse = TRUE)
+tm_shape(all_ct_df_NC) +
+  tm_fill("CHD.mean.fr.pred", palette = "Greens", midpoint = 0,
+          title = "Coronary Heart Disease\nFlood Risk Linear Predictions", style = "cont", legend.reverse = TRUE)
 # dev.off()
 
 

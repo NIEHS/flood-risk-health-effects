@@ -9,6 +9,7 @@ library(viridis)
 library(stringr)
 library(geomerge)
 library(tmap)
+library(sf)
 
 select <- dplyr::select
 
@@ -187,69 +188,92 @@ all_ct_df@data <- left_join(all_ct_df@data, outcome_df)
 
 all_ct_df_NC <- all_ct_df[all_ct_df$STATEFP10 == 37, ]
 
-p0 <- tm_shape(all_ct_df_NC) +
-  tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "Coronary Heart Disease\nPrevalence", style = "cont") + 
-  tm_layout(legend.position = c("left", "bottom"), frame = F)
-p <- tm_shape(all_ct_df_NC) +
-  tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "Coronary Heart Disease\nPrevalence", style = "cont", legend.show = F)
-p2 <- tm_shape(all_ct_df_NC) +
-  tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "Coronary Heart Disease\nPrevalence", style = "cont") + 
-  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
-tmap_arrange(p0, p, p, p2, ncol = 2, nrow = 2)
-# tmap_save(p, here("figures/final_figures/NC_test_tmap.pdf"))
+# p0 <- tm_shape(all_ct_df_NC) +
+#   tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "Coronary Heart Disease\nPrevalence", style = "cont") + 
+#   tm_layout(legend.position = c("left", "bottom"), frame = F)
+# p <- tm_shape(all_ct_df_NC) +
+#   tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "Coronary Heart Disease\nPrevalence", style = "cont", legend.show = F)
+# p2 <- tm_shape(all_ct_df_NC) +
+#   tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "Coronary Heart Disease\nPrevalence", style = "cont") + 
+#   tm_layout(legend.only = T, legend.position = c("left", "bottom"))
+# p_combined <- tmap_arrange(p0, p, p, p2, ncol = 2, nrow = 2)
+
+
+
+# # 2/14/24 make legend smaller, without frame, increasing bounding box, see if it stays consistent throughout the panels
+# # source: https://www.jla-data.net/eng/adjusting-bounding-box-of-a-tmap-map/
 # 
-# # turn off boundaries and legend, use png with low res
-# png(file = here("figures/final_figures/NC_test_tmap.png"), res = 100)
-# tm_shape(all_ct_df_NC) +
-#   tm_fill("CHD_prevalence_smoothed", legend.show = F, palette = "Greens")
-# dev.off()
+# bbox_new <- st_bbox(all_ct_df_NC) # current bounding box
+# xrange <- bbox_new$xmax - bbox_new$xmin # range of x values
+# yrange <- bbox_new$ymax - bbox_new$ymin # range of y values
 # 
-# # trying out jpeg with lossy compression
-# jpeg(file = here("figures/final_figures/NC_test_tmap.jpeg"), width = 700)
-# tm_shape(all_ct_df_NC) +
-#   tm_fill("CHD.mean.fr.pred", palette = "Greens", midpoint = 0,
-#           title = "Coronary Heart Disease\nFlood Risk Linear Predictions", style = "cont", legend.reverse = TRUE)
-# dev.off()
+# # bbox_new[1] <- bbox_new[1] - (0.5 * xrange) # xmin - left
+# # bbox_new[3] <- bbox_new[3] + (0.5 * xrange) # xmax - right
+# bbox_new[2] <- bbox_new[2] - (0.5 * yrange) # ymin - bottom
+# # bbox_new[4] <- bbox_new[4] + (0.5 * yrange) # ymax - top
+# 
+# bbox_new <- bbox_new %>%  # take the bounding box ...
+#   st_as_sfc() # ... and make it a sf polygon
+# 
+# p_adj <- tm_shape(all_ct_df_NC, bbox = bbox_new) +
+#   tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "", style = "cont") +
+#   tm_layout(legend.position = c("left", "bottom"), frame = F)
+# 
+# p_adj2 <- tm_shape(all_ct_df_NC, bbox = bbox_new) +
+#   tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "", style = "cont", legend.show = F) +
+#   tm_layout(legend.position = c("left", "bottom"), frame = F)
+# 
+# p_adj3 <- tm_shape(all_ct_df_NC, bbox = bbox_new) +
+#   tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "", style = "cont") +
+#   tm_layout(legend.only = T, legend.position = c("left", "bottom"), frame = F)
+# 
+# p_comb <- tmap_arrange(p_adj, p_adj, p_adj2, p_adj3, ncol = 2, nrow = 2)
+# tmap_save(p_comb, here("figures/final_figures/NC_test_tmap.pdf"),
+#           width = 7, height = 8)
 
 
 
 
 
-# Plotting the maps, but only the legend instead of map
 
-# flood risk PC1, or "consistent flood risk"
-pA <- tm_shape(all_ct_df) +
-  tm_fill("flood_risk_pc1", palette = "PRGn", title = "A) Consistent Flood Risk Score", style = "cont", breaks = c(-4, 2, 8, 14, 20, 26), legend.reverse = TRUE) + 
-  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
-tmap_save(pA, here("figures/final_figures/consistent_flood_risk_fitted_legend_only.pdf"))
 
-pB <- tm_shape(all_ct_df) +
-  tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "B) Coronary Heart Disease\nPrevalence", style = "cont", breaks = c(0, 5, 10, 15, 20, 25), legend.reverse = TRUE) + 
-  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
-tmap_save(pB, here("figures/final_figures/CHD_mean_fitted_legend_only.pdf"))
+# Adjusting bounding box for all the plots in Figure 1
 
-pC <- tm_shape(all_ct_df) +
-  tm_fill("BPHIGH_prevalence_smoothed", palette = "Greens", title = "C) High Blood Pressure\nPrevalence", style = "cont", breaks = c(0, 16, 32, 48, 64, 80), legend.reverse = TRUE) + 
-  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
-tmap_save(pC, here("figures/final_figures/BPHIGH_mean_fitted_legend_only.pdf"))
+bbox_fig <- st_bbox(all_ct_df) # current bounding box
+xrange <- bbox_fig$xmax - bbox_fig$xmin # range of x values
+yrange <- bbox_fig$ymax - bbox_fig$ymin # range of y values
 
-pD <- tm_shape(all_ct_df) +
-  tm_fill("CASTHMA_prevalence_smoothed", palette = "Greens", title = "D) Asthma\nPrevalence", style = "cont", breaks = c(0, 4, 8, 12, 16, 20), legend.reverse = TRUE) + 
-  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
-tmap_save(pD, here("figures/final_figures/CASTHMA_mean_fitted_legend_only.pdf"))
+shift_multiple <- 0.5
 
-pE <- tm_shape(all_ct_df) +
-  tm_fill("MHLTH_prevalence_smoothed", palette = "Greens", title = "E) Poor Mental Health\nPrevalence", style = "cont", breaks = c(0, 7, 14, 21, 28, 35), legend.reverse = TRUE) + 
-  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
-tmap_save(pE, here("figures/final_figures/MHLTH_mean_fitted_legend_only.pdf"))
+# bbox_fig[1] <- bbox_fig[1] - (shift_multiple * xrange) # xmin - left
+# bbox_fig[3] <- bbox_fig[3] + (shift_multiple * xrange) # xmax - right
+bbox_fig[2] <- bbox_fig[2] - (shift_multiple * yrange) # ymin - bottom
+# bbox_fig[4] <- bbox_fig[4] + (shift_multiple * yrange) # ymax - top
 
-# # combining plots
-# jpeg(file = here("figures/final_figures/figure1_combined.jpeg"), width = 800, height = 1200)
-# tmap_arrange(pA, pB, pC, pD, pE, ncol = 2, nrow = 3)
-# dev.off()
+bbox_fig <- bbox_fig %>%  # take the bounding box ...
+  st_as_sfc() # ... and make it a sf polygon
 
-p_combined <- tmap_arrange(pA, pB, pC, pD, pE, ncol = 2, nrow = 3)
-tmap_save(p_combined, here("figures/final_figures/figure1_combined_legend_only.pdf"))
+
+
+
+
+# # focusing on MHLTH as test case
+# pE <- tm_shape(all_ct_df, bbox = bbox_fig) +
+#   tm_fill("MHLTH_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 7, 14, 21, 28, 35), legend.reverse = TRUE) +
+#   tm_layout(frame = FALSE, legend.position = c("left", "bottom"))
+# 
+# # tmap_save(pE, here("figures/final_figures/MHLTH_mean_fitted_test.pdf"))
+# 
+# pE1 <- tm_shape(all_ct_df, bbox = bbox_fig) +
+#   tm_fill("MHLTH_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 7, 14, 21, 28, 35), legend.reverse = TRUE, legend.show = F) +
+#   tm_layout(frame = FALSE, legend.position = c("left", "bottom"))
+# 
+# pE2 <- tm_shape(all_ct_df, bbox = bbox_fig) +
+#   tm_fill("MHLTH_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 7, 14, 21, 28, 35), legend.reverse = TRUE) +
+#   tm_layout(legend.only = T, frame = FALSE, legend.position = c("left", "bottom"))
+# 
+# p_combined <- tmap_arrange(pE, pE1, pE, pE2, pE1, pE2, ncol = 2, nrow = 3)
+# tmap_save(p_combined, here("figures/final_figures/figure1_combined_test.pdf"))
 
 
 
@@ -258,37 +282,69 @@ tmap_save(p_combined, here("figures/final_figures/figure1_combined_legend_only.p
 # Plotting the maps, without legend
 
 # flood risk PC1, or "consistent flood risk"
-pA <- tm_shape(all_ct_df) +
-  tm_fill("flood_risk_pc1", palette = "PRGn", title = "A) Consistent Flood Risk Score", style = "cont", breaks = c(-4, 2, 8, 14, 20, 26), legend.reverse = TRUE, legend.show = F) +
+pA <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("flood_risk_pc1", palette = "PRGn", title = "", style = "cont", breaks = c(-4, 2, 8, 14, 20, 26), legend.reverse = TRUE, legend.show = F) +
   tm_layout(frame = FALSE)
 tmap_save(pA, here("figures/final_figures/consistent_flood_risk_fitted_no_legend.pdf"))
 
-pB <- tm_shape(all_ct_df) +
-  tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "B) Coronary Heart Disease\nPrevalence", style = "cont", breaks = c(0, 5, 10, 15, 20, 25), legend.reverse = TRUE, legend.show = F) +
+pB <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 5, 10, 15, 20, 25), legend.reverse = TRUE, legend.show = F) +
   tm_layout(frame = FALSE)
 tmap_save(pB, here("figures/final_figures/CHD_mean_fitted_no_legend.pdf"))
 
-pC <- tm_shape(all_ct_df) +
-  tm_fill("BPHIGH_prevalence_smoothed", palette = "Greens", title = "C) High Blood Pressure\nPrevalence", style = "cont", breaks = c(0, 16, 32, 48, 64, 80), legend.reverse = TRUE, legend.show = F) +
+pC <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("BPHIGH_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 16, 32, 48, 64, 80), legend.reverse = TRUE, legend.show = F) +
   tm_layout(frame = FALSE)
 tmap_save(pC, here("figures/final_figures/BPHIGH_mean_fitted_no_legend.pdf"))
 
-pD <- tm_shape(all_ct_df) +
-  tm_fill("CASTHMA_prevalence_smoothed", palette = "Greens", title = "D) Asthma\nPrevalence", style = "cont", breaks = c(0, 4, 8, 12, 16, 20), legend.reverse = TRUE, legend.show = F) +
+pD <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("CASTHMA_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 4, 8, 12, 16, 20), legend.reverse = TRUE, legend.show = F) +
   tm_layout(frame = FALSE)
 tmap_save(pD, here("figures/final_figures/CASTHMA_mean_fitted_no_legend.pdf"))
 
-pE <- tm_shape(all_ct_df) +
-  tm_fill("MHLTH_prevalence_smoothed", palette = "Greens", title = "E) Poor Mental Health\nPrevalence", style = "cont", breaks = c(0, 7, 14, 21, 28, 35), legend.reverse = TRUE, legend.show = F) +
+pE <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("MHLTH_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 7, 14, 21, 28, 35), legend.reverse = TRUE, legend.show = F) +
   tm_layout(frame = FALSE)
 tmap_save(pE, here("figures/final_figures/MHLTH_mean_fitted_no_legend.pdf"))
 
-# # combining plots
-# jpeg(file = here("figures/final_figures/figure1_combined.jpeg"), width = 800, height = 1200)
-# tmap_arrange(pA, pB, pC, pD, pE, ncol = 2, nrow = 3)
-# dev.off()
-
 p_combined <- tmap_arrange(pA, pB, pC, pD, pE, ncol = 2, nrow = 3)
 tmap_save(p_combined, here("figures/final_figures/figure1_combined_no_legend.pdf"))
+
+
+
+
+
+# Plotting the maps, but only the legend instead of map
+
+# flood risk PC1, or "consistent flood risk"
+pA <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("flood_risk_pc1", palette = "PRGn", title = "", style = "cont", breaks = c(-4, 2, 8, 14, 20, 26), legend.reverse = TRUE) +
+  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
+tmap_save(pA, here("figures/final_figures/consistent_flood_risk_fitted_legend_only.pdf"))
+
+pB <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("CHD_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 5, 10, 15, 20, 25), legend.reverse = TRUE) +
+  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
+tmap_save(pB, here("figures/final_figures/CHD_mean_fitted_legend_only.pdf"))
+
+pC <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("BPHIGH_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 16, 32, 48, 64, 80), legend.reverse = TRUE) +
+  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
+tmap_save(pC, here("figures/final_figures/BPHIGH_mean_fitted_legend_only.pdf"))
+
+pD <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("CASTHMA_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 4, 8, 12, 16, 20), legend.reverse = TRUE) +
+  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
+tmap_save(pD, here("figures/final_figures/CASTHMA_mean_fitted_legend_only.pdf"))
+
+pE <- tm_shape(all_ct_df, bbox = bbox_fig) +
+  tm_fill("MHLTH_prevalence_smoothed", palette = "Greens", title = "", style = "cont", breaks = c(0, 7, 14, 21, 28, 35), legend.reverse = TRUE) +
+  tm_layout(legend.only = T, legend.position = c("left", "bottom"))
+tmap_save(pE, here("figures/final_figures/MHLTH_mean_fitted_legend_only.pdf"))
+
+p_combined <- tmap_arrange(pA, pB, pC, pD, pE, ncol = 2, nrow = 3)
+tmap_save(p_combined, here("figures/final_figures/figure1_combined_legend_only.pdf"))
+
+
 
 

@@ -1,6 +1,10 @@
 # flood-risk-health-effects
 GitHub repository for code related to the manuscript "Associations between Flood Risk and United States Census Tract-Level Health Outcomes," published in the American Journal of Epidemiology.
 
+# Maintainer
+
+Messier, Kyle (NIH/NIEHS)  <kyle.messier@nih.gov>
+
 Citation for our work:
 
 Sheng A, Reich B. J., Messier K.P. (2024). Associations between flood risk and US Census tract-level health outcomes. American Journal of Epidemiology, 193(10), 1384-1391. https://doi.org/10.1093/aje/kwae093
